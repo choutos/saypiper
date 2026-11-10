@@ -9,6 +9,6 @@ Status: design stage. No app code yet.
 
 ## Principles
 
-- Fully offline. No network permission, no accounts, no ads, no analytics, no purchases.
-- Original content and artwork. Mechanics are inspired by lesson-path language apps; nothing is copied from them.
+- Fully offline. No network permission, no accounts, no ads, no analytics, no purchases, no backup of a child's data off the device.
+- Original content. Mechanics are inspired by lesson-path language apps; nothing is copied from them. Pictures are [OpenMoji](https://openmoji.org/) emoji, licence CC BY-SA 4.0, credited in the app.
 - British English (en-GB).
