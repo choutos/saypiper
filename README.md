@@ -1,6 +1,6 @@
 # Word Quest
 
-Working title. An offline Android game for children to practise English vocabulary. The child picks their school year (P1–P5 primary, S1–S7 secondary) and the vocabulary, exercise types and difficulty follow from it.
+Working title: the name is already used by other apps and will change before the first release. An offline Android game for children to practise English vocabulary. The child picks their school year (P1–P5 primary, S1–S7 secondary) and the vocabulary, exercise types and difficulty follow from it.
 
 Status: design stage. No app code yet.
 

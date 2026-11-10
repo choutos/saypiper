@@ -1,6 +1,6 @@
 # ADR 0001 — Architecture and content model
 
-- Status: **Accepted**, revision 2. Reviewed by Architect Astra in FRL-4; merging this revision is the owner's sign-off. Section 12 lists what the review changed.
+- Status: **Accepted**, revision 2. Reviewed by Architect Astra in FRL-4; merging this revision is the owner's sign-off. Section 12 lists what the review changed; section 11 holds the owner's decisions of 2026-11-10.
 - Date: 2026-11-10
 - Tracking: FRL-3
 
@@ -28,18 +28,26 @@ The request: an Android game to practise English vocabulary, in the lesson-path 
 | Device speech | A text-to-speech voice can require the network (`Voice.isNetworkConnectionRequired()`) or be listed without being installed (`KEY_FEATURE_NOT_INSTALLED`). A successful `setLanguage` does not prove that speech works offline. |
 | Android backup | Auto Backup uploads an app's databases to the user's Google Drive unless the app opts out; on Android 12 and later `allowBackup="false"` alone does not stop device-to-device transfer on every manufacturer ([Android guide](https://developer.android.com/identity/data/autobackup)). |
 | Google Play | Since 31 August 2026 new apps and updates must target API 36; the extension ended on 1 November 2026 ([Play Console help](https://support.google.com/googleplay/android-developer/answer/11926878)). |
+| F-Droid | The public F-Droid catalogue builds every app itself, from publicly accessible source under a free licence and with a free toolchain. It forbids Google Play services and tracking libraries, and normally expects three months of active development ([inclusion policy](https://f-droid.org/docs/Inclusion_Policy/)). It publishes a developer's own signature only when the build is reproducible ([reproducible builds](https://f-droid.org/docs/Reproducible_Builds/)). A self-hosted F-Droid repository can serve any APK and signs its own index ([guide](https://f-droid.org/docs/Setup_an_F-Droid_App_Repo/)). Read on 2026-11-10. |
+
+### Confirmed by the owner (2026-11-10)
+
+- British English.
+- Level targets follow the European Schools L2 anchors.
+- No first language is assumed: the app is in English only.
+- Distribution is an APK from CI and F-Droid, not Google Play.
+- Pictures are OpenMoji for the first version.
 
 ### Inferences (not confirmed by the owner)
 
 - The children are learning English as a second language, not native speakers.
-- The app is for a small known group of children first, not a public launch.
-- British English is the expected variety.
+- With F-Droid as a channel the app can reach families we do not know, on devices we have not seen, including devices without Google apps.
 
 ### Unknown
 
-- The children's first language, and whether translation hints are wanted.
-- Whether the app goes to Google Play or is installed from an APK.
+- Whether F-Droid means the public catalogue or a repository of our own.
 - Which devices the children use, and whether those have an offline English voice.
+- The app's name. "Word Quest" is already used by others.
 
 ## 3. Decisions
 
@@ -55,6 +63,7 @@ The request: an Android game to practise English vocabulary, in the lesson-path 
 | D8 | Several local profiles per device (nickname, avatar, class). | Siblings share tablets; retrofitting profiles later means migrating every table. |
 | D9 | No lives or hearts and no timers. Wrong answers come back at the end of the lesson. | Lock-outs punish the children who need the practice most. |
 | D10 | Verification is JVM-first: unit tests for the game core and content, Robolectric tests and screenshots for UI, CI as the gate. Code tests use fixture packs; only the content tests read the shipped packs. | The agent host has no emulator. A vocabulary change must not break a code test. |
+| D11 | Distribution is a signed APK built by CI, and F-Droid. Not Google Play. Every dependency is free software fetched from Google's Maven repository or Maven Central, and the repo holds no prebuilt libraries. | The owner's choice. The dependency rule is what F-Droid's public catalogue demands. Keeping to it from the first commit costs nothing; meeting it later means replacing libraries. |
 
 ## 4. Content model
 
@@ -197,6 +206,7 @@ Rules:
 - **Spaced repetition** is a five-box Leitner scheme per profile and word. Boxes are due after 0, 1, 3, 7 and 21 days. A session gives each word one outcome, however often the word appeared: any wrong answer sends it to box 1, due today; all right moves it up one box, but only if it was due; all right when it was not due changes nothing. So replaying a lesson three times in an afternoon cannot push a word to box 4. A word with no history counts as box 1 and due, so a first lesson without mistakes puts it in box 2. The intervals are a reasonable starting point, not tuned values. Chosen over SM-2 because it has no tuning parameters and a child or parent can understand it.
 - **Practice** serves up to ten due words, the longest overdue first. It works with a single due word: distractors come from that word's pack, never from the due list. Each word is exercised in the band of its own class, so a P2 word stays a picture question for a child who has moved to P4. Words whose id is no longer in the content are ignored.
 - **Rewards**: stars per lesson, experience points, a daily streak based on the device's local date, and a crown for a finished unit. No leaderboards, since those need a network.
+- **Hints.** The app is in English only. Anything that explains a word to a child, now or in a later version, is an English explanation taken from the word's `definition` or `example`. There are no translations.
 - **Units unlock in order** within a class. Changing class is always allowed and keeps all progress.
 - The generator takes a random seed, so every lesson can be reproduced in a test.
 
@@ -268,6 +278,7 @@ Room schemas are exported to the repo from the first commit. The schema may chan
 | OpenMoji pictures | Our own art direction; words with no emoji have no picture | The `emoji` field stays the key and one component draws pictures. Swapping in a font or other artwork touches that component and the sync script, not the content or the database. An optional `image` field per word is additive. |
 | Device speech | A guaranteed, consistent voice | The interface takes a word, so a clip per word is additive: no content or database migration. |
 | No backup, no device transfer | Progress is lost with the device, and does not follow a child to a new tablet | Allowing device-to-device transfer only is a change to the extraction rules; it still sends nothing to a cloud. |
+| No Google Play | The largest store | Nothing in the design prevents it later. It would need target API 36, the Families declarations and a privacy policy in the Console. |
 | Leitner | Fine-grained scheduling | Scheduling is one class in `game`; stored data (box, due day, counts) is enough to seed another algorithm. |
 
 Rollback for the project as a whole: nothing here touches an existing system. Any PR can be reverted on its own.
@@ -285,19 +296,25 @@ Rollback for the project as a whole: nothing here touches an existing system. An
 | Progress lost with the device | A broken or replaced tablet starts from zero. | Accepted for v1 as the price of "nothing leaves the device" (section 9). |
 | Shared build host runs out of memory | Gradle builds are killed mid-run when several agents build at once. | `--no-daemon`, `-Xmx2g`, at most two build-heavy issues in parallel, reviewers rely on CI results. |
 | CI minutes on a private repo | Workflows stop running when the monthly quota is used up. | Build on pull requests and on `main` only; emulator job is manual. |
-| Play Store rules | Submission refused. | Not needed for APK installs. If Play is chosen: target API 36 (this design builds against 35, so the toolchain and behaviour changes must be validated first), the Families declarations, a privacy policy in the Console and as text inside the app, a signing key. Tracked as its own issue. |
+| Two channels, two signing keys | A family that installed from F-Droid cannot update from the CI APK, or the other way round: Android refuses an update signed with another key, and with backup off a reinstall loses the progress. | Arises only in F-Droid's public catalogue, which signs with its own key unless the build is reproducible. Either make the build reproducible so that F-Droid ships our signature, or say plainly in the README and on the About screen that a family stays on one channel. Settled in the release issue. |
+| F-Droid's catalogue refuses or delays the app | No listing for weeks. Its policy normally expects three months of active development. | The CI APK does not depend on it. A repository of our own is the fallback. |
 | Looks like a copy of an existing product | Takedown or rejection. | Own name, mascot, colours and content; mechanics only. Pictures are openly licensed and credited. |
 
-## 11. Open questions for the owner
+## 11. Owner decisions and open questions
 
-Defaults are in place, so none of these blocks the build.
+Answered by the owner on 2026-11-10 (the numbers are those of the questions in revision 1 and on FRL-3):
 
-1. Level targets: European Schools L2 anchors (default), or a gentler curve?
-2. Distribution: APK from CI (default for now), or Google Play? Play means targeting API 36.
-3. English variety: British (default) or American?
-4. First language of the children, and are translation hints wanted? Default: none; exercises use pictures, speech and English definitions.
-5. Name: "Word Quest" is a working title and has not been checked against existing apps.
-6. Speech for P1–P2: the device's voice with a notice when there is none (default), or bundled audio for those 140 words? The reviewer recommends bundling. It needs a voice we may redistribute and you listening to the clips once. The answer depends on the tablets the youngest children will use.
+1. Level targets: the European Schools L2 anchors.
+2. Distribution: an APK from CI, and F-Droid.
+3. English variety: British.
+4. First language: none assumed. No translations; hints are explanations in English.
+5. Name: "Word Quest" is already used by others. A new name is being chosen in its own issue. Until then it stays as the working title, and the release sets the final label and application id.
+7. Pictures: OpenMoji for the first version.
+
+Still open:
+
+- **Which F-Droid?** The public catalogue needs this repo to be public under a free licence, and it builds and signs the app itself. A repository of our own keeps the source private and serves the APK that CI already signs. The F-Droid part of the release issue cannot start without this answer.
+- **Question 6, speech for P1–P2.** The device's voice with a notice when there is none (default), or bundled audio for those 140 words? The reviewer recommends bundling. It needs a voice we may redistribute and the owner listening to the clips once. A public F-Droid listing strengthens the case for bundling: devices without Google apps often have no speech engine at all (my inference, not measured).
 
 ## 12. Revision 2: what the second opinion changed
 
@@ -313,4 +330,4 @@ Architect Astra reviewed revision 1 (commit `687f11e`) in FRL-4 and agreed with 
 | 6 | Game rules | Accepted: a filter that knows the band and the option pool, text exercises for every band B word, one Leitner outcome per word per session with promotion only when due, practice that works with one due word, a defined lesson split, and screen-reader handling through the same filter. Band A without sight is out of scope for v1. |
 | 7 | Storage | Accepted: Room stays; one transaction per finished lesson, idempotent on session id, cascading deletes, an index on due day, exported schemas. |
 | 8 | Staging | Accepted: `grades.json` complete and frozen from the walking skeleton, the lesson contract fixed there too, gap-fill and the definition fallback moved to the primary exercise set, release after profiles and accessibility. Recorded on FRL-3. |
-| 9 | Google Play | Accepted: backup and device transfer off, no font request, privacy text inside the app. Target API 36 is recorded as a requirement of the Play path, not adopted for APK installs. |
+| 9 | Google Play | Accepted: backup and device transfer off, no font request, privacy text inside the app. Target API 36 is recorded as a requirement of the Play path, not adopted for APK installs. The owner has since chosen F-Droid over Play (section 11). |
