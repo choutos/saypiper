@@ -28,14 +28,14 @@ The request: an Android game to practise English vocabulary, in the lesson-path 
 | Device speech | A text-to-speech voice can require the network (`Voice.isNetworkConnectionRequired()`) or be listed without being installed (`KEY_FEATURE_NOT_INSTALLED`). A successful `setLanguage` does not prove that speech works offline. |
 | Android backup | Auto Backup uploads an app's databases to the user's Google Drive unless the app opts out; on Android 12 and later `allowBackup="false"` alone does not stop device-to-device transfer on every manufacturer ([Android guide](https://developer.android.com/identity/data/autobackup)). |
 | Google Play | Since 31 August 2026 new apps and updates must target API 36; the extension ended on 1 November 2026 ([Play Console help](https://support.google.com/googleplay/android-developer/answer/11926878)). |
-| F-Droid | The public F-Droid catalogue builds every app itself, from publicly accessible source under a free licence and with a free toolchain. It forbids Google Play services and tracking libraries, and normally expects three months of active development ([inclusion policy](https://f-droid.org/docs/Inclusion_Policy/)). It publishes a developer's own signature only when the build is reproducible ([reproducible builds](https://f-droid.org/docs/Reproducible_Builds/)). A self-hosted F-Droid repository can serve any APK and signs its own index ([guide](https://f-droid.org/docs/Setup_an_F-Droid_App_Repo/)). Read on 2026-11-10. |
+| F-Droid | The public F-Droid catalogue builds every app itself, from publicly accessible source under a free licence and with a free toolchain. It forbids Google Play services and tracking libraries. An app "should have been actively developed for at least 3 months" unless it has proven users, its author already maintains apps on F-Droid, or it is built for an event; the author commits to ongoing maintenance ([inclusion policy](https://f-droid.org/docs/Inclusion_Policy/)). Assets under a Creative Commons licence with a non-commercial or no-derivatives clause count as non-free; BY-SA has neither ([anti-features](https://f-droid.org/docs/Anti-Features/)). It publishes a developer's own signature only when the build is reproducible ([reproducible builds](https://f-droid.org/docs/Reproducible_Builds/)). A self-hosted F-Droid repository can serve any APK and signs its own index ([guide](https://f-droid.org/docs/Setup_an_F-Droid_App_Repo/)). Read on 2026-11-10. |
 
 ### Confirmed by the owner (2026-11-10)
 
 - British English.
 - Level targets follow the European Schools L2 anchors.
 - No first language is assumed: the app is in English only.
-- Distribution is an APK from CI and F-Droid, not Google Play.
+- Distribution is an APK from CI and, if it accepts the app, F-Droid's public catalogue. Not Google Play.
 - Pictures are OpenMoji for the first version.
 
 ### Inferences (not confirmed by the owner)
@@ -45,7 +45,6 @@ The request: an Android game to practise English vocabulary, in the lesson-path 
 
 ### Unknown
 
-- Whether F-Droid means the public catalogue or a repository of our own.
 - Which devices the children use, and whether those have an offline English voice.
 - The app's name. "Word Quest" is already used by others.
 
@@ -63,7 +62,7 @@ The request: an Android game to practise English vocabulary, in the lesson-path 
 | D8 | Several local profiles per device (nickname, avatar, class). | Siblings share tablets; retrofitting profiles later means migrating every table. |
 | D9 | No lives or hearts and no timers. Wrong answers come back at the end of the lesson. | Lock-outs punish the children who need the practice most. |
 | D10 | Verification is JVM-first: unit tests for the game core and content, Robolectric tests and screenshots for UI, CI as the gate. Code tests use fixture packs; only the content tests read the shipped packs. | The agent host has no emulator. A vocabulary change must not break a code test. |
-| D11 | Distribution is a signed APK built by CI, and F-Droid. Not Google Play. Every dependency is free software fetched from Google's Maven repository or Maven Central, and the repo holds no prebuilt libraries. | The owner's choice. The dependency rule is what F-Droid's public catalogue demands. Keeping to it from the first commit costs nothing; meeting it later means replacing libraries. |
+| D11 | Distribution is a signed APK built by CI, and F-Droid's public catalogue. Not Google Play. The repo therefore becomes public under a free licence before the first submission: nothing goes into the repo, its pull requests or its CI logs that should not be read by anyone. Every dependency is free software fetched from Google's Maven repository or Maven Central, and the repo holds no prebuilt libraries. | The owner's choice. The rules are what F-Droid's catalogue demands. Keeping to them from the first commit costs nothing; meeting them later means replacing libraries and rewriting history. |
 
 ## 4. Content model
 
@@ -296,8 +295,8 @@ Rollback for the project as a whole: nothing here touches an existing system. An
 | Progress lost with the device | A broken or replaced tablet starts from zero. | Accepted for v1 as the price of "nothing leaves the device" (section 9). |
 | Shared build host runs out of memory | Gradle builds are killed mid-run when several agents build at once. | `--no-daemon`, `-Xmx2g`, at most two build-heavy issues in parallel, reviewers rely on CI results. |
 | CI minutes on a private repo | Workflows stop running when the monthly quota is used up. | Build on pull requests and on `main` only; emulator job is manual. |
-| Two channels, two signing keys | A family that installed from F-Droid cannot update from the CI APK, or the other way round: Android refuses an update signed with another key, and with backup off a reinstall loses the progress. | Arises only in F-Droid's public catalogue, which signs with its own key unless the build is reproducible. Either make the build reproducible so that F-Droid ships our signature, or say plainly in the README and on the About screen that a family stays on one channel. Settled in the release issue. |
-| F-Droid's catalogue refuses or delays the app | No listing for weeks. Its policy normally expects three months of active development. | The CI APK does not depend on it. A repository of our own is the fallback. |
+| Two channels, two signing keys | A family that installed from F-Droid cannot update from the CI APK, or the other way round: Android refuses an update signed with another key, and with backup off a reinstall loses the progress. | F-Droid's catalogue signs with its own key unless the build is reproducible. Either make the build reproducible so that F-Droid ships our signature, or say plainly in the README and on the About screen that a family stays on one channel. Settled in the release issue. |
+| F-Droid's catalogue refuses or delays the app | No listing for weeks or months. Its policy expects three months of active development, which for this project means February 2027, unless the app has proven users by then. Acceptance is their decision. | The CI APK does not depend on it, and families using that APK are the proven users the policy asks for. An F-Droid repository of our own is the fallback. |
 | Looks like a copy of an existing product | Takedown or rejection. | Own name, mascot, colours and content; mechanics only. Pictures are openly licensed and credited. |
 
 ## 11. Owner decisions and open questions
@@ -305,7 +304,7 @@ Rollback for the project as a whole: nothing here touches an existing system. An
 Answered by the owner on 2026-11-10 (the numbers are those of the questions in revision 1 and on FRL-3):
 
 1. Level targets: the European Schools L2 anchors.
-2. Distribution: an APK from CI, and F-Droid.
+2. Distribution: an APK from CI, and F-Droid's public catalogue if that is possible. It is: nothing in this design conflicts with their policy. Acceptance and timing are theirs.
 3. English variety: British.
 4. First language: none assumed. No translations; hints are explanations in English.
 5. Name: "Word Quest" is already used by others. A new name is being chosen in its own issue. Until then it stays as the working title, and the release sets the final label and application id.
@@ -313,8 +312,9 @@ Answered by the owner on 2026-11-10 (the numbers are those of the questions in r
 
 Still open:
 
-- **Which F-Droid?** The public catalogue needs this repo to be public under a free licence, and it builds and signs the app itself. A repository of our own keeps the source private and serves the APK that CI already signs. The F-Droid part of the release issue cannot start without this answer.
-- **Question 6, speech for P1–P2.** The device's voice with a notice when there is none (default), or bundled audio for those 140 words? The reviewer recommends bundling. It needs a voice we may redistribute and the owner listening to the clips once. A public F-Droid listing strengthens the case for bundling: devices without Google apps often have no speech engine at all (my inference, not measured).
+- **The licence.** The public catalogue needs one. Proposed: GPL-3.0-or-later for the code, CC BY-SA 4.0 for everything under `assets/content/` (our vocabulary, and OpenMoji's pictures, which already carry it). It is decided when the owner merges the licence files, which come in their own pull request.
+- **When the repo becomes public.** At the latest before the F-Droid submission. Earlier is possible and makes CI minutes free. It is the owner's switch to flip, after a look at what becomes readable with it (the release issue lists that).
+- **Question 6, speech for P1–P2.** The device's voice with a notice when there is none, or bundled audio for those 140 words? With the public catalogue chosen my recommendation is now to bundle: devices without Google apps often have no speech engine at all (my inference, not measured). The clips must come from a freely licensed source. First step, in its own issue: sample clips for the owner to hear. Until he decides, the device's voice stays the design (D5).
 
 ## 12. Revision 2: what the second opinion changed
 
