@@ -1,0 +1,119 @@
+#!/usr/bin/env python3
+"""Copy the OpenMoji picture of every emoji the content uses into <content>/pictures/.
+
+    scripts/sync-pictures [CONTENT_DIR ...]
+
+CONTENT_DIR defaults to app/src/main/assets/content. It must hold grades.json and
+avatars.json; packs are read from the paths grades.json lists, absent packs are skipped.
+
+Emoji are resolved through OpenMoji's own index (data/openmoji.json) at the pinned tag,
+never by building file names: the index drops U+FE0F from single characters
+(U+270F U+FE0F is 270F.png) and keeps it inside joined sequences.
+
+Writes <content>/pictures/<HEXCODE>.png (the 618 px colour PNG, unmodified), deletes
+pictures nothing uses, and writes <content>/pictures.json, which maps each emoji
+(U+FE0F removed) to its file. Run it whenever content changes and commit the result.
+Downloads are cached in ${OPENMOJI_CACHE_DIR:-~/.cache/openmoji-<tag>}.
+"""
+import json
+import os
+import sys
+import urllib.request
+from pathlib import Path
+
+TAG = "17.0.0"
+RAW = f"https://raw.githubusercontent.com/hfg-gmuend/openmoji/{TAG}"
+VS16 = "️"
+ROOT = Path(__file__).resolve().parent.parent
+DEFAULT_CONTENT = ROOT / "app/src/main/assets/content"
+CACHE = Path(os.environ.get("OPENMOJI_CACHE_DIR", Path.home() / f".cache/openmoji-{TAG}"))
+
+
+def normalise(emoji: str) -> str:
+    return emoji.replace(VS16, "")
+
+
+def fetch(path: str) -> bytes:
+    cached = CACHE / path
+    if not cached.exists():
+        cached.parent.mkdir(parents=True, exist_ok=True)
+        with urllib.request.urlopen(f"{RAW}/{path}", timeout=60) as response:
+            data = response.read()
+        tmp = cached.with_suffix(cached.suffix + ".part")
+        tmp.write_bytes(data)
+        tmp.rename(cached)
+    return cached.read_bytes()
+
+
+def load_index() -> dict:
+    index = {}
+    for entry in json.loads(fetch("data/openmoji.json")):
+        key = normalise(entry["emoji"])
+        # Keep the first entry for a key; OpenMoji lists the fully qualified form first.
+        index.setdefault(key, entry["hexcode"])
+    return index
+
+
+def used_emoji(content: Path) -> dict:
+    """Maps each normalised emoji to the places that use it."""
+    used = {}
+
+    def add(emoji, where):
+        if emoji:
+            used.setdefault(normalise(emoji), []).append(where)
+
+    grades = json.loads((content / "grades.json").read_text("utf-8"))
+    for grade in grades["grades"]:
+        pack_file = content / grade["pack"]
+        if not pack_file.exists():
+            continue
+        pack = json.loads(pack_file.read_text("utf-8"))
+        for unit in pack["units"]:
+            add(unit.get("emoji"), f"unit {unit['id']}")
+            for word in unit["words"]:
+                add(word.get("emoji"), f"word {word['id']}")
+    avatars = json.loads((content / "avatars.json").read_text("utf-8"))
+    for avatar in avatars["avatars"]:
+        add(avatar.get("emoji"), f"avatar {avatar['id']}")
+    return used
+
+
+def sync(content: Path, index: dict) -> bool:
+    used = used_emoji(content)
+    missing = {e: places for e, places in used.items() if e not in index}
+    if missing:
+        for emoji, places in sorted(missing.items()):
+            codes = " ".join(f"U+{ord(c):04X}" for c in emoji)
+            print(f"{content}: no OpenMoji {TAG} picture for {emoji} ({codes}), used by {', '.join(places)}", file=sys.stderr)
+        return False
+
+    pictures = content / "pictures"
+    pictures.mkdir(exist_ok=True)
+    mapping = {emoji: f"{index[emoji]}.png" for emoji in sorted(used)}
+    for name in sorted(set(mapping.values())):
+        data = fetch(f"color/618x618/{name}")
+        target = pictures / name
+        if not target.exists() or target.read_bytes() != data:
+            target.write_bytes(data)
+            print(f"{content}: wrote pictures/{name}")
+    for existing in sorted(pictures.iterdir()):
+        if existing.name not in mapping.values():
+            existing.unlink()
+            print(f"{content}: removed unused pictures/{existing.name}")
+
+    manifest = {"source": f"OpenMoji {TAG}", "pictures": mapping}
+    text = json.dumps(manifest, ensure_ascii=False, indent=2) + "\n"
+    (content / "pictures.json").write_text(text, "utf-8")
+    print(f"{content}: {len(mapping)} pictures")
+    return True
+
+
+def main(argv) -> int:
+    targets = [Path(a) for a in argv] or [DEFAULT_CONTENT]
+    index = load_index()
+    ok = all([sync(t, index) for t in targets])
+    return 0 if ok else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

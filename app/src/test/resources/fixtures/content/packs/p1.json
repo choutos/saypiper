@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "grade": "p1",
+  "units": [
+    {
+      "id": "fx-pets",
+      "title": "Pets",
+      "emoji": "🐰",
+      "words": [
+        {
+          "id": "rabbit",
+          "text": "rabbit",
+          "pos": "noun",
+          "emoji": "🐰"
+        },
+        {
+          "id": "mouse",
+          "text": "mouse",
+          "pos": "noun",
+          "emoji": "🐭"
+        },
+        {
+          "id": "hamster",
+          "text": "hamster",
+          "pos": "noun",
+          "emoji": "🐹"
+        },
+        {
+          "id": "turtle",
+          "text": "turtle",
+          "pos": "noun",
+          "emoji": "🐢"
+        },
+        {
+          "id": "parrot",
+          "text": "parrot",
+          "pos": "noun",
+          "emoji": "🦜"
+        },
+        {
+          "id": "snake",
+          "text": "snake",
+          "pos": "noun",
+          "emoji": "🐍"
+        }
+      ]
+    },
+    {
+      "id": "fx-fruit",
+      "title": "Fruit",
+      "emoji": "🍐",
+      "words": [
+        {
+          "id": "pear",
+          "text": "pear",
+          "pos": "noun",
+          "emoji": "🍐"
+        },
+        {
+          "id": "grapes",
+          "text": "grapes",
+          "pos": "noun",
+          "emoji": "🍇"
+        },
+        {
+          "id": "lemon",
+          "text": "lemon",
+          "pos": "noun",
+          "emoji": "🍋"
+        },
+        {
+          "id": "cherries",
+          "text": "cherries",
+          "pos": "noun",
+          "emoji": "🍒"
+        },
+        {
+          "id": "strawberry",
+          "text": "strawberry",
+          "pos": "noun",
+          "emoji": "🍓"
+        },
+        {
+          "id": "peach",
+          "text": "peach",
+          "pos": "noun",
+          "emoji": "🍑"
+        },
+        {
+          "id": "melon",
+          "text": "melon",
+          "pos": "noun",
+          "emoji": "🍈"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "grades": [
+    {
+      "id": "p1",
+      "label": "P1",
+      "cycle": "primary",
+      "cefr": "pre-A1",
+      "band": "A",
+      "pack": "packs/p1.json"
+    },
+    {
+      "id": "p2",
+      "label": "P2",
+      "cycle": "primary",
+      "cefr": "pre-A1 to A1",
+      "band": "A",
+      "pack": "packs/p2.json"
+    },
+    {
+      "id": "p3",
+      "label": "P3",
+      "cycle": "primary",
+      "cefr": "A1",
+      "band": "B",
+      "pack": "packs/p3.json"
+    },
+    {
+      "id": "p4",
+      "label": "P4",
+      "cycle": "primary",
+      "cefr": "A1 to A2",
+      "band": "B",
+      "pack": "packs/p4.json"
+    },
+    {
+      "id": "p5",
+      "label": "P5",
+      "cycle": "primary",
+      "cefr": "A2",
+      "band": "B",
+      "pack": "packs/p5.json"
+    },
+    {
+      "id": "s1",
+      "label": "S1",
+      "cycle": "secondary",
+      "cefr": "A2+",
+      "band": "C",
+      "pack": "packs/s1.json"
+    },
+    {
+      "id": "s2",
+      "label": "S2",
+      "cycle": "secondary",
+      "cefr": "A2+ to B1",
+      "band": "C",
+      "pack": "packs/s2.json"
+    },
+    {
+      "id": "s3",
+      "label": "S3",
+      "cycle": "secondary",
+      "cefr": "B1",
+      "band": "C",
+      "pack": "packs/s3.json"
+    },
+    {
+      "id": "s4",
+      "label": "S4",
+      "cycle": "secondary",
+      "cefr": "B1+",
+      "band": "D",
+      "pack": "packs/s4.json"
+    },
+    {
+      "id": "s5",
+      "label": "S5",
+      "cycle": "secondary",
+      "cefr": "B2",
+      "band": "D",
+      "pack": "packs/s5.json"
+    },
+    {
+      "id": "s6",
+      "label": "S6",
+      "cycle": "secondary",
+      "cefr": "B2+",
+      "band": "D",
+      "pack": "packs/s6.json"
+    },
+    {
+      "id": "s7",
+      "label": "S7",
+      "cycle": "secondary",
+      "cefr": "C1",
+      "band": "D",
+      "pack": "packs/s7.json"
+    }
+  ]
+}

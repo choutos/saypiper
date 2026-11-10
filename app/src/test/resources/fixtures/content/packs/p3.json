@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "grade": "p3",
+  "units": [
+    {
+      "id": "fx-home",
+      "title": "At home",
+      "emoji": "🛋️",
+      "words": [
+        {
+          "id": "chair",
+          "text": "chair",
+          "pos": "noun",
+          "emoji": "🪑",
+          "example": "Sit on the {chair}, please."
+        },
+        {
+          "id": "bed",
+          "text": "bed",
+          "pos": "noun",
+          "emoji": "🛏️"
+        },
+        {
+          "id": "door",
+          "text": "door",
+          "pos": "noun",
+          "emoji": "🚪"
+        },
+        {
+          "id": "window",
+          "text": "window",
+          "pos": "noun",
+          "emoji": "🪟"
+        },
+        {
+          "id": "sofa",
+          "text": "sofa",
+          "pos": "noun",
+          "emoji": "🛋️"
+        },
+        {
+          "id": "key",
+          "text": "key",
+          "pos": "noun",
+          "emoji": "🔑"
+        },
+        {
+          "id": "bath",
+          "text": "bath",
+          "pos": "noun",
+          "emoji": "🛁"
+        },
+        {
+          "id": "kitchen",
+          "text": "kitchen",
+          "pos": "noun",
+          "definition": "the room where meals are cooked",
+          "example": "We cook dinner in the {kitchen}."
+        },
+        {
+          "id": "sleep",
+          "text": "sleep",
+          "pos": "verb",
+          "emoji": "😴"
+        }
+      ]
+    }
+  ]
+}

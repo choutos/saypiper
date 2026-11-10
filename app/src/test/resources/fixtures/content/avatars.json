@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "avatars": [
+    {
+      "id": "fox",
+      "emoji": "🦊"
+    },
+    {
+      "id": "sun",
+      "emoji": "☀️"
+    },
+    {
+      "id": "pencil",
+      "emoji": "✏️"
+    }
+  ]
+}
