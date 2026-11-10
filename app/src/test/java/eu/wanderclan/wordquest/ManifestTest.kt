@@ -19,10 +19,17 @@ class ManifestTest {
         manifest.getElementsByTagName(tag).let { list -> List(list.length) { list.item(it) as Element } }
 
     @Test
-    fun `no permissions are requested or declared`() {
-        val requested = listOf("uses-permission", "uses-permission-sdk-23", "permission")
+    fun `the only permission is the signature permission androidx core adds for itself`() {
+        val names = listOf("uses-permission", "uses-permission-sdk-23", "permission")
+            .flatMap(::elements).map { it.getAttributeNS(android, "name") }.toSet()
+        assertEquals(setOf("${manifest.getAttribute("package")}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"), names)
+    }
+
+    @Test
+    fun `no platform permission is requested`() {
+        val requested = listOf("uses-permission", "uses-permission-sdk-23")
             .flatMap(::elements).map { it.getAttributeNS(android, "name") }
-        assertEquals(emptyList<String>(), requested)
+        assertEquals(emptyList<String>(), requested.filter { it.startsWith("android.permission.") })
     }
 
     @Test

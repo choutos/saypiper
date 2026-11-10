@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- No permissions. No backup and no device transfer. No emoji font request at start (ADR section 7). -->
+<!-- No platform permission. No backup and no device transfer. No emoji font request at start (ADR section 7). -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
-    <!-- androidx.core declares and requests this signature permission to protect receivers registered
-         as not exported before Android 13. Nothing in this app registers one, and ADR section 7 says
-         no permissions. -->
-    <permission
-        android:name="${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-        tools:node="remove" />
-    <uses-permission
-        android:name="${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-        tools:node="remove" />
 
     <application
         android:name=".WordQuestApplication"
