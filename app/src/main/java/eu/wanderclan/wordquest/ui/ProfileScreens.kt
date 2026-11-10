@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -160,7 +161,7 @@ fun CreateProfileScreen(container: AppContainer, onCreated: (Long) -> Unit) {
                         shape = CircleShape,
                         color = if (selected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface,
                         border = BorderStroke(if (selected) 4.dp else 1.dp, if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant),
-                        modifier = Modifier.size(88.dp).semantics { this.selected = selected; role = Role.RadioButton },
+                        modifier = Modifier.wrapContentSize().size(88.dp).semantics { this.selected = selected; role = Role.RadioButton },
                     ) {
                         Picture(avatar.emoji, stringResource(R.string.avatar_description, avatar.id), Modifier.padding(12.dp))
                     }
