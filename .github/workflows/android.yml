@@ -28,6 +28,8 @@ jobs:
         run: |
           scripts/setup-toolchain.sh
           scripts/setup-toolchain.sh --print-env | sed -e 's/^export //' -e 's/"//g' | grep -v '^PATH=' >> "$GITHUB_ENV"
+          # The runner image sets ANDROID_SDK_ROOT to its own SDK; the Android Gradle plugin refuses two locations.
+          echo "ANDROID_SDK_ROOT=$HOME/.cache/android-toolchain/sdk" >> "$GITHUB_ENV"
           echo "$HOME/.cache/android-toolchain/jdk-17/bin" >> "$GITHUB_PATH"
 
       - uses: gradle/actions/setup-gradle@v4
