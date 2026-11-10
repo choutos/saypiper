@@ -1,0 +1,14 @@
+# Word Quest
+
+Working title. An offline Android game for children to practise English vocabulary. The child picks their school year (P1–P5 primary, S1–S7 secondary) and the vocabulary, exercise types and difficulty follow from it.
+
+Status: design stage. No app code yet.
+
+- Design: [docs/adr/0001-architecture-and-content-model.md](docs/adr/0001-architecture-and-content-model.md)
+- Tracking: Multica issue FRL-3
+
+## Principles
+
+- Fully offline. No network permission, no accounts, no ads, no analytics, no purchases.
+- Original content and artwork. Mechanics are inspired by lesson-path language apps; nothing is copied from them.
+- British English (en-GB).
