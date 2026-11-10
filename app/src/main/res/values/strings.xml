@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Word Quest</string>
+
+    <string name="profiles_title">Who is playing?</string>
+    <string name="profiles_empty">Make a profile to start playing.</string>
+    <string name="profile_new">New player</string>
+    <string name="profile_create_title">New player</string>
+    <string name="profile_nickname">Nickname</string>
+    <string name="profile_avatar">Pick a picture</string>
+    <string name="profile_create">Let\'s go</string>
+    <string name="avatar_description">Avatar: %1$s</string>
+
+    <string name="grades_title">Which class are you in?</string>
+    <string name="grades_primary">Primary</string>
+    <string name="grades_secondary">Secondary</string>
+    <string name="grade_coming_soon">%1$s, coming soon</string>
+    <string name="coming_soon">Coming soon</string>
+
+    <string name="path_change_class">Change class</string>
+    <string name="path_coming_soon">Lessons for this class are coming soon. You can pick another class.</string>
+    <string name="path_lesson">%1$d</string>
+    <string name="path_review">Review</string>
+    <string name="path_lesson_description">%1$s, lesson %2$d: %3$d of 3 stars</string>
+    <string name="path_review_description">%1$s, review: %2$d of 3 stars</string>
+
+    <string name="lesson_close">Stop the lesson</string>
+    <string name="lesson_question_picture">Picture to name</string>
+    <string name="lesson_right">Well done!</string>
+    <string name="lesson_wrong">Not quite. It is: %1$s</string>
+    <string name="lesson_continue">Continue</string>
+    <string name="lesson_empty">This lesson cannot be played on this device yet.</string>
+    <string name="lesson_back">Back</string>
+
+    <string name="result_title">Lesson complete!</string>
+    <string name="result_stars">%1$d of 3 stars</string>
+    <string name="result_continue">Continue</string>
+
+    <string name="about">About</string>
+    <string name="about_title">About Word Quest</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_offline">Word Quest works without the internet. It has no accounts, adverts or purchases, and your progress stays on this device.</string>
+    <string name="about_pictures">Pictures: OpenMoji (openmoji.org), licence CC BY-SA 4.0</string>
+    <string name="about_licence_notice">The licence notice for the pictures is included in the app.</string>
+</resources>
