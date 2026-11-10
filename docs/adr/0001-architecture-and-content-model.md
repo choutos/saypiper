@@ -108,7 +108,7 @@ A word with no picture carries a definition instead:
   "example": "She is a {reliable} friend who always keeps her promises." }
 ```
 
-`avatars.json` lists the emoji a child can choose as an avatar. `pictures/<HEX>.png` holds one image per emoji used by any word, unit or avatar, named as OpenMoji names it.
+`avatars.json` lists the emoji a child can choose as an avatar. `pictures/<HEX>.png` holds one image per emoji used by any word, unit or avatar, named as OpenMoji names it. `pictures.json`, written by the sync script, maps each emoji to its file; the app reads it instead of rebuilding file names, and rule 9 checks it too.
 
 ### Rules
 
@@ -134,7 +134,7 @@ There is deliberately one validator. A separate schema file would be a second co
 
 ### Pictures
 
-`scripts/sync-pictures` (added with the walking skeleton) reads every emoji the content uses, resolves it through OpenMoji's own index at the pinned tag `17.0.0`, and copies the 618 px colour PNG into `pictures/`. It runs when content is written, not during the build; the PNGs are committed. Authors keep writing an emoji character in JSON and never handle file names.
+`scripts/sync-pictures` (added with the walking skeleton) reads every emoji the content uses, resolves it through OpenMoji's own index at the pinned tag `17.0.0`, copies the 618 px colour PNG into `pictures/` and writes `pictures.json`. It runs when content is written, not during the build; the PNGs are committed. Authors keep writing an emoji character in JSON and never handle file names.
 
 The app shows the credit "Pictures: OpenMoji (openmoji.org), licence CC BY-SA 4.0" as plain text on an About screen from the first build, and ships the licence notice in the APK. The pictures are used unmodified. If one is ever redrawn, the changed image is published under the same licence.
 
@@ -203,10 +203,10 @@ Rules:
 - **Distractors** come from the same pack, same part of speech where possible, and never share a picture or text with the answer. For gap-fill they come from other units of the pack where possible: words from another theme rarely fit the sentence, which is the cheapest protection against two right answers.
 - **Mistakes** are re-queued at the end of the lesson, at most twice per word. Stars: three for no mistakes, two for one or two, one for finishing.
 - **Spaced repetition** is a five-box Leitner scheme per profile and word. Boxes are due after 0, 1, 3, 7 and 21 days. A session gives each word one outcome, however often the word appeared: any wrong answer sends it to box 1, due today; all right moves it up one box, but only if it was due; all right when it was not due changes nothing. So replaying a lesson three times in an afternoon cannot push a word to box 4. A word with no history counts as box 1 and due, so a first lesson without mistakes puts it in box 2. The intervals are a reasonable starting point, not tuned values. Chosen over SM-2 because it has no tuning parameters and a child or parent can understand it.
-- **Practice** serves up to ten due words, the longest overdue first. It works with a single due word: distractors come from that word's pack, never from the due list. Each word is exercised in the band of its own class, so a P2 word stays a picture question for a child who has moved to P4. Words whose id is no longer in the content are ignored.
+- **Practice** serves up to ten due words, the longest overdue first. It works with a single due word: distractors come from that word's pack, never from the due list. Each word is exercised in the band of its own class, so a P2 word stays a picture question for a child who has moved to P4. Words whose id is no longer in the content are ignored. A practice session has one exercise per word.
 - **Rewards**: stars per lesson, experience points, a daily streak based on the device's local date, and a crown for a finished unit. No leaderboards, since those need a network.
 - **Hints.** The app is in English only. Anything that explains a word to a child, now or in a later version, is an English explanation taken from the word's `definition` or `example`. There are no translations.
-- **Units unlock in order** within a class. Changing class is always allowed and keeps all progress.
+- **Units unlock in order** within a class. The first unit is open. A lesson opens when the lesson before it has a star, and a unit opens when every lesson of the unit before it has one. An adult can open everything from the parent corner. Changing class is always allowed and keeps all progress.
 - The generator takes a random seed, so every lesson can be reproduced in a test.
 
 ### Speech
@@ -236,11 +236,11 @@ Single activity, Compose Navigation, ViewModels with one-way state, manual depen
 
 **The lesson contract.** Everything that starts or finishes a lesson goes through two types in `game`. A request is either a unit lesson (unit id, lesson number) or a practice session (a list of word ids). A result carries a session id, the request, one outcome per word, and the stars. Screens and features that start lessons, such as Practice, build a request; they do not reach into the generator. New exercise types change what the generator emits, not these two types.
 
-**Persistence.** Room tables: `profile`; `word_progress` (profile, word id, box, due day, correct and wrong counts; indexed by profile and due day); `lesson_result` (session id, profile, unit and lesson or neither for practice, stars, day; one row per finished session, best stars are a query); `daily_activity` (profile, day, points). Every table refers to `profile` with cascading delete, so deleting a profile leaves nothing behind. Saving a result writes the lesson row, the word progress and the day's points in one transaction, and a session id that is already stored is ignored, so restoring the result screen cannot award a lesson twice. Days are local dates.
+**Persistence.** Room tables: `profile`; `word_progress` (profile, word id, box, due day, correct and wrong counts; indexed by profile and due day); `lesson_result` (session id, profile, unit and lesson or neither for practice, stars, day; one row per finished session, best stars are a query); `daily_activity` (profile, day, points). Every table refers to `profile` with cascading delete, so deleting a profile leaves nothing behind. Saving a result writes the lesson row, the word progress and the day's points in one transaction, and a session id that is already stored is ignored, so restoring the result screen cannot award a lesson twice. Days are local dates. `java.time` needs core library desugaring on Android 7, and the SQLite of that version has no upsert statement, so writes use Room's own insert and update.
 
 Room schemas are exported to the repo from the first commit. The schema may change freely until the first build is installed on a child's device; from then on every schema change ships with a tested migration. Builds before that release are for trying the app out: their progress does not carry over.
 
-**Manifest.** No permissions. `android:allowBackup="false"` together with data-extraction rules that exclude everything from cloud backup and from device transfer. The `emoji2` initialiser is removed from the merged manifest. A test asserts all three on the merged manifest.
+**Manifest.** No platform permission: nothing that gives access to the network, storage, sensors or anything else on the device. One entry stays, the permission that `androidx.core` declares for the app itself (`<application id>.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`). It protects the app's own broadcasts on Android 12 and earlier and grants nothing. Removing it would make any library that registers a private receiver crash on those versions, and our JVM tests would not see it. `android:allowBackup="false"` together with data-extraction rules that exclude everything from cloud backup and from device transfer. The `emoji2` initialiser is removed from the merged manifest. A test asserts all three on the merged manifest.
 
 **Tests and content.** Generator, session and UI tests load small fixture packs from test resources. Only the validation, picture and playability tests read `assets/content/`. A pull request that only changes vocabulary can therefore fail only on the content rules.
 
@@ -293,6 +293,7 @@ Rollback for the project as a whole: nothing here touches an existing system. An
 | Gap-fill has two right answers | A child picks a word that fits and is marked wrong. | Examples must identify their word; distractors come from other units; reviewers check every example. Not provable by a test. |
 | Progress lost on update | A child's stars vanish after an app update. | Exported Room schemas and migration tests from the first installed build; released ids are frozen by a test. |
 | Progress lost with the device | A broken or replaced tablet starts from zero. | Accepted for v1 as the price of "nothing leaves the device" (section 9). |
+| The tests do not run on the Android versions that matter | Something works in every test and fails on a real device. Robolectric runs at SDK 34 because its SDK 35 runtime needs JDK 21, and it brings its own SQLite, so neither Android 15 nor Android 7 behaviour is exercised. | A smoke test on emulators for API 24 and API 35 in CI before the first release: create a profile, play a lesson, restart, stars remain. Part of the release issue. |
 | Shared build host runs out of memory | Gradle builds are killed mid-run when several agents build at once. | `--no-daemon`, `-Xmx2g`, at most two build-heavy issues in parallel, reviewers rely on CI results. |
 | CI minutes on a private repo | Workflows stop running when the monthly quota is used up. | Build on pull requests and on `main` only; emulator job is manual. |
 | Two channels, two signing keys | A family that installed from F-Droid cannot update from the CI APK, or the other way round: Android refuses an update signed with another key, and with backup off a reinstall loses the progress. | F-Droid's catalogue signs with its own key unless the build is reproducible. Either make the build reproducible so that F-Droid ships our signature, or say plainly in the README and on the About screen that a family stays on one channel. Settled in the release issue. |
