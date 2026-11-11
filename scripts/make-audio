@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Generate committed Cori clips, never during an Android build. Linux x86_64, no root.
+set -euo pipefail
+SCRIPT_DIR="$(cd -- "$(dirname -- "$0")" && pwd)"
+CACHE="${AUDIO_CACHE_DIR:-$HOME/.cache/wordquest-audio}"
+command -v uv >/dev/null || { echo 'Install uv without root: https://docs.astral.sh/uv/getting-started/installation/' >&2; exit 1; }
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
+mkdir -p "$CACHE"
+if [[ ! -x "$CACHE/venv/bin/python" ]]; then
+    uv venv --python 3.10.22 "$CACHE/venv"
+fi
+uv pip sync --python "$CACHE/venv/bin/python" --require-hashes "$SCRIPT_DIR/audio/requirements.lock"
+exec "$CACHE/venv/bin/python" "$SCRIPT_DIR/audio/generate.py" --cache "$CACHE" "$@"
