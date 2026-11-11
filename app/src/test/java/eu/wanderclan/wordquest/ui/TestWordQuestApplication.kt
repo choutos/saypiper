@@ -9,8 +9,11 @@ import eu.wanderclan.wordquest.content.ContentLoader
 import eu.wanderclan.wordquest.data.WordQuestDatabase
 import java.time.LocalDate
 
-/** The app on fixture content, an in-memory database, no speech, a fixed day and a fixed lesson seed. */
+/** The app on fixture content, an in-memory database, no speech, a fake day and a fixed lesson seed. */
 class TestWordQuestApplication : WordQuestApplication() {
+    /** The fake clock: tests move it to play on another day. */
+    var today: LocalDate = LocalDate.of(2026, 11, 10)
+
     override fun createContainer(): AppContainer {
         val source = Fixtures.source
         return AppContainer(
@@ -18,7 +21,7 @@ class TestWordQuestApplication : WordQuestApplication() {
             contentSource = source,
             database = Room.inMemoryDatabaseBuilder(this, WordQuestDatabase::class.java).build(),
             speech = FakeSpeech(FakeSpeech.Mode.UNAVAILABLE),
-            clock = { LocalDate.of(2026, 11, 10) },
+            clock = { today },
             nextSeed = { SEED },
         )
     }

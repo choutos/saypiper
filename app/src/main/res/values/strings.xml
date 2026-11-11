@@ -23,6 +23,25 @@
     <string name="path_review">Review</string>
     <string name="path_lesson_description">%1$s, lesson %2$d: %3$d of 3 stars</string>
     <string name="path_review_description">%1$s, review: %2$d of 3 stars</string>
+    <string name="path_lesson_locked_description">%1$s, lesson %2$d: locked</string>
+    <string name="path_review_locked_description">%1$s, review: locked</string>
+    <string name="path_crown_description">%1$s: crown earned</string>
+    <string name="path_unit_locked_description">%1$s: locked</string>
+
+    <plurals name="home_points">
+        <item quantity="one">%d point</item>
+        <item quantity="other">%d points</item>
+    </plurals>
+    <plurals name="home_streak">
+        <item quantity="one">%d-day streak</item>
+        <item quantity="other">%d-day streak</item>
+    </plurals>
+    <string name="home_streak_none">Play today to start a streak</string>
+    <plurals name="practice_start">
+        <item quantity="one">Practise %d word</item>
+        <item quantity="other">Practise %d words</item>
+    </plurals>
+    <string name="practice_none">Nothing to practise today</string>
 
     <string name="lesson_close">Stop the lesson</string>
     <string name="lesson_question_picture">Picture to name</string>
@@ -35,6 +54,11 @@
     <string name="result_title">Lesson complete!</string>
     <string name="result_stars">%1$d of 3 stars</string>
     <string name="result_continue">Continue</string>
+    <plurals name="result_points">
+        <item quantity="one">+%d point</item>
+        <item quantity="other">+%d points</item>
+    </plurals>
+    <string name="result_crown">You earned the crown for %1$s!</string>
 
     <string name="about">About</string>
     <string name="about_title">About Word Quest</string>

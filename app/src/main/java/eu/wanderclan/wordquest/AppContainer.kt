@@ -17,7 +17,7 @@ class AppContainer(
     contentSource: ContentSource,
     database: WordQuestDatabase,
     val speech: Speech,
-    clock: DayClock,
+    val clock: DayClock,
     /** Seed for each new lesson. Fixed in tests so a lesson can be reproduced. */
     val nextSeed: () -> Long = { System.nanoTime() },
     val newSessionId: () -> String = { UUID.randomUUID().toString() },
