@@ -117,14 +117,24 @@ class FamilyProfilesTest {
         runBlocking {
             assertTrue(container.progress.schedule(mia).first().isEmpty())
             assertTrue(container.progress.activity(mia).first().isEmpty())
+            // Delete a profile that has progress, independently of the earlier reset assertion.
+            container.progress.save(mia, LessonResult("played-again", LessonRequest.UnitLesson("fx-pets", 1), listOf(WordOutcome("rabbit", false)), 2))
         }
         rule.onAllNodesWithText("Delete player")[0].performScrollTo().performClick()
         click("Cancel")
-        runBlocking { assertNotNull(container.profiles.profile(mia).first()) }
+        runBlocking {
+            assertNotNull(container.profiles.profile(mia).first())
+            assertEquals(2, container.progress.bestStars(mia).first()["fx-pets" to 1])
+            assertEquals(1, container.progress.schedule(mia).first().size)
+            assertEquals(1, container.progress.activity(mia).first().size)
+        }
         rule.onAllNodesWithText("Delete player")[0].performScrollTo().performClick()
         confirm()
         rule.waitUntil(10_000) { rule.waitForIdle(); runBlocking { container.profiles.profile(mia).first() == null } }
         runBlocking {
+            assertTrue(container.progress.bestStars(mia).first().isEmpty())
+            assertTrue(container.progress.schedule(mia).first().isEmpty())
+            assertTrue(container.progress.activity(mia).first().isEmpty())
             assertEquals(3, container.progress.bestStars(leo).first()["fx-pets" to 1])
             assertEquals(1, container.progress.schedule(leo).first().size)
             assertEquals(1, container.progress.activity(leo).first().size)
@@ -169,5 +179,32 @@ class FamilyProfilesTest {
         confirm()
         rule.waitUntil(10_000) { rule.waitForIdle(); runBlocking { container.profiles.profile(mia).first()!!.nickname == "Mimi" } }
         runBlocking { assertEquals(3, container.progress.bestStars(mia).first()["fx-pets" to 1]) }
+    }
+
+    @Test fun wrongAnswerChangesTheSumAndClearsTheField() {
+        var passed = false
+        rule.setContent { WordQuestTheme { androidx.compose.foundation.layout.Column {
+            ParentGate({ passed = true }, {}, ParentChallenge(37, 48))
+        } } }
+        rule.onNode(hasSetTextAction()).performTextInput("0")
+        click("Enter parent corner")
+        rule.onNodeWithText("What is 37 + 48?").assertDoesNotExist()
+        rule.onNode(hasSetTextAction()).assert(SemanticsMatcher.expectValue(
+            androidx.compose.ui.semantics.SemanticsProperties.EditableText, androidx.compose.ui.text.AnnotatedString("")))
+        rule.onNode(hasSetTextAction()).performTextInput("85")
+        click("Enter parent corner")
+        rule.runOnIdle { assertFalse(passed) }
+    }
+
+    @Test fun sameNamePlayersHaveTheirOwnAvatarAndClassInTheConfirmation() {
+        seed("Mia")
+        val second = seed("Mia")
+        runBlocking { container.profiles.setAvatar(second, "sun"); container.profiles.setGrade(second, "p3") }
+        root(); enterParent()
+        rule.onAllNodesWithText("Delete player")[1].performScrollTo().performClick()
+        rule.onNode(hasContentDescription("Avatar: sun") and hasAnyAncestor(isDialog()), useUnmergedTree = true).assertExists()
+        rule.onNode(hasText("P3") and hasAnyAncestor(isDialog())).assertExists()
+        click("Cancel")
+        runBlocking { assertEquals(2, container.profiles.profiles().first().size) }
     }
 }

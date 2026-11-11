@@ -35,4 +35,31 @@ class AccessibilityTest {
         assertTrue(lesson.exercises.isEmpty())
         assertEquals(setOf("rabbit", "mouse", "hamster"), lesson.skippedWordIds.toSet())
     }
+
+    @Test fun `a mixed unit with speech and a screen reader has no pictures and keeps listening and tiles`() {
+        val types = mutableSetOf<ExerciseType>()
+        for (seed in 0L..30L) {
+            val lesson = LessonGenerator(catalog).generate(LessonRequest.UnitLesson("fx-home", 4), Environment({ true }, false), seed)
+            assertTrue(lesson.skippedWordIds.isEmpty())
+            assertEquals(catalog.unit("fx-home")!!.first.words.map { it.id }.toSet(), lesson.wordIds.toSet())
+            lesson.exercises.forEach { exercise ->
+                types += exercise.type
+                when (exercise) {
+                    is ChoiceExercise -> {
+                        assertFalse(exercise.prompt is Prompt.Picture)
+                        assertTrue(exercise.options.all { it is Option.Text && it.text.isNotBlank() })
+                        assertTrue(exercise.incorrectWords(Answer.Choice(exercise.answerIndex)).isEmpty())
+                    }
+                    is TilesExercise -> {
+                        assertEquals(Prompt.Listening, exercise.prompt)
+                        val remaining = exercise.tiles.indices.toMutableList()
+                        val answer = exercise.text.map { letter -> remaining.first { exercise.tiles[it] == letter }.also { remaining.remove(it) } }
+                        assertTrue(exercise.incorrectWords(Answer.Tiles(answer)).isEmpty())
+                    }
+                    is PairsExercise -> fail("Picture pairs cannot be perceived")
+                }
+            }
+        }
+        assertTrue(types.containsAll(listOf(ExerciseType.LISTEN_AND_PICK, ExerciseType.SPELL_WITH_TILES)))
+    }
 }

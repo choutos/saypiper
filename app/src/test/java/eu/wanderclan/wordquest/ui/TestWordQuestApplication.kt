@@ -17,6 +17,8 @@ import java.time.LocalDate
 class TestWordQuestApplication : WordQuestApplication() {
     /** The fake clock: tests move it to play on another day. */
     var today: LocalDate = LocalDate.of(2026, 11, 10)
+    var lessonSeed: Long = SEED
+    val deviceVoice = FakeSpeech()
 
     override fun createContainer(): AppContainer {
         val source = Fixtures.source
@@ -24,12 +26,12 @@ class TestWordQuestApplication : WordQuestApplication() {
             content = ContentLoader.load(source),
             contentSource = source,
             database = Room.inMemoryDatabaseBuilder(this, WordQuestDatabase::class.java).build(),
-            speech = ClipSpeech(ContentLoader.load(source).audioWordIds, FakeSpeech(), object : ClipPlayer {
+            speech = ClipSpeech(ContentLoader.load(source).audioWordIds, deviceVoice, object : ClipPlayer {
                 override fun play(path: String, completed: (SpeechResult) -> Unit) { completed(SpeechResult.SPOKEN) }
                 override fun stop() {}
             }, Dispatchers.Unconfined),
             clock = { today },
-            nextSeed = { SEED },
+            nextSeed = { lessonSeed },
             pictureDecodeDispatcher = Dispatchers.Unconfined,
         )
     }

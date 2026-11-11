@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -25,6 +26,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -49,13 +51,18 @@ import kotlin.random.Random
 data class ParentChallenge(val left: Int, val right: Int) {
     fun accepts(answer: String): Boolean = answer.trim().toIntOrNull() == left + right
     companion object {
-        fun create() = ParentChallenge(Random.nextInt(23, 80), Random.nextInt(23, 80))
+        fun create(previous: ParentChallenge? = null): ParentChallenge {
+            var next: ParentChallenge
+            do { next = ParentChallenge(Random.nextInt(23, 80), Random.nextInt(23, 80)) }
+            while (previous != null && next.left + next.right == previous.left + previous.right)
+            return next
+        }
     }
 }
 
 @Composable
 fun ParentGate(onPassed: () -> Unit, onClose: () -> Unit, challenge: ParentChallenge? = null) {
-    val question = remember { challenge ?: ParentChallenge.create() }
+    var question by remember { mutableStateOf(challenge ?: ParentChallenge.create()) }
     var answer by remember { mutableStateOf("") }
     var incorrect by remember { mutableStateOf(false) }
     Text(stringResource(R.string.parent_gate_explanation))
@@ -65,7 +72,13 @@ fun ParentGate(onPassed: () -> Unit, onClose: () -> Unit, challenge: ParentChall
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number), isError = incorrect,
         modifier = Modifier.fillMaxWidth())
     if (incorrect) Text(stringResource(R.string.parent_gate_wrong))
-    Button(onClick = { if (question.accepts(answer)) onPassed() else incorrect = true }) {
+    Button(onClick = {
+        if (question.accepts(answer)) onPassed() else {
+            question = ParentChallenge.create(question)
+            answer = ""
+            incorrect = true
+        }
+    }) {
         Text(stringResource(R.string.parent_gate_enter))
     }
     TextButton(onClick = onClose) { Text(stringResource(R.string.lesson_back)) }
@@ -101,7 +114,7 @@ fun ParentCornerScreen(container: AppContainer, onClose: () -> Unit) {
                 }
                 profiles.forEach { profile ->
                     HorizontalDivider()
-                    Text(profile.nickname)
+                    ProfileIdentity(container, profile)
                     TextButton(enabled = !working, onClick = { action = profile to ParentAction.RENAME }) { Text(stringResource(R.string.parent_rename)) }
                     if (action?.let { it.first.id == profile.id && it.second == ParentAction.RENAME } == true) {
                         var nickname by remember(profile.id) { mutableStateOf(profile.nickname) }
@@ -137,6 +150,7 @@ fun ParentCornerScreen(container: AppContainer, onClose: () -> Unit) {
             title = { Text(stringResource(kind.title, profile.nickname)) },
             text = {
                 Column(Modifier.verticalScroll(rememberScrollState())) {
+                    ProfileIdentity(container, profile)
                     Text(stringResource(if (kind == ParentAction.DELETE) R.string.parent_delete_explanation else R.string.parent_reset_explanation))
                 }
             },
@@ -147,6 +161,19 @@ fun ParentCornerScreen(container: AppContainer, onClose: () -> Unit) {
             },
             dismissButton = { TextButton(enabled = !working, onClick = { action = null }) { Text(stringResource(R.string.parent_cancel)) } },
         )
+    }
+}
+
+@Composable
+private fun ProfileIdentity(container: AppContainer, profile: ProfileEntity) {
+    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        container.catalog.avatars.firstOrNull { it.id == profile.avatarId }?.let { avatar ->
+            Picture(avatar.emoji, stringResource(R.string.avatar_description, avatar.id), Modifier.size(48.dp))
+        }
+        Column(Modifier.weight(1f)) {
+            Text(profile.nickname)
+            Text(profile.gradeId?.let(container.catalog::grade)?.label ?: stringResource(R.string.profile_class_none))
+        }
     }
 }
 

@@ -38,8 +38,11 @@ interface SettingsDao {
     @Query("SELECT * FROM app_settings WHERE id = 1")
     fun observe(): Flow<AppSettingsEntity?>
 
-    @Upsert
-    suspend fun save(settings: AppSettingsEntity)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertDefault(settings: AppSettingsEntity)
+
+    @Query("UPDATE app_settings SET soundEnabled = :enabled WHERE id = 1")
+    suspend fun setSound(enabled: Boolean)
 }
 
 @Dao

@@ -11,6 +11,7 @@
     <string name="profile_edit_avatar">Change avatar</string>
     <string name="profile_save">Save avatar</string>
     <string name="profile_players">Players</string>
+    <string name="profile_class_none">Class not chosen</string>
     <string name="profile_create">Let\'s go</string>
     <string name="avatar_description">Avatar: %1$s</string>
 

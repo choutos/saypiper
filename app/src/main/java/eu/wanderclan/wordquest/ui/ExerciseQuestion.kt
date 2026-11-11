@@ -36,6 +36,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -52,6 +53,7 @@ import eu.wanderclan.wordquest.game.Option
 import eu.wanderclan.wordquest.game.PairsExercise
 import eu.wanderclan.wordquest.game.Prompt
 import eu.wanderclan.wordquest.game.TilesExercise
+import kotlinx.coroutines.flow.collectLatest
 
 /** A given word may be heard immediately; an answer is heard only with feedback. */
 private val Exercise.wordIsPrompt: Boolean get() = when (this) {
@@ -75,12 +77,18 @@ fun ExerciseQuestion(
 ) {
     val say by rememberUpdatedState(onSay)
     val answered = response != null
+    val scroll = rememberScrollState()
+    // Feedback can be taller than the remaining space at large fonts. Keep its final control
+    // visible, including when layout changes after the answer (for example, decoded pictures).
+    LaunchedEffect(answered) {
+        if (answered) snapshotFlow { scroll.maxValue }.collectLatest { scroll.animateScrollTo(it) }
+    }
     // Pairs has several words and no single spoken prompt or answer.
     val canSayWord = speechAvailable && exercise !is PairsExercise
     LaunchedEffect(exercise, answered) {
         if (canSayWord && (if (exercise.wordIsPrompt) !answered else answered)) say(exercise.wordId)
     }
-    Column(modifier.fillMaxSize().screenWidth().verticalScroll(rememberScrollState())) {
+    Column(modifier.fillMaxSize().screenWidth().verticalScroll(scroll)) {
         Column(Modifier.fillMaxWidth().padding(horizontal = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
             if (canSayWord && (exercise.wordIsPrompt || answered)) {

@@ -88,6 +88,8 @@ class ProgressRepositoryTest {
         val other = profiles.create("Leo", "owl")
         progress.save(id, result("s1", 3, "dog" to true))
         progress.save(other, result("s2", 3, "dog" to true))
+        val otherWords = db.progress().wordProgress(other, listOf("dog"))
+        val otherActivity = db.progress().dailyActivity(other)
         profiles.delete(id)
 
         val dao = db.progress()
@@ -95,6 +97,10 @@ class ProgressRepositoryTest {
         assertEquals(0, dao.wordProgressCount(id))
         assertEquals(emptyList<DailyActivityEntity>(), dao.dailyActivity(id))
         assertEquals(1, dao.lessonResultCount(other))
+        assertEquals(otherWords, dao.wordProgress(other, listOf("dog")))
+        assertEquals(otherActivity, dao.dailyActivity(other))
+        assertEquals(mapOf(("p1-animals" to 1) to 3), progress.bestStars(other).first())
+        assertEquals(null, db.profiles().get(id))
     }
 
     @Test

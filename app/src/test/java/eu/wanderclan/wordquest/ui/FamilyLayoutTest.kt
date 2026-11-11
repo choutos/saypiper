@@ -3,6 +3,9 @@ package eu.wanderclan.wordquest.ui
 import android.view.accessibility.AccessibilityManager
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.mutableStateOf
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import eu.wanderclan.wordquest.audio.FakeSpeech
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
@@ -31,7 +34,7 @@ abstract class FamilyLayoutTest {
     private val app get() = ApplicationProvider.getApplicationContext<TestWordQuestApplication>()
     private val container get() = app.container
     private val sizeName get() = javaClass.simpleName
-    @Before fun configureFontScale() { if (this is LargeFontLayoutTest) RuntimeEnvironment.setFontScale(2f) }
+    @Before fun configureFontScale() { if (this is LargeFontLayoutTest || this is LargeFontPortraitLayoutTest) RuntimeEnvironment.setFontScale(2f) }
     private fun seed() = runBlocking { container.profiles.create("Alexandra", "fox").also { container.profiles.setGrade(it, "p3") } }
     private fun capture(name: String) {
         rule.waitForIdle()
@@ -54,7 +57,7 @@ abstract class FamilyLayoutTest {
     }
     private fun content(body: @androidx.compose.runtime.Composable () -> Unit) {
         rule.setContent {
-            if (this is LargeFontLayoutTest) assertEquals(2f, androidx.compose.ui.platform.LocalDensity.current.fontScale)
+            if (this is LargeFontLayoutTest || this is LargeFontPortraitLayoutTest) assertEquals(2f, androidx.compose.ui.platform.LocalDensity.current.fontScale)
             CompositionLocalProvider(LocalPictures provides container.pictures) { WordQuestTheme { body() } }
         }
     }
@@ -124,43 +127,100 @@ abstract class FamilyLayoutTest {
     }
 
     @Test fun eachExerciseType() {
-        val catalog = Fixtures.catalog()
-        val generator = LessonGenerator(catalog)
-        val exercises = (0L..20L).flatMap { seed -> listOf("fx-pets" to 3, "fx-home" to 4).flatMap { (unit, number) ->
-            generator.generate(LessonRequest.UnitLesson(unit, number), Environment({ true }, true), seed).exercises
-        } }.distinctBy { it.type }
-        assertEquals(ExerciseType.entries.toSet(), exercises.map { it.type }.toSet())
-        val current = mutableStateOf(exercises.first())
-        content {
-            val exercise = current.value
-            androidx.compose.runtime.key(exercise) {
-                ExerciseQuestion(exercise, null, catalog.word(exercise.wordId)!!.gradePack.band, true, {}, {}, {},
-                    catalog.word(exercise.wordId)!!.word.text)
+        val id = seed()
+        app.deviceVoice.mode = FakeSpeech.Mode.SILENT
+        runBlocking { container.speech.prepare() }
+        val plans = (0L..100L).flatMap { seed -> listOf("fx-pets" to 3, "fx-home" to 4).map { (unit, number) ->
+            val request = LessonRequest.UnitLesson(unit, number)
+            val first = container.generator.generate(request, Environment({ true }, true), seed).exercises.first()
+            Triple(request, seed, first)
+        } }.groupBy { it.third.type }.mapValues { it.value.first() }
+        assertEquals(ExerciseType.entries.toSet(), plans.keys)
+        lateinit var navigation: NavHostController
+        content { navigation = rememberNavController(); WordQuestRoot(container, navigation) }
+        waitText("Alexandra · P3")
+        for (type in ExerciseType.entries) {
+            val (request, seed, exercise) = plans.getValue(type)
+            for (correct in listOf(true, false)) {
+                rule.runOnIdle {
+                    app.lessonSeed = seed
+                    navigation.navigate("lesson/$id/${request.unitId}/${request.number}")
+                }
+                rule.waitUntil(10_000) { rule.onAllNodesWithContentDescription("Stop the lesson").fetchSemanticsNodes().isNotEmpty() }
+                capture("${type.name}-${if (correct) "question" else "retry-question"}")
+                answer(exercise, correct)
+                // This must be visible immediately after answering, without test-driven scrolling.
+                rule.onNodeWithText("Continue").assertIsDisplayed()
+                capture("${type.name}-${if (correct) "correct" else "incorrect"}")
+                rule.runOnIdle { navigation.popBackStack() }
+                waitText("Alexandra · P3")
             }
         }
-        for (exercise in exercises) {
-            rule.runOnIdle { current.value = exercise }
-            capture(exercise.type.name)
-            when (exercise) {
-                is ChoiceExercise -> exercise.options.indices.forEach { i -> rule.onNodeWithTag("option-$i").performScrollTo().assertIsDisplayed() }
-                is PairsExercise -> rule.onNodeWithTag("submit").performScrollTo().assertIsDisplayed()
-                is TilesExercise -> rule.onNodeWithTag("submit").performScrollTo().assertIsDisplayed()
+    }
+
+    private fun answer(exercise: Exercise, correct: Boolean) {
+        when (exercise) {
+            is ChoiceExercise -> rule.onNodeWithTag("option-${if (correct) exercise.answerIndex else (exercise.answerIndex + 1) % exercise.options.size}")
+                .performScrollTo().performClick()
+            is PairsExercise -> {
+                val words = exercise.pictures.map { it.wordId }
+                exercise.pictures.forEachIndexed { index, picture ->
+                    val word = words[if (correct) index else (index + 1) % words.size]
+                    rule.onNodeWithTag("pair-word-$word").performScrollTo().performClick()
+                    rule.onNodeWithTag("pair-picture-${picture.wordId}").performScrollTo().performClick()
+                }
+                rule.onNodeWithTag("submit").performScrollTo().performClick()
             }
-            capture("${exercise.type.name}-bottom")
+            is TilesExercise -> {
+                val remaining = exercise.tiles.indices.toMutableList()
+                val indices = exercise.text.map { letter -> remaining.first { exercise.tiles[it] == letter }.also { remaining.remove(it) } }
+                val order = if (correct) indices else indices.reversed()
+                order.forEach { rule.onNodeWithTag("tile-$it").performScrollTo().performClick() }
+                rule.onNodeWithTag("submit").performScrollTo().performClick()
+            }
         }
     }
 
     @Test fun pictureLabelsNeverContainTheirAnswer() {
         val catalog = Fixtures.catalog()
-        val exercise = LessonGenerator(catalog).generate(LessonRequest.UnitLesson("fx-pets", 1), Environment({ false }, true), 0)
-            .exercises.filterIsInstance<ChoiceExercise>().first { it.prompt is Prompt.Picture }
-        content { ExerciseQuestion(exercise, null, eu.wanderclan.wordquest.content.Band.A, false, {}, {}, {},
-            catalog.word(exercise.wordId)!!.word.text) }
-        val labels = rule.onAllNodes(SemanticsMatcher.keyIsDefined(androidx.compose.ui.semantics.SemanticsProperties.ContentDescription),
-            useUnmergedTree = true).fetchSemanticsNodes().flatMap { it.config[androidx.compose.ui.semantics.SemanticsProperties.ContentDescription] }
-        assertTrue(labels.contains("Picture to name"))
-        assertTrue(labels.none { it.contains(catalog.word(exercise.wordId)!!.word.text, ignoreCase = true) })
+        val exercises = (0L..20L).flatMap { seed -> listOf("fx-pets" to 3, "fx-home" to 4).flatMap { (unit, number) ->
+            forPictures(catalog, unit, number, seed)
+        } }.filter { exercise -> when (exercise) {
+            is ChoiceExercise -> exercise.prompt is Prompt.Picture || exercise.options.any { it is Option.Picture }
+            is PairsExercise -> true
+            is TilesExercise -> exercise.prompt is Prompt.Picture
+        } }.distinctBy { it.type }
+        assertEquals(setOf(ExerciseType.PICTURE_TO_WORD, ExerciseType.WORD_TO_PICTURE, ExerciseType.LISTEN_AND_PICK,
+            ExerciseType.MATCH_PAIRS, ExerciseType.SPELL_WITH_TILES), exercises.map { it.type }.toSet())
+        val current = mutableStateOf(exercises.first())
+        content {
+            val exercise = current.value
+            androidx.compose.runtime.key(exercise) {
+                ExerciseQuestion(exercise, null, catalog.word(exercise.wordId)!!.gradePack.band, false, {}, {}, {},
+                    catalog.word(exercise.wordId)!!.word.text)
+            }
+        }
+        fun neutral(label: String, wordId: String) {
+            val descriptions = rule.onNodeWithContentDescription(label, useUnmergedTree = true).fetchSemanticsNode()
+                .config[androidx.compose.ui.semantics.SemanticsProperties.ContentDescription]
+            assertTrue(descriptions.none { it.contains(catalog.word(wordId)!!.word.text, ignoreCase = true) })
+        }
+        for (exercise in exercises) {
+            rule.runOnIdle { current.value = exercise }
+            when (exercise) {
+                is ChoiceExercise -> {
+                    if (exercise.prompt is Prompt.Picture) neutral("Picture to name", exercise.wordId)
+                    exercise.options.forEachIndexed { index, option -> if (option is Option.Picture) neutral("Picture ${index + 1}", option.wordId) }
+                }
+                is PairsExercise -> exercise.pictures.forEachIndexed { index, picture -> neutral("Picture ${index + 1}", picture.wordId) }
+                is TilesExercise -> neutral("Picture to name", exercise.wordId)
+            }
+        }
     }
+
+    private fun forPictures(catalog: eu.wanderclan.wordquest.content.Catalog, unit: String, number: Int, seed: Long): List<Exercise> =
+        listOf(false, true).flatMap { speech -> LessonGenerator(catalog).generate(LessonRequest.UnitLesson(unit, number),
+            Environment({ speech }, true), seed).exercises }
 
     @Test fun mutedP1IsPlayableWithoutSpeakerButtons() = mutedLesson("fx-pets")
     @Test fun mutedP3IsPlayableWithoutSpeakerButtons() = mutedLesson("fx-home")
@@ -194,7 +254,7 @@ abstract class FamilyLayoutTest {
             }
         }
         rule.onNodeWithTag("speaker").assertDoesNotExist()
-        rule.onNodeWithText("Continue").performScrollTo().assertIsDisplayed()
+        rule.onNodeWithText("Continue").assertIsDisplayed()
     }
 
     @Test fun result() {
@@ -231,3 +291,9 @@ class TabletLayoutTest : FamilyLayoutTest()
 
 @Config(application = TestWordQuestApplication::class, qualifiers = "w640dp-h360dp-land-mdpi")
 class LargeFontLayoutTest : FamilyLayoutTest()
+
+@Config(application = TestWordQuestApplication::class, qualifiers = "w640dp-h360dp-land-mdpi")
+class PhoneLandscapeLayoutTest : FamilyLayoutTest()
+
+@Config(application = TestWordQuestApplication::class, qualifiers = "w400dp-h860dp-xhdpi")
+class LargeFontPortraitLayoutTest : FamilyLayoutTest()
