@@ -12,8 +12,11 @@ data class ContentSet(
     val pictureFiles: Set<String>,
 )
 
-/** A broken content rule (ADR section 4). [gradeId] names the pack at fault, null for shared files. */
-data class Problem(val rule: Int, val gradeId: String?, val message: String) {
+/**
+ * A broken content rule (ADR section 4). [gradeId] names the pack at fault, null for shared files;
+ * [avatarId] names the avatar at fault, if any.
+ */
+data class Problem(val rule: Int, val gradeId: String?, val message: String, val avatarId: String? = null) {
     override fun toString(): String = "rule $rule${gradeId?.let { " ($it)" } ?: ""}: $message"
 }
 
@@ -135,14 +138,14 @@ object ContentValidator {
     private fun pictures(content: ContentSet): List<Problem> = buildList {
         val usedFiles = mutableSetOf<String>()
         val usedEmoji = mutableSetOf<String>()
-        fun check(emoji: String?, gradeId: String?, where: String) {
+        fun check(emoji: String?, gradeId: String?, where: String, avatarId: String? = null) {
             if (emoji == null) return
             val key = normaliseEmoji(emoji)
             usedEmoji += key
             val file = content.pictureIndex.pictures[key]
             when {
-                file == null -> add(Problem(9, gradeId, "$where: $emoji is not in pictures.json; run scripts/sync-pictures"))
-                file !in content.pictureFiles -> add(Problem(9, gradeId, "$where: pictures/$file is missing; run scripts/sync-pictures"))
+                file == null -> add(Problem(9, gradeId, "$where: $emoji is not in pictures.json; run scripts/sync-pictures", avatarId))
+                file !in content.pictureFiles -> add(Problem(9, gradeId, "$where: pictures/$file is missing; run scripts/sync-pictures", avatarId))
                 else -> usedFiles += file
             }
         }
@@ -152,7 +155,7 @@ object ContentValidator {
                 unit.words.forEach { check(it.emoji, gradeId, "word ${it.id}") }
             }
         }
-        content.avatars.avatars.forEach { check(it.emoji, null, "avatar ${it.id}") }
+        content.avatars.avatars.forEach { check(it.emoji, null, "avatar ${it.id}", it.id) }
         (content.pictureFiles - usedFiles).sorted().forEach {
             add(Problem(9, null, "pictures/$it is not used by any word, unit or avatar"))
         }

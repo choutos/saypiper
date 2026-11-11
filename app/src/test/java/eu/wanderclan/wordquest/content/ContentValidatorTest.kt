@@ -156,6 +156,15 @@ class ContentValidatorTest {
     }
 
     @Test
+    fun `the loader leaves out an avatar whose picture is missing and keeps the rest`() {
+        val (content, _) = ContentLoader.read(Fixtures.source)
+        val loaded = ContentLoader.build(content.copy(pictureFiles = content.pictureFiles - "270F.png"), emptyList())
+        assertTrue(loaded.problems.any { it.rule == 9 && it.avatarId == "pencil" })
+        assertEquals(listOf("fox", "sun"), loaded.catalog.avatars.map { it.id })
+        assertEquals(listOf("p1"), loaded.catalog.packs.map { it.grade.id })
+    }
+
+    @Test
     fun `the loader leaves out packs with problems and keeps the rest`() {
         val loaded = ContentLoader.load(Fixtures.source)
         assertEquals(12, loaded.catalog.grades.size)

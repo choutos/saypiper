@@ -28,8 +28,8 @@ class AssetContentSource(private val assets: AssetManager, private val root: Str
 data class LoadedContent(val catalog: Catalog, val pictureIndex: PictureIndex, val problems: List<Problem>)
 
 /**
- * Loads and validates the content. A pack with any problem is left out of the catalog; a class whose
- * pack is absent or left out shows as "coming soon". The shared files must parse.
+ * Loads and validates the content. A pack or an avatar with any problem is left out of the catalog;
+ * a class whose pack is absent or left out shows as "coming soon". The shared files must parse.
  */
 object ContentLoader {
     const val PICTURES_DIR = "pictures"
@@ -61,12 +61,19 @@ object ContentLoader {
 
     fun load(source: ContentSource): LoadedContent {
         val (content, parseProblems) = read(source)
+        return build(content, parseProblems)
+    }
+
+    /** Validates [content] and keeps only the packs and avatars without a problem. */
+    fun build(content: ContentSet, parseProblems: List<Problem>): LoadedContent {
         val problems = parseProblems + ContentValidator.validate(content)
         val broken = problems.mapNotNull { it.gradeId }.toSet()
+        val brokenAvatars = problems.mapNotNull { it.avatarId }.toSet()
         val packs = content.grades.grades
             .filter { it.id !in broken }
             .mapNotNull { grade -> content.packs[grade.id]?.let { GradePack(grade, it) } }
-        return LoadedContent(Catalog(content.grades.grades, packs, content.avatars.avatars), content.pictureIndex, problems)
+        val avatars = content.avatars.avatars.filter { it.id !in brokenAvatars }
+        return LoadedContent(Catalog(content.grades.grades, packs, avatars), content.pictureIndex, problems)
     }
 
     private inline fun <reified T> parse(source: ContentSource, path: String): T {
