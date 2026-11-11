@@ -57,8 +57,8 @@ class ContentValidatorTest {
     }
 
     @Test
-    fun `the fixture content passes all rules except the pending secondary mixes`() {
-        assertEquals(emptyList<Problem>(), ContentValidator.validate(valid).filter { it.rule != 10 })
+    fun `the fixture content passes all rules`() {
+        assertEquals(emptyList<Problem>(), ContentValidator.validate(valid))
     }
 
     @Test
@@ -173,9 +173,15 @@ class ContentValidatorTest {
 
     @Test
     fun `rule 10 - a pack the generator cannot play fails`() {
-        val found = problems(valid, 10)
-        // Band B definitions now play. Secondary mixes still arrive in FRL-9.
-        assertEquals(setOf("s1", "s4"), found.map { it.gradeId }.toSet())
+        val pictures = valid.packs.getValue("p1").units.first().words.map { it.emoji }
+        val broken = valid.editUnit("s4", "fx-work") { unit ->
+            // Valid structure, but D needs written prompts when speech is absent.
+            unit.copy(words = unit.words.mapIndexed { index, word ->
+                word.copy(emoji = pictures[index], definition = null, example = null)
+            })
+        }
+        assertTrue(ContentValidator.validate(broken).all { it.rule == 10 })
+        assertFails(10, broken, "s4")
     }
 
     @Test
@@ -184,14 +190,16 @@ class ContentValidatorTest {
         val loaded = ContentLoader.build(content.copy(pictureFiles = content.pictureFiles - "270F.png"), emptyList())
         assertTrue(loaded.problems.any { it.rule == 9 && it.avatarId == "pencil" })
         assertEquals(listOf("fox", "sun"), loaded.catalog.avatars.map { it.id })
-        assertEquals(listOf("p1", "p3"), loaded.catalog.packs.map { it.grade.id })
+        assertEquals(listOf("p1", "p3", "s1", "s4"), loaded.catalog.packs.map { it.grade.id })
     }
 
     @Test
     fun `the loader leaves out packs with problems and keeps the rest`() {
-        val loaded = ContentLoader.load(Fixtures.source)
+        val broken = valid.editWord("s1", "proud") { it.copy(definition = null) }
+        val loaded = ContentLoader.build(broken, emptyList())
+        assertTrue(loaded.problems.any { it.rule == 2 && it.gradeId == "s1" })
         assertEquals(12, loaded.catalog.grades.size)
-        assertEquals(listOf("p1", "p3"), loaded.catalog.packs.map { it.grade.id })
+        assertEquals(listOf("p1", "p3", "s4"), loaded.catalog.packs.map { it.grade.id })
         assertEquals("p3", loaded.catalog.pack("p3")!!.grade.id)
     }
 }

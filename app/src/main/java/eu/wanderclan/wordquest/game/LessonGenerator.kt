@@ -29,7 +29,13 @@ class LessonGenerator(private val catalog: Catalog) {
         // Balance the supported types, with seeded tie-breaking. Even a short band A lesson listens.
         val used = mutableMapOf<ExerciseType, Int>()
         val exercises = order(playable, count, random).map { (home, types) ->
-            val type = types.shuffled(random).minBy { used[it] ?: 0 }
+            val type = types.shuffled(random).minBy {
+                // In C, written exercises occur three times as often as each picture/listening type.
+                if (home.gradePack.band == Band.C) ((used[it] ?: 0) + 1).toDouble() / when (it) {
+                    ExerciseType.DEFINITION_TO_WORD, ExerciseType.GAP_FILL, ExerciseType.TYPE_THE_WORD, ExerciseType.MATCH_PAIRS -> 3
+                    else -> 1
+                } else (used[it] ?: 0).toDouble()
+            }
             used[type] = (used[type] ?: 0) + 1
             exercise(home, type, targets.filter { it.gradePack == home.gradePack }.map { it.word }, random, environment)
         }
@@ -59,6 +65,10 @@ class LessonGenerator(private val catalog: Catalog) {
     private fun exercise(home: WordHome, type: ExerciseType, pairPool: List<Word>, random: Random, environment: Environment): Exercise {
         val word = home.word
         val band = home.gradePack.band
+        if (type == ExerciseType.TYPE_THE_WORD) {
+            val prompt = word.definition?.let { Prompt.Text(it) } ?: Prompt.Listening
+            return TypingExercise(word.id, prompt, word.text)
+        }
         if (type == ExerciseType.SPELL_WITH_TILES) {
             val tiles = word.text.toList().shuffled(random).toMutableList()
             // Never hand the child an already completed spelling, including repeated letters.
@@ -69,10 +79,13 @@ class LessonGenerator(private val catalog: Catalog) {
             return TilesExercise(word.id, word.emoji?.takeIf { environment.picturesPerceivable }?.let { Prompt.Picture(it) } ?: Prompt.Listening, word.text, tiles)
         }
         if (type == ExerciseType.MATCH_PAIRS) {
-            val candidates = Capabilities.distractorCandidates(word, pairPool).filter { it.emoji != null }
+            val candidates = Capabilities.pairCandidates(word, band, pairPool)
             val pairs = (listOf(word) + candidates.shuffled(random).take(if (candidates.size >= 4) 4 else 3))
             return PairsExercise(word.id, pairs.shuffled(random).map { Option.Text(it.id, it.text) },
-                pairs.shuffled(random).map { Option.Picture(it.id, requireNotNull(it.emoji)) })
+                pairs.shuffled(random).map {
+                    if (band == Band.C || band == Band.D) Option.Text(it.id, requireNotNull(it.definition))
+                    else Option.Picture(it.id, requireNotNull(it.emoji))
+                })
         }
         val pictureOptions = type == ExerciseType.WORD_TO_PICTURE || (type == ExerciseType.LISTEN_AND_PICK && band == Band.A)
         var candidates = Capabilities.distractorCandidates(word, home.gradePack.words)
@@ -99,7 +112,8 @@ class LessonGenerator(private val catalog: Catalog) {
     /** Recover the current prompt visibly; replace queued listening types using the normal filter. */
     fun withoutSpeech(exercise: Exercise, showWord: Boolean, environment: Environment = Environment({ false }, true)): Exercise {
         val needsSpeech = (exercise is ChoiceExercise && exercise.prompt == Prompt.Listening) ||
-            (exercise is TilesExercise && exercise.prompt == Prompt.Listening)
+            (exercise is TilesExercise && exercise.prompt == Prompt.Listening) ||
+            (exercise is TypingExercise && exercise.prompt == Prompt.Listening)
         if (!needsSpeech) return exercise
         val home = requireNotNull(catalog.word(exercise.wordId))
         if (showWord) return when (exercise) {
@@ -108,6 +122,7 @@ class LessonGenerator(private val catalog: Catalog) {
                 prompt = Prompt.Text(home.word.text),
             )
             is TilesExercise -> exercise.copy(prompt = Prompt.Text(home.word.text))
+            is TypingExercise -> exercise.copy(prompt = Prompt.Text(home.word.definition ?: home.word.text))
             is PairsExercise -> exercise
         }
         val types = ExerciseType.entries.filter {

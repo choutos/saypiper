@@ -85,9 +85,9 @@ class LessonGeneratorTest {
 
     @Test
     fun `a word with no supported exercise type is skipped`() {
-        // Secondary definition mixes arrive in FRL-9.
-        val lesson = generator.generate(LessonRequest.Practice(listOf("proud")), noSpeech, 3)
-        assertEquals(listOf("proud"), lesson.skippedWordIds)
+        // This word has neither a definition nor an example, and its picture cannot be perceived.
+        val lesson = generator.generate(LessonRequest.Practice(listOf("bed")), Environment({ false }, false), 3)
+        assertEquals(listOf("bed"), lesson.skippedWordIds)
         assertTrue(lesson.exercises.isEmpty())
     }
 
