@@ -1,0 +1,774 @@
+{
+  "schemaVersion": 1,
+  "grade": "p3",
+  "units": [
+    {
+      "id": "p3-numbers",
+      "title": "Numbers 11 to 20",
+      "emoji": "🔢",
+      "words": [
+        {
+          "id": "eleven",
+          "text": "eleven",
+          "pos": "other",
+          "definition": "one more than ten",
+          "example": "Ten plus one is {eleven}."
+        },
+        {
+          "id": "twelve",
+          "text": "twelve",
+          "pos": "other",
+          "definition": "two more than ten",
+          "example": "There are {twelve} months in a year."
+        },
+        {
+          "id": "thirteen",
+          "text": "thirteen",
+          "pos": "other",
+          "definition": "three more than ten",
+          "example": "Ten plus three is {thirteen}."
+        },
+        {
+          "id": "fourteen",
+          "text": "fourteen",
+          "pos": "other",
+          "definition": "four more than ten",
+          "example": "Seven plus seven is {fourteen}."
+        },
+        {
+          "id": "fifteen",
+          "text": "fifteen",
+          "pos": "other",
+          "definition": "five more than ten",
+          "example": "Ten plus five is {fifteen}."
+        },
+        {
+          "id": "sixteen",
+          "text": "sixteen",
+          "pos": "other",
+          "definition": "six more than ten",
+          "example": "Eight plus eight is {sixteen}."
+        },
+        {
+          "id": "seventeen",
+          "text": "seventeen",
+          "pos": "other",
+          "definition": "seven more than ten",
+          "example": "Ten plus seven is {seventeen}."
+        },
+        {
+          "id": "eighteen",
+          "text": "eighteen",
+          "pos": "other",
+          "definition": "eight more than ten",
+          "example": "Nine plus nine is {eighteen}."
+        },
+        {
+          "id": "nineteen",
+          "text": "nineteen",
+          "pos": "other",
+          "definition": "nine more than ten",
+          "example": "Ten plus nine is {nineteen}."
+        },
+        {
+          "id": "twenty",
+          "text": "twenty",
+          "pos": "other",
+          "definition": "ten more than ten",
+          "example": "Ten plus ten is {twenty}."
+        }
+      ]
+    },
+    {
+      "id": "p3-days",
+      "title": "Days of the week",
+      "emoji": "📅",
+      "words": [
+        {
+          "id": "monday",
+          "text": "Monday",
+          "pos": "noun",
+          "definition": "the day after Sunday",
+          "example": "The school week starts on {Monday}."
+        },
+        {
+          "id": "tuesday",
+          "text": "Tuesday",
+          "pos": "noun",
+          "definition": "the day after Monday",
+          "example": "The day before Wednesday is {Tuesday}."
+        },
+        {
+          "id": "wednesday",
+          "text": "Wednesday",
+          "pos": "noun",
+          "definition": "the day after Tuesday",
+          "example": "The middle of the school week is {Wednesday}."
+        },
+        {
+          "id": "thursday",
+          "text": "Thursday",
+          "pos": "noun",
+          "definition": "the day after Wednesday",
+          "example": "The day before Friday is {Thursday}."
+        },
+        {
+          "id": "friday",
+          "text": "Friday",
+          "pos": "noun",
+          "definition": "the day after Thursday",
+          "example": "The last school day of the week is {Friday}."
+        },
+        {
+          "id": "saturday",
+          "text": "Saturday",
+          "pos": "noun",
+          "definition": "the day after Friday",
+          "example": "The day before Sunday is {Saturday}."
+        },
+        {
+          "id": "sunday",
+          "text": "Sunday",
+          "pos": "noun",
+          "definition": "the day after Saturday",
+          "example": "The day before Monday is {Sunday}."
+        }
+      ]
+    },
+    {
+      "id": "p3-school",
+      "title": "At school",
+      "emoji": "🎒",
+      "words": [
+        {
+          "id": "computer",
+          "text": "computer",
+          "pos": "noun",
+          "emoji": "💻"
+        },
+        {
+          "id": "crayon",
+          "text": "crayon",
+          "pos": "noun",
+          "emoji": "🖍️"
+        },
+        {
+          "id": "music",
+          "text": "music",
+          "pos": "noun",
+          "emoji": "🎵"
+        },
+        {
+          "id": "rubber",
+          "text": "rubber",
+          "pos": "noun",
+          "definition": "a small thing that takes away pencil marks",
+          "example": "I use a {rubber} to fix my mistakes."
+        },
+        {
+          "id": "homework",
+          "text": "homework",
+          "pos": "noun",
+          "definition": "school work that you do at home",
+          "example": "Our teacher gives us {homework} every Friday."
+        },
+        {
+          "id": "lesson",
+          "text": "lesson",
+          "pos": "noun",
+          "definition": "a time when a teacher teaches you something",
+          "example": "Each {lesson} at our school lasts forty minutes."
+        },
+        {
+          "id": "maths",
+          "text": "maths",
+          "pos": "noun",
+          "definition": "the school subject about numbers",
+          "example": "In {maths}, we learn to add and take away."
+        },
+        {
+          "id": "art",
+          "text": "art",
+          "pos": "noun",
+          "definition": "the school subject where you draw and paint",
+          "example": "In {art}, we paint pictures of animals."
+        },
+        {
+          "id": "playground",
+          "text": "playground",
+          "pos": "noun",
+          "definition": "the place outside a school where children play",
+          "example": "The {playground} is where children play at school."
+        }
+      ]
+    },
+    {
+      "id": "p3-home",
+      "title": "At home",
+      "emoji": "🏘️",
+      "words": [
+        {
+          "id": "kitchen",
+          "text": "kitchen",
+          "pos": "noun",
+          "definition": "the room where you cook food",
+          "example": "Mum is making dinner in the {kitchen}."
+        },
+        {
+          "id": "bedroom",
+          "text": "bedroom",
+          "pos": "noun",
+          "definition": "the room where you sleep",
+          "example": "My bed and my toys are in my {bedroom}."
+        },
+        {
+          "id": "bathroom",
+          "text": "bathroom",
+          "pos": "noun",
+          "definition": "the room with a bath or shower and a toilet",
+          "example": "I have a shower in the {bathroom}."
+        },
+        {
+          "id": "garden",
+          "text": "garden",
+          "pos": "noun",
+          "definition": "the land next to a house where grass and flowers grow",
+          "example": "Dad grows vegetables in the {garden} behind our house."
+        },
+        {
+          "id": "stairs",
+          "text": "stairs",
+          "pos": "noun",
+          "definition": "steps that take you up to the next floor",
+          "example": "Our bedrooms are upstairs, so we climb the {stairs}."
+        },
+        {
+          "id": "window",
+          "text": "window",
+          "pos": "noun",
+          "emoji": "🪟"
+        },
+        {
+          "id": "spoon",
+          "text": "spoon",
+          "pos": "noun",
+          "emoji": "🥄"
+        },
+        {
+          "id": "plate",
+          "text": "plate",
+          "pos": "noun",
+          "emoji": "🍽️"
+        }
+      ]
+    },
+    {
+      "id": "p3-meals",
+      "title": "Meals",
+      "emoji": "🍴",
+      "words": [
+        {
+          "id": "breakfast",
+          "text": "breakfast",
+          "pos": "noun",
+          "definition": "the first meal of the day",
+          "example": "I have {breakfast} at seven every morning."
+        },
+        {
+          "id": "lunch",
+          "text": "lunch",
+          "pos": "noun",
+          "definition": "the meal you eat in the middle of the day",
+          "example": "At school, we eat {lunch} at twelve o'clock."
+        },
+        {
+          "id": "dinner",
+          "text": "dinner",
+          "pos": "noun",
+          "definition": "the meal you eat in the evening",
+          "example": "We have {dinner} together at the end of the day."
+        },
+        {
+          "id": "meat",
+          "text": "meat",
+          "pos": "noun",
+          "emoji": "🍖"
+        },
+        {
+          "id": "rice",
+          "text": "rice",
+          "pos": "noun",
+          "definition": "small white grains that you cook in water and eat",
+          "example": "My curry comes with a bowl of white {rice}."
+        },
+        {
+          "id": "salad",
+          "text": "salad",
+          "pos": "noun",
+          "emoji": "🥗"
+        },
+        {
+          "id": "pasta",
+          "text": "pasta",
+          "pos": "noun",
+          "emoji": "🍝"
+        },
+        {
+          "id": "butter",
+          "text": "butter",
+          "pos": "noun",
+          "emoji": "🧈"
+        }
+      ]
+    },
+    {
+      "id": "p3-animals",
+      "title": "Country animals",
+      "emoji": "🌾",
+      "words": [
+        {
+          "id": "sheep",
+          "text": "sheep",
+          "pos": "noun",
+          "emoji": "🐑"
+        },
+        {
+          "id": "goat",
+          "text": "goat",
+          "pos": "noun",
+          "emoji": "🐐"
+        },
+        {
+          "id": "hen",
+          "text": "hen",
+          "pos": "noun",
+          "emoji": "🐔"
+        },
+        {
+          "id": "rabbit",
+          "text": "rabbit",
+          "pos": "noun",
+          "emoji": "🐰"
+        },
+        {
+          "id": "mouse",
+          "text": "mouse",
+          "pos": "noun",
+          "emoji": "🐭"
+        },
+        {
+          "id": "frog",
+          "text": "frog",
+          "pos": "noun",
+          "emoji": "🐸"
+        },
+        {
+          "id": "owl",
+          "text": "owl",
+          "pos": "noun",
+          "emoji": "🦉"
+        },
+        {
+          "id": "fox",
+          "text": "fox",
+          "pos": "noun",
+          "emoji": "🦊"
+        },
+        {
+          "id": "deer",
+          "text": "deer",
+          "pos": "noun",
+          "emoji": "🦌"
+        }
+      ]
+    },
+    {
+      "id": "p3-opposites",
+      "title": "Opposites",
+      "emoji": "↔️",
+      "words": [
+        {
+          "id": "big",
+          "text": "big",
+          "pos": "adjective",
+          "definition": "large; not small",
+          "example": "An elephant is a {big} animal."
+        },
+        {
+          "id": "small",
+          "text": "small",
+          "pos": "adjective",
+          "definition": "little; not big",
+          "example": "A mouse is a very {small} animal."
+        },
+        {
+          "id": "hot",
+          "text": "hot",
+          "pos": "adjective",
+          "definition": "very warm",
+          "example": "Be careful, the soup is very {hot}!"
+        },
+        {
+          "id": "cold",
+          "text": "cold",
+          "pos": "adjective",
+          "definition": "not warm at all, like ice",
+          "example": "In winter, the weather is {cold}."
+        },
+        {
+          "id": "old",
+          "text": "old",
+          "pos": "adjective",
+          "definition": "having lived for many years",
+          "example": "My grandpa is eighty years {old}."
+        },
+        {
+          "id": "new",
+          "text": "new",
+          "pos": "adjective",
+          "definition": "just bought or made; not old",
+          "example": "These shoes are not old; they are {new}."
+        },
+        {
+          "id": "fast",
+          "text": "fast",
+          "pos": "adjective",
+          "definition": "moving very quickly",
+          "example": "Our car won the race because it is very {fast}."
+        },
+        {
+          "id": "slow",
+          "text": "slow",
+          "pos": "adjective",
+          "definition": "not fast; taking a long time",
+          "example": "The {slow} snail took all day to cross the path."
+        },
+        {
+          "id": "long",
+          "text": "long",
+          "pos": "adjective",
+          "definition": "big from one end to the other",
+          "example": "A giraffe has a very {long} neck."
+        },
+        {
+          "id": "short",
+          "text": "short",
+          "pos": "adjective",
+          "definition": "not long",
+          "example": "My hair was long, but now it is {short}."
+        }
+      ]
+    },
+    {
+      "id": "p3-feelings",
+      "title": "Feelings",
+      "emoji": "😊",
+      "words": [
+        {
+          "id": "happy",
+          "text": "happy",
+          "pos": "adjective",
+          "definition": "feeling good and smiling",
+          "example": "I am so {happy}; I got a new puppy!"
+        },
+        {
+          "id": "sad",
+          "text": "sad",
+          "pos": "adjective",
+          "definition": "feeling bad, so you might cry",
+          "example": "I miss my best friend, so I feel {sad}."
+        },
+        {
+          "id": "angry",
+          "text": "angry",
+          "pos": "adjective",
+          "definition": "feeling bad when someone is not fair to you",
+          "example": "Dad was {angry} and shouted, \"Who broke the window?\""
+        },
+        {
+          "id": "tired",
+          "text": "tired",
+          "pos": "adjective",
+          "definition": "needing to rest or sleep",
+          "example": "I was {tired}, so I went to bed early."
+        },
+        {
+          "id": "hungry",
+          "text": "hungry",
+          "pos": "adjective",
+          "definition": "wanting to eat",
+          "example": "I am {hungry}, so I want a sandwich."
+        },
+        {
+          "id": "thirsty",
+          "text": "thirsty",
+          "pos": "adjective",
+          "definition": "wanting to drink",
+          "example": "I need a drink because I am {thirsty}."
+        },
+        {
+          "id": "scared",
+          "text": "scared",
+          "pos": "adjective",
+          "definition": "afraid that something bad may happen",
+          "example": "My little brother is {scared} of the dark."
+        },
+        {
+          "id": "bored",
+          "text": "bored",
+          "pos": "adjective",
+          "definition": "not interested because there is nothing to do",
+          "example": "I'm {bored}; let's find a fun game to play!"
+        }
+      ]
+    },
+    {
+      "id": "p3-free-time",
+      "title": "Sport and free time",
+      "emoji": "🤸",
+      "words": [
+        {
+          "id": "football",
+          "text": "football",
+          "pos": "noun",
+          "emoji": "⚽"
+        },
+        {
+          "id": "tennis",
+          "text": "tennis",
+          "pos": "noun",
+          "emoji": "🎾"
+        },
+        {
+          "id": "basketball",
+          "text": "basketball",
+          "pos": "noun",
+          "emoji": "🏀"
+        },
+        {
+          "id": "skating",
+          "text": "skating",
+          "pos": "noun",
+          "emoji": "⛸️"
+        },
+        {
+          "id": "cycling",
+          "text": "cycling",
+          "pos": "noun",
+          "emoji": "🚴"
+        },
+        {
+          "id": "fishing",
+          "text": "fishing",
+          "pos": "noun",
+          "emoji": "🎣"
+        },
+        {
+          "id": "guitar",
+          "text": "guitar",
+          "pos": "noun",
+          "emoji": "🎸"
+        },
+        {
+          "id": "piano",
+          "text": "piano",
+          "pos": "noun",
+          "emoji": "🎹"
+        }
+      ]
+    },
+    {
+      "id": "p3-jobs",
+      "title": "Jobs",
+      "emoji": "🧑‍💼",
+      "words": [
+        {
+          "id": "teacher",
+          "text": "teacher",
+          "pos": "noun",
+          "emoji": "🧑‍🏫"
+        },
+        {
+          "id": "doctor",
+          "text": "doctor",
+          "pos": "noun",
+          "emoji": "🧑‍⚕️"
+        },
+        {
+          "id": "farmer",
+          "text": "farmer",
+          "pos": "noun",
+          "emoji": "🧑‍🌾"
+        },
+        {
+          "id": "cook",
+          "text": "cook",
+          "pos": "noun",
+          "emoji": "🧑‍🍳"
+        },
+        {
+          "id": "police-officer",
+          "text": "police officer",
+          "pos": "noun",
+          "emoji": "👮"
+        },
+        {
+          "id": "firefighter",
+          "text": "firefighter",
+          "pos": "noun",
+          "emoji": "🧑‍🚒"
+        },
+        {
+          "id": "pilot",
+          "text": "pilot",
+          "pos": "noun",
+          "emoji": "🧑‍✈️"
+        },
+        {
+          "id": "artist",
+          "text": "artist",
+          "pos": "noun",
+          "emoji": "🧑‍🎨"
+        },
+        {
+          "id": "vet",
+          "text": "vet",
+          "pos": "noun",
+          "definition": "a doctor for animals",
+          "example": "We took our sick cat to the {vet}."
+        }
+      ]
+    },
+    {
+      "id": "p3-places",
+      "title": "In town",
+      "emoji": "🏙️",
+      "words": [
+        {
+          "id": "school",
+          "text": "school",
+          "pos": "noun",
+          "emoji": "🏫"
+        },
+        {
+          "id": "hospital",
+          "text": "hospital",
+          "pos": "noun",
+          "emoji": "🏥"
+        },
+        {
+          "id": "park",
+          "text": "park",
+          "pos": "noun",
+          "definition": "a big green place in a town where people walk and play",
+          "example": "A {park} is green land in town for everyone."
+        },
+        {
+          "id": "library",
+          "text": "library",
+          "pos": "noun",
+          "definition": "a place with many books that you can take home and bring back",
+          "example": "I take books home from the {library}."
+        },
+        {
+          "id": "shop",
+          "text": "shop",
+          "pos": "noun",
+          "definition": "a place where you buy things",
+          "example": "We buy bread at the {shop} on the corner."
+        },
+        {
+          "id": "cinema",
+          "text": "cinema",
+          "pos": "noun",
+          "definition": "a place where you watch films on a big screen",
+          "example": "We watched a new film at the {cinema}."
+        },
+        {
+          "id": "zoo",
+          "text": "zoo",
+          "pos": "noun",
+          "definition": "a place where you can see wild animals",
+          "example": "We saw lions and monkeys at the {zoo}."
+        },
+        {
+          "id": "swimming-pool",
+          "text": "swimming pool",
+          "pos": "noun",
+          "definition": "a place with lots of water where you swim",
+          "example": "I swim up and down in the {swimming pool}."
+        }
+      ]
+    },
+    {
+      "id": "p3-every-day",
+      "title": "Things we do every day",
+      "emoji": "⏰",
+      "words": [
+        {
+          "id": "eat",
+          "text": "eat",
+          "pos": "verb",
+          "definition": "to put food in your mouth",
+          "example": "Cows {eat} grass all day."
+        },
+        {
+          "id": "drink",
+          "text": "drink",
+          "pos": "verb",
+          "definition": "to take water or milk into your mouth",
+          "example": "When I am thirsty, I {drink} water."
+        },
+        {
+          "id": "wash",
+          "text": "wash",
+          "pos": "verb",
+          "definition": "to make something clean with water",
+          "example": "Please {wash} your hands before lunch."
+        },
+        {
+          "id": "play",
+          "text": "play",
+          "pos": "verb",
+          "definition": "to have fun with toys or games",
+          "example": "I {play} with my toys in my bedroom."
+        },
+        {
+          "id": "sing",
+          "text": "sing",
+          "pos": "verb",
+          "definition": "to make music with your voice",
+          "example": "The birds {sing} in the trees every morning."
+        },
+        {
+          "id": "listen",
+          "text": "listen",
+          "pos": "verb",
+          "definition": "to try to hear something",
+          "example": "Please {listen} to the story I am telling."
+        },
+        {
+          "id": "read",
+          "text": "read",
+          "pos": "verb",
+          "definition": "to look at words and understand them",
+          "example": "I like to {read} books about animals."
+        },
+        {
+          "id": "watch",
+          "text": "watch",
+          "pos": "verb",
+          "definition": "to look at something for some time",
+          "example": "We {watch} TV in the evening."
+        },
+        {
+          "id": "open",
+          "text": "open",
+          "pos": "verb",
+          "definition": "to move something so that it is not closed",
+          "example": "It's hot in here; please {open} the window."
+        }
+      ]
+    }
+  ]
+}
