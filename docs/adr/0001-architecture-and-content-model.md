@@ -226,6 +226,7 @@ Band A depends on speech: without it a P1 child has to read. So the words of ban
 - Whether a word can be spoken is asked per word: a word with a clip always can, another word can when such a voice exists. Where a word cannot be spoken, its speaker button is hidden and the capability filter drops the listening types for it. Children in bands B to D can read, so their lessons go on with the other types.
 - If a clip or an utterance fails in the middle of a lesson, the current question shows its word as text and that source of speech counts as unavailable for the rest of the session. A child never faces a listening question that made no sound.
 - Android 11 and later need a `<queries>` entry for the speech service, or no engine is visible to the app.
+- Speech never answers the question for the child. Where the word is what the child is given (word to picture, listen and pick, tiles or typing from speech), it is spoken at the start and a speaker button repeats it. Where the word is what the child has to find (picture to word, definition to word, gap-fill, tiles or typing from a picture or a definition), there is no speaker button until the child has answered; then the word is spoken once with the feedback, right or wrong. Band A is not affected: while its words can be spoken it has no question whose answer is a written word.
 
 The interface in `audio` is asked to say a word, not a string. That is what lets a clip stand in for the synthetic voice without touching the callers.
 
@@ -251,7 +252,7 @@ Room schemas are exported to the repo from the first commit. The schema may chan
 
 **Manifest.** No platform permission: nothing that gives access to the network, storage, sensors or anything else on the device. One entry stays, the permission that `androidx.core` declares for the app itself (`<application id>.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`). It protects the app's own broadcasts on Android 12 and earlier and grants nothing. Removing it would make any library that registers a private receiver crash on those versions, and our JVM tests would not see it. `android:allowBackup="false"` together with data-extraction rules that exclude everything from cloud backup and from device transfer. The `emoji2` initialiser is removed from the merged manifest. A test asserts all three on the merged manifest.
 
-**Tests and content.** Generator, session and UI tests load small fixture packs from test resources. Only the validation, picture and playability tests read `assets/content/`. A pull request that only changes vocabulary can therefore fail only on the content rules.
+**Tests and content.** Generator, session and UI tests load small fixture packs from test resources. Only the validation, picture and playability tests read `assets/content/`. A pull request that only changes vocabulary can therefore fail only on the content rules. In a Compose UI test, background work must not resume the composition off the test thread: whatever loads or decodes takes its dispatcher as a parameter, and the tests pass one that stays on their thread. Without that, one test run in three failed at random after the primary exercise set arrived.
 
 ## 8. Options considered
 
@@ -268,7 +269,7 @@ Room schemas are exported to the repo from the first commit. The schema may chan
 
 | Option | For | Against |
 |---|---|---|
-| OpenMoji PNG subset (chosen) | About 10.6 KB a picture: 0.4 MB for 40, and an estimated 5 MB if some 460 of the 1,430 words end up with a picture. Same image on every device, in Robolectric screenshots and in a reviewer's file viewer. No conversion step: OpenMoji publishes PNGs. | A sync script to maintain. CC BY-SA 4.0: a credit in the app, and share-alike for any picture we alter. |
+| OpenMoji PNG subset (chosen) | About 10.6 KB a picture: 0.4 MB for 40. Measured after the primary packs were written: 284 pictures for the 456 words of P1–P5, 3.3 MB. Same image on every device, in Robolectric screenshots and in a reviewer's file viewer. No conversion step: OpenMoji publishes PNGs. | A sync script to maintain. CC BY-SA 4.0: a credit in the app, and share-alike for any picture we alter. |
 | Bundled emoji font through EmojiCompat (revision 1) | Nothing to sync; no attribution to display. | 9.4 MB compressed before the first word. Identical rendering needs replace-all configuration, and whether colour emoji render in Robolectric screenshots was never tested. |
 | System emoji | Zero bytes. | Missing emoji on older Android show as empty boxes; every manufacturer draws them differently; the default compatibility layer queries Google Play services. |
 | Commissioned art | Best result. | Real cost and delay. |
