@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "grade": "p1",
+  "units": [
+    {
+      "id": "p1-animals",
+      "title": "Animals",
+      "emoji": "🐶",
+      "words": [
+        {
+          "id": "dog",
+          "text": "dog",
+          "pos": "noun",
+          "emoji": "🐶",
+          "example": "A {dog} can bark."
+        },
+        {
+          "id": "cat",
+          "text": "cat",
+          "pos": "noun",
+          "emoji": "🐱"
+        },
+        {
+          "id": "fish",
+          "text": "fish",
+          "pos": "noun",
+          "emoji": "🐟"
+        },
+        {
+          "id": "bird",
+          "text": "bird",
+          "pos": "noun",
+          "emoji": "🐦"
+        },
+        {
+          "id": "horse",
+          "text": "horse",
+          "pos": "noun",
+          "emoji": "🐴"
+        },
+        {
+          "id": "cow",
+          "text": "cow",
+          "pos": "noun",
+          "emoji": "🐮"
+        },
+        {
+          "id": "pig",
+          "text": "pig",
+          "pos": "noun",
+          "emoji": "🐷"
+        },
+        {
+          "id": "duck",
+          "text": "duck",
+          "pos": "noun",
+          "emoji": "🦆"
+        }
+      ]
+    },
+    {
+      "id": "p1-food",
+      "title": "Food",
+      "emoji": "🍎",
+      "words": [
+        {
+          "id": "apple",
+          "text": "apple",
+          "pos": "noun",
+          "emoji": "🍎"
+        },
+        {
+          "id": "banana",
+          "text": "banana",
+          "pos": "noun",
+          "emoji": "🍌"
+        },
+        {
+          "id": "bread",
+          "text": "bread",
+          "pos": "noun",
+          "emoji": "🍞"
+        },
+        {
+          "id": "cake",
+          "text": "cake",
+          "pos": "noun",
+          "emoji": "🍰"
+        },
+        {
+          "id": "egg",
+          "text": "egg",
+          "pos": "noun",
+          "emoji": "🥚"
+        },
+        {
+          "id": "milk",
+          "text": "milk",
+          "pos": "noun",
+          "emoji": "🥛"
+        },
+        {
+          "id": "carrot",
+          "text": "carrot",
+          "pos": "noun",
+          "emoji": "🥕"
+        },
+        {
+          "id": "cheese",
+          "text": "cheese",
+          "pos": "noun",
+          "emoji": "🧀"
+        }
+      ]
+    }
+  ]
+}

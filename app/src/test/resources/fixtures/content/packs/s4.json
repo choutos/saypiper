@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "grade": "s4",
+  "units": [
+    {
+      "id": "fx-work",
+      "title": "Work",
+      "words": [
+        {
+          "id": "reliable",
+          "text": "reliable",
+          "pos": "adjective",
+          "definition": "that you can trust to do what is needed",
+          "example": "She is a {reliable} friend who always keeps her promises."
+        },
+        {
+          "id": "deadline",
+          "text": "deadline",
+          "pos": "noun",
+          "definition": "the time or day by which a piece of work must be finished",
+          "example": "The {deadline} for the essay is Friday."
+        },
+        {
+          "id": "colleague",
+          "text": "colleague",
+          "pos": "noun",
+          "definition": "a person you work with",
+          "example": "My {colleague} sits at the next desk."
+        },
+        {
+          "id": "negotiate",
+          "text": "negotiate",
+          "pos": "verb",
+          "definition": "to talk with others to reach an agreement",
+          "example": "The union will {negotiate} a new contract."
+        },
+        {
+          "id": "salary",
+          "text": "salary",
+          "pos": "noun",
+          "definition": "the money a worker is paid every month or year",
+          "example": "Her {salary} went up after the promotion."
+        },
+        {
+          "id": "efficient",
+          "text": "efficient",
+          "pos": "adjective",
+          "definition": "working well without wasting time or energy",
+          "example": "An {efficient} machine uses less power."
+        }
+      ]
+    }
+  ]
+}

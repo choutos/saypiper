@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "grade": "s1",
+  "units": [
+    {
+      "id": "fx-feelings",
+      "title": "Feelings",
+      "words": [
+        {
+          "id": "proud",
+          "text": "proud",
+          "pos": "adjective",
+          "definition": "pleased about something you or someone close to you has done",
+          "example": "She was {proud} of her painting."
+        },
+        {
+          "id": "nervous",
+          "text": "nervous",
+          "pos": "adjective",
+          "definition": "worried and a little afraid about something that is going to happen",
+          "example": "I always feel {nervous} before a test."
+        },
+        {
+          "id": "curious",
+          "text": "curious",
+          "pos": "adjective",
+          "definition": "wanting to know or learn about something",
+          "example": "The {curious} cat looked inside the box."
+        },
+        {
+          "id": "grateful",
+          "text": "grateful",
+          "pos": "adjective",
+          "definition": "wanting to thank someone for something they did",
+          "example": "We are {grateful} for your help."
+        },
+        {
+          "id": "lonely",
+          "text": "lonely",
+          "pos": "adjective",
+          "definition": "sad because you have no one to be with or talk to",
+          "example": "He felt {lonely} in the new town."
+        },
+        {
+          "id": "calm",
+          "text": "calm",
+          "pos": "adjective",
+          "definition": "quiet and not worried or excited",
+          "example": "Take a deep breath and stay {calm}."
+        }
+      ]
+    }
+  ]
+}
