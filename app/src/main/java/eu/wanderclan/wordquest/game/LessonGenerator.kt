@@ -97,7 +97,7 @@ class LessonGenerator(private val catalog: Catalog) {
     }
 
     /** Recover the current prompt visibly; replace queued listening types using the normal filter. */
-    fun withoutSpeech(exercise: Exercise, showWord: Boolean, environment: Environment = Environment(false, true)): Exercise {
+    fun withoutSpeech(exercise: Exercise, showWord: Boolean, environment: Environment = Environment({ false }, true)): Exercise {
         val needsSpeech = (exercise is ChoiceExercise && exercise.prompt == Prompt.Listening) ||
             (exercise is TilesExercise && exercise.prompt == Prompt.Listening)
         if (!needsSpeech) return exercise
@@ -112,9 +112,9 @@ class LessonGenerator(private val catalog: Catalog) {
         }
         val types = ExerciseType.entries.filter {
             it != ExerciseType.MATCH_PAIRS &&
-                Capabilities.supports(it, home.word, home.gradePack.band, environment.copy(speechAvailable = false), home.gradePack.words)
+                Capabilities.supports(it, home.word, home.gradePack.band, environment.copy(speechAvailable = { false }), home.gradePack.words)
         }
-        return types.firstOrNull()?.let { exercise(home, it, emptyList(), Random(0), environment.copy(speechAvailable = false)) } ?: withoutSpeech(exercise, true, environment)
+        return types.firstOrNull()?.let { exercise(home, it, emptyList(), Random(0), environment.copy(speechAvailable = { false })) } ?: withoutSpeech(exercise, true, environment)
     }
 
     companion object { const val UNIT_LESSON_EXERCISES = 10 }

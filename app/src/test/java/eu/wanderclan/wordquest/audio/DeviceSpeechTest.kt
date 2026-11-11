@@ -47,7 +47,7 @@ class DeviceSpeechTest {
         val tts = ShadowTextToSpeech.getLastTextToSpeechInstance()
         shadowOf(tts).onInitListener.onInit(TextToSpeech.ERROR)
         job.join()
-        assertFalse(speech.isAvailable)
+        assertFalse(speech.canSpeak(Fixtures.catalog().word("rabbit")!!.word))
         assertTrue(shadowOf(tts).isShutdown)
     }
 
@@ -57,7 +57,7 @@ class DeviceSpeechTest {
         val tts = ShadowTextToSpeech.getLastTextToSpeechInstance()
         shadowOf(tts).onInitListener.onInit(TextToSpeech.SUCCESS)
         job.join()
-        assertFalse(speech.isAvailable)
+        assertFalse(speech.canSpeak(Fixtures.catalog().word("rabbit")!!.word))
         assertTrue(shadowOf(tts).isShutdown)
     }
 
@@ -67,7 +67,7 @@ class DeviceSpeechTest {
         val tts = ShadowTextToSpeech.getLastTextToSpeechInstance()
         advanceTimeBy(5_001)
         job.join()
-        assertFalse(speech.isAvailable)
+        assertFalse(speech.canSpeak(Fixtures.catalog().word("rabbit")!!.word))
         assertTrue(shadowOf(tts).isShutdown)
     }
 
@@ -81,7 +81,7 @@ class DeviceSpeechTest {
         runCurrent()
         shadowOf(tts).onInitListener.onInit(TextToSpeech.SUCCESS)
         second.join()
-        assertTrue(speech.isAvailable)
+        assertTrue(speech.canSpeak(Fixtures.catalog().word("rabbit")!!.word))
         assertEquals("installed-uk", tts.voice.name)
         assertSame(tts, ShadowTextToSpeech.getLastTextToSpeechInstance())
     }
@@ -89,7 +89,7 @@ class DeviceSpeechTest {
         val request = LessonRequest.UnitLesson("fx-pets", 1)
         val generator = LessonGenerator(Fixtures.catalog())
         val seed = (0L..100L).first {
-            generator.generate(request, Environment(true, true), it).exercises.first().type == ExerciseType.LISTEN_AND_PICK
+            generator.generate(request, Environment({ true }, true), it).exercises.first().type == ExerciseType.LISTEN_AND_PICK
         }
         return AppContainer(ContentLoader.load(Fixtures.source), Fixtures.source,
             Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), WordQuestDatabase::class.java).build(),
@@ -103,14 +103,14 @@ class DeviceSpeechTest {
         val tts = ShadowTextToSpeech.getLastTextToSpeechInstance()
         shadowOf(tts).onInitListener.onInit(TextToSpeech.SUCCESS)
         job.join()
-        assertTrue(speech.isAvailable)
+        assertTrue(speech.canSpeak(Fixtures.catalog().word("rabbit")!!.word))
         return tts
     }
 
     @Test fun `stopping pending device speech preserves availability and the lesson`() = testEngine { speech ->
         val tts = start(speech)
         val container = lessonContainer(speech)
-        val vm = LessonViewModel(container, 0, LessonRequest.UnitLesson("fx-pets", 1), Environment(true, true))
+        val vm = LessonViewModel(container, 0, LessonRequest.UnitLesson("fx-pets", 1), Environment({ true }, true))
         val before = vm.session.value
         vm.say()
         runCurrent()
@@ -121,7 +121,7 @@ class DeviceSpeechTest {
         shadowOf(tts).utteranceProgressListener.onStop(id, true)
         shadowOf(tts).utteranceProgressListener.onError(id, TextToSpeech.ERROR_SYNTHESIS)
         runCurrent()
-        assertTrue(speech.isAvailable)
+        assertTrue(speech.canSpeak(Fixtures.catalog().word("rabbit")!!.word))
         assertEquals(before, vm.session.value)
         vm.say()
         runCurrent()
@@ -136,42 +136,42 @@ class DeviceSpeechTest {
         val tts = start(speech)
         val container = lessonContainer(speech)
         val request = LessonRequest.UnitLesson("fx-pets", 1)
-        val vm = LessonViewModel(container, 0, request, Environment(true, true))
+        val vm = LessonViewModel(container, 0, request, Environment({ true }, true))
         vm.say()
         runCurrent()
         val id = Shadow.extract<PendingSpeechShadow>(tts).utteranceId!!
         shadowOf(tts).utteranceProgressListener.onError(id, TextToSpeech.ERROR_SYNTHESIS)
         runCurrent()
-        assertTrue(vm.session.value.speechUnavailable)
-        assertTrue(speech.isAvailable)
+        assertTrue(vm.session.value.unavailableSpeechWordIds.isNotEmpty())
+        assertTrue(speech.canSpeak(Fixtures.catalog().word("rabbit")!!.word))
         assertTrue(vm.session.value.queue.none { it.type == ExerciseType.LISTEN_AND_PICK })
-        val next = LessonViewModel(container, 0, request, Environment(speech.isAvailable, true))
-        assertFalse(next.session.value.speechUnavailable)
+        val next = LessonViewModel(container, 0, request, Environment(speech::canSpeak, true))
+        assertFalse(next.session.value.unavailableSpeechWordIds.isNotEmpty())
         assertTrue(next.session.value.queue.any { it.type == ExerciseType.LISTEN_AND_PICK })
     }
 
     @Test fun `engine stop callback is an interruption without changing the lesson`() = testEngine { speech ->
         val tts = start(speech)
         val container = lessonContainer(speech)
-        val vm = LessonViewModel(container, 0, LessonRequest.UnitLesson("fx-pets", 1), Environment(true, true))
+        val vm = LessonViewModel(container, 0, LessonRequest.UnitLesson("fx-pets", 1), Environment({ true }, true))
         val before = vm.session.value
         vm.say()
         runCurrent()
         shadowOf(tts).utteranceProgressListener.onStop(Shadow.extract<PendingSpeechShadow>(tts).utteranceId!!, true)
         runCurrent()
-        assertTrue(speech.isAvailable)
+        assertTrue(speech.canSpeak(Fixtures.catalog().word("rabbit")!!.word))
         assertEquals(before, vm.session.value)
     }
 
     @Test fun `utterance timeout disables only the current lesson`() = testEngine { speech ->
         start(speech)
-        val vm = LessonViewModel(lessonContainer(speech), 0, LessonRequest.UnitLesson("fx-pets", 1), Environment(true, true))
+        val vm = LessonViewModel(lessonContainer(speech), 0, LessonRequest.UnitLesson("fx-pets", 1), Environment({ true }, true))
         vm.say()
         runCurrent()
         advanceTimeBy(15_001)
         runCurrent()
-        assertTrue(speech.isAvailable)
-        assertTrue(vm.session.value.speechUnavailable)
+        assertTrue(speech.canSpeak(Fixtures.catalog().word("rabbit")!!.word))
+        assertTrue(vm.session.value.unavailableSpeechWordIds.isNotEmpty())
     }
 
 }

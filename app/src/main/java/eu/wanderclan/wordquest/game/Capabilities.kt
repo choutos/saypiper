@@ -14,13 +14,13 @@ object Capabilities {
         // FRL-9 owns the secondary mixes; preserve their existing picture exercise for now.
         if (band == Band.C || band == Band.D) return type == ExerciseType.PICTURE_TO_WORD && picture && choice
         return when (type) {
-            ExerciseType.PICTURE_TO_WORD -> picture && choice && (band != Band.A || !environment.speechAvailable)
+            ExerciseType.PICTURE_TO_WORD -> picture && choice && (band != Band.A || !environment.speechAvailable(word))
             ExerciseType.WORD_TO_PICTURE -> picture && pictureChoice
-            ExerciseType.LISTEN_AND_PICK -> environment.speechAvailable &&
+            ExerciseType.LISTEN_AND_PICK -> environment.speechAvailable(word) &&
                 if (band == Band.A) picture && pictureChoice else choice
             ExerciseType.MATCH_PAIRS -> band == Band.B && picture && candidates.count { it.emoji != null } >= 3
             ExerciseType.SPELL_WITH_TILES -> band == Band.B && word.text.matches(Regex("[a-zA-Z]{1,10}")) &&
-                (picture || environment.speechAvailable)
+                (picture || environment.speechAvailable(word))
             ExerciseType.GAP_FILL -> band == Band.B && word.parsedExample != null &&
                 candidates.count { it.pos == word.pos } >= band.choices - 1
             ExerciseType.DEFINITION_TO_WORD -> band == Band.B && word.emoji == null && word.definition != null && choice

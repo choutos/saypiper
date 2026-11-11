@@ -11,7 +11,7 @@ class PrimaryExercisesTest {
 
     @Test fun `band A with speech always uses pictures as answers and includes listening`() {
         for (seed in 0L..30L) {
-            val lesson = generator.generate(LessonRequest.UnitLesson("fx-pets", 1), Environment(true, true), seed)
+            val lesson = generator.generate(LessonRequest.UnitLesson("fx-pets", 1), Environment({ true }, true), seed)
             assertTrue(lesson.exercises.any { it.type == ExerciseType.LISTEN_AND_PICK })
             assertTrue(lesson.exercises.all { it is ChoiceExercise && it.options.all { o -> o is Option.Picture } })
         }
@@ -24,7 +24,7 @@ class PrimaryExercisesTest {
         val types = mutableSetOf<ExerciseType>()
         for (seed in 0L..50L) for (unit in listOf("fx-pets", "fx-home")) {
             val request = LessonRequest.UnitLesson(unit, if (unit == "fx-home") 4 else 3)
-            val env = Environment(true, true)
+            val env = Environment({ true }, true)
             val lesson = generator.generate(request, env, seed)
             assertEquals(lesson, generator.generate(request, env, seed))
             lesson.exercises.forEach { exercise ->
@@ -63,19 +63,19 @@ class PrimaryExercisesTest {
     }
 
     @Test fun `tiles exclude phrases punctuation long words and unavailable prompts`() {
-        val env = Environment(true, true)
+        val env = Environment({ true }, true)
         for (text in listOf("ice cream", "mother-in-law", "abcdefghijk", "can't", "123")) {
             assertFalse(Capabilities.supports(ExerciseType.SPELL_WITH_TILES, Word("x", text, "noun", "x"), Band.B, env, emptyList()))
         }
         val word = Word("letter", "letter", "noun")
         assertTrue(Capabilities.supports(ExerciseType.SPELL_WITH_TILES, word, Band.B, env, emptyList()))
-        assertFalse(Capabilities.supports(ExerciseType.SPELL_WITH_TILES, word, Band.B, Environment(false, true), emptyList()))
+        assertFalse(Capabilities.supports(ExerciseType.SPELL_WITH_TILES, word, Band.B, Environment({ false }, true), emptyList()))
         assertFalse(Capabilities.supports(ExerciseType.SPELL_WITH_TILES, word.copy(emoji = "x"), Band.A, env, emptyList()))
     }
 
     @Test fun `no voice means no listening and every P1 target remains playable`() {
         for (seed in 0L..30L) {
-            val lesson = generator.generate(LessonRequest.UnitLesson("fx-pets", 1), Environment(false, true), seed)
+            val lesson = generator.generate(LessonRequest.UnitLesson("fx-pets", 1), Environment({ false }, true), seed)
             assertTrue(lesson.skippedWordIds.isEmpty())
             assertEquals(setOf("rabbit", "mouse", "hamster"), lesson.wordIds.toSet())
             assertTrue(lesson.exercises.none { it.type == ExerciseType.LISTEN_AND_PICK })
@@ -91,7 +91,7 @@ class PrimaryExercisesTest {
         val gen = LessonGenerator(Catalog(listOf(grade), listOf(pack)))
         var count = 0
         for (seed in 0L..30L) {
-            val lesson = gen.generate(LessonRequest.UnitLesson(home.id, 4), Environment(false, true), seed)
+            val lesson = gen.generate(LessonRequest.UnitLesson(home.id, 4), Environment({ false }, true), seed)
             lesson.exercises.filterIsInstance<ChoiceExercise>().filter { it.type == ExerciseType.GAP_FILL }.forEach { ex ->
                 count++
                 assertTrue(ex.options.filter { it.wordId != ex.wordId }.all { it.wordId in awayWords.map { w -> w.id } })
@@ -102,7 +102,7 @@ class PrimaryExercisesTest {
 
     @Test fun `tiles use audio instead of a picture when a screen reader is on`() {
         var tiles = 0
-        val env = Environment(true, false)
+        val env = Environment({ true }, false)
         for (seed in 0L..30L) {
             val lesson = generator.generate(LessonRequest.UnitLesson("fx-home", 4), env, seed)
             lesson.exercises.filterIsInstance<TilesExercise>().forEach {
@@ -128,10 +128,10 @@ class PrimaryExercisesTest {
     }
 
     @Test fun `failed speech reveals current word and replaces all queued listening without losing targets`() {
-        val lesson = generator.generate(LessonRequest.UnitLesson("fx-pets", 1), Environment(true, true), 3)
+        val lesson = generator.generate(LessonRequest.UnitLesson("fx-pets", 1), Environment({ true }, true), 3)
         val listening = lesson.exercises.indexOfFirst { it.type == ExerciseType.LISTEN_AND_PICK }
         val session = LessonSession("fail", lesson, position = listening).withoutSpeech(generator)
-        assertTrue(session.speechUnavailable)
+        assertTrue(session.unavailableSpeechWordIds.isNotEmpty())
         assertEquals(Prompt.Text(catalog.word(session.current!!.wordId)!!.word.text), (session.current as ChoiceExercise).prompt)
         assertTrue(session.queue.drop(listening).none { it.type == ExerciseType.LISTEN_AND_PICK })
         assertEquals(lesson.wordIds.toSet(), session.queue.flatMap { it.wordIds }.toSet())
@@ -139,7 +139,7 @@ class PrimaryExercisesTest {
     @Test fun `optional speaker failure never replaces a working visual or written prompt`() {
         val found = mutableSetOf<ExerciseType>()
         for (seed in 0L..30L) {
-            val lesson = generator.generate(LessonRequest.UnitLesson("fx-home", 4), Environment(true, true), seed)
+            val lesson = generator.generate(LessonRequest.UnitLesson("fx-home", 4), Environment({ true }, true), seed)
             for (exercise in lesson.exercises) {
                 val listening = when (exercise) {
                     is ChoiceExercise -> exercise.prompt == Prompt.Listening

@@ -25,7 +25,7 @@ class AssetContentSource(private val assets: AssetManager, private val root: Str
     override fun list(dir: String): List<String> = assets.list("$root/$dir")?.toList().orEmpty()
 }
 
-data class LoadedContent(val catalog: Catalog, val pictureIndex: PictureIndex, val problems: List<Problem>)
+data class LoadedContent(val catalog: Catalog, val pictureIndex: PictureIndex, val problems: List<Problem>, val audioWordIds: Set<String>)
 
 /**
  * Loads and validates the content. A pack or an avatar with any problem is left out of the catalog;
@@ -55,6 +55,7 @@ object ContentLoader {
             avatars = parse(source, "avatars.json"),
             pictureIndex = parse(source, "pictures.json"),
             pictureFiles = source.list(PICTURES_DIR).toSet(),
+            audioFiles = source.list("audio").toSet(),
         )
         return content to parseProblems
     }
@@ -73,7 +74,7 @@ object ContentLoader {
             .filter { it.id !in broken }
             .mapNotNull { grade -> content.packs[grade.id]?.let { GradePack(grade, it) } }
         val avatars = content.avatars.avatars.filter { it.id !in brokenAvatars }
-        return LoadedContent(Catalog(content.grades.grades, packs, avatars), content.pictureIndex, problems)
+        return LoadedContent(Catalog(content.grades.grades, packs, avatars), content.pictureIndex, problems, content.audioWordIds)
     }
 
     private inline fun <reified T> parse(source: ContentSource, path: String): T {

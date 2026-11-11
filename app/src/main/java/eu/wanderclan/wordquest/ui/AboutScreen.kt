@@ -43,6 +43,7 @@ fun AboutScreen(onBack: () -> Unit) {
             Text(stringResource(R.string.about_version, BuildConfig.VERSION_NAME), style = MaterialTheme.typography.bodyLarge)
             Text(stringResource(R.string.about_offline), style = MaterialTheme.typography.bodyLarge)
             Text(stringResource(R.string.about_pictures), style = MaterialTheme.typography.bodyLarge)
+            Text(stringResource(R.string.about_audio), style = MaterialTheme.typography.bodyLarge)
             Text(stringResource(R.string.about_licence_notice), style = MaterialTheme.typography.bodyMedium)
         }
     }

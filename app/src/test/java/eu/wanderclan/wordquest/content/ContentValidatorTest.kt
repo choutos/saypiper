@@ -25,6 +25,20 @@ class ContentValidatorTest {
 
     private fun problems(content: ContentSet, rule: Int) = ContentValidator.validate(content).filter { it.rule == rule }
 
+    @Test fun `rule 11 - a band A word without a clip fails`() {
+        val source = object : ContentSource by Fixtures.source {
+            override fun list(dir: String) = if (dir == "audio") emptyList() else Fixtures.source.list(dir)
+        }
+        assertFails(11, ContentLoader.read(source).first, "p1")
+    }
+
+    @Test fun `rule 11 - a clip without a word fails`() {
+        val source = object : ContentSource by Fixtures.source {
+            override fun list(dir: String) = Fixtures.source.list(dir) + if (dir == "audio") listOf("orphan.ogg") else emptyList()
+        }
+        assertFails(11, ContentLoader.read(source).first)
+    }
+
     private fun assertFails(rule: Int, content: ContentSet, gradeId: String? = null) {
         val found = problems(content, rule)
         assertTrue("expected a rule $rule problem, got ${ContentValidator.validate(content)}", found.isNotEmpty())
@@ -32,7 +46,7 @@ class ContentValidatorTest {
     }
 
     @Test
-    fun `the fixture content passes rules 1 to 9`() {
+    fun `the fixture content passes all rules except the pending secondary mixes`() {
         assertEquals(emptyList<Problem>(), ContentValidator.validate(valid).filter { it.rule != 10 })
     }
 

@@ -28,24 +28,34 @@ class PrimaryExerciseUiTest {
 
     private fun exercise(type: ExerciseType): Exercise = (0L..30L).flatMap { seed ->
         listOf("fx-pets" to 3, "fx-home" to 4).flatMap { (unit, number) ->
-            generator.generate(LessonRequest.UnitLesson(unit, number), Environment(true, true), seed).exercises
+            generator.generate(LessonRequest.UnitLesson(unit, number), Environment({ true }, true), seed).exercises
         }
-    }.first { it.type == type }
+    }.first { it.type == type && (it !is TilesExercise || it.prompt is Prompt.Picture) && (type != ExerciseType.PICTURE_TO_WORD || catalog.word(it.wordId)!!.gradePack.band == Band.B) }
 
     private fun check(type: ExerciseType, right: Boolean) {
         val exercise = exercise(type)
         var session by mutableStateOf(LessonSession("ui", Lesson(LessonRequest.Practice(exercise.wordIds), listOf(exercise), emptyList())))
         var continued = false
         var replayed: String? = null
+        val spoken = mutableListOf<String>()
         rule.setContent {
             CompositionLocalProvider(LocalPictures provides pictures) {
                 WordQuestTheme {
                     ExerciseQuestion(exercise, session.response, catalog.word(exercise.wordId)!!.gradePack.band, true,
-                        { replayed = it }, { session = session.answer(it) }, { continued = true }, catalog.word(exercise.wordId)!!.word.text)
+                        { replayed = it; spoken += it }, { session = session.answer(it) }, { continued = true }, catalog.word(exercise.wordId)!!.word.text)
                 }
             }
         }
         rule.waitForIdle()
+        if (exercise.type in setOf(ExerciseType.GAP_FILL, ExerciseType.DEFINITION_TO_WORD, ExerciseType.PICTURE_TO_WORD) ||
+            exercise is TilesExercise && exercise.prompt is Prompt.Picture) {
+            rule.onNodeWithTag("speaker").assertDoesNotExist()
+            assertNull(replayed)
+        }
+        if (exercise.type in setOf(ExerciseType.WORD_TO_PICTURE, ExerciseType.LISTEN_AND_PICK)) {
+            rule.onNodeWithTag("speaker").assertExists()
+            rule.runOnIdle { assertEquals(listOf(exercise.wordId), spoken) }
+        }
         // The test dispatcher completes decoding before idle; pictures must already exist.
         val pictureDescriptions = when (exercise) {
             is PairsExercise -> exercise.pictures.indices.map { "Picture ${it + 1}" }
@@ -87,6 +97,16 @@ class PrimaryExerciseUiTest {
                 rule.onNodeWithTag("submit").performScrollTo().performClick()
             }
         }
+        if (exercise.type in setOf(ExerciseType.GAP_FILL, ExerciseType.DEFINITION_TO_WORD, ExerciseType.PICTURE_TO_WORD) ||
+            exercise is TilesExercise && exercise.prompt is Prompt.Picture) {
+            rule.onNodeWithTag("speaker").assertExists()
+            rule.runOnIdle { assertEquals(listOf(exercise.wordId), spoken) }
+            // Recomposition after feedback never automatically repeats the word.
+            rule.waitForIdle()
+            rule.runOnIdle { assertEquals(1, spoken.size) }
+            rule.onNodeWithTag("speaker").performScrollTo().performClick()
+            rule.runOnIdle { assertEquals(listOf(exercise.wordId, exercise.wordId), spoken) }
+        }
         rule.runOnIdle { assertEquals(right, session.lastAnswerCorrect); assertEquals(if (right) 3 else 2, session.stars) }
         if (!right && exercise is ChoiceExercise) {
             rule.onNodeWithText("Not quite. It is: ${catalog.word(exercise.wordId)!!.word.text}").assertExists()
@@ -105,6 +125,8 @@ class PrimaryExerciseUiTest {
         rule.runOnIdle { assertTrue(continued) }
     }
 
+    @Test fun pictureToWordRight() = check(ExerciseType.PICTURE_TO_WORD, true)
+    @Test fun pictureToWordWrong() = check(ExerciseType.PICTURE_TO_WORD, false)
     @Test fun wordToPictureRight() = check(ExerciseType.WORD_TO_PICTURE, true)
     @Test fun wordToPictureWrong() = check(ExerciseType.WORD_TO_PICTURE, false)
     @Test fun listenRight() = check(ExerciseType.LISTEN_AND_PICK, true)
