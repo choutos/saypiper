@@ -6,7 +6,7 @@
 
 ## 1. Verdict
 
-Build a native Android app in Kotlin and Jetpack Compose that works fully offline, with no backend. Vocabulary ships inside the app as one JSON file per school year. Pictures are bundled images chosen by emoji, speech is the device's own offline English voice, progress is stored on the device and never backed up off it. Lessons are generated from word lists by a pure-Kotlin game core, so adding vocabulary never needs a code change.
+Build a native Android app in Kotlin and Jetpack Compose that works fully offline, with no backend. Vocabulary ships inside the app as one JSON file per school year. Pictures are bundled images chosen by emoji, the youngest classes hear their words from bundled clips and the others from the device's own offline English voice, progress is stored on the device and never backed up off it. Lessons are generated from word lists by a pure-Kotlin game core, so adding vocabulary never needs a code change.
 
 This is the smallest design that delivers the request, and each part has an upgrade path that does not require a rewrite (section 9).
 
@@ -26,6 +26,7 @@ The request: an Android game to practise English vocabulary, in the lesson-path 
 | What the default emoji setup does | Compose text depends on `emoji2` (`ui-text` 1.8.0 in the BOM we start from pulls in `emoji2` 1.4.0), whose default initialiser asks a font provider for an emoji font at app start; on devices with Google Play services that request goes to, and is logged by, Google Play services ([Android guide](https://developer.android.com/develop/ui/views/text-and-emoji/emoji2)). |
 | Cost of bundled pictures | 40 everyday pictures from [OpenMoji 17.0.0](https://github.com/hfg-gmuend/openmoji/releases/tag/17.0.0) as 618 px PNG total 423,848 bytes, about 10.6 KB each (measured in FRL-4). Licence: CC BY-SA 4.0, attribution required. OpenMoji's index strips the variation selector from single-character file names (`✏️` is `270F.png`) but keeps it inside joined sequences. |
 | Device speech | A text-to-speech voice can require the network (`Voice.isNetworkConnectionRequired()`) or be listed without being installed (`KEY_FEATURE_NOT_INSTALLED`). A successful `setLanguage` does not prove that speech works offline. |
+| Bundled audio | Twenty sample words in Piper's "Cori" voice came to 115,543 bytes as mono OGG Vorbis, 5.0 to 6.6 KB a clip: about 0.8 MB for 140 words. Two full generation runs on the agent host gave identical files. Licence chain as documented in FRL-15 and not audited further: Piper GPL-3.0-or-later, the voice MIT, its training data (Hi-Fi TTS, from Cori Samuel's LibriVox readings) CC BY 4.0. |
 | Android backup | Auto Backup uploads an app's databases to the user's Google Drive unless the app opts out; on Android 12 and later `allowBackup="false"` alone does not stop device-to-device transfer on every manufacturer ([Android guide](https://developer.android.com/identity/data/autobackup)). |
 | Google Play | Since 31 August 2026 new apps and updates must target API 36; the extension ended on 1 November 2026 ([Play Console help](https://support.google.com/googleplay/android-developer/answer/11926878)). |
 | F-Droid | The public F-Droid catalogue builds every app itself, from publicly accessible source under a free licence and with a free toolchain. It forbids Google Play services and tracking libraries. An app "should have been actively developed for at least 3 months" unless it has proven users, its author already maintains apps on F-Droid, or it is built for an event; the author commits to ongoing maintenance ([inclusion policy](https://f-droid.org/docs/Inclusion_Policy/)). Assets under a Creative Commons licence with a non-commercial or no-derivatives clause count as non-free; BY-SA has neither ([anti-features](https://f-droid.org/docs/Anti-Features/)). It publishes a developer's own signature only when the build is reproducible ([reproducible builds](https://f-droid.org/docs/Reproducible_Builds/)). A self-hosted F-Droid repository can serve any APK and signs its own index ([guide](https://f-droid.org/docs/Setup_an_F-Droid_App_Repo/)). Read on 2026-11-10. |
@@ -56,7 +57,7 @@ The request: an Android game to practise English vocabulary, in the lesson-path 
 | D2 | Offline only. No backend, no accounts, no `INTERNET` permission, no analytics, ads or purchases. No cloud backup and no device-to-device transfer of app data. No request to Google Play services for fonts. | Children's data never leaves the device, and there is nothing to operate. |
 | D3 | Content is versioned JSON in `app/src/main/assets/content/`, one pack per school year, parsed with kotlinx.serialization. | Vocabulary changes are data-only and reviewable as diffs. |
 | D4 | Pictures are bundled images: one OpenMoji 17.0.0 colour PNG per emoji used in the content, selected by the `emoji` field of a word. The app never draws an emoji as text. | Identical on every device and in every test screenshot; 0.4 MB for 40 pictures where the font costs 9.4 MB before the first word; a reviewer can open the exact picture a child will see. |
-| D5 | Speech uses Android `TextToSpeech` with an installed, offline English voice, British preferred, slower rate for primary. No bundled audio in v1 (open question 6). | No audio assets to produce or review by ear. |
+| D5 | Speech has two sources. Every P1–P2 word ships with a clip, generated once with a free synthesiser (Piper, British voice "Cori") and committed as an asset. Every other word is spoken by Android `TextToSpeech` with an installed, offline English voice, British preferred, slower for primary. | The youngest children cannot read a fallback, so their words must sound on any device, including one with no speech engine. The owner chose the voice by ear. Older children can read when a device is silent. |
 | D6 | Lessons are generated, not authored: a pure-Kotlin game core builds exercises from words by school-year band. | A word list is enough to produce a playable unit. |
 | D7 | Progress is stored in Room (SQLite). Finishing a lesson is one transaction. | "Which words are due for this child today" is a relational query; a half-saved lesson must not exist. |
 | D8 | Several local profiles per device (nickname, avatar, class). | Siblings share tablets; retrofitting profiles later means migrating every table. |
@@ -108,7 +109,7 @@ A word with no picture carries a definition instead:
   "example": "She is a {reliable} friend who always keeps her promises." }
 ```
 
-`avatars.json` lists the emoji a child can choose as an avatar. `pictures/<HEX>.png` holds one image per emoji used by any word, unit or avatar, named as OpenMoji names it. `pictures.json`, written by the sync script, maps each emoji to its file; the app reads it instead of rebuilding file names, and rule 9 checks it too.
+`avatars.json` lists the emoji a child can choose as an avatar. `pictures/<HEX>.png` holds one image per emoji used by any word, unit or avatar, named as OpenMoji names it. `pictures.json`, written by the sync script, maps each emoji to its file; the app reads it instead of rebuilding file names, and rule 9 checks it too. `audio/<word id>.ogg` holds one spoken clip for every band A word.
 
 ### Rules
 
@@ -124,6 +125,7 @@ Checked by one pure function in package `content`. The app's loader calls it at 
 8. Structure: `schemaVersion` is one the app supports; grade ids are unique; a pack's `grade` is the grade whose `pack` path points to it.
 9. Every emoji of a word, a unit or an avatar has a file in `pictures/`, and `pictures/` holds no file that nothing uses.
 10. Playability: the real generator can build every lesson of every unit, once with speech available and once without, and every word appears in at least one exercise both times. "Coming soon" is for a class with no pack, never for a pack that was merged but cannot be played.
+11. Audio: every band A word has a clip in `audio/`, and `audio/` holds no clip without a word.
 
 Two things no test can prove, so authors and reviewers check them for every word:
 
@@ -137,6 +139,12 @@ There is deliberately one validator. A separate schema file would be a second co
 `scripts/sync-pictures` (added with the walking skeleton) reads every emoji the content uses, resolves it through OpenMoji's own index at the pinned tag `17.0.0`, copies the 618 px colour PNG into `pictures/` and writes `pictures.json`. It runs when content is written, not during the build; the PNGs are committed. Authors keep writing an emoji character in JSON and never handle file names.
 
 The app shows the credit "Pictures: OpenMoji (openmoji.org), licence CC BY-SA 4.0" as plain text on an About screen from the first build, and ships the licence notice in the APK. The pictures are used unmodified. If one is ever redrawn, the changed image is published under the same licence.
+
+### Audio
+
+`scripts/make-audio` (added with the bundled audio issue) generates one clip per band A word with Piper and its British voice "Cori", both pinned by version and checksum, then trims the silence, evens out the loudness and encodes mono OGG Vorbis. Like the pictures, it runs when content is written, not during the build. The clips are committed; the voice model is not.
+
+The clips are synthetic. The app credits Piper, the voice and its training data on the About screen and ships the notice. No agent can listen, so the script checks every clip for silence, clipping and an implausible length, and the owner hears the clips in the app.
 
 ### Release bookkeeping
 
@@ -192,14 +200,14 @@ Bands decide the mix:
 
 | Band | Classes | Mix |
 |---|---|---|
-| A | P1–P2 | Picture and listening types only, three choices, the word is spoken automatically. Screens work without reading: pictures and icons carry the controls. A child who cannot read yet succeeds as long as the device can speak (see "Speech"). |
+| A | P1–P2 | Picture and listening types only, three choices, the word is spoken automatically. Screens work without reading: pictures and icons carry the controls. Every word has a bundled clip, so a child who cannot read yet succeeds on any device (see "Speech"). |
 | B | P3–P5 | Adds spelling tiles. A word without a picture is practised with gap-fill and definition to word; a word with a picture also gets gap-fill when it has an example. Four choices. |
 | C | S1–S3 | Definitions and typing become regular. Fewer picture questions. |
 | D | S4–S7 | Definitions, gap-fill, typing, and pairs of word and definition. |
 
 Rules:
 
-- **Capability filter.** The generator only emits an exercise that can work: `supports(type, word, band, environment, pool)`. The environment says whether speech is available and whether pictures can be perceived (they cannot when a screen reader is on). The pool is the rest of the word's pack: a choice needs enough other words of the right kind to fill its options. A word left with no type is skipped at run time, and rule 10 in section 4 makes sure that no shipped word is in that position.
+- **Capability filter.** The generator only emits an exercise that can work: `supports(type, word, band, environment, pool)`. The environment says whether a word can be spoken (it can when it has a clip or the device has a voice) and whether pictures can be perceived (they cannot when a screen reader is on). The pool is the rest of the word's pack: a choice needs enough other words of the right kind to fill its options. A word left with no type is skipped at run time, and rule 10 in section 4 makes sure that no shipped word is in that position.
 - **Distractors** come from the same pack, same part of speech where possible, and never share a picture or text with the answer. For gap-fill they come from other units of the pack where possible: words from another theme rarely fit the sentence, which is the cheapest protection against two right answers.
 - **Mistakes** are re-queued at the end of the lesson, at most twice per word. Stars: three for no mistakes, two for one or two, one for finishing.
 - **Spaced repetition** is a five-box Leitner scheme per profile and word. Boxes are due after 0, 1, 3, 7 and 21 days. A session gives each word one outcome, however often the word appeared: any wrong answer sends it to box 1, due today; all right moves it up one box, but only if it was due; all right when it was not due changes nothing. So replaying a lesson three times in an afternoon cannot push a word to box 4. A word with no history counts as box 1 and due, so a first lesson without mistakes puts it in box 2. The intervals are a reasonable starting point, not tuned values. Chosen over SM-2 because it has no tuning parameters and a child or parent can understand it.
@@ -211,14 +219,15 @@ Rules:
 
 ### Speech
 
-Band A depends on speech: without it a P1 child has to read. The rules that keep that honest:
+Band A depends on speech: without it a P1 child has to read. So the words of band A do not depend on the device.
 
-- The app picks a voice itself: English, installed, not needing the network. British first, any other English voice second, because for a six-year-old an American "dog" is better than silence. It never asks the system to download voice data.
-- If there is no such voice, or the engine fails to start, speech is unavailable: speaker buttons are hidden and the capability filter drops the listening types. For a profile in band A the app also says so plainly on the path screen, in words meant for an adult, with the steps to install an English voice in the device settings. Lessons stay playable by reading.
-- If an utterance fails in the middle of a lesson, the current question shows its word as text and speech counts as unavailable for the rest of the session. A child never faces a listening question that made no sound.
+- Every band A word ships with a clip (section 4, "Audio"). The app plays it; no speech engine is involved.
+- Any other word is spoken by the device's text-to-speech. The app picks the voice itself: English, installed, not needing the network. British first, any other English voice second. It never asks the system to download voice data.
+- Whether a word can be spoken is asked per word: a word with a clip always can, another word can when such a voice exists. Where a word cannot be spoken, its speaker button is hidden and the capability filter drops the listening types for it. Children in bands B to D can read, so their lessons go on with the other types.
+- If a clip or an utterance fails in the middle of a lesson, the current question shows its word as text and that source of speech counts as unavailable for the rest of the session. A child never faces a listening question that made no sound.
 - Android 11 and later need a `<queries>` entry for the speech service, or no engine is visible to the app.
 
-The interface in `audio` is asked to say a word, not a string, so that a recorded clip can later replace the synthetic voice for some words without touching the callers.
+The interface in `audio` is asked to say a word, not a string. That is what lets a clip stand in for the synthetic voice without touching the callers.
 
 ## 7. App structure
 
@@ -264,7 +273,7 @@ Room schemas are exported to the repo from the first commit. The schema may chan
 | System emoji | Zero bytes. | Missing emoji on older Android show as empty boxes; every manufacturer draws them differently; the default compatibility layer queries Google Play services. |
 | Commissioned art | Best result. | Real cost and delay. |
 
-**Speech**: on-device text-to-speech (chosen) against recorded or pre-generated audio per word. Audio for the 140 P1–P2 words alone would be small (an estimated 1 to 2 MB) and would guarantee the youngest children's lessons on any device. It needs a voice whose licence allows redistribution and someone to listen to every clip, which no agent on this project can do. See open question 6.
+**Speech**: three options. Device text-to-speech only (revision 1): nothing to produce, but silent on a device without an English voice, which a public F-Droid listing makes likely. Clips for the 140 band A words and the device's voice for the rest (chosen): about 0.8 MB, the youngest children's lessons work anywhere, and the owner approved the voice from samples. Clips for all 1,430 words: not needed, because older children can read when a device is silent.
 
 **Backend**: none (chosen) against a hosted backend for accounts and sync. A backend brings children's personal data, consent handling and running costs. Revisit only if progress must follow a child across devices or a teacher needs a dashboard.
 
@@ -275,7 +284,7 @@ Room schemas are exported to the repo from the first commit. The schema may chan
 | Android native | iOS | Content JSON is stack-neutral, and `game` is pure Kotlin, portable to Kotlin Multiplatform. |
 | No backend | Sync, remote content updates, usage data | Packs are versioned files, so they can later be downloaded; repositories sit behind interfaces. |
 | OpenMoji pictures | Our own art direction; words with no emoji have no picture | The `emoji` field stays the key and one component draws pictures. Swapping in a font or other artwork touches that component and the sync script, not the content or the database. An optional `image` field per word is additive. |
-| Device speech | A guaranteed, consistent voice | The interface takes a word, so a clip per word is additive: no content or database migration. |
+| Clips for band A, device speech for the rest | One voice throughout, and sound for older classes on a device without a voice | Clips are per word and additive: `scripts/make-audio` can cover more classes with no content or database migration. |
 | No backup, no device transfer | Progress is lost with the device, and does not follow a child to a new tablet | Allowing device-to-device transfer only is a change to the extraction rules; it still sends nothing to a cloud. |
 | No Google Play | The largest store | Nothing in the design prevents it later. It would need target API 36, the Families declarations and a privacy policy in the Console. |
 | Leitner | Fine-grained scheduling | Scheduling is one class in `game`; stored data (box, due day, counts) is enough to seed another algorithm. |
@@ -287,8 +296,8 @@ Rollback for the project as a whole: nothing here touches an existing system. An
 | Risk | How it shows up | Mitigation |
 |---|---|---|
 | Vocabulary is too easy or too hard for a class | Children get everything right, or give up. With no analytics we only learn this from the children and parents. | The level table is data; a child can change class; review agents check each pack against its target level. |
-| No offline English voice on a device | A P1 or P2 child gets written words they cannot read yet. | The app says so to an adult, with the fix; lessons stay playable by reading. If the children's real devices lack a voice, bundle audio for band A (open question 6). |
-| A voice that is poor, or fails mid-lesson | A word sounds wrong, or a question is silent. | Voice choice prefers installed British voices; a failed utterance turns the question into text. Sound quality can only be judged on a device, by a person. |
+| No offline English voice on a device | No sound in P3 and above: speaker buttons and listening questions disappear. P1 and P2 are not affected, their words are clips. | Accepted: those children can read. Clips can be extended to more classes. |
+| A clip or a voice that sounds wrong | A word is mispronounced or cut short, or a question is silent. | Clips are checked by script for silence, clipping and length, and heard by the owner in the app, since no agent can listen. The device voice prefers installed British voices. A failed clip or utterance turns the question into text. |
 | A picture is ambiguous | A child cannot tell what the picture means (a face for "cold"). | Authors use a picture only where the meaning is obvious, otherwise a definition. Reviewers open each PNG. |
 | Gap-fill has two right answers | A child picks a word that fits and is marked wrong. | Examples must identify their word; distractors come from other units; reviewers check every example. Not provable by a test. |
 | Progress lost on update | A child's stars vanish after an app update. | Exported Room schemas and migration tests from the first installed build; released ids are frozen by a test. |
@@ -302,20 +311,20 @@ Rollback for the project as a whole: nothing here touches an existing system. An
 
 ## 11. Owner decisions and open questions
 
-Answered by the owner on 2026-11-10 (the numbers are those of the questions in revision 1 and on FRL-3):
+Answered by the owner on 2026-11-10 and 2026-11-11 (the numbers are those of the questions in revision 1 and on FRL-3):
 
 1. Level targets: the European Schools L2 anchors.
 2. Distribution: an APK from CI, and F-Droid's public catalogue if that is possible. It is: nothing in this design conflicts with their policy. Acceptance and timing are theirs.
 3. English variety: British.
 4. First language: none assumed. No translations; hints are explanations in English.
 5. Name: "Word Quest" is already used by others. A new name is being chosen in its own issue. Until then it stays as the working title, and the release sets the final label and application id.
+6. Speech for P1–P2: bundled clips in Piper's "Cori" voice, chosen by ear from samples. The eSpeak NG samples were rejected.
 7. Pictures: OpenMoji for the first version.
 
 Still open:
 
 - **The licence.** The public catalogue needs one. Proposed: GPL-3.0-or-later for the code, CC BY-SA 4.0 for everything under `assets/content/` (our vocabulary, and OpenMoji's pictures, which already carry it). It is decided when the owner merges the licence files, which come in their own pull request.
 - **When the repo becomes public.** At the latest before the F-Droid submission. Earlier is possible and makes CI minutes free. It is the owner's switch to flip, after a look at what becomes readable with it (the release issue lists that).
-- **Question 6, speech for P1–P2.** The device's voice with a notice when there is none, or bundled audio for those 140 words? With the public catalogue chosen my recommendation is now to bundle: devices without Google apps often have no speech engine at all (my inference, not measured). The clips must come from a freely licensed source. First step, in its own issue: sample clips for the owner to hear. Until he decides, the device's voice stays the design (D5).
 
 ## 12. Revision 2: what the second opinion changed
 
@@ -325,7 +334,7 @@ Architect Astra reviewed revision 1 (commit `687f11e`) in FRL-4 and agreed with 
 |---|---|---|
 | 1 | Stack | Unchanged. The claim "smallest APK" is removed: no Flutter build was ever measured. |
 | 2 | Pictures | Accepted. A bundled OpenMoji PNG subset replaces the bundled emoji font (D4, sections 4 and 8). |
-| 3 | Speech | Partly accepted. Explicit choice of an installed offline voice, any-English fallback, failure handling and a visible notice are in (section 6). Bundled audio for P1–P2 is not adopted yet: we do not know the children's devices, and reviewed audio needs a licensed voice and a human listener. It is open question 6, and the interface is ready for it. |
+| 3 | Speech | Accepted, in two steps. Revision 2 took the explicit choice of an installed offline voice, the any-English fallback and the failure handling, and left bundled audio open. The owner then chose bundled clips for band A (D5), as the reviewer recommended, which made the planned notice to adults unnecessary. |
 | 4 | Content contract | Accepted: stable unit ids, tighter rules 3 to 5, structural checks, the playability rule, released-id bookkeeping from the first release. Two alternatives chosen over the reviewer's: gap-fill ambiguity is handled by an authoring rule and other-unit distractors, not by hand-written distractor lists for a thousand words; and a changed lesson composition after release is a documented limit, not a mechanism. |
 | 5 | Class-to-level table | Accepted: in-between years are labelled estimates, and levels are practice targets, not a claim of proficiency. |
 | 6 | Game rules | Accepted: a filter that knows the band and the option pool, text exercises for every band B word, one Leitner outcome per word per session with promotion only when due, practice that works with one due word, a defined lesson split, and screen-reader handling through the same filter. Band A without sight is out of scope for v1. |
