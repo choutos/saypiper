@@ -12,6 +12,7 @@ import eu.wanderclan.wordquest.audio.FakeSpeech
 import eu.wanderclan.wordquest.content.ContentLoader
 import eu.wanderclan.wordquest.data.WordQuestDatabase
 import eu.wanderclan.wordquest.game.*
+import kotlinx.coroutines.Dispatchers
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
@@ -31,6 +32,7 @@ class SpeechRecoveryUiTest {
         ContentLoader.load(Fixtures.source), Fixtures.source,
         Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), WordQuestDatabase::class.java).build(),
         speech, { LocalDate.of(2026, 11, 11) }, { seed },
+        pictureDecodeDispatcher = Dispatchers.Unconfined,
     )
 
     @Test fun `failed utterance reveals the word and rest of real lesson has no listening`() {

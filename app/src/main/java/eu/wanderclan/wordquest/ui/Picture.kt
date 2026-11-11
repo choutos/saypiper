@@ -17,16 +17,21 @@ import eu.wanderclan.wordquest.content.ContentLoader
 import eu.wanderclan.wordquest.content.ContentSource
 import eu.wanderclan.wordquest.content.PictureIndex
 import eu.wanderclan.wordquest.content.normaliseEmoji
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-/** All reading, decoding and scaling happens off the main thread, cached by image and display size. */
-class Pictures(private val source: ContentSource, private val index: PictureIndex) {
+/** Reading, decoding and scaling happens off the main thread by default, cached by image and display size. */
+class Pictures(
+    private val source: ContentSource,
+    private val index: PictureIndex,
+    private val decodeDispatcher: CoroutineDispatcher = Dispatchers.IO,
+) {
     private val cache = object : LruCache<String, ImageBitmap>(24 * 1024 * 1024) {
         override fun sizeOf(key: String, value: ImageBitmap) = value.width * value.height * 4
     }
 
-    suspend fun load(emoji: String, pixels: Int): ImageBitmap? = withContext(Dispatchers.IO) {
+    suspend fun load(emoji: String, pixels: Int): ImageBitmap? = withContext(decodeDispatcher) {
         val file = index.pictures[normaliseEmoji(emoji)] ?: return@withContext null
         val size = pixels.coerceIn(1, 618)
         val key = "$file:$size"
