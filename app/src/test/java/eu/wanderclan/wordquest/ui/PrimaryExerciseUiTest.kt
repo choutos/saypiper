@@ -30,10 +30,12 @@ class PrimaryExerciseUiTest {
         listOf("fx-pets" to 3, "fx-home" to 4).flatMap { (unit, number) ->
             generator.generate(LessonRequest.UnitLesson(unit, number), Environment({ true }, true), seed).exercises
         }
-    }.first { it.type == type && (it !is TilesExercise || it.prompt is Prompt.Picture) && (type != ExerciseType.PICTURE_TO_WORD || catalog.word(it.wordId)!!.gradePack.band == Band.B) }
+    }.first { it.type == type && catalog.word(it.wordId)!!.gradePack.band == Band.B &&
+        (it !is TilesExercise || it.prompt is Prompt.Picture) }
 
     private fun check(type: ExerciseType, right: Boolean) {
         val exercise = exercise(type)
+        assertEquals(Band.B, catalog.word(exercise.wordId)!!.gradePack.band)
         var session by mutableStateOf(LessonSession("ui", Lesson(LessonRequest.Practice(exercise.wordIds), listOf(exercise), emptyList())))
         var continued = false
         var replayed: String? = null
@@ -47,6 +49,10 @@ class PrimaryExerciseUiTest {
             }
         }
         rule.waitForIdle()
+        if (exercise is PairsExercise) {
+            rule.onNodeWithTag("speaker").assertDoesNotExist()
+            assertTrue(spoken.isEmpty())
+        }
         if (exercise.type in setOf(ExerciseType.GAP_FILL, ExerciseType.DEFINITION_TO_WORD, ExerciseType.PICTURE_TO_WORD) ||
             exercise is TilesExercise && exercise.prompt is Prompt.Picture) {
             rule.onNodeWithTag("speaker").assertDoesNotExist()
@@ -112,6 +118,8 @@ class PrimaryExerciseUiTest {
             rule.onNodeWithText("Not quite. It is: ${catalog.word(exercise.wordId)!!.word.text}").assertExists()
         }
         if (exercise is PairsExercise) {
+            rule.onNodeWithTag("speaker").assertDoesNotExist()
+            rule.runOnIdle { assertTrue(spoken.isEmpty()) }
             exercise.pictures.forEachIndexed { index, picture ->
                 val correct = right || index >= 2
                 rule.onNodeWithTag("pair-feedback-${picture.wordId}", useUnmergedTree = true)

@@ -20,7 +20,7 @@ class AndroidClipPlayer(
         this.completed = completed
         try {
             current.setAudioAttributes(AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_ASSISTANCE_ACCESSIBILITY)
+                .setUsage(AudioAttributes.USAGE_MEDIA)
                 .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build())
             current.setOnPreparedListener {
                 if (player === it) try { it.start() } catch (_: RuntimeException) { finish(it, SpeechResult.FAILED) }

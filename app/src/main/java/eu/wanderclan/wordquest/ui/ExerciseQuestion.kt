@@ -47,6 +47,7 @@ import eu.wanderclan.wordquest.content.Band
 import eu.wanderclan.wordquest.game.Answer
 import eu.wanderclan.wordquest.game.ChoiceExercise
 import eu.wanderclan.wordquest.game.Exercise
+import eu.wanderclan.wordquest.game.ExerciseType
 import eu.wanderclan.wordquest.game.Option
 import eu.wanderclan.wordquest.game.PairsExercise
 import eu.wanderclan.wordquest.game.Prompt
@@ -54,7 +55,7 @@ import eu.wanderclan.wordquest.game.TilesExercise
 
 /** A given word may be heard immediately; an answer is heard only with feedback. */
 private val Exercise.wordIsPrompt: Boolean get() = when (this) {
-    is ChoiceExercise -> type == eu.wanderclan.wordquest.game.ExerciseType.WORD_TO_PICTURE || prompt == Prompt.Listening
+    is ChoiceExercise -> type == ExerciseType.WORD_TO_PICTURE || prompt == Prompt.Listening
     is TilesExercise -> prompt == Prompt.Listening
     is PairsExercise -> false
 }
@@ -74,13 +75,15 @@ fun ExerciseQuestion(
 ) {
     val say by rememberUpdatedState(onSay)
     val answered = response != null
+    // Pairs has several words and no single spoken prompt or answer.
+    val canSayWord = speechAvailable && exercise !is PairsExercise
     LaunchedEffect(exercise, answered) {
-        if (speechAvailable && (if (exercise.wordIsPrompt) !answered else answered)) say(exercise.wordId)
+        if (canSayWord && (if (exercise.wordIsPrompt) !answered else answered)) say(exercise.wordId)
     }
     Column(modifier.fillMaxSize()) {
         Column(Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            if (speechAvailable && (exercise.wordIsPrompt || answered)) {
+            if (canSayWord && (exercise.wordIsPrompt || answered)) {
                 FilledTonalIconButton(onClick = { onSay(exercise.wordId) }, modifier = Modifier.size(64.dp).testTag("speaker")) {
                     Icon(painterResource(R.drawable.ic_speaker), stringResource(R.string.speech_say))
                 }

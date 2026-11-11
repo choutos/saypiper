@@ -120,15 +120,24 @@ class SpeechRecoveryUiTest {
             override fun play(path: String, completed: (SpeechResult) -> Unit) { error("P3 must not use a clip") }
             override fun stop() {}
         }, Dispatchers.Unconfined)
-        val container = container(speech, 4)
-        val request = LessonRequest.UnitLesson("fx-home", 4)
-        assertTrue(container.generator.generate(request, Environment(speech::canSpeak, true), 4)
-            .exercises.none { it.type == ExerciseType.LISTEN_AND_PICK })
+        val request = LessonRequest.Practice(listOf("kitchen"))
+        val generator = LessonGenerator(Fixtures.catalog())
+        val seed = (0L..100L).first {
+            generator.generate(request, Environment(speech::canSpeak, true), it).exercises.first().type == ExerciseType.GAP_FILL
+        }
+        val container = container(speech, seed)
+        val lesson = container.generator.generate(request, Environment(speech::canSpeak, true), seed)
+        assertTrue(lesson.exercises.none { it.type == ExerciseType.LISTEN_AND_PICK })
+        val exercise = lesson.exercises.single() as ChoiceExercise
         rule.setContent {
             CompositionLocalProvider(LocalPictures provides container.pictures) {
                 WordQuestTheme { LessonScreen(container, 0, request, {}, {}) }
             }
         }
+        rule.onNodeWithTag("speaker").assertDoesNotExist()
+        rule.onNodeWithTag("listen-replay").assertDoesNotExist()
+        rule.onNodeWithTag("option-${exercise.answerIndex}").performScrollTo().performClick()
+        rule.onNodeWithText("Well done!").assertExists()
         rule.onNodeWithTag("speaker").assertDoesNotExist()
         rule.onNodeWithTag("listen-replay").assertDoesNotExist()
     }

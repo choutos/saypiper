@@ -168,17 +168,18 @@ object ContentValidator {
         }
     }
 
-    // Rule 11: band A requires clips; an optional clip for any other word is allowed.
+    // Rule 11: clips belong to band A; older words keep the device voice (ADR D5).
     private fun audio(content: ContentSet): List<Problem> = buildList {
-        val wordIds = content.packs.values.flatMap { it.units }.flatMap { it.words }.map { it.id }.toSet()
+        val wordIds = mutableSetOf<String>()
         for (grade in content.grades.grades.filter { it.band == Band.A }) {
             content.packs[grade.id]?.units?.flatMap { it.words }?.forEach { word ->
+                wordIds += word.id
                 if (word.id !in content.audioWordIds) add(Problem(11, grade.id,
                     "word ${word.id}: audio/${word.id}.ogg is missing; run scripts/make-audio"))
             }
         }
         (content.audioFiles - wordIds.map { "$it.ogg" }.toSet()).sorted().forEach {
-            add(Problem(11, null, "audio/$it has no word"))
+            add(Problem(11, null, "audio/$it has no band A word"))
         }
     }
 

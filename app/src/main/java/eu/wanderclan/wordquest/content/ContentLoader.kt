@@ -74,7 +74,9 @@ object ContentLoader {
             .filter { it.id !in broken }
             .mapNotNull { grade -> content.packs[grade.id]?.let { GradePack(grade, it) } }
         val avatars = content.avatars.avatars.filter { it.id !in brokenAvatars }
-        return LoadedContent(Catalog(content.grades.grades, packs, avatars), content.pictureIndex, problems, content.audioWordIds)
+        val audioWordIds = packs.filter { it.band == Band.A }.flatMap { it.words }.map { it.id }.toSet()
+            .intersect(content.audioWordIds)
+        return LoadedContent(Catalog(content.grades.grades, packs, avatars), content.pictureIndex, problems, audioWordIds)
     }
 
     private inline fun <reified T> parse(source: ContentSource, path: String): T {
