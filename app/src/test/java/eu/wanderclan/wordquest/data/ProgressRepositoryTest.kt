@@ -3,9 +3,15 @@ package eu.wanderclan.wordquest.data
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import eu.wanderclan.wordquest.Fixtures
+import eu.wanderclan.wordquest.game.DayActivity
 import eu.wanderclan.wordquest.game.DayClock
 import eu.wanderclan.wordquest.game.LessonRequest
 import eu.wanderclan.wordquest.game.LessonResult
+import eu.wanderclan.wordquest.game.Practice
+import eu.wanderclan.wordquest.game.Progression
+import eu.wanderclan.wordquest.game.Rewards
+import eu.wanderclan.wordquest.game.ScheduledWord
 import eu.wanderclan.wordquest.game.Scoring
 import eu.wanderclan.wordquest.game.WordOutcome
 import kotlinx.coroutines.flow.first
@@ -99,5 +105,50 @@ class ProgressRepositoryTest {
         profiles.setGrade(id, "s3")
         assertEquals("s3", db.profiles().get(id)!!.gradeId)
         assertEquals(mapOf(("p1-animals" to 1) to 3), progress.bestStars(id).first())
+    }
+
+    @Test
+    fun `finishing the same practice session twice awards its points once`() = runTest {
+        val id = profiles.create("Mia", "fox")
+        val practice = LessonResult("practice-1", LessonRequest.Practice(listOf("dog")), listOf(WordOutcome("dog", true)), 2)
+        assertTrue(progress.save(id, practice))
+        assertFalse(progress.save(id, practice))
+        assertEquals(listOf(DayActivity(today, Scoring.points(practice))), progress.activity(id).first())
+        assertEquals(listOf(ScheduledWord("dog", today.plusDays(1))), progress.schedule(id).first())
+    }
+
+    @Test
+    fun `progress and rewards are per profile, a second profile starts at zero`() = runTest {
+        val catalog = Fixtures.catalog()
+        val mia = profiles.create("Mia", "fox")
+        progress.save(mia, LessonResult("s1", LessonRequest.UnitLesson("fx-pets", 1), listOf(WordOutcome("rabbit", false)), 1))
+        val leo = profiles.create("Leo", "owl")
+
+        assertEquals(listOf("rabbit"), Practice.dueWords(progress.schedule(mia).first(), today, catalog))
+        assertEquals(1, Rewards.streak(progress.activity(mia).first(), today))
+
+        assertEquals(emptyList<String>(), Practice.dueWords(progress.schedule(leo).first(), today, catalog))
+        assertEquals(0, Rewards.totalPoints(progress.activity(leo).first()))
+        assertEquals(0, Rewards.streak(progress.activity(leo).first(), today))
+        val units = catalog.pack("p1")!!.pack.units
+        val open = Progression.path(units, progress.bestStars(leo).first()).flatMap { u -> u.lessons.filter { it.isOpen }.map { u.unit.id to it.number } }
+        assertEquals(listOf("fx-pets" to 1), open)
+    }
+
+    @Test
+    fun `a device clock moved backwards does not crash, inflate the streak or promote a word`() = runTest {
+        val id = profiles.create("Mia", "fox")
+        day = today.plusDays(2)
+        progress.save(id, result("a", 3, "dog" to true)) // box 2, due on the 13th
+        day = today.plusDays(3)
+        progress.save(id, result("b", 3, "dog" to true)) // box 3, due on the 16th
+        day = today // the clock goes back three days
+        assertTrue(progress.save(id, result("c", 3, "dog" to true)))
+
+        val dog = db.progress().wordProgress(id, listOf("dog")).single()
+        assertEquals(3, dog.box)
+        assertEquals(today.plusDays(6).toEpochDay(), dog.dueDay)
+        assertEquals(1, Rewards.streak(progress.activity(id).first(), today))
+        assertEquals(3, db.progress().lessonResultCount(id))
     }
 }

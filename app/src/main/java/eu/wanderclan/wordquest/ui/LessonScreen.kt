@@ -40,12 +40,15 @@ import eu.wanderclan.wordquest.game.ChoiceExercise
 import eu.wanderclan.wordquest.game.Environment
 import eu.wanderclan.wordquest.game.LessonRequest
 import eu.wanderclan.wordquest.game.LessonSession
+import eu.wanderclan.wordquest.game.Progression
 import eu.wanderclan.wordquest.game.Prompt
+import eu.wanderclan.wordquest.game.Scoring
 import eu.wanderclan.wordquest.game.TilesExercise
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -59,8 +62,8 @@ class LessonViewModel(
         LessonSession(container.newSessionId(), container.generator.generate(request, environment, container.nextSeed())),
     )
     val session: StateFlow<LessonSession> = _session.asStateFlow()
-    private val _savedStars = MutableStateFlow<Int?>(null)
-    val savedStars: StateFlow<Int?> = _savedStars.asStateFlow()
+    private val _finished = MutableStateFlow<Finished?>(null)
+    val finished: StateFlow<Finished?> = _finished.asStateFlow()
     private var speaking: Job? = null
 
     fun answer(answer: Answer) = _session.update { if (it.isAnswered || it.isFinished) it else it.answer(answer) }
@@ -84,8 +87,16 @@ class LessonViewModel(
         val session = _session.value.next()
         _session.value = session
         if (session.isFinished) viewModelScope.launch {
-            container.progress.save(profileId, session.result())
-            _savedStars.value = session.stars
+            val result = session.result()
+            // A crown is earned when this lesson's star, at least one, completes its unit: compare before saving.
+            val crownedUnit = (result.request as? LessonRequest.UnitLesson)?.let { request ->
+                val unit = container.catalog.unit(request.unitId)?.first ?: return@let null
+                val before = container.progress.bestStars(profileId).first()
+                val after = before + ((request.unitId to request.number) to result.stars)
+                unit.takeIf { !Progression.hasCrown(it, before) && Progression.hasCrown(it, after) }
+            }
+            container.progress.save(profileId, result)
+            _finished.value = Finished(result.stars, Scoring.points(result), crownedUnit?.id, result.request is LessonRequest.Practice)
         }
     }
 
@@ -95,13 +106,16 @@ class LessonViewModel(
     }
 }
 
+/** What the result screen shows: stars, points earned, the unit whose crown was just earned, and whether it was practice. */
+data class Finished(val stars: Int, val points: Int, val crownedUnitId: String?, val practice: Boolean)
+
 @Composable
 fun LessonScreen(
     container: AppContainer,
     profileId: Long,
     request: LessonRequest,
     onClose: () -> Unit,
-    onFinished: (stars: Int) -> Unit,
+    onFinished: (Finished) -> Unit,
 ) {
     val context = LocalContext.current
     val viewModel: LessonViewModel = viewModel(factory = viewModelFactory {
@@ -112,9 +126,9 @@ fun LessonScreen(
         }
     })
     val session by viewModel.session.collectAsStateWithLifecycle()
-    val savedStars by viewModel.savedStars.collectAsStateWithLifecycle()
+    val finished by viewModel.finished.collectAsStateWithLifecycle()
     val available by container.speech.availability.collectAsStateWithLifecycle()
-    LaunchedEffect(savedStars) { savedStars?.let(onFinished) }
+    LaunchedEffect(finished) { finished?.let(onFinished) }
     val exercise = session.current
     val home = exercise?.let { container.catalog.word(it.wordId) }
     val band = home?.gradePack?.band ?: Band.B
