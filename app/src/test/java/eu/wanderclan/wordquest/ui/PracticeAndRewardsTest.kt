@@ -14,6 +14,7 @@ import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performScrollToNode
+import android.content.Intent
 import androidx.lifecycle.Lifecycle
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -106,16 +107,16 @@ class PracticeAndRewardsTest {
         rule.onNode(hasText("25 points")).assertExists()
         rule.onNodeWithTag("practice").assertIsNotEnabled()
 
-        // The next day, the app comes back to the foreground.
+        // The next day, with the home screen still open: midnight passes while the app is in the foreground.
         app.today = app.today.plusDays(1)
-        rule.activityRule.scenario.moveToState(Lifecycle.State.CREATED)
-        rule.activityRule.scenario.moveToState(Lifecycle.State.RESUMED)
+        app.sendBroadcast(Intent(Intent.ACTION_DATE_CHANGED))
         rule.waitFor(hasText("Practise 3 words"))
         screenshot("practice-due")
         rule.onNodeWithTag("practice").assertIsEnabled().performClick()
 
         // The practice session is lesson 1's words, the same due day, in id order.
         playRight(LessonRequest.Practice(listOf("hamster", "mouse", "rabbit")))
+        rule.onNode(hasText("Practice complete!")).assertExists()
         rule.onNode(hasText("+25 points")).assertExists()
         rule.onNode(hasText("Continue")).performClick()
 
@@ -129,6 +130,18 @@ class PracticeAndRewardsTest {
             container.progress.schedule(profileId).first()
         }.associate { it.wordId to it.dueDay }
         assertEquals(mapOf("rabbit" to app.today.plusDays(3), "mouse" to app.today.plusDays(3), "hamster" to app.today.plusDays(3)), dueDays)
+    }
+
+    @Test
+    fun theDayIsReadAgainWhenTheAppReturnsToTheForeground() {
+        openProfile { id ->
+            container.progress.save(id, LessonResult("seed", LessonRequest.UnitLesson("fx-pets", 1), listOf(WordOutcome("rabbit", true)), 3))
+        }
+        rule.waitFor(hasText("Nothing to practise today"))
+        app.today = app.today.plusDays(1)
+        rule.activityRule.scenario.moveToState(Lifecycle.State.CREATED)
+        rule.activityRule.scenario.moveToState(Lifecycle.State.RESUMED)
+        rule.waitFor(hasText("Practise 1 word"))
     }
 
     @Test

@@ -18,7 +18,7 @@ private object Routes {
     const val PATH = "path/{profileId}"
     const val LESSON = "lesson/{profileId}/{unitId}/{number}"
     const val PRACTICE = "practice/{profileId}/{wordIds}"
-    const val RESULT = "result/{profileId}/{stars}/{points}?crown={crown}"
+    const val RESULT = "result/{profileId}/{stars}/{points}/{practice}?crown={crown}"
     const val ABOUT = "about"
 
     fun grades(profileId: Long) = "grades/$profileId"
@@ -27,7 +27,7 @@ private object Routes {
     /** Word ids are lowercase kebab-case (content rule 1), so a comma separates them safely. */
     fun practice(profileId: Long, request: LessonRequest.Practice) = "practice/$profileId/${request.wordIds.joinToString(",")}"
     fun result(profileId: Long, finished: Finished) =
-        "result/$profileId/${finished.stars}/${finished.points}" + (finished.crownedUnitId?.let { "?crown=$it" } ?: "")
+        "result/$profileId/${finished.stars}/${finished.points}/${finished.practice}" + (finished.crownedUnitId?.let { "?crown=$it" } ?: "")
 }
 
 @Composable
@@ -94,12 +94,18 @@ private fun WordQuestNavHost(container: AppContainer, nav: NavHostController) {
                 profileArg,
                 navArgument("stars") { type = NavType.IntType },
                 navArgument("points") { type = NavType.IntType },
+                navArgument("practice") { type = NavType.BoolType },
                 navArgument("crown") { type = NavType.StringType; nullable = true },
             ),
         ) { entry ->
             val args = entry.arguments!!
             val crownedUnit = args.getString("crown")?.let { container.catalog.unit(it)?.first }
-            ResultScreen(stars = args.getInt("stars"), points = args.getInt("points"), crownedUnit = crownedUnit) { nav.popBackStack() }
+            ResultScreen(
+                stars = args.getInt("stars"),
+                points = args.getInt("points"),
+                crownedUnit = crownedUnit,
+                practice = args.getBoolean("practice"),
+            ) { nav.popBackStack() }
         }
         composable(Routes.ABOUT) {
             AboutScreen { nav.popBackStack() }

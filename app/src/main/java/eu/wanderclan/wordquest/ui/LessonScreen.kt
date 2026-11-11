@@ -96,7 +96,7 @@ class LessonViewModel(
                 unit.takeIf { !Progression.hasCrown(it, before) && Progression.hasCrown(it, after) }
             }
             container.progress.save(profileId, result)
-            _finished.value = Finished(result.stars, Scoring.points(result), crownedUnit?.id)
+            _finished.value = Finished(result.stars, Scoring.points(result), crownedUnit?.id, result.request is LessonRequest.Practice)
         }
     }
 
@@ -106,8 +106,8 @@ class LessonViewModel(
     }
 }
 
-/** What the result screen shows: stars, points earned and the unit whose crown was just earned. */
-data class Finished(val stars: Int, val points: Int, val crownedUnitId: String?)
+/** What the result screen shows: stars, points earned, the unit whose crown was just earned, and whether it was practice. */
+data class Finished(val stars: Int, val points: Int, val crownedUnitId: String?, val practice: Boolean)
 
 @Composable
 fun LessonScreen(

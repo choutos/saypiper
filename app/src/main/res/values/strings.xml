@@ -52,6 +52,7 @@
     <string name="lesson_back">Back</string>
 
     <string name="result_title">Lesson complete!</string>
+    <string name="result_practice_title">Practice complete!</string>
     <string name="result_stars">%1$d of 3 stars</string>
     <string name="result_continue">Continue</string>
     <plurals name="result_points">
