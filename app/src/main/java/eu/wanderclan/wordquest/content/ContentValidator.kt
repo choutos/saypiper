@@ -10,7 +10,10 @@ data class ContentSet(
     val avatars: AvatarList,
     val pictureIndex: PictureIndex,
     val pictureFiles: Set<String>,
-)
+    val audioFiles: Set<String>,
+) {
+    val audioWordIds: Set<String> get() = audioFiles.filter { it.endsWith(".ogg") }.map { it.removeSuffix(".ogg") }.toSet()
+}
 
 /**
  * A broken content rule (ADR section 4). [gradeId] names the pack at fault, null for shared files;
@@ -21,7 +24,7 @@ data class Problem(val rule: Int, val gradeId: String?, val message: String, val
 }
 
 /**
- * The one content validator (ADR section 4, rules 1 to 10). The app's loader calls it at start and does
+ * The one content validator (ADR section 4, rules 1 to 11). The app's loader calls it at start and does
  * not offer a pack with a problem; the content tests call it on the shipped packs and on fixtures.
  */
 object ContentValidator {
@@ -38,6 +41,7 @@ object ContentValidator {
             problems += pack(gradeId, band, pack)
         }
         problems += pictures(content)
+        problems += audio(content)
         problems += playability(content, problems)
         return problems
     }
@@ -164,14 +168,29 @@ object ContentValidator {
         }
     }
 
+    // Rule 11: clips belong to band A; older words keep the device voice (ADR D5).
+    private fun audio(content: ContentSet): List<Problem> = buildList {
+        val wordIds = mutableSetOf<String>()
+        for (grade in content.grades.grades.filter { it.band == Band.A }) {
+            content.packs[grade.id]?.units?.flatMap { it.words }?.forEach { word ->
+                wordIds += word.id
+                if (word.id !in content.audioWordIds) add(Problem(11, grade.id,
+                    "word ${word.id}: audio/${word.id}.ogg is missing; run scripts/make-audio"))
+            }
+        }
+        (content.audioFiles - wordIds.map { "$it.ogg" }.toSet()).sorted().forEach {
+            add(Problem(11, null, "audio/$it has no band A word"))
+        }
+    }
+
     // Rule 10, only for packs that pass the rules the generator relies on.
     private fun playability(content: ContentSet, found: List<Problem>): List<Problem> = buildList {
         val broken = found.mapNotNull { it.gradeId }.toSet()
         for ((gradeId, pack) in content.packs) {
             if (gradeId in broken) continue
             val grade = content.grades.grades.firstOrNull { it.id == gradeId } ?: continue
-            for (gap in Playability.gaps(GradePack(grade, pack))) {
-                val speech = if (gap.environment.speechAvailable) "with speech" else "without speech"
+            for (gap in Playability.gaps(GradePack(grade, pack), content.audioWordIds)) {
+                val speech = if (gap.deviceVoice) "with device voice" else "without device voice"
                 add(Problem(10, gradeId, "unit ${gap.unitId} lesson ${gap.lesson} $speech cannot practise ${gap.missingWordIds}"))
             }
         }

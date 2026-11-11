@@ -19,7 +19,7 @@ import org.junit.Test
 class LessonGeneratorTest {
     private val catalog = Fixtures.catalog()
     private val generator = LessonGenerator(catalog)
-    private val noSpeech = Environment(speechAvailable = false, picturesPerceivable = true)
+    private val noSpeech = Environment(speechAvailable = { false }, picturesPerceivable = true)
 
     private fun choices(lesson: Lesson) = lesson.exercises.filterIsInstance<ChoiceExercise>()
 
@@ -93,7 +93,7 @@ class LessonGeneratorTest {
 
     @Test
     fun `without perceivable pictures nothing can be played yet`() {
-        val lesson = generator.generate(LessonRequest.UnitLesson("fx-pets", 1), Environment(true, picturesPerceivable = false), 3)
+        val lesson = generator.generate(LessonRequest.UnitLesson("fx-pets", 1), Environment({ true }, picturesPerceivable = false), 3)
         assertTrue(lesson.exercises.isEmpty())
         assertEquals(listOf("rabbit", "mouse", "hamster"), lesson.skippedWordIds)
     }

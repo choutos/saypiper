@@ -1,8 +1,9 @@
 package eu.wanderclan.wordquest.game
 
 import eu.wanderclan.wordquest.content.Example
+import eu.wanderclan.wordquest.content.Word
 
-data class Environment(val speechAvailable: Boolean, val picturesPerceivable: Boolean)
+data class Environment(val speechAvailable: (Word) -> Boolean, val picturesPerceivable: Boolean)
 
 enum class ExerciseType {
     PICTURE_TO_WORD, WORD_TO_PICTURE, LISTEN_AND_PICK, MATCH_PAIRS, SPELL_WITH_TILES, GAP_FILL, DEFINITION_TO_WORD,

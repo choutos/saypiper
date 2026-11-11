@@ -30,9 +30,8 @@ class ShippedContentTest {
     fun `rule 10 - every word of every shipped pack is playable with speech and without`() {
         assertTrue(loaded.catalog.packs.isNotEmpty())
         for (gradePack in loaded.catalog.packs) {
-            assertEquals(emptyList<Playability.Gap>(), Playability.gaps(gradePack))
+            assertEquals(emptyList<Playability.Gap>(), Playability.gaps(gradePack, loaded.audioWordIds))
         }
-        assertEquals(setOf(true, false), Playability.requiredEnvironments.map { it.speechAvailable }.toSet())
     }
 
     @Test
@@ -50,5 +49,20 @@ class ShippedContentTest {
         val notice = File(Fixtures.shippedContentDir.parentFile, "licences/openmoji.txt").readText()
         assertTrue(notice.contains("OpenMoji"))
         assertTrue(notice.contains("Attribution-ShareAlike 4.0"))
+    }
+
+    @Test fun `every band A word has an OGG clip and the audio notice ships`() {
+        val words = loaded.catalog.packs.filter { it.band == Band.A }.flatMap { it.words }
+        assertTrue(words.isNotEmpty())
+        assertEquals(words.map { it.id }.toSet(), loaded.audioWordIds)
+        words.forEach { word ->
+            val bytes = source.read("audio/${word.id}.ogg")!!
+            assertEquals("${word.id} is not an OGG", "OggS", bytes.take(4).toByteArray().decodeToString())
+        }
+        val notice = File(Fixtures.shippedContentDir.parentFile, "licences/piper-cori.txt").readText()
+        assertTrue(notice.contains("Piper"))
+        assertTrue(notice.contains("Cori Samuel"))
+        assertTrue(notice.contains("Hi-Fi TTS"))
+        assertTrue(notice.contains("CC BY 4.0"))
     }
 }

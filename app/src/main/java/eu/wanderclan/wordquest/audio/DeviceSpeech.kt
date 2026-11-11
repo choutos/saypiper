@@ -25,13 +25,13 @@ fun chooseVoice(voices: List<VoiceInfo>): VoiceInfo? = voices
 
 /** Only asks the engine to use an already installed voice. Never launches a voice-data intent. */
 class DeviceSpeech(private val context: Context) : Speech {
-    override val availability = MutableStateFlow(false)
+    override val availability = MutableStateFlow(SpeechAvailability())
     private var engine: TextToSpeech? = null
     private var initialised: CompletableDeferred<Int>? = null
     private val utterances = ConcurrentHashMap<String, CompletableDeferred<SpeechResult>>()
 
     override suspend fun prepare() = withContext(Dispatchers.Main.immediate) {
-        if (isAvailable) return@withContext
+        if (availability.value.deviceVoice) return@withContext
         // Reuse a pending initialisation after an activity recreation cancels its first await.
         val ready = initialised ?: CompletableDeferred<Int>().also { initialised = it }
         try {
@@ -58,7 +58,7 @@ class DeviceSpeech(private val context: Context) : Speech {
                 override fun onError(utteranceId: String?, errorCode: Int) { utteranceId?.let { utterances.remove(it)?.complete(SpeechResult.FAILED) } }
                 override fun onStop(utteranceId: String?, interrupted: Boolean) { utteranceId?.let { utterances.remove(it)?.complete(SpeechResult.INTERRUPTED) } }
             })
-            availability.value = true
+            availability.value = SpeechAvailability(deviceVoice = true)
         } catch (cancelled: CancellationException) {
             throw cancelled
         } catch (_: RuntimeException) {
@@ -67,7 +67,7 @@ class DeviceSpeech(private val context: Context) : Speech {
     }
 
     override suspend fun say(word: Word, band: Band): SpeechResult = withContext(Dispatchers.Main.immediate) {
-        if (!isAvailable) return@withContext SpeechResult.FAILED
+        if (!canSpeak(word)) return@withContext SpeechResult.FAILED
         val tts = engine ?: return@withContext SpeechResult.FAILED
         val id = UUID.randomUUID().toString()
         val done = CompletableDeferred<SpeechResult>()
@@ -101,6 +101,6 @@ class DeviceSpeech(private val context: Context) : Speech {
         try { engine?.shutdown() } catch (_: RuntimeException) { /* Engine already disconnected. */ }
         engine = null
         initialised = null
-        availability.value = false
+        availability.value = SpeechAvailability()
     }
 }

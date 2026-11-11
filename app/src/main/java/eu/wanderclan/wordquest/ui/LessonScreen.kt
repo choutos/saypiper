@@ -36,14 +36,11 @@ import eu.wanderclan.wordquest.AppContainer
 import eu.wanderclan.wordquest.R
 import eu.wanderclan.wordquest.content.Band
 import eu.wanderclan.wordquest.game.Answer
-import eu.wanderclan.wordquest.game.ChoiceExercise
 import eu.wanderclan.wordquest.game.Environment
 import eu.wanderclan.wordquest.game.LessonRequest
 import eu.wanderclan.wordquest.game.LessonSession
 import eu.wanderclan.wordquest.game.Progression
-import eu.wanderclan.wordquest.game.Prompt
 import eu.wanderclan.wordquest.game.Scoring
-import eu.wanderclan.wordquest.game.TilesExercise
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -70,12 +67,21 @@ class LessonViewModel(
 
     fun say(wordId: String? = _session.value.current?.wordId) {
         if (wordId == null) return
-        if (_session.value.speechUnavailable || !container.speech.isAvailable || speaking?.isActive == true) return
         val home = container.catalog.word(wordId) ?: return
+        if (wordId in _session.value.unavailableSpeechWordIds || !container.speech.canSpeak(home.word)) return
+        // Feedback may follow an answer before the preceding prompt has finished.
+        speaking?.cancel()
+        container.speech.stop()
         val position = _session.value.position
         speaking = viewModelScope.launch {
             if (container.speech.say(home.word, home.gradePack.band) == SpeechResult.FAILED) {
-                _session.update { if (it.position == position) it.withoutSpeech(container.generator, environment) else it }
+                val availability = container.speech.availability.value
+                val failedClip = availability.hasClip(home.word)
+                val affected = container.catalog.packs.flatMap { it.words }
+                    .filter { availability.hasClip(it) == failedClip }.map { it.id }.toSet()
+                _session.update {
+                    if (it.position == position) it.withoutSpeech(container.generator, environment, affected) else it
+                }
             }
         }
     }
@@ -121,7 +127,7 @@ fun LessonScreen(
     val viewModel: LessonViewModel = viewModel(factory = viewModelFactory {
         initializer {
             val accessibility = context.getSystemService(AccessibilityManager::class.java)
-            LessonViewModel(container, profileId, request, Environment(container.speech.isAvailable,
+            LessonViewModel(container, profileId, request, Environment(container.speech::canSpeak,
                 accessibility?.isTouchExplorationEnabled != true))
         }
     })
@@ -132,11 +138,6 @@ fun LessonScreen(
     val exercise = session.current
     val home = exercise?.let { container.catalog.word(it.wordId) }
     val band = home?.gradePack?.band ?: Band.B
-    LaunchedEffect(session.position) {
-        val listening = (exercise is ChoiceExercise && exercise.prompt == Prompt.Listening) ||
-            (exercise is TilesExercise && exercise.prompt == Prompt.Listening)
-        if (band == Band.A || listening) viewModel.say()
-    }
     Scaffold(
         topBar = {
             Row(Modifier.fillMaxWidth().statusBarsPadding().padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -154,7 +155,8 @@ fun LessonScreen(
             }
         } else {
             key(session.position) {
-                ExerciseQuestion(exercise, session.response, band, available && !session.speechUnavailable,
+                ExerciseQuestion(exercise, session.response, band,
+                    available.canSpeak(requireNotNull(home).word) && exercise.wordId !in session.unavailableSpeechWordIds,
                     { viewModel.say(it) }, viewModel::answer, viewModel::next, requireNotNull(home).word.text, Modifier.padding(padding))
             }
         }

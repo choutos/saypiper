@@ -8,20 +8,25 @@ import kotlinx.coroutines.flow.StateFlow
 /** An interruption does not invalidate the voice or the lesson. */
 enum class SpeechResult { SPOKEN, INTERRUPTED, FAILED }
 
+/** A snapshot of the two sources; callers ask about a word, never a global speech flag. */
+data class SpeechAvailability(val deviceVoice: Boolean = false, val clipWordIds: Set<String> = emptySet()) {
+    fun canSpeak(word: Word): Boolean = word.id in clipWordIds || deviceVoice
+    fun hasClip(word: Word): Boolean = word.id in clipWordIds
+}
+
 /**
  * Speech behind a small interface (ADR section 6, "Speech"). It is asked to say a word, not a string,
- * so a recorded clip can later replace the synthetic voice for some words without touching callers.
+ * so clips and the device voice share the same callers.
  */
 interface Speech {
-    /** False when no installed, offline English voice is usable; listening exercises are then dropped. */
-    val availability: StateFlow<Boolean>
-    val isAvailable: Boolean get() = availability.value
+    val availability: StateFlow<SpeechAvailability>
+    fun canSpeak(word: Word): Boolean = availability.value.canSpeak(word)
 
     suspend fun prepare() {}
     fun stop() {}
     fun close() {}
 
-    /** Only FAILED disables speech for a lesson. App-requested interruption preserves its questions. */
+    /** Only FAILED disables that source for a lesson. App-requested interruption preserves its questions. */
     suspend fun say(word: Word, band: Band = Band.B): SpeechResult
 }
 
@@ -38,9 +43,9 @@ class FakeSpeech(mode: Mode = Mode.UNAVAILABLE) : Speech {
 
     val spoken = mutableListOf<String>()
 
-    override val availability = MutableStateFlow(mode != Mode.UNAVAILABLE)
+    override val availability = MutableStateFlow(SpeechAvailability(deviceVoice = mode != Mode.UNAVAILABLE))
     var mode: Mode = mode
-        set(value) { field = value; availability.value = value != Mode.UNAVAILABLE }
+        set(value) { field = value; availability.value = SpeechAvailability(deviceVoice = value != Mode.UNAVAILABLE) }
 
     override suspend fun say(word: Word, band: Band): SpeechResult {
         if (mode != Mode.SILENT) return SpeechResult.FAILED

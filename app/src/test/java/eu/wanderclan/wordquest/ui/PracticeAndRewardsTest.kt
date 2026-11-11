@@ -47,7 +47,7 @@ class PracticeAndRewardsTest {
 
     private val app get() = rule.activity.application as TestWordQuestApplication
     private val container get() = app.container
-    private val environment = Environment(speechAvailable = false, picturesPerceivable = true)
+    private val environment get() = Environment(speechAvailable = container.speech::canSpeak, picturesPerceivable = true)
 
     private fun AndroidComposeTestRule<ActivityScenarioRule<MainActivity>, MainActivity>.waitFor(matcher: SemanticsMatcher) {
         waitUntil(timeoutMillis = 10_000) { onAllNodes(matcher).fetchSemanticsNodes().isNotEmpty() }

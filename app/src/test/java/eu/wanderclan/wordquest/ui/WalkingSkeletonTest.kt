@@ -73,12 +73,10 @@ class WalkingSkeletonTest {
         rule.waitFor(hasContentDescription("Pets, lesson 1: 0 of 3 stars"))
         rule.waitFor(hasText("Mia · P1"))
         screenshot("3-path")
-        rule.waitFor(hasText("For an adult:", substring = true))
-        screenshot("primary-no-voice-notice")
         rule.onNode(hasContentDescription("Pets, lesson 1: 0 of 3 stars")).performClick()
 
         // Lesson: the app uses the fixed seed, so the test can rebuild the same lesson and answer it.
-        val environment = Environment(speechAvailable = false, picturesPerceivable = true)
+        val environment = Environment(speechAvailable = container.speech::canSpeak, picturesPerceivable = true)
         val lesson = container.generator.generate(LessonRequest.UnitLesson("fx-pets", 1), environment, TestWordQuestApplication.SEED)
         assertEquals(10, lesson.exercises.size)
         lesson.exercises.forEachIndexed { index, exercise ->
@@ -113,6 +111,7 @@ class WalkingSkeletonTest {
         // About.
         rule.onNode(hasContentDescription("About")).performClick()
         rule.waitFor(hasText("Pictures: OpenMoji (openmoji.org), licence CC BY-SA 4.0"))
+        rule.waitFor(hasText("Synthetic speech: Piper", substring = true))
         screenshot("7-about")
     }
 }

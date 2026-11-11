@@ -9,6 +9,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import eu.wanderclan.wordquest.AppContainer
 import eu.wanderclan.wordquest.Fixtures
 import eu.wanderclan.wordquest.audio.FakeSpeech
+import eu.wanderclan.wordquest.audio.ClipPlayer
+import eu.wanderclan.wordquest.audio.ClipSpeech
+import eu.wanderclan.wordquest.audio.Speech
+import eu.wanderclan.wordquest.audio.SpeechResult
 import eu.wanderclan.wordquest.content.ContentLoader
 import eu.wanderclan.wordquest.data.WordQuestDatabase
 import eu.wanderclan.wordquest.game.*
@@ -28,7 +32,7 @@ class SpeechRecoveryUiTest {
     @get:Rule val rule = createComposeRule()
     private val request = LessonRequest.UnitLesson("fx-pets", 1)
 
-    private fun container(speech: FakeSpeech, seed: Long): AppContainer = AppContainer(
+    private fun container(speech: Speech, seed: Long): AppContainer = AppContainer(
         ContentLoader.load(Fixtures.source), Fixtures.source,
         Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), WordQuestDatabase::class.java).build(),
         speech, { LocalDate.of(2026, 11, 11) }, { seed },
@@ -38,10 +42,10 @@ class SpeechRecoveryUiTest {
     @Test fun `failed utterance reveals the word and rest of real lesson has no listening`() {
         val generator = LessonGenerator(Fixtures.catalog())
         val seed = (0L..100L).first {
-            generator.generate(request, Environment(true, true), it).exercises.first().type == ExerciseType.LISTEN_AND_PICK
+            generator.generate(request, Environment({ true }, true), it).exercises.first().type == ExerciseType.LISTEN_AND_PICK
         }
         val container = container(FakeSpeech(FakeSpeech.Mode.FAILING), seed)
-        val lesson = container.generator.generate(request, Environment(true, true), seed)
+        val lesson = container.generator.generate(request, Environment({ true }, true), seed)
         var expected = LessonSession("ui", lesson).withoutSpeech(container.generator)
         rule.setContent {
             CompositionLocalProvider(LocalPictures provides container.pictures) {
@@ -49,7 +53,7 @@ class SpeechRecoveryUiTest {
             }
         }
         val word = container.catalog.word(expected.current!!.wordId)!!.word.text
-        rule.waitUntil(10_000) { rule.onAllNodesWithText(word).fetchSemanticsNodes().isNotEmpty() }
+        rule.waitForIdle()
         rule.onNodeWithTag("prompt").assertTextEquals(word)
         // Follow every remaining question through the actual view model, without finishing/saving a profile.
         repeat(lesson.exercises.size - 1) {
@@ -68,10 +72,10 @@ class SpeechRecoveryUiTest {
         val request = LessonRequest.Practice(listOf("chair"))
         val generator = LessonGenerator(Fixtures.catalog())
         val seed = (0L..100L).first {
-            generator.generate(request, Environment(false, true), it).exercises.first() is TilesExercise
+            generator.generate(request, Environment({ false }, true), it).exercises.first() is TilesExercise
         }
         val container = container(FakeSpeech(), seed)
-        val exercise = container.generator.generate(request, Environment(false, true), seed).exercises.first() as TilesExercise
+        val exercise = container.generator.generate(request, Environment({ false }, true), seed).exercises.first() as TilesExercise
         rule.setContent {
             CompositionLocalProvider(LocalPictures provides container.pictures) {
                 WordQuestTheme { LessonScreen(container, 0, request, {}, {}) }
@@ -85,29 +89,95 @@ class SpeechRecoveryUiTest {
         rule.onNodeWithTag("speaker").assertDoesNotExist()
     }
 
-    @Test fun `band A automatically speaks and has only picture choices`() {
-        val speech = FakeSpeech(FakeSpeech.Mode.SILENT)
+    @Test fun `band A without a device voice speaks every question from clips and requires no reading`() {
+        val spoken = mutableListOf<String>()
+        val speech = ClipSpeech(ContentLoader.load(Fixtures.source).audioWordIds, FakeSpeech(), object : ClipPlayer {
+            override fun play(path: String, completed: (SpeechResult) -> Unit) { spoken += path; completed(SpeechResult.SPOKEN) }
+            override fun stop() {}
+        }, Dispatchers.Unconfined)
         val container = container(speech, 8)
-        val first = container.generator.generate(request, Environment(true, true), 8).exercises.first() as ChoiceExercise
+        val lesson = container.generator.generate(request, Environment(speech::canSpeak, true), 8)
+        assertTrue(lesson.exercises.any { it.type == ExerciseType.LISTEN_AND_PICK })
         rule.setContent {
             CompositionLocalProvider(LocalPictures provides container.pictures) {
                 WordQuestTheme { LessonScreen(container, 0, request, {}, {}) }
             }
         }
-        rule.waitUntil(10_000) { speech.spoken.isNotEmpty() }
-        assertEquals(first.wordId, speech.spoken.first())
-        assertTrue(first.options.all { it is Option.Picture })
-        rule.onNodeWithTag("speaker").assertExists()
-        rule.onNodeWithTag("option-0").assertExists()
+        lesson.exercises.forEachIndexed { index, exercise ->
+            rule.waitForIdle()
+            assertEquals("content/audio/${exercise.wordId}.ogg", spoken[index])
+            assertEquals(index + 1, spoken.size)
+            val choice = exercise as ChoiceExercise
+            assertTrue(choice.options.all { it is Option.Picture })
+            rule.onNodeWithTag("speaker").assertExists()
+            rule.onNodeWithTag("option-${choice.answerIndex}").performScrollTo().performClick()
+            if (index < lesson.exercises.lastIndex) rule.onNodeWithText("Continue").performClick()
+        }
     }
-    @Test fun `optional speaker failure keeps the gap question sentence`() {
+
+    @Test fun `band B without a device voice has no listening and no speaker`() {
+        val speech = ClipSpeech(ContentLoader.load(Fixtures.source).audioWordIds, FakeSpeech(), object : ClipPlayer {
+            override fun play(path: String, completed: (SpeechResult) -> Unit) { error("P3 must not use a clip") }
+            override fun stop() {}
+        }, Dispatchers.Unconfined)
         val request = LessonRequest.Practice(listOf("kitchen"))
         val generator = LessonGenerator(Fixtures.catalog())
         val seed = (0L..100L).first {
-            generator.generate(request, Environment(true, true), it).exercises.first().type == ExerciseType.GAP_FILL
+            generator.generate(request, Environment(speech::canSpeak, true), it).exercises.first().type == ExerciseType.GAP_FILL
+        }
+        val container = container(speech, seed)
+        val lesson = container.generator.generate(request, Environment(speech::canSpeak, true), seed)
+        assertTrue(lesson.exercises.none { it.type == ExerciseType.LISTEN_AND_PICK })
+        val exercise = lesson.exercises.single() as ChoiceExercise
+        rule.setContent {
+            CompositionLocalProvider(LocalPictures provides container.pictures) {
+                WordQuestTheme { LessonScreen(container, 0, request, {}, {}) }
+            }
+        }
+        rule.onNodeWithTag("speaker").assertDoesNotExist()
+        rule.onNodeWithTag("listen-replay").assertDoesNotExist()
+        rule.onNodeWithTag("option-${exercise.answerIndex}").performScrollTo().performClick()
+        rule.onNodeWithText("Well done!").assertExists()
+        rule.onNodeWithTag("speaker").assertDoesNotExist()
+        rule.onNodeWithTag("listen-replay").assertDoesNotExist()
+    }
+
+    @Test fun `broken clip reveals the current word and disables clip listening for this session`() {
+        val speech = ClipSpeech(ContentLoader.load(Fixtures.source).audioWordIds, FakeSpeech(), object : ClipPlayer {
+            override fun play(path: String, completed: (SpeechResult) -> Unit) { completed(SpeechResult.FAILED) }
+            override fun stop() {}
+        }, Dispatchers.Unconfined)
+        val generator = LessonGenerator(Fixtures.catalog())
+        val seed = (0L..100L).first {
+            generator.generate(request, Environment(speech::canSpeak, true), it).exercises.first().type == ExerciseType.LISTEN_AND_PICK
+        }
+        val container = container(speech, seed)
+        val lesson = container.generator.generate(request, Environment(speech::canSpeak, true), seed)
+        var expected = LessonSession("ui", lesson).withoutSpeech(container.generator)
+        rule.setContent {
+            CompositionLocalProvider(LocalPictures provides container.pictures) {
+                WordQuestTheme { LessonScreen(container, 0, request, {}, {}) }
+            }
+        }
+        rule.onNodeWithTag("prompt").assertTextEquals(container.catalog.word(expected.current!!.wordId)!!.word.text)
+        repeat(lesson.exercises.size - 1) {
+            rule.onNodeWithTag("speaker").assertDoesNotExist()
+            rule.onNodeWithTag("listen-replay").assertDoesNotExist()
+            val exercise = expected.current as ChoiceExercise
+            rule.onNodeWithTag("option-${exercise.answerIndex}").performScrollTo().performClick()
+            rule.onNodeWithText("Continue").performClick()
+            expected = expected.answer(exercise.answerIndex).next()
+        }
+        rule.onNodeWithTag("listen-replay").assertDoesNotExist()
+    }
+    @Test fun `feedback speech failure keeps the gap question sentence`() {
+        val request = LessonRequest.Practice(listOf("kitchen"))
+        val generator = LessonGenerator(Fixtures.catalog())
+        val seed = (0L..100L).first {
+            generator.generate(request, Environment({ true }, true), it).exercises.first().type == ExerciseType.GAP_FILL
         }
         val container = container(FakeSpeech(FakeSpeech.Mode.FAILING), seed)
-        val exercise = container.generator.generate(request, Environment(true, true), seed).exercises.single() as ChoiceExercise
+        val exercise = container.generator.generate(request, Environment({ true }, true), seed).exercises.single() as ChoiceExercise
         val example = (exercise.prompt as Prompt.Gap).example
         val sentence = example.before + "____" + example.after
         rule.setContent {
@@ -116,7 +186,8 @@ class SpeechRecoveryUiTest {
             }
         }
         rule.onNodeWithTag("prompt").assertTextEquals(sentence)
-        rule.onNodeWithTag("speaker").performClick()
+        rule.onNodeWithTag("speaker").assertDoesNotExist()
+        rule.onNodeWithTag("option-${exercise.answerIndex}").performScrollTo().performClick()
         rule.onNodeWithTag("speaker").assertDoesNotExist()
         rule.onNodeWithTag("prompt").assertTextEquals(sentence)
     }

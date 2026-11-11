@@ -29,10 +29,12 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,10 +47,18 @@ import eu.wanderclan.wordquest.content.Band
 import eu.wanderclan.wordquest.game.Answer
 import eu.wanderclan.wordquest.game.ChoiceExercise
 import eu.wanderclan.wordquest.game.Exercise
+import eu.wanderclan.wordquest.game.ExerciseType
 import eu.wanderclan.wordquest.game.Option
 import eu.wanderclan.wordquest.game.PairsExercise
 import eu.wanderclan.wordquest.game.Prompt
 import eu.wanderclan.wordquest.game.TilesExercise
+
+/** A given word may be heard immediately; an answer is heard only with feedback. */
+private val Exercise.wordIsPrompt: Boolean get() = when (this) {
+    is ChoiceExercise -> type == ExerciseType.WORD_TO_PICTURE || prompt == Prompt.Listening
+    is TilesExercise -> prompt == Prompt.Listening
+    is PairsExercise -> false
+}
 
 /** The same renderer is used by the lesson and its interaction/screenshot tests. */
 @Composable
@@ -63,10 +73,17 @@ fun ExerciseQuestion(
     wordText: String,
     modifier: Modifier = Modifier,
 ) {
+    val say by rememberUpdatedState(onSay)
+    val answered = response != null
+    // Pairs has several words and no single spoken prompt or answer.
+    val canSayWord = speechAvailable && exercise !is PairsExercise
+    LaunchedEffect(exercise, answered) {
+        if (canSayWord && (if (exercise.wordIsPrompt) !answered else answered)) say(exercise.wordId)
+    }
     Column(modifier.fillMaxSize()) {
         Column(Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            if (speechAvailable) {
+            if (canSayWord && (exercise.wordIsPrompt || answered)) {
                 FilledTonalIconButton(onClick = { onSay(exercise.wordId) }, modifier = Modifier.size(64.dp).testTag("speaker")) {
                     Icon(painterResource(R.drawable.ic_speaker), stringResource(R.string.speech_say))
                 }

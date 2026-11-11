@@ -10,7 +10,7 @@ data class LessonSession(
     val mistakes: Int = 0,
     val requeues: Map<String, Int> = emptyMap(),
     val wrongWords: Set<String> = emptySet(),
-    val speechUnavailable: Boolean = false,
+    val unavailableSpeechWordIds: Set<String> = emptySet(),
 ) {
     val isFinished: Boolean get() = position >= queue.size
     val current: Exercise? get() = queue.getOrNull(position)
@@ -36,10 +36,14 @@ data class LessonSession(
         )
     }
 
-    fun withoutSpeech(generator: LessonGenerator, environment: Environment = Environment(false, true)): LessonSession = copy(
-        speechUnavailable = true,
+    fun withoutSpeech(
+        generator: LessonGenerator,
+        environment: Environment = Environment({ false }, true),
+        affectedWordIds: Set<String> = queue.flatMap { it.wordIds }.toSet(),
+    ): LessonSession = copy(
+        unavailableSpeechWordIds = unavailableSpeechWordIds + affectedWordIds,
         queue = queue.mapIndexed { index, exercise ->
-            if (index < position) exercise else generator.withoutSpeech(exercise, showWord = index == position, environment = environment)
+            if (index < position || exercise.wordId !in affectedWordIds) exercise else generator.withoutSpeech(exercise, showWord = index == position, environment = environment)
         },
     )
 

@@ -47,7 +47,7 @@ class PracticeTest {
     @Test
     fun `a session with a single due word is played and gives one outcome`() {
         val request = requireNotNull(Practice.request(listOf("rabbit")))
-        val lesson = LessonGenerator(catalog).generate(request, Environment(speechAvailable = false, picturesPerceivable = true), seed = 7)
+        val lesson = LessonGenerator(catalog).generate(request, Environment(speechAvailable = { false }, picturesPerceivable = true), seed = 7)
         val exercise = lesson.exercises.single() as ChoiceExercise
         assertEquals("rabbit", exercise.wordId)
         // Distractors come from the word's own pack, not from the (single-word) due list.
@@ -63,7 +63,7 @@ class PracticeTest {
     @Test
     fun `each word is exercised in the band of its own class`() {
         val request = LessonRequest.Practice(listOf("rabbit", "chair"))
-        val environment = Environment(speechAvailable = false, picturesPerceivable = true)
+        val environment = Environment(speechAvailable = { false }, picturesPerceivable = true)
         (0L..20L).forEach { seed ->
             val lesson = LessonGenerator(catalog).generate(request, environment, seed)
             assertEquals(setOf("rabbit", "chair"), lesson.wordIds.toSet())
