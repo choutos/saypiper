@@ -8,6 +8,9 @@ import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -18,7 +21,6 @@ import eu.wanderclan.wordquest.WordQuestApplication
 import eu.wanderclan.wordquest.game.ChoiceExercise
 import eu.wanderclan.wordquest.game.Environment
 import eu.wanderclan.wordquest.game.LessonRequest
-import eu.wanderclan.wordquest.game.Option
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -71,6 +73,8 @@ class WalkingSkeletonTest {
         rule.waitFor(hasContentDescription("Pets, lesson 1: 0 of 3 stars"))
         rule.waitFor(hasText("Mia · P1"))
         screenshot("3-path")
+        rule.waitFor(hasText("For an adult:", substring = true))
+        screenshot("primary-no-voice-notice")
         rule.onNode(hasContentDescription("Pets, lesson 1: 0 of 3 stars")).performClick()
 
         // Lesson: the app uses the fixed seed, so the test can rebuild the same lesson and answer it.
@@ -78,10 +82,10 @@ class WalkingSkeletonTest {
         val lesson = container.generator.generate(LessonRequest.UnitLesson("fx-pets", 1), environment, TestWordQuestApplication.SEED)
         assertEquals(10, lesson.exercises.size)
         lesson.exercises.forEachIndexed { index, exercise ->
-            val answer = ((exercise as ChoiceExercise).options[exercise.answerIndex] as Option.Text).text
-            rule.waitFor(hasText(answer))
+            val tag = "option-${(exercise as ChoiceExercise).answerIndex}"
+            rule.waitFor(hasTestTag(tag))
             if (index == 0) screenshot("4-question")
-            rule.onNode(hasText(answer)).performClick()
+            rule.onNodeWithTag(tag).performScrollTo().performClick()
             rule.waitFor(hasText("Well done!"))
             if (index == 0) screenshot("5-feedback")
             rule.onNode(hasText("Continue")).performClick()

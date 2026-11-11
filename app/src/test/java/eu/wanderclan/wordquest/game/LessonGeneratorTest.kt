@@ -21,7 +21,7 @@ class LessonGeneratorTest {
     private val generator = LessonGenerator(catalog)
     private val noSpeech = Environment(speechAvailable = false, picturesPerceivable = true)
 
-    private fun choices(lesson: Lesson) = lesson.exercises.map { it as ChoiceExercise }
+    private fun choices(lesson: Lesson) = lesson.exercises.filterIsInstance<ChoiceExercise>()
 
     @Test
     fun `the same seed gives the same lesson`() {
@@ -66,9 +66,11 @@ class LessonGeneratorTest {
         val generator = LessonGenerator(Catalog(listOf(grade), listOf(GradePack(grade, pack))))
         for (seed in 0L until 200L) {
             for (number in 1..3) {
-                for (exercise in choices(generator.generate(LessonRequest.UnitLesson("sky", number), noSpeech, seed))) {
+                val lesson = generator.generate(LessonRequest.UnitLesson("sky", number), noSpeech, seed)
+                lesson.exercises.filterIsInstance<PairsExercise>().forEach { assertTrue(it.words.size in 4..5) }
+                for (exercise in choices(lesson)) {
                     val answer = words.first { it.id == exercise.wordId }
-                    val texts = exercise.options.map { normaliseText((it as Option.Text).text) }
+                    val texts = exercise.options.map { normaliseText(words.first { w -> w.id == it.wordId }.text) }
                     assertEquals("option texts must be distinct: $texts", texts.size, texts.toSet().size)
                     exercise.options.filter { it.wordId != answer.id }.forEach { option ->
                         val distractor = words.first { it.id == option.wordId }
@@ -83,12 +85,10 @@ class LessonGeneratorTest {
 
     @Test
     fun `a word with no supported exercise type is skipped`() {
-        // The review of fx-home holds all nine words. "kitchen" has a definition but no picture,
-        // and picture to word is the only type so far.
-        val lesson = generator.generate(LessonRequest.UnitLesson("fx-home", 4), noSpeech, 3)
-        assertEquals(listOf("kitchen"), lesson.skippedWordIds)
-        assertTrue("kitchen" !in lesson.wordIds)
-        assertEquals(8, lesson.wordIds.size)
+        // Secondary definition mixes arrive in FRL-9.
+        val lesson = generator.generate(LessonRequest.Practice(listOf("proud")), noSpeech, 3)
+        assertEquals(listOf("proud"), lesson.skippedWordIds)
+        assertTrue(lesson.exercises.isEmpty())
     }
 
     @Test
@@ -111,12 +111,12 @@ class LessonGeneratorTest {
     @Test
     fun `practice exercises each word in the band of its own class and ignores unknown ids`() {
         val lesson = generator.generate(LessonRequest.Practice(listOf("rabbit", "gone-word", "chair")), noSpeech, 5)
-        val byWord = choices(lesson).associateBy { it.wordId }
+        val byWord = lesson.exercises.associateBy { it.wordId }
         assertEquals(setOf("rabbit", "chair"), byWord.keys)
-        assertEquals(3, byWord.getValue("rabbit").options.size)
-        assertEquals(4, byWord.getValue("chair").options.size)
+        assertEquals(3, (byWord.getValue("rabbit") as ChoiceExercise).options.size)
+        assertEquals(4, (byWord.getValue("chair") as ChoiceExercise).options.size)
         val p3Words = catalog.pack("p3")!!.words.map { it.id }.toSet()
-        assertTrue(byWord.getValue("chair").options.all { it.wordId in p3Words })
+        assertTrue((byWord.getValue("chair") as ChoiceExercise).options.all { it.wordId in p3Words })
     }
 
     @Test

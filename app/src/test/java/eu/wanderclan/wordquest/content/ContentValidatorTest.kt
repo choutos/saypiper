@@ -149,10 +149,8 @@ class ContentValidatorTest {
     @Test
     fun `rule 10 - a pack the generator cannot play fails`() {
         val found = problems(valid, 10)
-        // p3 has "kitchen", a word with a definition and no picture; s1 and s4 have no pictures at all.
-        // They become playable when the exercise types for definitions arrive.
-        assertEquals(setOf("p3", "s1", "s4"), found.map { it.gradeId }.toSet())
-        assertTrue(found.filter { it.gradeId == "p3" }.all { "kitchen" in it.message })
+        // Band B definitions now play. Secondary mixes still arrive in FRL-9.
+        assertEquals(setOf("s1", "s4"), found.map { it.gradeId }.toSet())
     }
 
     @Test
@@ -161,14 +159,14 @@ class ContentValidatorTest {
         val loaded = ContentLoader.build(content.copy(pictureFiles = content.pictureFiles - "270F.png"), emptyList())
         assertTrue(loaded.problems.any { it.rule == 9 && it.avatarId == "pencil" })
         assertEquals(listOf("fox", "sun"), loaded.catalog.avatars.map { it.id })
-        assertEquals(listOf("p1"), loaded.catalog.packs.map { it.grade.id })
+        assertEquals(listOf("p1", "p3"), loaded.catalog.packs.map { it.grade.id })
     }
 
     @Test
     fun `the loader leaves out packs with problems and keeps the rest`() {
         val loaded = ContentLoader.load(Fixtures.source)
         assertEquals(12, loaded.catalog.grades.size)
-        assertEquals(listOf("p1"), loaded.catalog.packs.map { it.grade.id })
-        assertEquals(null, loaded.catalog.pack("p3"))
+        assertEquals(listOf("p1", "p3"), loaded.catalog.packs.map { it.grade.id })
+        assertEquals("p3", loaded.catalog.pack("p3")!!.grade.id)
     }
 }

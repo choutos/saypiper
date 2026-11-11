@@ -47,7 +47,9 @@ data class Word(
     val emoji: String? = null,
     val definition: String? = null,
     val example: String? = null,
-)
+) {
+    val parsedExample: Example? by lazy { example?.let(Example::parse) }
+}
 
 @Serializable
 data class AvatarList(val schemaVersion: Int, val avatars: List<Avatar>)
