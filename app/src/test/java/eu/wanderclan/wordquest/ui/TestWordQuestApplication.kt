@@ -13,8 +13,11 @@ import eu.wanderclan.wordquest.data.WordQuestDatabase
 import kotlinx.coroutines.Dispatchers
 import java.time.LocalDate
 
-/** The app on fixture content, an in-memory database, fake clip playback without a device voice, a fixed day and a fixed lesson seed. */
+/** The app on fixture content, an in-memory database, fake clip playback without a device voice, a fake day and a fixed lesson seed. */
 class TestWordQuestApplication : WordQuestApplication() {
+    /** The fake clock: tests move it to play on another day. */
+    var today: LocalDate = LocalDate.of(2026, 11, 10)
+
     override fun createContainer(): AppContainer {
         val source = Fixtures.source
         return AppContainer(
@@ -25,7 +28,7 @@ class TestWordQuestApplication : WordQuestApplication() {
                 override fun play(path: String, completed: (SpeechResult) -> Unit) { completed(SpeechResult.SPOKEN) }
                 override fun stop() {}
             }, Dispatchers.Unconfined),
-            clock = { LocalDate.of(2026, 11, 10) },
+            clock = { today },
             nextSeed = { SEED },
             pictureDecodeDispatcher = Dispatchers.Unconfined,
         )

@@ -66,6 +66,6 @@ object Scoring {
         mistakes <= 2 -> 2
         else -> 1
     }
-    /** Placeholder until the rewards issue owns the formula. */
-    fun points(result: LessonResult): Int = 10 * result.stars
+    /** Points for a finished lesson or practice session: 10 for finishing and 5 per star, so 15 to 25. */
+    fun points(result: LessonResult): Int = 10 + 5 * result.stars
 }

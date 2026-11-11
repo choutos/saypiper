@@ -1,10 +1,12 @@
 package eu.wanderclan.wordquest.data
 
 import androidx.room.withTransaction
+import eu.wanderclan.wordquest.game.DayActivity
 import eu.wanderclan.wordquest.game.DayClock
 import eu.wanderclan.wordquest.game.Leitner
 import eu.wanderclan.wordquest.game.LessonRequest
 import eu.wanderclan.wordquest.game.LessonResult
+import eu.wanderclan.wordquest.game.ScheduledWord
 import eu.wanderclan.wordquest.game.Scoring
 import eu.wanderclan.wordquest.game.WordProgress
 import kotlinx.coroutines.flow.Flow
@@ -43,6 +45,14 @@ class ProgressRepository(private val db: WordQuestDatabase, private val clock: D
     /** Best stars per (unit id, lesson number). */
     fun bestStars(profileId: Long): Flow<Map<Pair<String, Int>, Int>> =
         dao.observeBestStars(profileId).map { rows -> rows.associate { (it.unitId to it.lessonNumber) to it.stars } }
+
+    /** Every word with history and the day it is due again. */
+    fun schedule(profileId: Long): Flow<List<ScheduledWord>> =
+        dao.observeSchedule(profileId).map { rows -> rows.map { ScheduledWord(it.wordId, LocalDate.ofEpochDay(it.dueDay)) } }
+
+    /** The points of every day played. */
+    fun activity(profileId: Long): Flow<List<DayActivity>> =
+        dao.observeDailyActivity(profileId).map { rows -> rows.map { DayActivity(LocalDate.ofEpochDay(it.day), it.points) } }
 }
 
 class ProfileRepository(private val db: WordQuestDatabase) {

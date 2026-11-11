@@ -31,6 +31,7 @@ interface ProfileDao {
 }
 
 data class LessonStars(val unitId: String, val lessonNumber: Int, val stars: Int)
+data class WordDue(val wordId: String, val dueDay: Long)
 
 @Dao
 interface ProgressDao {
@@ -56,6 +57,12 @@ interface ProgressDao {
             "GROUP BY unitId, lessonNumber",
     )
     fun observeBestStars(profileId: Long): Flow<List<LessonStars>>
+
+    @Query("SELECT wordId, dueDay FROM word_progress WHERE profileId = :profileId")
+    fun observeSchedule(profileId: Long): Flow<List<WordDue>>
+
+    @Query("SELECT * FROM daily_activity WHERE profileId = :profileId")
+    fun observeDailyActivity(profileId: Long): Flow<List<DailyActivityEntity>>
 
     @Query("SELECT COUNT(*) FROM lesson_result WHERE profileId = :profileId")
     suspend fun lessonResultCount(profileId: Long): Int
