@@ -46,7 +46,7 @@ It resolves every emoji through OpenMoji's own index, copies the pictures into `
 
 P1–P2 (band A) speech is committed as `content/audio/<word id>.ogg`. After adding,
 removing or editing a band A word, run the following on Linux x86_64 with Python
-and [uv](https://docs.astral.sh/uv/getting-started/installation/) installed (no root):
+and [uv 0.13.7](https://docs.astral.sh/uv/getting-started/installation/) installed (no root):
 
 ```sh
 scripts/make-audio --report audio-metrics.json
@@ -65,15 +65,27 @@ by hashes in `scripts/audio/requirements.lock`. It uses one CPU thread, ONNX see
 42, length 1.10, noise 0.5/0.333, 10-ms RMS trimming at −45 dBFS with 40-ms guards,
 −20 dBFS RMS with a −3 dBFS peak ceiling, and FFmpeg 7.0.2 Vorbis quality 3 with
 bitexact flags (mono, 22,050 Hz). A full second run is byte-identical on the agent
-host; other CPU/platform combinations are not promised. Word ordering is sorted;
-editing that order can change subsequent clips, so review all regenerated files.
+host; other CPU/platform combinations are not promised. Each word uses a fresh
+ONNX session with seed 42, so adding, removing, reordering or changing another
+word leaves its clip unchanged. The approved FRL-15 `dog` sample is an exact
+regression reference. Clips for words that leave band A are removed.
 
-The Python environment, tool wheels and checksum-verified voice model live outside
-the repo in `${AUDIO_CACHE_DIR:-~/.cache/wordquest-audio}`. Do not commit the model.
+Fresh installs put CPython, the Python environment, tool wheels, temporary audio
+and the checksum-verified voice model outside the repo in `${AUDIO_CACHE_DIR:-~/.cache/wordquest-audio}`. Do not commit the model.
+Older environments may still refer to CPython in uv’s previous install location.
 After the initial downloads, cached generation works offline. Android builds never
 run synthesis and add no speech dependency. The synthetic audio is supplied under
 CC BY 4.0 with the conservative training-data attribution in
 `app/src/main/assets/licences/piper-cori.txt`.
+
+Run the generator regression tests after installing its environment:
+
+```sh
+AUDIO_CACHE_DIR="$HOME/.cache/wordquest-audio" "$HOME/.cache/wordquest-audio/venv/bin/python" -m unittest discover -s scripts/audio
+```
+
+The lockfile input is `scripts/audio/requirements.txt`. With uv 0.13.7, regenerate it
+using `uv pip compile --python 3.10.22 --generate-hashes scripts/audio/requirements.txt -o scripts/audio/requirements.lock`.
 
 ## Code layout
 

@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Piper Cori pipeline from FRL-15; only dependency/model downloads use the network.
 
-All synthesis runs locally, on one CPU thread. The order is stable, including across
-packs. Reproducibility is checked on Linux x86_64; other CPUs are not promised.
+All synthesis runs locally, on one CPU thread. Each word starts a fresh seeded
+session. Reproducibility is checked on Linux x86_64; other CPUs are not promised.
 """
 import argparse
 import hashlib
@@ -31,7 +31,7 @@ FILES = {
 }
 
 
-def load_voice(cache):
+def check_model(cache):
     cache.mkdir(parents=True, exist_ok=True)
     for name, checksum in FILES.items():
         path = cache / name
@@ -43,11 +43,16 @@ def load_voice(cache):
             partial.replace(path)
         if hashlib.sha256(path.read_bytes()).hexdigest() != checksum:
             raise ValueError(f"Model hash mismatch: {name}")
+    return cache / "en_GB-cori-medium.onnx"
+
+
+def load_voice(model):
+    # Random operators keep state inside the ONNX session. Reset both seed and
+    # session for every word so an unrelated content edit cannot change its clip.
     ort.set_seed(42)
     options = ort.SessionOptions()
     options.intra_op_num_threads = 1
     options.inter_op_num_threads = 1
-    model = cache / "en_GB-cori-medium.onnx"
     config = PiperConfig.from_dict(json.loads(model.with_suffix(".onnx.json").read_text()))
     assert config.espeak_voice == "en-gb-x-rp"
     session = ort.InferenceSession(str(model), sess_options=options, providers=["CPUExecutionProvider"])
@@ -72,10 +77,10 @@ def words_in(content):
                 all_ids.add(word_id)
                 if grade["band"] == "A":
                     words[word_id] = word["text"]
-    return words, all_ids
+    return words
 
 
-def process(raw, rate, word, output):
+def process(raw, rate, word, output, cache):
     flags = []
     if not len(raw) or not np.isfinite(raw).all():
         raise ValueError(f"Invalid samples: {word}")
@@ -98,7 +103,7 @@ def process(raw, rate, word, output):
     signal[:fade] *= np.linspace(0, 1, fade)
     signal[-fade:] *= np.linspace(1, 0, fade)
     # Temporary WAV/OGG stay outside the content directory; only complete clips replace assets.
-    with tempfile.TemporaryDirectory(dir=output.parent) as temporary:
+    with tempfile.TemporaryDirectory(dir=cache) as temporary:
         wav, ogg = Path(temporary) / "clip.wav", Path(temporary) / "clip.ogg"
         sf.write(wav, signal, rate, subtype="PCM_16")
         subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(), "-v", "error", "-nostdin", "-y", "-threads", "1",
@@ -129,24 +134,26 @@ def process(raw, rate, word, output):
 
 
 def generate(content, cache, overrides):
-    words, all_ids = words_in(content)
+    words = words_in(content)
     audio = content / "audio"
     audio.mkdir(exist_ok=True)
-    voice = load_voice(cache)
+    model = check_model(cache) if words else None
     settings = SynthesisConfig(length_scale=1.10, noise_scale=.5, noise_w_scale=.333, normalize_audio=False)
     rows = []
     for word_id, text in sorted(words.items()):
         spoken = overrides.get(word_id, text)
         if not isinstance(spoken, str) or not spoken.strip():
             raise ValueError(f"Invalid pronunciation override: {word_id}")
+        voice = load_voice(model)
         chunks = list(voice.synthesize(spoken + ".", settings))
         raw = np.concatenate([c.audio_float_array for c in chunks]).astype(np.float64)
-        row = dict(id=word_id, text=text, spoken=spoken, **process(raw, voice.config.sample_rate, text, audio / f"{word_id}.ogg"))
+        row = dict(id=word_id, text=text, spoken=spoken, **process(raw, voice.config.sample_rate, text, audio / f"{word_id}.ogg", cache))
+        del voice
         rows.append(row)
         print(f"{content}: {word_id}.ogg {row['duration_s']:.4f}s {row['bytes']} bytes" +
               (f" FLAG: {', '.join(row['flags'])}" if row["flags"] else " OK"), flush=True)
     for existing in sorted(audio.glob("*.ogg")):
-        if existing.stem not in all_ids:
+        if existing.stem not in words:
             existing.unlink()
             print(f"{content}: removed unused audio/{existing.name}")
     print(f"{content}: {len(rows)} clips, {sum(r['bytes'] for r in rows)} bytes, {sum(bool(r['flags']) for r in rows)} flagged")
