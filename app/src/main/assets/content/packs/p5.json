@@ -1,0 +1,865 @@
+{
+  "schemaVersion": 1,
+  "grade": "p5",
+  "units": [
+    {
+      "id": "p5-house",
+      "title": "Around the house",
+      "emoji": "🏘️",
+      "words": [
+        {
+          "id": "candle",
+          "text": "candle",
+          "pos": "noun",
+          "emoji": "🕯️"
+        },
+        {
+          "id": "broom",
+          "text": "broom",
+          "pos": "noun",
+          "emoji": "🧹"
+        },
+        {
+          "id": "bucket",
+          "text": "bucket",
+          "pos": "noun",
+          "emoji": "🪣"
+        },
+        {
+          "id": "cupboard",
+          "text": "cupboard",
+          "pos": "noun",
+          "definition": "a piece of furniture with a door and shelves for keeping things",
+          "example": "The plates and cups are in the kitchen {cupboard}."
+        },
+        {
+          "id": "shelf",
+          "text": "shelf",
+          "pos": "noun",
+          "definition": "a flat board on a wall where you put things",
+          "example": "The top {shelf} of the bookcase is full."
+        },
+        {
+          "id": "curtains",
+          "text": "curtains",
+          "pos": "noun",
+          "definition": "pieces of cloth that cover a window",
+          "example": "Close the {curtains} when it gets dark."
+        },
+        {
+          "id": "pillow",
+          "text": "pillow",
+          "pos": "noun",
+          "definition": "a soft thing where you put your head in bed",
+          "example": "There is a feather {pillow} under my head."
+        },
+        {
+          "id": "blanket",
+          "text": "blanket",
+          "pos": "noun",
+          "definition": "a warm cover for a bed",
+          "example": "It's cold tonight, so take another {blanket}."
+        }
+      ]
+    },
+    {
+      "id": "p5-school",
+      "title": "School and learning",
+      "emoji": "📚",
+      "words": [
+        {
+          "id": "question",
+          "text": "question",
+          "pos": "noun",
+          "emoji": "❓"
+        },
+        {
+          "id": "answer",
+          "text": "answer",
+          "pos": "noun",
+          "definition": "what you say or write when someone asks you something",
+          "example": "I know the {answer} to that question!"
+        },
+        {
+          "id": "mistake",
+          "text": "mistake",
+          "pos": "noun",
+          "definition": "something that is wrong",
+          "example": "I made a {mistake}, so I used my rubber."
+        },
+        {
+          "id": "exam",
+          "text": "exam",
+          "pos": "noun",
+          "definition": "an important test at school",
+          "example": "I studied hard for my maths {exam}."
+        },
+        {
+          "id": "dictionary",
+          "text": "dictionary",
+          "pos": "noun",
+          "definition": "a book that tells you what words mean",
+          "example": "Look up the new word in the {dictionary}."
+        },
+        {
+          "id": "timetable",
+          "text": "timetable",
+          "pos": "noun",
+          "definition": "a list that shows when lessons or trains happen",
+          "example": "Our {timetable} says we have art after lunch."
+        },
+        {
+          "id": "subject",
+          "text": "subject",
+          "pos": "noun",
+          "definition": "something you learn at school, like maths or art",
+          "example": "My favourite {subject} at school is science."
+        },
+        {
+          "id": "history",
+          "text": "history",
+          "pos": "noun",
+          "definition": "the study of what happened in the past",
+          "example": "In {history}, we learn about kings and queens."
+        },
+        {
+          "id": "geography",
+          "text": "geography",
+          "pos": "noun",
+          "definition": "the study of countries, mountains, rivers and seas",
+          "example": "In {geography}, we learn where countries are on a map."
+        }
+      ]
+    },
+    {
+      "id": "p5-cooking",
+      "title": "Cooking and eating",
+      "emoji": "🥘",
+      "words": [
+        {
+          "id": "pancake",
+          "text": "pancake",
+          "pos": "noun",
+          "emoji": "🥞"
+        },
+        {
+          "id": "honey",
+          "text": "honey",
+          "pos": "noun",
+          "emoji": "🍯"
+        },
+        {
+          "id": "recipe",
+          "text": "recipe",
+          "pos": "noun",
+          "definition": "a list of what you need and the steps to cook a dish",
+          "example": "Grandma's {recipe} for apple pie is the best."
+        },
+        {
+          "id": "delicious",
+          "text": "delicious",
+          "pos": "adjective",
+          "definition": "tasting very good",
+          "example": "This chocolate cake is {delicious}!"
+        },
+        {
+          "id": "meal",
+          "text": "meal",
+          "pos": "noun",
+          "definition": "food that you eat at one time, like breakfast or dinner",
+          "example": "Dinner is my favourite {meal} of the day."
+        },
+        {
+          "id": "menu",
+          "text": "menu",
+          "pos": "noun",
+          "definition": "a list of the food you can choose in a restaurant",
+          "example": "The waiter gave us the {menu} to choose our food."
+        },
+        {
+          "id": "vegetable",
+          "text": "vegetable",
+          "pos": "noun",
+          "definition": "a plant, like a carrot or a potato, that you eat",
+          "example": "Broccoli is my favourite green {vegetable}."
+        }
+      ]
+    },
+    {
+      "id": "p5-feelings",
+      "title": "How we feel",
+      "emoji": "💭",
+      "words": [
+        {
+          "id": "excited",
+          "text": "excited",
+          "pos": "adjective",
+          "definition": "very happy because something good will happen soon",
+          "example": "I can't wait for my party; I'm so {excited}!"
+        },
+        {
+          "id": "surprised",
+          "text": "surprised",
+          "pos": "adjective",
+          "definition": "feeling that something you did not expect has happened",
+          "example": "I didn't expect a party, so I was {surprised}."
+        },
+        {
+          "id": "worried",
+          "text": "worried",
+          "pos": "adjective",
+          "definition": "thinking that something bad might happen",
+          "example": "I am {worried} that I will fail the test."
+        },
+        {
+          "id": "proud",
+          "text": "proud",
+          "pos": "adjective",
+          "definition": "pleased about something good that you or someone close to you did",
+          "example": "My parents are {proud} of me because I worked hard."
+        },
+        {
+          "id": "lonely",
+          "text": "lonely",
+          "pos": "adjective",
+          "definition": "sad because you are alone",
+          "example": "With no friends to play with, I felt {lonely}."
+        },
+        {
+          "id": "calm",
+          "text": "calm",
+          "pos": "adjective",
+          "definition": "quiet and not worried or excited",
+          "example": "Take a deep breath and stay {calm}."
+        },
+        {
+          "id": "confused",
+          "text": "confused",
+          "pos": "adjective",
+          "definition": "not able to understand something",
+          "example": "I'm {confused}: is it Monday or Tuesday today?"
+        }
+      ]
+    },
+    {
+      "id": "p5-sport",
+      "title": "Sport and competitions",
+      "emoji": "🏟️",
+      "words": [
+        {
+          "id": "trophy",
+          "text": "trophy",
+          "pos": "noun",
+          "emoji": "🏆"
+        },
+        {
+          "id": "medal",
+          "text": "medal",
+          "pos": "noun",
+          "emoji": "🏅"
+        },
+        {
+          "id": "team",
+          "text": "team",
+          "pos": "noun",
+          "definition": "a group of people who play a sport together",
+          "example": "There are eleven players in a football {team}."
+        },
+        {
+          "id": "player",
+          "text": "player",
+          "pos": "noun",
+          "definition": "a person who takes part in a sport or game",
+          "example": "She is the best {player} in our team."
+        },
+        {
+          "id": "race",
+          "text": "race",
+          "pos": "noun",
+          "definition": "when people run, swim or drive to see who is fastest",
+          "example": "Tom came first in the running {race}."
+        },
+        {
+          "id": "win",
+          "text": "win",
+          "pos": "verb",
+          "definition": "to be the best in a game or competition",
+          "example": "If we score more goals, we will {win} the match."
+        },
+        {
+          "id": "lose",
+          "text": "lose",
+          "pos": "verb",
+          "definition": "to not win a game",
+          "example": "If we {lose} this match, we are out."
+        },
+        {
+          "id": "score",
+          "text": "score",
+          "pos": "verb",
+          "definition": "to get a goal or a point in a game",
+          "example": "He kicked the ball hard to {score} a goal."
+        },
+        {
+          "id": "practise",
+          "text": "practise",
+          "pos": "verb",
+          "definition": "to do something again and again to get better at it",
+          "example": "I {practise} the piano every day."
+        }
+      ]
+    },
+    {
+      "id": "p5-wild",
+      "title": "Wild world",
+      "emoji": "🌴",
+      "words": [
+        {
+          "id": "eagle",
+          "text": "eagle",
+          "pos": "noun",
+          "emoji": "🦅"
+        },
+        {
+          "id": "parrot",
+          "text": "parrot",
+          "pos": "noun",
+          "emoji": "🦜"
+        },
+        {
+          "id": "kangaroo",
+          "text": "kangaroo",
+          "pos": "noun",
+          "emoji": "🦘"
+        },
+        {
+          "id": "camel",
+          "text": "camel",
+          "pos": "noun",
+          "emoji": "🐫"
+        },
+        {
+          "id": "feather",
+          "text": "feather",
+          "pos": "noun",
+          "emoji": "🪶"
+        },
+        {
+          "id": "nest",
+          "text": "nest",
+          "pos": "noun",
+          "emoji": "🪺"
+        },
+        {
+          "id": "wing",
+          "text": "wing",
+          "pos": "noun",
+          "emoji": "🪽"
+        },
+        {
+          "id": "tail",
+          "text": "tail",
+          "pos": "noun",
+          "definition": "the long part at the back of an animal's body",
+          "example": "The happy dog is wagging its {tail}."
+        },
+        {
+          "id": "insect",
+          "text": "insect",
+          "pos": "noun",
+          "definition": "a very small animal with six legs",
+          "example": "An ant is a kind of {insect}."
+        }
+      ]
+    },
+    {
+      "id": "p5-jobs",
+      "title": "More jobs",
+      "emoji": "🧰",
+      "words": [
+        {
+          "id": "scientist",
+          "text": "scientist",
+          "pos": "noun",
+          "emoji": "🧑‍🔬"
+        },
+        {
+          "id": "mechanic",
+          "text": "mechanic",
+          "pos": "noun",
+          "emoji": "🧑‍🔧"
+        },
+        {
+          "id": "builder",
+          "text": "builder",
+          "pos": "noun",
+          "emoji": "👷"
+        },
+        {
+          "id": "waiter",
+          "text": "waiter",
+          "pos": "noun",
+          "definition": "a person who brings food to your table in a restaurant",
+          "example": "The restaurant {waiter} brought our food to the table."
+        },
+        {
+          "id": "cleaner",
+          "text": "cleaner",
+          "pos": "noun",
+          "definition": "a person whose job is to clean buildings",
+          "example": "The {cleaner} keeps our school floors clean and tidy."
+        },
+        {
+          "id": "shop-assistant",
+          "text": "shop assistant",
+          "pos": "noun",
+          "definition": "a person who helps people in a shop",
+          "example": "The {shop assistant} helped me find my size."
+        },
+        {
+          "id": "engineer",
+          "text": "engineer",
+          "pos": "noun",
+          "definition": "a person who designs machines, roads or bridges",
+          "example": "An {engineer} designs bridges, roads and machines."
+        },
+        {
+          "id": "baker",
+          "text": "baker",
+          "pos": "noun",
+          "definition": "a person who makes bread and cakes to sell",
+          "example": "The {baker} gets up early to make bread."
+        }
+      ]
+    },
+    {
+      "id": "p5-town",
+      "title": "Getting around town",
+      "emoji": "🚸",
+      "words": [
+        {
+          "id": "traffic-lights",
+          "text": "traffic lights",
+          "pos": "noun",
+          "emoji": "🚦"
+        },
+        {
+          "id": "bus-stop",
+          "text": "bus stop",
+          "pos": "noun",
+          "definition": "a place by the road where you wait for a bus",
+          "example": "We waited at the {bus stop} for the number 9."
+        },
+        {
+          "id": "petrol-station",
+          "text": "petrol station",
+          "pos": "noun",
+          "definition": "a place where people buy petrol for their cars",
+          "example": "We need petrol, so let's stop at the {petrol station}."
+        },
+        {
+          "id": "pavement",
+          "text": "pavement",
+          "pos": "noun",
+          "definition": "the path at the side of a road where people walk",
+          "example": "People walk on the {pavement} beside the road."
+        },
+        {
+          "id": "car-park",
+          "text": "car park",
+          "pos": "noun",
+          "definition": "a place where people leave their cars",
+          "example": "There are no free spaces in the {car park}."
+        },
+        {
+          "id": "roundabout",
+          "text": "roundabout",
+          "pos": "noun",
+          "definition": "a place where roads meet and cars drive around in a circle",
+          "example": "Drive around the {roundabout} and take the second exit."
+        },
+        {
+          "id": "bridge",
+          "text": "bridge",
+          "pos": "noun",
+          "definition": "something built over a river so you can cross it",
+          "example": "We walked across the {bridge} over the river."
+        },
+        {
+          "id": "motorway",
+          "text": "motorway",
+          "pos": "noun",
+          "definition": "a wide road where cars can go very fast between cities",
+          "example": "The {motorway} is a big, fast road between cities."
+        }
+      ]
+    },
+    {
+      "id": "p5-technology",
+      "title": "Technology",
+      "emoji": "🖥️",
+      "words": [
+        {
+          "id": "mobile-phone",
+          "text": "mobile phone",
+          "pos": "noun",
+          "emoji": "📱"
+        },
+        {
+          "id": "keyboard",
+          "text": "keyboard",
+          "pos": "noun",
+          "emoji": "⌨️"
+        },
+        {
+          "id": "printer",
+          "text": "printer",
+          "pos": "noun",
+          "emoji": "🖨️"
+        },
+        {
+          "id": "battery",
+          "text": "battery",
+          "pos": "noun",
+          "emoji": "🔋"
+        },
+        {
+          "id": "email",
+          "text": "email",
+          "pos": "noun",
+          "emoji": "📧"
+        },
+        {
+          "id": "screen",
+          "text": "screen",
+          "pos": "noun",
+          "definition": "the flat part of a TV or computer where you see pictures",
+          "example": "Don't sit too close to the TV {screen}."
+        },
+        {
+          "id": "message",
+          "text": "message",
+          "pos": "noun",
+          "definition": "words that you send or leave for someone",
+          "example": "I got a text {message} from my mum."
+        },
+        {
+          "id": "password",
+          "text": "password",
+          "pos": "noun",
+          "definition": "a secret word that lets you use a computer",
+          "example": "My {password} is a secret word that opens my computer."
+        }
+      ]
+    },
+    {
+      "id": "p5-space",
+      "title": "Space",
+      "emoji": "🌌",
+      "words": [
+        {
+          "id": "planet",
+          "text": "planet",
+          "pos": "noun",
+          "emoji": "🪐"
+        },
+        {
+          "id": "earth",
+          "text": "Earth",
+          "pos": "noun",
+          "emoji": "🌍"
+        },
+        {
+          "id": "astronaut",
+          "text": "astronaut",
+          "pos": "noun",
+          "emoji": "🧑‍🚀"
+        },
+        {
+          "id": "telescope",
+          "text": "telescope",
+          "pos": "noun",
+          "emoji": "🔭"
+        },
+        {
+          "id": "rocket",
+          "text": "rocket",
+          "pos": "noun",
+          "emoji": "🚀"
+        },
+        {
+          "id": "comet",
+          "text": "comet",
+          "pos": "noun",
+          "emoji": "☄️"
+        },
+        {
+          "id": "satellite",
+          "text": "satellite",
+          "pos": "noun",
+          "emoji": "🛰️"
+        },
+        {
+          "id": "space",
+          "text": "space",
+          "pos": "noun",
+          "definition": "the area outside the Earth, where the stars and planets are",
+          "example": "Astronauts travel into {space} in a rocket."
+        }
+      ]
+    },
+    {
+      "id": "p5-materials",
+      "title": "What things are made of",
+      "emoji": "🧱",
+      "words": [
+        {
+          "id": "wood",
+          "text": "wood",
+          "pos": "noun",
+          "emoji": "🪵"
+        },
+        {
+          "id": "stone",
+          "text": "stone",
+          "pos": "noun",
+          "emoji": "🪨"
+        },
+        {
+          "id": "wool",
+          "text": "wool",
+          "pos": "noun",
+          "emoji": "🧶"
+        },
+        {
+          "id": "paper",
+          "text": "paper",
+          "pos": "noun",
+          "emoji": "📄"
+        },
+        {
+          "id": "glass",
+          "text": "glass",
+          "pos": "noun",
+          "definition": "a hard material you can see through, used for windows",
+          "example": "Be careful! The window is made of {glass}."
+        },
+        {
+          "id": "metal",
+          "text": "metal",
+          "pos": "noun",
+          "definition": "a hard, shiny material used to make cars and coins",
+          "example": "Coins and keys are made of {metal}."
+        },
+        {
+          "id": "gold",
+          "text": "gold",
+          "pos": "noun",
+          "definition": "a yellow metal that costs a lot of money",
+          "example": "Coins made of {gold} are yellow and very expensive."
+        },
+        {
+          "id": "cotton",
+          "text": "cotton",
+          "pos": "noun",
+          "definition": "a soft material from a plant, used to make clothes",
+          "example": "This soft {cotton} comes from a plant."
+        }
+      ]
+    },
+    {
+      "id": "p5-environment",
+      "title": "Looking after our planet",
+      "emoji": "🌱",
+      "words": [
+        {
+          "id": "recycle",
+          "text": "recycle",
+          "pos": "verb",
+          "emoji": "♻️"
+        },
+        {
+          "id": "bin",
+          "text": "bin",
+          "pos": "noun",
+          "emoji": "🗑️"
+        },
+        {
+          "id": "rubbish",
+          "text": "rubbish",
+          "pos": "noun",
+          "definition": "things that you throw away because you do not want them",
+          "example": "Old food and empty boxes are all {rubbish}."
+        },
+        {
+          "id": "plastic",
+          "text": "plastic",
+          "pos": "noun",
+          "definition": "a light material used to make bottles and bags",
+          "example": "We should use less {plastic} to keep the sea clean."
+        },
+        {
+          "id": "pollution",
+          "text": "pollution",
+          "pos": "noun",
+          "definition": "dirty air, water or land that harms living things",
+          "example": "Cars and factories cause air {pollution}."
+        },
+        {
+          "id": "protect",
+          "text": "protect",
+          "pos": "verb",
+          "definition": "to keep someone or something safe",
+          "example": "We must {protect} wild animals and their homes."
+        },
+        {
+          "id": "nature",
+          "text": "nature",
+          "pos": "noun",
+          "definition": "plants, animals and everything in the world that people did not make",
+          "example": "We went for a {nature} walk in the forest."
+        },
+        {
+          "id": "energy",
+          "text": "energy",
+          "pos": "noun",
+          "definition": "the power that makes machines work, like electricity",
+          "example": "We save {energy} when we turn off the lights."
+        }
+      ]
+    },
+    {
+      "id": "p5-verbs",
+      "title": "Useful verbs",
+      "emoji": "💡",
+      "words": [
+        {
+          "id": "remember",
+          "text": "remember",
+          "pos": "verb",
+          "definition": "to keep something in your mind",
+          "example": "Can you {remember} the name of our first teacher?"
+        },
+        {
+          "id": "forget",
+          "text": "forget",
+          "pos": "verb",
+          "definition": "to not remember something",
+          "example": "Don't {forget} to brush your teeth!"
+        },
+        {
+          "id": "decide",
+          "text": "decide",
+          "pos": "verb",
+          "definition": "to choose what to do after thinking",
+          "example": "I can't choose, so you {decide}."
+        },
+        {
+          "id": "explain",
+          "text": "explain",
+          "pos": "verb",
+          "definition": "to tell someone about something so they understand it",
+          "example": "Can you {explain} this word? I don't understand it."
+        },
+        {
+          "id": "borrow",
+          "text": "borrow",
+          "pos": "verb",
+          "definition": "to take something that you will give back later",
+          "example": "Can I {borrow} your pencil, please?"
+        },
+        {
+          "id": "lend",
+          "text": "lend",
+          "pos": "verb",
+          "definition": "to give something to someone for a short time",
+          "example": "I can {lend} you my bike until Friday."
+        },
+        {
+          "id": "arrive",
+          "text": "arrive",
+          "pos": "verb",
+          "definition": "to get to a place",
+          "example": "When we {arrive} home, we will have dinner."
+        },
+        {
+          "id": "leave",
+          "text": "leave",
+          "pos": "verb",
+          "definition": "to go away from a place",
+          "example": "We must {leave} now; goodbye, everyone!"
+        },
+        {
+          "id": "invite",
+          "text": "invite",
+          "pos": "verb",
+          "definition": "to ask someone to come to a party",
+          "example": "I want to {invite} all my friends to my party."
+        }
+      ]
+    },
+    {
+      "id": "p5-how",
+      "title": "How and how often",
+      "emoji": "⏱️",
+      "words": [
+        {
+          "id": "always",
+          "text": "always",
+          "pos": "adverb",
+          "definition": "every time",
+          "example": "The sun {always} rises in the east."
+        },
+        {
+          "id": "usually",
+          "text": "usually",
+          "pos": "adverb",
+          "definition": "most of the time",
+          "example": "I {usually} walk, but today I took the bus."
+        },
+        {
+          "id": "never",
+          "text": "never",
+          "pos": "adverb",
+          "definition": "not at any time",
+          "example": "Penguins {never} fly."
+        },
+        {
+          "id": "quickly",
+          "text": "quickly",
+          "pos": "adverb",
+          "definition": "fast",
+          "example": "Hurry up! Eat {quickly} or we will miss the bus."
+        },
+        {
+          "id": "slowly",
+          "text": "slowly",
+          "pos": "adverb",
+          "definition": "not fast; taking a long time",
+          "example": "The tortoise is not fast; it moves very {slowly}."
+        },
+        {
+          "id": "quietly",
+          "text": "quietly",
+          "pos": "adverb",
+          "definition": "making very little noise",
+          "example": "Speak {quietly} in the library, please."
+        },
+        {
+          "id": "carefully",
+          "text": "carefully",
+          "pos": "adverb",
+          "definition": "thinking about what you do so nothing goes wrong",
+          "example": "Hold the baby {carefully}; don't drop her!"
+        },
+        {
+          "id": "loudly",
+          "text": "loudly",
+          "pos": "adverb",
+          "definition": "making a lot of noise",
+          "example": "The dog barked {loudly} and woke everyone up."
+        }
+      ]
+    }
+  ]
+}
