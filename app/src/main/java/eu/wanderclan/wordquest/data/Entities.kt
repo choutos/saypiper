@@ -14,7 +14,12 @@ data class ProfileEntity(
     val avatarId: String,
     /** The class the child picked; null until they pick one. */
     val gradeId: String? = null,
+    /** The adult override applies only to this class, never to another profile. */
+    val openUnitsGradeId: String? = null,
 )
+
+@Entity(tableName = "app_settings")
+data class AppSettingsEntity(@PrimaryKey val id: Int = 1, val soundEnabled: Boolean = true)
 
 @Entity(
     tableName = "word_progress",

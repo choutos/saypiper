@@ -13,7 +13,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -34,7 +35,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -106,7 +106,7 @@ class PathViewModel(private val container: AppContainer, profileId: Long) : View
         PathState(
             profile = profile,
             grade = gradeId?.let(container.catalog::grade),
-            units = pack?.pack?.units?.let { Progression.path(it, stars) },
+            units = pack?.pack?.units?.let { Progression.path(it, stars, profile.openUnitsGradeId == gradeId) },
             dueWordIds = Practice.dueWords(schedule, day, container.catalog),
             points = Rewards.totalPoints(activity),
             streak = Rewards.streak(activity, day),
@@ -118,7 +118,7 @@ class PathViewModel(private val container: AppContainer, profileId: Long) : View
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun PathScreen(
     container: AppContainer,
@@ -127,6 +127,9 @@ fun PathScreen(
     onLesson: (unitId: String, number: Int) -> Unit,
     onPractice: (LessonRequest.Practice) -> Unit,
     onAbout: () -> Unit,
+    onProfiles: () -> Unit = {},
+    onAvatar: () -> Unit = {},
+    onParent: () -> Unit = {},
 ) {
     val viewModel: PathViewModel = viewModel(factory = viewModelFactory { initializer { PathViewModel(container, profileId) } })
     // Read the date on every resume, and while resumed whenever the date or the clock changes (midnight included).
@@ -149,29 +152,30 @@ fun PathScreen(
     val current = state ?: return
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        container.catalog.avatars.firstOrNull { it.id == current.profile.avatarId }?.let {
-                            Picture(it.emoji, null, Modifier.size(40.dp))
-                            Spacer(Modifier.size(12.dp))
-                        }
-                        Text(listOfNotNull(current.profile.nickname, current.grade?.label).joinToString(" · "))
+            ScreenHeader(listOfNotNull(current.profile.nickname, current.grade?.label).joinToString(" · ")) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    container.catalog.avatars.firstOrNull { it.id == current.profile.avatarId }?.let {
+                        Picture(it.emoji, null, Modifier.size(40.dp))
                     }
-                },
-                actions = {
-                    TextButton(onClick = onChangeClass) { Text(stringResource(R.string.path_change_class)) }
                     IconButton(onClick = onAbout) { Icon(Icons.Filled.Info, stringResource(R.string.about)) }
-                },
-            )
+                }
+            }
         },
     ) { padding ->
         val units = current.units
         LazyColumn(
-            Modifier.fillMaxSize().padding(padding),
+            Modifier.fillMaxSize().padding(padding).screenWidth(),
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
+            item {
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    TextButton(onClick = onProfiles) { Text(stringResource(R.string.profile_players)) }
+                    TextButton(onClick = onChangeClass) { Text(stringResource(R.string.path_change_class)) }
+                    TextButton(onClick = onAvatar) { Text(stringResource(R.string.profile_edit_avatar)) }
+                    TextButton(onClick = onParent) { Text(stringResource(R.string.parent_title)) }
+                }
+            }
             item { RewardsCard(current) { Practice.request(current.dueWordIds)?.let(onPractice) } }
             if (units == null) {
                 item { Text(stringResource(R.string.path_coming_soon), style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(8.dp)) }
@@ -187,14 +191,14 @@ fun PathScreen(
 private fun RewardsCard(state: PathState, onPractice: () -> Unit) {
     Card(Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Icon(painterResource(R.drawable.ic_streak), null, tint = MaterialTheme.colorScheme.secondary, modifier = Modifier.size(32.dp))
                 Spacer(Modifier.size(8.dp))
                 Text(
                     if (state.streak > 0) pluralStringResource(R.plurals.home_streak, state.streak, state.streak)
                     else stringResource(R.string.home_streak_none),
                     style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.weight(1f).testTag("streak"),
+                    modifier = Modifier.testTag("streak"),
                 )
                 Text(
                     pluralStringResource(R.plurals.home_points, state.points, state.points),
@@ -204,7 +208,7 @@ private fun RewardsCard(state: PathState, onPractice: () -> Unit) {
                 )
             }
             val due = state.dueWordIds.size
-            Button(onClick = onPractice, enabled = due > 0, modifier = Modifier.fillMaxWidth().height(56.dp).testTag("practice")) {
+            Button(onClick = onPractice, enabled = due > 0, modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp).testTag("practice")) {
                 Icon(Icons.Filled.Refresh, null)
                 Spacer(Modifier.size(8.dp))
                 Text(
@@ -268,9 +272,9 @@ private fun LessonNode(unitTitle: String, lesson: PathLesson, onClick: () -> Uni
             enabled = lesson.isOpen,
             shape = CircleShape,
             color = colour,
-            modifier = Modifier.size(72.dp),
+            modifier = Modifier.widthIn(min = 72.dp).heightIn(min = 72.dp),
         ) {
-            Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
                 if (!lesson.isOpen) {
                     Icon(Icons.Filled.Lock, null, tint = Color.White, modifier = Modifier.size(32.dp))
                 } else {

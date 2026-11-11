@@ -2,6 +2,9 @@ package eu.wanderclan.wordquest.ui
 
 import android.view.accessibility.AccessibilityManager
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -54,6 +57,7 @@ class LessonViewModel(
     private val profileId: Long,
     request: LessonRequest,
     private val environment: Environment,
+    private val soundEnabled: Boolean = true,
 ) : ViewModel() {
     private val _session = MutableStateFlow(
         LessonSession(container.newSessionId(), container.generator.generate(request, environment, container.nextSeed())),
@@ -66,7 +70,7 @@ class LessonViewModel(
     fun answer(answer: Answer) = _session.update { if (it.isAnswered || it.isFinished) it else it.answer(answer) }
 
     fun say(wordId: String? = _session.value.current?.wordId) {
-        if (wordId == null) return
+        if (wordId == null || !soundEnabled) return
         val home = container.catalog.word(wordId) ?: return
         if (wordId in _session.value.unavailableSpeechWordIds || !container.speech.canSpeak(home.word)) return
         // Feedback may follow an answer before the preceding prompt has finished.
@@ -124,11 +128,13 @@ fun LessonScreen(
     onFinished: (Finished) -> Unit,
 ) {
     val context = LocalContext.current
+    val settings by container.settings.settings().collectAsStateWithLifecycle(initialValue = null)
+    val soundEnabled = settings?.soundEnabled ?: return
+    val picturesPerceivable = context.getSystemService(AccessibilityManager::class.java)?.isTouchExplorationEnabled != true
     val viewModel: LessonViewModel = viewModel(factory = viewModelFactory {
         initializer {
-            val accessibility = context.getSystemService(AccessibilityManager::class.java)
-            LessonViewModel(container, profileId, request, Environment(container.speech::canSpeak,
-                accessibility?.isTouchExplorationEnabled != true))
+            LessonViewModel(container, profileId, request, Environment({ soundEnabled && container.speech.canSpeak(it) },
+                picturesPerceivable), soundEnabled)
         }
     })
     val session by viewModel.session.collectAsStateWithLifecycle()
@@ -137,7 +143,10 @@ fun LessonScreen(
     LaunchedEffect(finished) { finished?.let(onFinished) }
     val exercise = session.current
     val home = exercise?.let { container.catalog.word(it.wordId) }
-    val band = home?.gradePack?.band ?: Band.B
+    val band = home?.gradePack?.band ?: when (request) {
+        is LessonRequest.UnitLesson -> container.catalog.unit(request.unitId)?.second?.band
+        is LessonRequest.Practice -> request.wordIds.firstOrNull()?.let(container.catalog::word)?.gradePack?.band
+    } ?: Band.B
     Scaffold(
         topBar = {
             Row(Modifier.fillMaxWidth().statusBarsPadding().padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -147,16 +156,16 @@ fun LessonScreen(
         },
     ) { padding ->
         if (exercise == null) {
-            Column(Modifier.padding(padding).padding(24.dp)) {
+            Column(Modifier.fillMaxSize().padding(padding).screenWidth().verticalScroll(rememberScrollState()).padding(24.dp)) {
                 if (session.lesson.exercises.isEmpty()) {
-                    Text(stringResource(R.string.lesson_empty))
+                    Text(stringResource(if (!picturesPerceivable && band == Band.A) R.string.lesson_needs_sight else R.string.lesson_empty))
                     Button(onClick = onClose) { Text(stringResource(R.string.lesson_back)) }
                 }
             }
         } else {
             key(session.position) {
                 ExerciseQuestion(exercise, session.response, band,
-                    available.canSpeak(requireNotNull(home).word) && exercise.wordId !in session.unavailableSpeechWordIds,
+                    soundEnabled && available.canSpeak(requireNotNull(home).word) && exercise.wordId !in session.unavailableSpeechWordIds,
                     { viewModel.say(it) }, viewModel::answer, viewModel::next, requireNotNull(home).word.text, Modifier.padding(padding))
             }
         }

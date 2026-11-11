@@ -80,8 +80,8 @@ fun ExerciseQuestion(
     LaunchedEffect(exercise, answered) {
         if (canSayWord && (if (exercise.wordIsPrompt) !answered else answered)) say(exercise.wordId)
     }
-    Column(modifier.fillMaxSize()) {
-        Column(Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = 24.dp),
+    Column(modifier.fillMaxSize().screenWidth().verticalScroll(rememberScrollState())) {
+        Column(Modifier.fillMaxWidth().padding(horizontal = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
             if (canSayWord && (exercise.wordIsPrompt || answered)) {
                 FilledTonalIconButton(onClick = { onSay(exercise.wordId) }, modifier = Modifier.size(64.dp).testTag("speaker")) {
@@ -132,7 +132,7 @@ private fun ChoiceQuestion(exercise: ChoiceExercise, response: Answer.Choice?, b
             onClick = { onAnswer(Answer.Choice(index)) }, enabled = response == null,
             colors = ButtonDefaults.outlinedButtonColors(disabledContainerColor = colour, disabledContentColor = colours.onSurface),
             border = BorderStroke(if (correct || wrong) 3.dp else 1.dp, when { correct -> colours.tertiary; wrong -> colours.error; else -> colours.outline }),
-            modifier = Modifier.fillMaxWidth().height(if (option is Option.Picture) 104.dp else if (band == Band.A) 72.dp else 64.dp)
+            modifier = Modifier.fillMaxWidth().heightIn(min = if (option is Option.Picture) 104.dp else if (band == Band.A) 72.dp else 64.dp)
                 .testTag("option-$index"),
         ) {
             when (option) {
@@ -158,7 +158,7 @@ private fun PairsQuestion(exercise: PairsExercise, response: Answer.Pairs?, onAn
             OutlinedButton(onClick = { selected = word.wordId },
                 enabled = response == null && word.wordId !in matches.values,
                 border = BorderStroke(if (selected == word.wordId) 3.dp else 1.dp, MaterialTheme.colorScheme.primary),
-                modifier = Modifier.weight(1f).height(64.dp).testTag("pair-word-${word.wordId}")) {
+                modifier = Modifier.weight(1f).heightIn(min = 64.dp).testTag("pair-word-${word.wordId}")) {
                 Text(word.text)
             }
             OutlinedButton(onClick = {
@@ -168,7 +168,7 @@ private fun PairsQuestion(exercise: PairsExercise, response: Answer.Pairs?, onAn
                 border = BorderStroke(if (correct == null) 1.dp else 3.dp,
                     when (correct) { true -> colours.tertiary; false -> colours.error; null -> colours.outline }),
                 contentPadding = PaddingValues(4.dp),
-                modifier = Modifier.weight(1f).height(64.dp).testTag("pair-picture-${picture.wordId}")) {
+                modifier = Modifier.weight(1f).heightIn(min = 64.dp).testTag("pair-picture-${picture.wordId}")) {
                 Picture(picture.emoji, stringResource(R.string.lesson_picture_option, index + 1), Modifier.size(48.dp))
                 val paired = response?.wordIds?.get(index) ?: matches[picture.wordId]
                 paired?.let { id ->
@@ -210,9 +210,10 @@ private fun TilesQuestion(exercise: TilesExercise, response: Answer.Tiles?, onAn
         { onAnswer(Answer.Tiles(selected)) })
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun AnswerControls(complete: Boolean, answered: Boolean, reset: () -> Unit, submit: () -> Unit) {
-    if (!answered) Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+    if (!answered) FlowRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
         OutlinedButton(onClick = reset, modifier = Modifier.heightIn(min = 56.dp).testTag("reset")) { Text(stringResource(R.string.lesson_reset)) }
         Button(onClick = submit, enabled = complete, modifier = Modifier.heightIn(min = 56.dp).testTag("submit")) {
             Icon(Icons.Filled.Check, null)
@@ -235,7 +236,7 @@ private fun Feedback(correct: Boolean, answer: String?, onContinue: () -> Unit) 
                 },
                     style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(start = 8.dp))
             }
-            Button(onClick = onContinue, modifier = Modifier.fillMaxWidth().height(64.dp)) {
+            Button(onClick = onContinue, modifier = Modifier.fillMaxWidth().heightIn(min = 64.dp)) {
                 Text(stringResource(R.string.lesson_continue))
                 Icon(Icons.AutoMirrored.Filled.ArrowForward, null, Modifier.padding(start = 8.dp))
             }

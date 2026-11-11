@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -45,7 +44,7 @@ import eu.wanderclan.wordquest.content.VocabUnit
 fun ResultScreen(stars: Int, points: Int, crownedUnit: VocabUnit?, practice: Boolean, onContinue: () -> Unit) {
     Scaffold { padding ->
         // Scrolls when the content is taller than the screen (a crown in landscape), centred otherwise.
-        BoxWithConstraints(Modifier.fillMaxSize().padding(padding)) {
+        BoxWithConstraints(Modifier.fillMaxSize().padding(padding).screenWidth()) {
             Column(
                 Modifier.verticalScroll(rememberScrollState()).fillMaxWidth().heightIn(min = maxHeight).padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -65,7 +64,7 @@ fun ResultScreen(stars: Int, points: Int, crownedUnit: VocabUnit?, practice: Boo
                     color = MaterialTheme.colorScheme.secondary,
                     fontWeight = FontWeight.Bold,
                 )
-                Button(onClick = onContinue, modifier = Modifier.fillMaxWidth().height(56.dp)) {
+                Button(onClick = onContinue, modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp)) {
                     Text(stringResource(R.string.result_continue), style = MaterialTheme.typography.titleMedium)
                 }
             }

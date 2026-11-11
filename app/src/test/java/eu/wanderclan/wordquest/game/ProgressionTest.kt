@@ -43,8 +43,19 @@ class ProgressionTest {
     }
 
     @Test
-    fun `stars without the crown of the unit before do not open a unit`() {
+    fun `a stored result keeps its lesson and unit open without the preceding crown`() {
         val stars = mapOf(("fx-pets" to 1) to 3, ("fx-pets" to 2) to 3, ("fx-fruit" to 1) to 3)
-        assertEquals(listOf("fx-pets" to 1, "fx-pets" to 2, "fx-pets" to 3), open(stars))
+        assertEquals(listOf("fx-pets" to 1, "fx-pets" to 2, "fx-pets" to 3, "fx-fruit" to 1, "fx-fruit" to 2), open(stars))
+    }
+
+    @Test
+    fun `a third unit stays open when the second unit gains a lesson`() {
+        val original = units + units.last().copy(id = "third")
+        val stars = original.take(2).flatMap { u -> (1..3).map { (u.id to it) to 1 } }.toMap() + (("third" to 1) to 1)
+        val expanded = original.map { u -> if (u.id == units[1].id) u.copy(words = u.words + u.words.take(3)) else u }
+        assertFalse(Progression.hasCrown(expanded[1], stars))
+        val third = Progression.path(expanded, stars)[2]
+        assertTrue(third.isOpen)
+        assertTrue(third.lessons.first().isOpen)
     }
 }

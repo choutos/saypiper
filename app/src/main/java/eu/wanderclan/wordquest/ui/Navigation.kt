@@ -2,6 +2,9 @@ package eu.wanderclan.wordquest.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -12,6 +15,9 @@ import eu.wanderclan.wordquest.AppContainer
 import eu.wanderclan.wordquest.game.LessonRequest
 
 private object Routes {
+    const val START = "start"
+    const val PARENT = "parent"
+    const val AVATAR = "avatar/{profileId}"
     const val PROFILES = "profiles"
     const val NEW_PROFILE = "profiles/new"
     const val GRADES = "grades/{profileId}"
@@ -42,7 +48,17 @@ fun WordQuestRoot(container: AppContainer, navController: NavHostController = re
 @Composable
 private fun WordQuestNavHost(container: AppContainer, nav: NavHostController) {
     val profileArg = navArgument("profileId") { type = NavType.LongType }
-    NavHost(nav, startDestination = Routes.PROFILES) {
+    NavHost(nav, startDestination = Routes.START) {
+        composable(Routes.START) {
+            val profiles by container.profiles.profiles().collectAsStateWithLifecycle(initialValue = null)
+            LaunchedEffect(profiles) {
+                val list = profiles ?: return@LaunchedEffect
+                val only = list.singleOrNull()
+                nav.navigate(if (only == null) Routes.PROFILES else if (only.gradeId == null) Routes.grades(only.id) else Routes.path(only.id)) {
+                    popUpTo(Routes.START) { inclusive = true }
+                }
+            }
+        }
         composable(Routes.PROFILES) {
             ProfilesScreen(
                 container = container,
@@ -51,17 +67,18 @@ private fun WordQuestNavHost(container: AppContainer, nav: NavHostController) {
                     nav.navigate(if (profile.gradeId == null) Routes.grades(profile.id) else Routes.path(profile.id))
                 },
                 onAbout = { nav.navigate(Routes.ABOUT) },
+                onParent = { nav.navigate(Routes.PARENT) },
             )
         }
         composable(Routes.NEW_PROFILE) {
             CreateProfileScreen(container) { id ->
-                nav.navigate(Routes.grades(id)) { popUpTo(Routes.PROFILES) }
+                nav.navigate(Routes.grades(id)) { popUpTo(Routes.NEW_PROFILE) { inclusive = true } }
             }
         }
         composable(Routes.GRADES, listOf(profileArg)) { entry ->
             val profileId = entry.arguments!!.getLong("profileId")
             ClassPickerScreen(container, profileId) {
-                nav.navigate(Routes.path(profileId)) { popUpTo(Routes.PROFILES) }
+                nav.navigate(Routes.path(profileId)) { popUpTo(Routes.GRADES) { inclusive = true }; launchSingleTop = true }
             }
         }
         composable(Routes.PATH, listOf(profileArg)) { entry ->
@@ -73,6 +90,9 @@ private fun WordQuestNavHost(container: AppContainer, nav: NavHostController) {
                 onLesson = { unitId, number -> nav.navigate(Routes.lesson(profileId, unitId, number)) },
                 onPractice = { request -> nav.navigate(Routes.practice(profileId, request)) },
                 onAbout = { nav.navigate(Routes.ABOUT) },
+                onProfiles = { nav.navigate(Routes.PROFILES) { popUpTo(nav.graph.id) } },
+                onAvatar = { nav.navigate("avatar/$profileId") },
+                onParent = { nav.navigate(Routes.PARENT) },
             )
         }
         composable(
@@ -109,6 +129,14 @@ private fun WordQuestNavHost(container: AppContainer, nav: NavHostController) {
         }
         composable(Routes.ABOUT) {
             AboutScreen { nav.popBackStack() }
+        }
+        composable(Routes.AVATAR, listOf(profileArg)) { entry ->
+            EditAvatarScreen(container, entry.arguments!!.getLong("profileId")) { nav.popBackStack() }
+        }
+        composable(Routes.PARENT) {
+            ParentCornerScreen(container) {
+                nav.navigate(Routes.PROFILES) { popUpTo(nav.graph.id) }
+            }
         }
     }
 }

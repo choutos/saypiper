@@ -10,13 +10,14 @@ import androidx.room.RoomDatabase
  * schema may change freely; from then on every change ships with a tested migration (ADR section 7).
  */
 @Database(
-    entities = [ProfileEntity::class, WordProgressEntity::class, LessonResultEntity::class, DailyActivityEntity::class],
-    version = 1,
+    entities = [ProfileEntity::class, WordProgressEntity::class, LessonResultEntity::class, DailyActivityEntity::class, AppSettingsEntity::class],
+    version = 2,
     exportSchema = true,
 )
 abstract class WordQuestDatabase : RoomDatabase() {
     abstract fun profiles(): ProfileDao
     abstract fun progress(): ProgressDao
+    abstract fun settings(): SettingsDao
 
     companion object {
         fun create(context: Context): WordQuestDatabase =

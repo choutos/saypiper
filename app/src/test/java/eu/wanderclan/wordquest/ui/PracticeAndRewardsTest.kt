@@ -66,8 +66,9 @@ class PracticeAndRewardsTest {
                 prepare(it)
             }
         }
-        rule.waitFor(hasText("Mia"))
-        rule.onNode(hasText("Mia")).performClick()
+        rule.waitFor(hasText("Mia") or hasText("Mia · P1"))
+        // The startup read may see the profile before the initially empty chooser is composed.
+        if (rule.onAllNodes(hasText("Mia")).fetchSemanticsNodes().isNotEmpty()) rule.onNode(hasText("Mia")).performClick()
         rule.waitFor(hasText("Mia · P1"))
         return id
     }

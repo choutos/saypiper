@@ -68,6 +68,25 @@ class ProfileRepository(private val db: WordQuestDatabase) {
         dao.update(profile.copy(gradeId = gradeId))
     }
 
+    suspend fun setAvatar(profileId: Long, avatarId: String) {
+        dao.get(profileId)?.let { dao.update(it.copy(avatarId = avatarId)) }
+    }
+
+    suspend fun rename(profileId: Long, nickname: String) {
+        require(nickname.isNotBlank())
+        dao.get(profileId)?.let { dao.update(it.copy(nickname = nickname.trim().take(20))) }
+    }
+
+    suspend fun openAllUnits(profileId: Long, enabled: Boolean) {
+        dao.get(profileId)?.let { dao.update(it.copy(openUnitsGradeId = if (enabled) it.gradeId else null)) }
+    }
+
+    suspend fun resetProgress(profileId: Long) = db.withTransaction {
+        db.progress().clearResults(profileId)
+        db.progress().clearWords(profileId)
+        db.progress().clearActivity(profileId)
+    }
+
     suspend fun delete(profileId: Long) {
         dao.get(profileId)?.let { dao.delete(it) }
     }

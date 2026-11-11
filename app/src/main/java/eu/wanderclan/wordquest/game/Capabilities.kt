@@ -23,7 +23,7 @@ object Capabilities {
                 (picture || environment.speechAvailable(word))
             ExerciseType.GAP_FILL -> band == Band.B && word.parsedExample != null &&
                 candidates.count { it.pos == word.pos } >= band.choices - 1
-            ExerciseType.DEFINITION_TO_WORD -> band == Band.B && word.emoji == null && word.definition != null && choice
+            ExerciseType.DEFINITION_TO_WORD -> band == Band.B && !picture && word.definition != null && choice
         }
     }
 

@@ -103,8 +103,48 @@ class ProgressRepositoryTest {
         profiles.setGrade(id, "p1")
         progress.save(id, result("s1", 3, "dog" to true))
         profiles.setGrade(id, "s3")
+        profiles.setAvatar(id, "owl")
+        profiles.rename(id, "Mimi")
         assertEquals("s3", db.profiles().get(id)!!.gradeId)
+        assertEquals("owl", db.profiles().get(id)!!.avatarId)
+        assertEquals("Mimi", db.profiles().get(id)!!.nickname)
         assertEquals(mapOf(("p1-animals" to 1) to 3), progress.bestStars(id).first())
+    }
+
+    @Test
+    fun `reset removes every kind of progress only for the selected profile`() = runTest {
+        val mia = profiles.create("Mia", "fox")
+        val leo = profiles.create("Leo", "owl")
+        progress.save(mia, result("mia", 3, "dog" to true))
+        progress.save(leo, result("leo", 2, "cat" to true))
+        profiles.resetProgress(mia)
+        assertEquals(0, db.progress().lessonResultCount(mia))
+        assertEquals(0, db.progress().wordProgressCount(mia))
+        assertTrue(db.progress().dailyActivity(mia).isEmpty())
+        assertEquals("Mia", db.profiles().get(mia)!!.nickname)
+        assertEquals(1, db.progress().lessonResultCount(leo))
+        assertEquals(1, db.progress().wordProgressCount(leo))
+        assertEquals(1, db.progress().dailyActivity(leo).size)
+    }
+
+    @Test
+    fun `adult override is per profile and class and switching off restores earned path`() = runTest {
+        val mia = profiles.create("Mia", "fox")
+        val leo = profiles.create("Leo", "owl")
+        profiles.setGrade(mia, "p1")
+        profiles.setGrade(leo, "p1")
+        val units = Fixtures.catalog().pack("p1")!!.pack.units
+        suspend fun path(id: Long) = Progression.path(units, progress.bestStars(id).first(),
+            db.profiles().get(id)!!.let { it.openUnitsGradeId == it.gradeId })
+        val earned = path(mia)
+        profiles.openAllUnits(mia, true)
+        assertTrue(path(mia).all { it.isOpen && it.lessons.all { l -> l.isOpen } })
+        assertEquals(earned, path(leo))
+        profiles.setGrade(mia, "p3")
+        assertEquals("p1", db.profiles().get(mia)!!.openUnitsGradeId)
+        profiles.setGrade(mia, "p1")
+        profiles.openAllUnits(mia, false)
+        assertEquals(earned, path(mia))
     }
 
     @Test
