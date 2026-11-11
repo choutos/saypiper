@@ -9,6 +9,7 @@ import eu.wanderclan.wordquest.Fixtures
 import eu.wanderclan.wordquest.content.Band
 import eu.wanderclan.wordquest.content.ContentLoader
 import eu.wanderclan.wordquest.game.*
+import kotlinx.coroutines.Dispatchers
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
@@ -23,7 +24,7 @@ class PrimaryExerciseUiTest {
     @get:Rule val rule = createComposeRule()
     private val catalog = Fixtures.catalog()
     private val generator = LessonGenerator(catalog)
-    private val pictures = Pictures(Fixtures.source, ContentLoader.read(Fixtures.source).first.pictureIndex)
+    private val pictures = Pictures(Fixtures.source, ContentLoader.read(Fixtures.source).first.pictureIndex, Dispatchers.Unconfined)
 
     private fun exercise(type: ExerciseType): Exercise = (0L..30L).flatMap { seed ->
         listOf("fx-pets" to 3, "fx-home" to 4).flatMap { (unit, number) ->
@@ -45,11 +46,7 @@ class PrimaryExerciseUiTest {
             }
         }
         rule.waitForIdle()
-        if (exercise is ChoiceExercise && exercise.prompt == Prompt.Listening) {
-            rule.onNodeWithTag("listen-replay").performClick()
-            rule.runOnIdle { assertEquals(exercise.wordId, replayed) }
-        }
-        // Await the asynchronous decode before capturing; test nodes only appear once Image is ready.
+        // The test dispatcher completes decoding before idle; pictures must already exist.
         val pictureDescriptions = when (exercise) {
             is PairsExercise -> exercise.pictures.indices.map { "Picture ${it + 1}" }
             is ChoiceExercise -> exercise.options.mapIndexedNotNull { index, option ->
@@ -57,10 +54,12 @@ class PrimaryExerciseUiTest {
             } + if (exercise.prompt is Prompt.Picture) listOf("Picture to name") else emptyList()
             is TilesExercise -> if (exercise.prompt is Prompt.Picture) listOf("Picture to name") else emptyList()
         }
-        rule.waitUntil(30_000) {
-            pictureDescriptions.all { description ->
-                rule.onAllNodes(hasContentDescription(description), useUnmergedTree = true).fetchSemanticsNodes().isNotEmpty()
-            }
+        pictureDescriptions.forEach { description ->
+            rule.onNodeWithContentDescription(description, useUnmergedTree = true).assertExists()
+        }
+        if (exercise is ChoiceExercise && exercise.prompt == Prompt.Listening) {
+            rule.onNodeWithTag("listen-replay").performClick()
+            rule.runOnIdle { assertEquals(exercise.wordId, replayed) }
         }
         if (right) rule.onRoot().captureRoboImage("build/outputs/roborazzi/primary-${type.name.lowercase()}.png")
         when (exercise) {
