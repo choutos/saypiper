@@ -2,7 +2,7 @@ package eu.wanderclan.wordquest
 
 import android.app.Application
 import android.util.Log
-import eu.wanderclan.wordquest.audio.FakeSpeech
+import eu.wanderclan.wordquest.audio.DeviceSpeech
 import eu.wanderclan.wordquest.content.AssetContentSource
 import eu.wanderclan.wordquest.content.ContentLoader
 import eu.wanderclan.wordquest.data.WordQuestDatabase
@@ -19,8 +19,7 @@ open class WordQuestApplication : Application() {
             content = content,
             contentSource = source,
             database = WordQuestDatabase.create(this),
-            // Device speech arrives with the primary exercise set; until then lessons are played by reading.
-            speech = FakeSpeech(FakeSpeech.Mode.UNAVAILABLE),
+            speech = DeviceSpeech(this),
             clock = { LocalDate.now() },
         )
     }

@@ -42,4 +42,17 @@
     <string name="about_offline">Word Quest works without the internet. It has no accounts, adverts or purchases, and your progress stays on this device.</string>
     <string name="about_pictures">Pictures: OpenMoji (openmoji.org), licence CC BY-SA 4.0</string>
     <string name="about_licence_notice">The licence notice for the pictures is included in the app.</string>
+    <string name="speech_unavailable">For an adult: no offline English voice is available. These lessons need reading until a voice is installed. Open the device Settings, find Text-to-speech, choose a speech engine, and install an English voice in its voice-data settings. Then restart the app. The wording varies by device.</string>
+    <string name="speech_say">Hear the word</string>
+    <string name="lesson_listen">Listen</string>
+    <string name="lesson_picture_option">Picture %1$d</string>
+    <string name="lesson_pairs">Match the words and pictures</string>
+    <string name="lesson_tiles">Build the word</string>
+    <string name="lesson_check">Check</string>
+    <string name="lesson_reset">Start again</string>
+    <string name="lesson_selected">Selected</string>
+    <string name="lesson_pair_right">Correct pair</string>
+    <string name="lesson_pair_wrong">Try this pair again</string>
+    <string name="lesson_pairs_wrong">Try these pairs again. The arrows show the right words.</string>
+    <string name="lesson_pair_answer">→ %1$s</string>
 </resources>

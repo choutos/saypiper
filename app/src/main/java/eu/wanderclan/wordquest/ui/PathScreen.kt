@@ -46,6 +46,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import eu.wanderclan.wordquest.AppContainer
 import eu.wanderclan.wordquest.R
+import eu.wanderclan.wordquest.content.Band
 import eu.wanderclan.wordquest.content.Grade
 import eu.wanderclan.wordquest.content.VocabUnit
 import eu.wanderclan.wordquest.data.ProfileEntity
@@ -89,6 +90,7 @@ fun PathScreen(
     val viewModel: PathViewModel = viewModel(factory = viewModelFactory { initializer { PathViewModel(container, profileId) } })
     val state by viewModel.state.collectAsStateWithLifecycle()
     val current = state ?: return
+    val speechAvailable by container.speech.availability.collectAsStateWithLifecycle()
     Scaffold(
         topBar = {
             TopAppBar(
@@ -122,6 +124,9 @@ fun PathScreen(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
+            if (current.grade?.band == Band.A && !speechAvailable) {
+                item { Text(stringResource(R.string.speech_unavailable), Modifier.padding(8.dp)) }
+            }
             items(units, key = { it.unit.id }) { UnitCard(it, onLesson) }
         }
     }

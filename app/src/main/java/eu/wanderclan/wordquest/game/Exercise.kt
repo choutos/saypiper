@@ -1,29 +1,44 @@
 package eu.wanderclan.wordquest.game
 
-/** What the device can do right now. Pictures cannot be perceived while a screen reader is on. */
+import eu.wanderclan.wordquest.content.Example
+
 data class Environment(val speechAvailable: Boolean, val picturesPerceivable: Boolean)
 
-/** Every exercise type the generator knows. Later issues add types here and in [Capabilities]. */
-enum class ExerciseType { PICTURE_TO_WORD }
+enum class ExerciseType {
+    PICTURE_TO_WORD, WORD_TO_PICTURE, LISTEN_AND_PICK, MATCH_PAIRS, SPELL_WITH_TILES, GAP_FILL, DEFINITION_TO_WORD,
+}
 
 /** What the child is shown or hears. */
 sealed interface Prompt {
     data class Picture(val emoji: String) : Prompt
+    data class Text(val text: String) : Prompt
+    data class Gap(val example: Example) : Prompt
+    data object Listening : Prompt
 }
 
-/** What the child picks from. Each option is a word of the pack. */
+/** Options always identify a word from the same pack. */
 sealed interface Option {
     val wordId: String
-
     data class Text(override val wordId: String, val text: String) : Option
+    data class Picture(override val wordId: String, val emoji: String) : Option
+}
+
+sealed interface Answer {
+    data class Choice(val index: Int) : Answer
+    /** Word ids matched to pictures, in picture order. */
+    data class Pairs(val wordIds: List<String>) : Answer
+    /** Indices into the original shuffled tiles; repeated letters remain separate tiles. */
+    data class Tiles(val indices: List<Int>) : Answer
 }
 
 sealed interface Exercise {
     val type: ExerciseType
     val wordId: String
+    val wordIds: List<String> get() = listOf(wordId)
+    /** Validates the response and returns exactly the words answered incorrectly. */
+    fun incorrectWords(answer: Answer): Set<String>
 }
 
-/** A prompt with three or four options, one of them right. Most exercise types are a choice. */
 data class ChoiceExercise(
     override val type: ExerciseType,
     override val wordId: String,
@@ -31,8 +46,39 @@ data class ChoiceExercise(
     val options: List<Option>,
 ) : Exercise {
     val answerIndex: Int get() = options.indexOfFirst { it.wordId == wordId }
+    override fun incorrectWords(answer: Answer): Set<String> {
+        require(answer is Answer.Choice && answer.index in options.indices)
+        return if (answer.index == answerIndex) emptySet() else setOf(wordId)
+    }
+}
+
+data class PairsExercise(
+    override val wordId: String,
+    val words: List<Option.Text>,
+    val pictures: List<Option.Picture>,
+) : Exercise {
+    override val type = ExerciseType.MATCH_PAIRS
+    override val wordIds get() = words.map { it.wordId }
+    override fun incorrectWords(answer: Answer): Set<String> {
+        require(answer is Answer.Pairs && answer.wordIds.size == pictures.size && answer.wordIds.toSet() == wordIds.toSet())
+        return pictures.zip(answer.wordIds).filter { (picture, id) -> picture.wordId != id }
+            .flatMap { (picture, id) -> listOf(picture.wordId, id) }.toSet()
+    }
+}
+
+data class TilesExercise(
+    override val wordId: String,
+    val prompt: Prompt,
+    val text: String,
+    val tiles: List<Char>,
+) : Exercise {
+    override val type = ExerciseType.SPELL_WITH_TILES
+    override fun incorrectWords(answer: Answer): Set<String> {
+        require(answer is Answer.Tiles && answer.indices.sorted() == tiles.indices.toList())
+        return if (answer.indices.map { tiles[it] }.joinToString("") == text) emptySet() else setOf(wordId)
+    }
 }
 
 data class Lesson(val request: LessonRequest, val exercises: List<Exercise>, val skippedWordIds: List<String>) {
-    val wordIds: List<String> get() = exercises.map { it.wordId }.distinct()
+    val wordIds: List<String> get() = exercises.flatMap { it.wordIds }.distinct()
 }

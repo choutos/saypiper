@@ -33,6 +33,15 @@ class ManifestTest {
     }
 
     @Test
+    fun `speech engine discovery is declared without a permission`() {
+        val queries = elements("queries").single()
+        val actions = queries.getElementsByTagName("action")
+        assertTrue((0 until actions.length).any {
+            (actions.item(it) as Element).getAttributeNS(android, "name") == "android.intent.action.TTS_SERVICE"
+        })
+    }
+
+    @Test
     fun `backup and device transfer are off`() {
         val application = elements("application").single()
         assertEquals("false", application.getAttributeNS(android, "allowBackup"))
