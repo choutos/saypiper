@@ -3,6 +3,128 @@
   "grade": "p1",
   "units": [
     {
+      "id": "p1-colours",
+      "title": "Colours",
+      "emoji": "🌈",
+      "words": [
+        {
+          "id": "red",
+          "text": "red",
+          "pos": "adjective",
+          "emoji": "🔴"
+        },
+        {
+          "id": "blue",
+          "text": "blue",
+          "pos": "adjective",
+          "emoji": "🔵"
+        },
+        {
+          "id": "yellow",
+          "text": "yellow",
+          "pos": "adjective",
+          "emoji": "🟡"
+        },
+        {
+          "id": "green",
+          "text": "green",
+          "pos": "adjective",
+          "emoji": "🟢"
+        },
+        {
+          "id": "orange-colour",
+          "text": "orange",
+          "pos": "adjective",
+          "emoji": "🟠"
+        },
+        {
+          "id": "purple",
+          "text": "purple",
+          "pos": "adjective",
+          "emoji": "🟣"
+        },
+        {
+          "id": "brown",
+          "text": "brown",
+          "pos": "adjective",
+          "emoji": "🟤"
+        },
+        {
+          "id": "black",
+          "text": "black",
+          "pos": "adjective",
+          "emoji": "⚫"
+        }
+      ]
+    },
+    {
+      "id": "p1-numbers",
+      "title": "Numbers",
+      "emoji": "🔢",
+      "words": [
+        {
+          "id": "one",
+          "text": "one",
+          "pos": "other",
+          "emoji": "1️⃣"
+        },
+        {
+          "id": "two",
+          "text": "two",
+          "pos": "other",
+          "emoji": "2️⃣"
+        },
+        {
+          "id": "three",
+          "text": "three",
+          "pos": "other",
+          "emoji": "3️⃣"
+        },
+        {
+          "id": "four",
+          "text": "four",
+          "pos": "other",
+          "emoji": "4️⃣"
+        },
+        {
+          "id": "five",
+          "text": "five",
+          "pos": "other",
+          "emoji": "5️⃣"
+        },
+        {
+          "id": "six",
+          "text": "six",
+          "pos": "other",
+          "emoji": "6️⃣"
+        },
+        {
+          "id": "seven",
+          "text": "seven",
+          "pos": "other",
+          "emoji": "7️⃣"
+        },
+        {
+          "id": "eight",
+          "text": "eight",
+          "pos": "other",
+          "emoji": "8️⃣"
+        },
+        {
+          "id": "nine",
+          "text": "nine",
+          "pos": "other",
+          "emoji": "9️⃣"
+        },
+        {
+          "id": "ten",
+          "text": "ten",
+          "pos": "other",
+          "emoji": "🔟"
+        }
+      ]
+    },
+    {
       "id": "p1-animals",
       "title": "Animals",
       "emoji": "🐶",
@@ -59,6 +181,147 @@
       ]
     },
     {
+      "id": "p1-people",
+      "title": "People",
+      "emoji": "🧑‍🤝‍🧑",
+      "words": [
+        {
+          "id": "baby",
+          "text": "baby",
+          "pos": "noun",
+          "emoji": "👶"
+        },
+        {
+          "id": "boy",
+          "text": "boy",
+          "pos": "noun",
+          "emoji": "👦"
+        },
+        {
+          "id": "girl",
+          "text": "girl",
+          "pos": "noun",
+          "emoji": "👧"
+        },
+        {
+          "id": "grandma",
+          "text": "grandma",
+          "pos": "noun",
+          "emoji": "👵"
+        },
+        {
+          "id": "grandpa",
+          "text": "grandpa",
+          "pos": "noun",
+          "emoji": "👴"
+        },
+        {
+          "id": "family",
+          "text": "family",
+          "pos": "noun",
+          "emoji": "👪"
+        }
+      ]
+    },
+    {
+      "id": "p1-body",
+      "title": "My body",
+      "emoji": "🧍",
+      "words": [
+        {
+          "id": "eye",
+          "text": "eye",
+          "pos": "noun",
+          "emoji": "👁️"
+        },
+        {
+          "id": "ear",
+          "text": "ear",
+          "pos": "noun",
+          "emoji": "👂"
+        },
+        {
+          "id": "nose",
+          "text": "nose",
+          "pos": "noun",
+          "emoji": "👃"
+        },
+        {
+          "id": "hand",
+          "text": "hand",
+          "pos": "noun",
+          "emoji": "✋"
+        },
+        {
+          "id": "foot",
+          "text": "foot",
+          "pos": "noun",
+          "emoji": "🦶"
+        },
+        {
+          "id": "leg",
+          "text": "leg",
+          "pos": "noun",
+          "emoji": "🦵"
+        },
+        {
+          "id": "tooth",
+          "text": "tooth",
+          "pos": "noun",
+          "emoji": "🦷"
+        }
+      ]
+    },
+    {
+      "id": "p1-toys",
+      "title": "Toys",
+      "emoji": "🎁",
+      "words": [
+        {
+          "id": "ball",
+          "text": "ball",
+          "pos": "noun",
+          "emoji": "⚽"
+        },
+        {
+          "id": "teddy",
+          "text": "teddy",
+          "pos": "noun",
+          "emoji": "🧸"
+        },
+        {
+          "id": "kite",
+          "text": "kite",
+          "pos": "noun",
+          "emoji": "🪁"
+        },
+        {
+          "id": "balloon",
+          "text": "balloon",
+          "pos": "noun",
+          "emoji": "🎈"
+        },
+        {
+          "id": "robot",
+          "text": "robot",
+          "pos": "noun",
+          "emoji": "🤖"
+        },
+        {
+          "id": "train",
+          "text": "train",
+          "pos": "noun",
+          "emoji": "🚂"
+        },
+        {
+          "id": "drum",
+          "text": "drum",
+          "pos": "noun",
+          "emoji": "🥁"
+        }
+      ]
+    },
+    {
       "id": "p1-food",
       "title": "Food",
       "emoji": "🍎",
@@ -94,10 +357,10 @@
           "emoji": "🥚"
         },
         {
-          "id": "milk",
-          "text": "milk",
+          "id": "potato",
+          "text": "potato",
           "pos": "noun",
-          "emoji": "🥛"
+          "emoji": "🥔"
         },
         {
           "id": "carrot",
@@ -110,6 +373,55 @@
           "text": "cheese",
           "pos": "noun",
           "emoji": "🧀"
+        }
+      ]
+    },
+    {
+      "id": "p1-classroom",
+      "title": "Classroom",
+      "emoji": "🏫",
+      "words": [
+        {
+          "id": "book",
+          "text": "book",
+          "pos": "noun",
+          "emoji": "📖"
+        },
+        {
+          "id": "pencil",
+          "text": "pencil",
+          "pos": "noun",
+          "emoji": "✏️"
+        },
+        {
+          "id": "ruler",
+          "text": "ruler",
+          "pos": "noun",
+          "emoji": "📏"
+        },
+        {
+          "id": "scissors",
+          "text": "scissors",
+          "pos": "noun",
+          "emoji": "✂️"
+        },
+        {
+          "id": "bag",
+          "text": "bag",
+          "pos": "noun",
+          "emoji": "🎒"
+        },
+        {
+          "id": "chair",
+          "text": "chair",
+          "pos": "noun",
+          "emoji": "🪑"
+        },
+        {
+          "id": "door",
+          "text": "door",
+          "pos": "noun",
+          "emoji": "🚪"
         }
       ]
     }

@@ -1,0 +1,550 @@
+{
+  "schemaVersion": 1,
+  "grade": "p2",
+  "units": [
+    {
+      "id": "p2-party-food",
+      "title": "Party food",
+      "emoji": "🎉",
+      "words": [
+        {
+          "id": "pizza",
+          "text": "pizza",
+          "pos": "noun",
+          "emoji": "🍕"
+        },
+        {
+          "id": "chips",
+          "text": "chips",
+          "pos": "noun",
+          "emoji": "🍟"
+        },
+        {
+          "id": "ice-cream",
+          "text": "ice cream",
+          "pos": "noun",
+          "emoji": "🍦"
+        },
+        {
+          "id": "sandwich",
+          "text": "sandwich",
+          "pos": "noun",
+          "emoji": "🥪"
+        },
+        {
+          "id": "biscuit",
+          "text": "biscuit",
+          "pos": "noun",
+          "emoji": "🍪"
+        },
+        {
+          "id": "chocolate",
+          "text": "chocolate",
+          "pos": "noun",
+          "emoji": "🍫"
+        },
+        {
+          "id": "popcorn",
+          "text": "popcorn",
+          "pos": "noun",
+          "emoji": "🍿"
+        },
+        {
+          "id": "sweets",
+          "text": "sweets",
+          "pos": "noun",
+          "emoji": "🍬"
+        }
+      ]
+    },
+    {
+      "id": "p2-clothes",
+      "title": "Clothes",
+      "emoji": "👚",
+      "words": [
+        {
+          "id": "coat",
+          "text": "coat",
+          "pos": "noun",
+          "emoji": "🧥"
+        },
+        {
+          "id": "dress",
+          "text": "dress",
+          "pos": "noun",
+          "emoji": "👗"
+        },
+        {
+          "id": "shirt",
+          "text": "shirt",
+          "pos": "noun",
+          "emoji": "👕"
+        },
+        {
+          "id": "trousers",
+          "text": "trousers",
+          "pos": "noun",
+          "emoji": "👖"
+        },
+        {
+          "id": "socks",
+          "text": "socks",
+          "pos": "noun",
+          "emoji": "🧦"
+        },
+        {
+          "id": "shoe",
+          "text": "shoe",
+          "pos": "noun",
+          "emoji": "👞"
+        },
+        {
+          "id": "cap",
+          "text": "cap",
+          "pos": "noun",
+          "emoji": "🧢"
+        },
+        {
+          "id": "scarf",
+          "text": "scarf",
+          "pos": "noun",
+          "emoji": "🧣"
+        },
+        {
+          "id": "gloves",
+          "text": "gloves",
+          "pos": "noun",
+          "emoji": "🧤"
+        }
+      ]
+    },
+    {
+      "id": "p2-home",
+      "title": "My home",
+      "emoji": "🏡",
+      "words": [
+        {
+          "id": "bed",
+          "text": "bed",
+          "pos": "noun",
+          "emoji": "🛏️"
+        },
+        {
+          "id": "bath",
+          "text": "bath",
+          "pos": "noun",
+          "emoji": "🛁"
+        },
+        {
+          "id": "sofa",
+          "text": "sofa",
+          "pos": "noun",
+          "emoji": "🛋️"
+        },
+        {
+          "id": "toilet",
+          "text": "toilet",
+          "pos": "noun",
+          "emoji": "🚽"
+        },
+        {
+          "id": "mirror",
+          "text": "mirror",
+          "pos": "noun",
+          "emoji": "🪞"
+        },
+        {
+          "id": "key",
+          "text": "key",
+          "pos": "noun",
+          "emoji": "🔑"
+        },
+        {
+          "id": "clock",
+          "text": "clock",
+          "pos": "noun",
+          "emoji": "⏰"
+        },
+        {
+          "id": "toothbrush",
+          "text": "toothbrush",
+          "pos": "noun",
+          "emoji": "🪥"
+        }
+      ]
+    },
+    {
+      "id": "p2-fruit",
+      "title": "Fruit",
+      "emoji": "🧺",
+      "words": [
+        {
+          "id": "kiwi",
+          "text": "kiwi",
+          "pos": "noun",
+          "emoji": "🥝"
+        },
+        {
+          "id": "grapes",
+          "text": "grapes",
+          "pos": "noun",
+          "emoji": "🍇"
+        },
+        {
+          "id": "strawberry",
+          "text": "strawberry",
+          "pos": "noun",
+          "emoji": "🍓"
+        },
+        {
+          "id": "pear",
+          "text": "pear",
+          "pos": "noun",
+          "emoji": "🍐"
+        },
+        {
+          "id": "lemon",
+          "text": "lemon",
+          "pos": "noun",
+          "emoji": "🍋"
+        },
+        {
+          "id": "cherries",
+          "text": "cherries",
+          "pos": "noun",
+          "emoji": "🍒"
+        },
+        {
+          "id": "watermelon",
+          "text": "watermelon",
+          "pos": "noun",
+          "emoji": "🍉"
+        },
+        {
+          "id": "pineapple",
+          "text": "pineapple",
+          "pos": "noun",
+          "emoji": "🍍"
+        },
+        {
+          "id": "tomato",
+          "text": "tomato",
+          "pos": "noun",
+          "emoji": "🍅"
+        }
+      ]
+    },
+    {
+      "id": "p2-zoo",
+      "title": "At the zoo",
+      "emoji": "🐾",
+      "words": [
+        {
+          "id": "lion",
+          "text": "lion",
+          "pos": "noun",
+          "emoji": "🦁"
+        },
+        {
+          "id": "elephant",
+          "text": "elephant",
+          "pos": "noun",
+          "emoji": "🐘"
+        },
+        {
+          "id": "monkey",
+          "text": "monkey",
+          "pos": "noun",
+          "emoji": "🐒"
+        },
+        {
+          "id": "giraffe",
+          "text": "giraffe",
+          "pos": "noun",
+          "emoji": "🦒"
+        },
+        {
+          "id": "tiger",
+          "text": "tiger",
+          "pos": "noun",
+          "emoji": "🐅"
+        },
+        {
+          "id": "zebra",
+          "text": "zebra",
+          "pos": "noun",
+          "emoji": "🦓"
+        },
+        {
+          "id": "bear",
+          "text": "bear",
+          "pos": "noun",
+          "emoji": "🐻"
+        },
+        {
+          "id": "penguin",
+          "text": "penguin",
+          "pos": "noun",
+          "emoji": "🐧"
+        }
+      ]
+    },
+    {
+      "id": "p2-garden",
+      "title": "In the garden",
+      "emoji": "🪴",
+      "words": [
+        {
+          "id": "tree",
+          "text": "tree",
+          "pos": "noun",
+          "emoji": "🌳"
+        },
+        {
+          "id": "flower",
+          "text": "flower",
+          "pos": "noun",
+          "emoji": "🌼"
+        },
+        {
+          "id": "leaf",
+          "text": "leaf",
+          "pos": "noun",
+          "emoji": "🍁"
+        },
+        {
+          "id": "butterfly",
+          "text": "butterfly",
+          "pos": "noun",
+          "emoji": "🦋"
+        },
+        {
+          "id": "bee",
+          "text": "bee",
+          "pos": "noun",
+          "emoji": "🐝"
+        },
+        {
+          "id": "ladybird",
+          "text": "ladybird",
+          "pos": "noun",
+          "emoji": "🐞"
+        },
+        {
+          "id": "snail",
+          "text": "snail",
+          "pos": "noun",
+          "emoji": "🐌"
+        },
+        {
+          "id": "ant",
+          "text": "ant",
+          "pos": "noun",
+          "emoji": "🐜"
+        }
+      ]
+    },
+    {
+      "id": "p2-sky",
+      "title": "Sky and weather",
+      "emoji": "⛅",
+      "words": [
+        {
+          "id": "sun",
+          "text": "sun",
+          "pos": "noun",
+          "emoji": "☀️"
+        },
+        {
+          "id": "moon",
+          "text": "moon",
+          "pos": "noun",
+          "emoji": "🌙"
+        },
+        {
+          "id": "star",
+          "text": "star",
+          "pos": "noun",
+          "emoji": "⭐"
+        },
+        {
+          "id": "rainbow",
+          "text": "rainbow",
+          "pos": "noun",
+          "emoji": "🌈"
+        },
+        {
+          "id": "rain",
+          "text": "rain",
+          "pos": "noun",
+          "emoji": "🌧️"
+        },
+        {
+          "id": "snowman",
+          "text": "snowman",
+          "pos": "noun",
+          "emoji": "☃️"
+        },
+        {
+          "id": "umbrella",
+          "text": "umbrella",
+          "pos": "noun",
+          "emoji": "☂️"
+        }
+      ]
+    },
+    {
+      "id": "p2-transport",
+      "title": "Transport",
+      "emoji": "🚦",
+      "words": [
+        {
+          "id": "bus",
+          "text": "bus",
+          "pos": "noun",
+          "emoji": "🚌"
+        },
+        {
+          "id": "bike",
+          "text": "bike",
+          "pos": "noun",
+          "emoji": "🚲"
+        },
+        {
+          "id": "boat",
+          "text": "boat",
+          "pos": "noun",
+          "emoji": "⛵"
+        },
+        {
+          "id": "plane",
+          "text": "plane",
+          "pos": "noun",
+          "emoji": "✈️"
+        },
+        {
+          "id": "lorry",
+          "text": "lorry",
+          "pos": "noun",
+          "emoji": "🚛"
+        },
+        {
+          "id": "tractor",
+          "text": "tractor",
+          "pos": "noun",
+          "emoji": "🚜"
+        },
+        {
+          "id": "helicopter",
+          "text": "helicopter",
+          "pos": "noun",
+          "emoji": "🚁"
+        },
+        {
+          "id": "scooter",
+          "text": "scooter",
+          "pos": "noun",
+          "emoji": "🛴"
+        }
+      ]
+    },
+    {
+      "id": "p2-seaside",
+      "title": "At the seaside",
+      "emoji": "🏖️",
+      "words": [
+        {
+          "id": "sea",
+          "text": "sea",
+          "pos": "noun",
+          "emoji": "🌊"
+        },
+        {
+          "id": "seal",
+          "text": "seal",
+          "pos": "noun",
+          "emoji": "🦭"
+        },
+        {
+          "id": "crab",
+          "text": "crab",
+          "pos": "noun",
+          "emoji": "🦀"
+        },
+        {
+          "id": "whale",
+          "text": "whale",
+          "pos": "noun",
+          "emoji": "🐳"
+        },
+        {
+          "id": "dolphin",
+          "text": "dolphin",
+          "pos": "noun",
+          "emoji": "🐬"
+        },
+        {
+          "id": "octopus",
+          "text": "octopus",
+          "pos": "noun",
+          "emoji": "🐙"
+        },
+        {
+          "id": "turtle",
+          "text": "turtle",
+          "pos": "noun",
+          "emoji": "🐢"
+        }
+      ]
+    },
+    {
+      "id": "p2-actions",
+      "title": "Things I do",
+      "emoji": "🤸",
+      "words": [
+        {
+          "id": "run",
+          "text": "run",
+          "pos": "verb",
+          "emoji": "🏃"
+        },
+        {
+          "id": "walk",
+          "text": "walk",
+          "pos": "verb",
+          "emoji": "🚶"
+        },
+        {
+          "id": "swim",
+          "text": "swim",
+          "pos": "verb",
+          "emoji": "🏊"
+        },
+        {
+          "id": "dance",
+          "text": "dance",
+          "pos": "verb",
+          "emoji": "💃"
+        },
+        {
+          "id": "sleep",
+          "text": "sleep",
+          "pos": "verb",
+          "emoji": "😴"
+        },
+        {
+          "id": "climb",
+          "text": "climb",
+          "pos": "verb",
+          "emoji": "🧗"
+        },
+        {
+          "id": "write",
+          "text": "write",
+          "pos": "verb",
+          "emoji": "✍️"
+        }
+      ]
+    }
+  ]
+}
