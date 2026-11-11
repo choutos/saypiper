@@ -25,6 +25,8 @@ eval "$(scripts/setup-toolchain.sh --print-env)" # JAVA_HOME, ANDROID_HOME, PATH
 
 The script is idempotent: a second run installs nothing. Set `ANDROID_TOOLCHAIN_DIR` to install elsewhere. On the shared agent host (4 vCPU, 7.9 GB), the install takes under a minute and about 1.1 GB including the downloads; run one Gradle build at a time, with `--no-daemon`. Gradle is capped at 2 GB in `gradle.properties`.
 
+The first build also downloads the two Android runtimes Robolectric needs for the unit tests (about 350 MB, listed in `app/build.gradle.kts`) into the Gradle cache. The tests themselves never use the network.
+
 Outputs:
 
 - `app/build/outputs/apk/debug/app-debug.apk`

@@ -64,6 +64,29 @@ androidComponents {
     }
 }
 
+// Robolectric's Android runtimes come from Gradle (cached, with retries), never from the test JVM, which
+// would download them from Maven Central on every CI run. Robolectric 4.14.1 loads two: the runtime the
+// tests run on (sdk=34 in robolectric.properties) and the newest one the JVM supports (Android 15), whose
+// framework resources it reads while parsing the app. If Robolectric asks for another, the test failure
+// names the coordinates to add here (see RobolectricRuntimeResolver in the unit tests). One configuration
+// per runtime: in a shared one, Gradle would keep only the newest version of the module.
+val robolectricRuntimes = listOf(
+    "org.robolectric:android-all-instrumented:14-robolectric-10818077-i7",
+    "org.robolectric:android-all-instrumented:15-robolectric-12650502-i7",
+)
+val robolectricRuntimeDir = layout.buildDirectory.dir("robolectric-runtime")
+val syncRobolectricRuntime by tasks.registering(Sync::class) {
+    robolectricRuntimes.forEach { from(configurations.detachedConfiguration(dependencies.create(it))) }
+    into(robolectricRuntimeDir)
+}
+tasks.withType<Test>().configureEach {
+    inputs.files(syncRobolectricRuntime).withPropertyName("robolectricRuntime").withPathSensitivity(PathSensitivity.NAME_ONLY)
+    systemProperty("robolectric.offline", "true")
+    jvmArgumentProviders.add(CommandLineArgumentProvider {
+        listOf("-Drobolectric.dependency.dir=${robolectricRuntimeDir.get().asFile.absolutePath}")
+    })
+}
+
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
 
