@@ -1,0 +1,1149 @@
+{
+  "schemaVersion": 1,
+  "grade": "s4",
+  "units": [
+    {
+      "id": "s4-study",
+      "title": "Study skills",
+      "emoji": "📚",
+      "words": [
+        {
+          "id": "proofread",
+          "text": "proofread",
+          "pos": "verb",
+          "definition": "to read your writing carefully to find and correct small mistakes",
+          "example": "Always {proofread} your essay for spelling mistakes before you hand it in."
+        },
+        {
+          "id": "summary",
+          "text": "summary",
+          "pos": "noun",
+          "definition": "a short text that gives only the main points",
+          "example": "Write a short {summary} of the chapter, giving only its main points."
+        },
+        {
+          "id": "extension",
+          "text": "extension",
+          "pos": "noun",
+          "definition": "extra time that you are allowed to finish a piece of work",
+          "example": "I was ill, so my teacher gave me a three-day {extension} to finish my essay."
+        },
+        {
+          "id": "skim",
+          "text": "skim",
+          "pos": "verb",
+          "definition": "to read something quickly to get the main ideas, not every detail",
+          "example": "There's no time to read it all, so just {skim} the text for the main points."
+        },
+        {
+          "id": "mind-map",
+          "text": "mind map",
+          "pos": "noun",
+          "definition": "a drawing of ideas joined by lines to one main idea in the middle",
+          "example": "My {mind map} had the topic in the middle, with lines joining it to all my ideas."
+        },
+        {
+          "id": "cram",
+          "text": "cram",
+          "pos": "verb",
+          "definition": "to study a lot in a very short time just before an exam",
+          "example": "He did no work all year, so now he has to {cram} the night before the exam."
+        },
+        {
+          "id": "footnote",
+          "text": "footnote",
+          "pos": "noun",
+          "definition": "a short note at the bottom of a page that explains something in the text",
+          "example": "The {footnote} at the bottom of the page explains where the quotation comes from."
+        },
+        {
+          "id": "draft",
+          "text": "draft",
+          "pos": "noun",
+          "definition": "an early version of a piece of writing, not yet finished",
+          "example": "This is only a first {draft}; I will check and improve it before I hand it in."
+        },
+        {
+          "id": "index",
+          "text": "index",
+          "pos": "noun",
+          "definition": "a list at the back of a book that shows on which pages each topic appears",
+          "example": "Look up volcanoes in the {index} at the back to find which pages mention them."
+        }
+      ]
+    },
+    {
+      "id": "s4-opinions",
+      "title": "Opinions and arguments",
+      "emoji": "💭",
+      "words": [
+        {
+          "id": "point-of-view",
+          "text": "point of view",
+          "pos": "phrase",
+          "definition": "a way of thinking about something",
+          "example": "From my {point of view}, school should start an hour later."
+        },
+        {
+          "id": "insist",
+          "text": "insist",
+          "pos": "verb",
+          "definition": "to say firmly that something must happen or is true, even when others disagree",
+          "example": "My parents {insist} on meeting my friends before I go to their houses."
+        },
+        {
+          "id": "in-favour-of",
+          "text": "in favour of",
+          "pos": "phrase",
+          "definition": "supporting an idea or a plan",
+          "example": "Most students voted {in favour of} a longer lunch break."
+        },
+        {
+          "id": "doubt",
+          "text": "doubt",
+          "pos": "verb",
+          "definition": "to think that something is probably not true or will probably not happen",
+          "example": "I {doubt} that he really met a famous footballer; he tells a lot of stories."
+        },
+        {
+          "id": "oppose",
+          "text": "oppose",
+          "pos": "verb",
+          "definition": "to disagree with a plan and try to stop it",
+          "example": "Many parents {oppose} the plan to close the village school and have signed a petition against it."
+        },
+        {
+          "id": "majority",
+          "text": "majority",
+          "pos": "noun",
+          "definition": "more than half of the people or things in a group",
+          "example": "Twenty of the thirty students voted yes, so the {majority} wanted the trip."
+        },
+        {
+          "id": "belief",
+          "text": "belief",
+          "pos": "noun",
+          "definition": "something that you feel sure is true",
+          "example": "Grandma has a strong {belief} that walking under a ladder brings bad luck, but there's no proof."
+        },
+        {
+          "id": "obvious",
+          "text": "obvious",
+          "pos": "adjective",
+          "definition": "easy to see or understand",
+          "example": "The answer was so {obvious} that everyone laughed at the question."
+        },
+        {
+          "id": "deny",
+          "text": "deny",
+          "pos": "verb",
+          "definition": "to say that something is not true, especially when someone says you did something wrong",
+          "example": "My brother tried to {deny} breaking the vase, but he was still holding the pieces."
+        }
+      ]
+    },
+    {
+      "id": "s4-linking",
+      "title": "Linking ideas",
+      "emoji": "↔️",
+      "words": [
+        {
+          "id": "firstly",
+          "text": "firstly",
+          "pos": "adverb",
+          "definition": "used to introduce the first point in a list",
+          "example": "I have two reasons: {firstly}, it's cheaper, and secondly, it's much quicker."
+        },
+        {
+          "id": "whenever",
+          "text": "whenever",
+          "pos": "other",
+          "definition": "every time that",
+          "example": "My friend is late {whenever} we arrange to meet, so I always bring a book."
+        },
+        {
+          "id": "alternatively",
+          "text": "alternatively",
+          "pos": "adverb",
+          "definition": "used to suggest another possibility",
+          "example": "You can take the bus; {alternatively}, you could walk, which only takes twenty minutes."
+        },
+        {
+          "id": "moreover",
+          "text": "moreover",
+          "pos": "adverb",
+          "definition": "also, and this adds to what was just said",
+          "example": "The hotel was cheap; {moreover}, it was close to the beach."
+        },
+        {
+          "id": "beforehand",
+          "text": "beforehand",
+          "pos": "adverb",
+          "definition": "earlier than a particular event or time",
+          "example": "The film starts at eight, so let's have dinner {beforehand}."
+        },
+        {
+          "id": "once",
+          "text": "once",
+          "pos": "other",
+          "definition": "as soon as; after",
+          "example": "Yesterday, Sam went outside to play {once} he had finished his homework."
+        },
+        {
+          "id": "whereas",
+          "text": "whereas",
+          "pos": "other",
+          "definition": "but; used to compare two different facts",
+          "example": "Cats sleep most of the day, {whereas} dogs need lots of exercise."
+        },
+        {
+          "id": "so-that",
+          "text": "so that",
+          "pos": "phrase",
+          "definition": "in order to make something possible",
+          "example": "Speak slowly {so that} everyone in the room can understand you."
+        },
+        {
+          "id": "overall",
+          "text": "overall",
+          "pos": "adverb",
+          "definition": "considering everything; in general",
+          "example": "There were a few problems, but {overall} the school trip was a great success."
+        }
+      ]
+    },
+    {
+      "id": "s4-health",
+      "title": "Health and fitness",
+      "emoji": "🩺",
+      "words": [
+        {
+          "id": "diet",
+          "text": "diet",
+          "pos": "noun",
+          "definition": "the food that you usually eat",
+          "example": "A healthy {diet} includes plenty of fruit and vegetables."
+        },
+        {
+          "id": "injury",
+          "text": "injury",
+          "pos": "noun",
+          "definition": "harm done to the body, for example in an accident",
+          "example": "He hurt his knee in a fall, and the {injury} kept him out for six matches."
+        },
+        {
+          "id": "check-up",
+          "text": "check-up",
+          "pos": "noun",
+          "definition": "a visit to a doctor or dentist to make sure you are healthy",
+          "example": "I'm not ill; it's just my yearly {check-up} at the dentist."
+        },
+        {
+          "id": "heal",
+          "text": "heal",
+          "pos": "verb",
+          "definition": "(of a cut or a broken bone) to become healthy again",
+          "example": "Keep the cut clean and it should {heal} in about a week."
+        },
+        {
+          "id": "prescription",
+          "text": "prescription",
+          "pos": "noun",
+          "definition": "a doctor's note saying which medicine you need",
+          "example": "The doctor gave me a {prescription} to take to the chemist."
+        },
+        {
+          "id": "rash",
+          "text": "rash",
+          "pos": "noun",
+          "definition": "an area of small red spots on the skin",
+          "example": "After eating strawberries, she got an itchy red {rash} all over her arms."
+        },
+        {
+          "id": "asthma",
+          "text": "asthma",
+          "pos": "noun",
+          "definition": "an illness that sometimes makes it hard to breathe",
+          "example": "My brother has {asthma}, so he always carries an inhaler when he goes running."
+        },
+        {
+          "id": "exhausted",
+          "text": "exhausted",
+          "pos": "adjective",
+          "definition": "extremely tired",
+          "example": "After running the marathon, she was completely {exhausted}."
+        },
+        {
+          "id": "workout",
+          "text": "workout",
+          "pos": "noun",
+          "definition": "a session of physical exercise",
+          "example": "I do a twenty-minute {workout} every morning: press-ups, sit-ups and skipping."
+        }
+      ]
+    },
+    {
+      "id": "s4-environment",
+      "title": "Climate and environment",
+      "emoji": "🌍",
+      "words": [
+        {
+          "id": "climate-change",
+          "text": "climate change",
+          "pos": "noun",
+          "definition": "the way the Earth's weather is changing because of what people do",
+          "example": "Hotter summers and rising sea levels are signs of {climate change}."
+        },
+        {
+          "id": "eco-friendly",
+          "text": "eco-friendly",
+          "pos": "adjective",
+          "definition": "not harmful to the environment",
+          "example": "These {eco-friendly} bags are made from old bottles and can be used again and again."
+        },
+        {
+          "id": "fossil-fuels",
+          "text": "fossil fuels",
+          "pos": "noun",
+          "definition": "coal, oil and gas, formed from plants and animals long ago",
+          "example": "Coal and oil are {fossil fuels} formed millions of years ago."
+        },
+        {
+          "id": "polluted",
+          "text": "polluted",
+          "pos": "adjective",
+          "definition": "made dirty and harmful by chemicals, rubbish or smoke",
+          "example": "Nobody swims in the river now; it is too {polluted} after the factory spilled oil."
+        },
+        {
+          "id": "heatwave",
+          "text": "heatwave",
+          "pos": "noun",
+          "definition": "a period of unusually hot weather",
+          "example": "During the {heatwave}, it was over thirty-five degrees for ten days in a row."
+        },
+        {
+          "id": "melt",
+          "text": "melt",
+          "pos": "verb",
+          "definition": "to change from solid to liquid because of heat",
+          "example": "Ice cream starts to {melt} quickly when you leave it in the sun."
+        },
+        {
+          "id": "wildfire",
+          "text": "wildfire",
+          "pos": "noun",
+          "definition": "a large fire that spreads quickly through forests or countryside",
+          "example": "The dry wind spread the {wildfire} across the hills, and hundreds of families left their homes."
+        },
+        {
+          "id": "glacier",
+          "text": "glacier",
+          "pos": "noun",
+          "definition": "a very large mass of ice that moves slowly down a mountain",
+          "example": "The {glacier} has shrunk so much that the ice no longer reaches the valley."
+        },
+        {
+          "id": "extinct",
+          "text": "extinct",
+          "pos": "adjective",
+          "definition": "no longer existing anywhere",
+          "example": "Dinosaurs became {extinct} millions of years ago."
+        }
+      ]
+    },
+    {
+      "id": "s4-digital",
+      "title": "Digital life",
+      "emoji": "💻",
+      "words": [
+        {
+          "id": "stream",
+          "text": "stream",
+          "pos": "verb",
+          "definition": "to watch or listen to something on the internet without saving it first",
+          "example": "We {stream} films on the TV instead of buying DVDs."
+        },
+        {
+          "id": "username",
+          "text": "username",
+          "pos": "noun",
+          "definition": "what you type, with a password, to show an app or website who you are",
+          "example": "Enter your {username} and password to log in to the school website."
+        },
+        {
+          "id": "notification",
+          "text": "notification",
+          "pos": "noun",
+          "definition": "a short message from an app that tells you something new has happened",
+          "example": "My phone shows a {notification} every time someone likes my photo."
+        },
+        {
+          "id": "settings",
+          "text": "settings",
+          "pos": "noun",
+          "definition": "the part of an app or device where you choose how it works",
+          "example": "Go to {settings} and turn the volume down if the app is too loud."
+        },
+        {
+          "id": "charger",
+          "text": "charger",
+          "pos": "noun",
+          "definition": "a cable or plug used to put power into a phone's battery",
+          "example": "My phone is nearly dead; can I borrow your {charger}?"
+        },
+        {
+          "id": "cyberbullying",
+          "text": "cyberbullying",
+          "pos": "noun",
+          "definition": "being unkind to someone again and again by phone or online",
+          "example": "Sending someone nasty messages online again and again is {cyberbullying}."
+        },
+        {
+          "id": "screen-time",
+          "text": "screen time",
+          "pos": "noun",
+          "definition": "the time you spend looking at a phone, computer or TV",
+          "example": "My parents limit my {screen time} to two hours a day."
+        },
+        {
+          "id": "spam",
+          "text": "spam",
+          "pos": "noun",
+          "definition": "emails you did not ask for, sent to lots of people, usually adverts",
+          "example": "I delete all the {spam} in my inbox without opening it, as it might be dangerous."
+        },
+        {
+          "id": "log-in",
+          "text": "log in",
+          "pos": "phrase",
+          "definition": "to type your name and password to start using a website",
+          "example": "You need a password to {log in} to the school website."
+        }
+      ]
+    },
+    {
+      "id": "s4-news",
+      "title": "News and media",
+      "emoji": "📰",
+      "words": [
+        {
+          "id": "front-page",
+          "text": "front page",
+          "pos": "noun",
+          "definition": "the first page of a newspaper, with the most important stories",
+          "example": "The story was so important that it was on the {front page} of every newspaper."
+        },
+        {
+          "id": "journalist",
+          "text": "journalist",
+          "pos": "noun",
+          "definition": "a person whose job is to find and write the news",
+          "example": "A {journalist} interviewed the mayor about the new park."
+        },
+        {
+          "id": "podcast",
+          "text": "podcast",
+          "pos": "noun",
+          "definition": "a series of audio shows that you can download and listen to",
+          "example": "I listen to a science {podcast} on the bus every morning."
+        },
+        {
+          "id": "rumour",
+          "text": "rumour",
+          "pos": "noun",
+          "definition": "a story that people pass on but that may not be true",
+          "example": "I heard a {rumour} that our school is closing, but I have no idea whether it is true."
+        },
+        {
+          "id": "fact-check",
+          "text": "fact-check",
+          "pos": "verb",
+          "definition": "to make sure that what a story says is true before you believe or share it",
+          "example": "Before you share a shocking post, {fact-check} it on a trusted news website."
+        },
+        {
+          "id": "viewer",
+          "text": "viewer",
+          "pos": "noun",
+          "definition": "a person who watches television or videos",
+          "example": "As a regular {viewer} of the show, I've watched every episode since it started."
+        },
+        {
+          "id": "viral",
+          "text": "viral",
+          "pos": "adjective",
+          "definition": "spread very quickly from person to person online",
+          "example": "The video of the dancing cat went {viral} overnight."
+        },
+        {
+          "id": "fake",
+          "text": "fake",
+          "pos": "adjective",
+          "definition": "not real, but made to look real",
+          "example": "That photo is {fake}: someone changed it on a computer to make it look real."
+        },
+        {
+          "id": "biased",
+          "text": "biased",
+          "pos": "adjective",
+          "definition": "unfairly supporting one side more than the other",
+          "example": "The report was {biased} because it only gave one side of the story."
+        }
+      ]
+    },
+    {
+      "id": "s4-work",
+      "title": "The world of work",
+      "emoji": "🧑‍💼",
+      "words": [
+        {
+          "id": "wage",
+          "text": "wage",
+          "pos": "noun",
+          "definition": "money you are paid for each hour, day or week that you work",
+          "example": "The café pays its staff a weekly {wage} based on how many hours they work."
+        },
+        {
+          "id": "shift",
+          "text": "shift",
+          "pos": "noun",
+          "definition": "a period of work, for example during the day or the night",
+          "example": "Nurses often work a night {shift} from eight in the evening until eight in the morning."
+        },
+        {
+          "id": "contract",
+          "text": "contract",
+          "pos": "noun",
+          "definition": "a written legal agreement, for example between a worker and a company",
+          "example": "Read your {contract} carefully before you sign it; it says how many hours you will work."
+        },
+        {
+          "id": "apply",
+          "text": "apply",
+          "pos": "verb",
+          "definition": "to ask formally, usually in writing, for a job or a place",
+          "example": "She wants to {apply} for a summer job at the café."
+        },
+        {
+          "id": "part-time",
+          "text": "part-time",
+          "pos": "adjective",
+          "definition": "working only some of the day or week",
+          "example": "My sister has a {part-time} job at weekends."
+        },
+        {
+          "id": "colleague",
+          "text": "colleague",
+          "pos": "noun",
+          "definition": "a person you work with",
+          "example": "She went for lunch with a {colleague}, one of the people she works with every day."
+        },
+        {
+          "id": "overtime",
+          "text": "overtime",
+          "pos": "noun",
+          "definition": "extra hours that you work after your normal working day",
+          "example": "He worked three hours of {overtime} on Friday to finish the project."
+        },
+        {
+          "id": "retirement",
+          "text": "retirement",
+          "pos": "noun",
+          "definition": "the time when you stop working, usually because you are old",
+          "example": "After forty years as a teacher, she is looking forward to her {retirement}."
+        },
+        {
+          "id": "unemployed",
+          "text": "unemployed",
+          "pos": "adjective",
+          "definition": "without a paid job",
+          "example": "After the factory closed, many people were {unemployed}."
+        }
+      ]
+    },
+    {
+      "id": "s4-money",
+      "title": "Money matters",
+      "emoji": "💰",
+      "words": [
+        {
+          "id": "pocket-money",
+          "text": "pocket money",
+          "pos": "noun",
+          "definition": "a small sum that parents give their child, often every week, to spend",
+          "example": "My parents give me five pounds of {pocket money} every Saturday, and I save it for games."
+        },
+        {
+          "id": "fee",
+          "text": "fee",
+          "pos": "noun",
+          "definition": "money that you pay to join something or to use a service",
+          "example": "The {fee} to join the football club is thirty pounds a year."
+        },
+        {
+          "id": "afford",
+          "text": "afford",
+          "pos": "verb",
+          "definition": "to have enough money to buy something",
+          "example": "We can't {afford} a holiday abroad this year."
+        },
+        {
+          "id": "price-tag",
+          "text": "price tag",
+          "pos": "noun",
+          "definition": "a small label on a product that shows how much it costs",
+          "example": "Check the {price tag} on that jacket before you try it on."
+        },
+        {
+          "id": "savings-account",
+          "text": "savings account",
+          "pos": "noun",
+          "definition": "a bank account for money you want to keep, which slowly earns extra money",
+          "example": "I put my birthday money into a {savings account} so that it would grow."
+        },
+        {
+          "id": "voucher",
+          "text": "voucher",
+          "pos": "noun",
+          "definition": "a piece of paper or a code that you can use instead of money in a particular shop",
+          "example": "For my birthday, Gran gave me a book {voucher} worth twenty pounds."
+        },
+        {
+          "id": "loan",
+          "text": "loan",
+          "pos": "noun",
+          "definition": "money that you borrow and must pay back",
+          "example": "They took out a bank {loan} to buy the house."
+        },
+        {
+          "id": "cash-machine",
+          "text": "cash machine",
+          "pos": "noun",
+          "definition": "a machine in a wall that gives you money from your bank account",
+          "example": "Put your card in the {cash machine} outside the bank and type your PIN."
+        },
+        {
+          "id": "bargain",
+          "text": "bargain",
+          "pos": "noun",
+          "definition": "something bought for much less than its usual price",
+          "example": "These boots were a {bargain}: I paid only five pounds for something worth fifty."
+        },
+        {
+          "id": "exchange-rate",
+          "text": "exchange rate",
+          "pos": "noun",
+          "definition": "how much of one country's money you get for another country's money",
+          "example": "With today's {exchange rate}, my hundred pounds became a hundred and fifteen euros."
+        }
+      ]
+    },
+    {
+      "id": "s4-science",
+      "title": "In the lab",
+      "emoji": "🧑‍🔬",
+      "words": [
+        {
+          "id": "goggles",
+          "text": "goggles",
+          "pos": "noun",
+          "definition": "special glasses that protect your eyes",
+          "example": "Put on your safety {goggles} before heating anything over the flame."
+        },
+        {
+          "id": "measure",
+          "text": "measure",
+          "pos": "verb",
+          "definition": "to find the size or amount of something",
+          "example": "Use a ruler to {measure} the length of the leaf."
+        },
+        {
+          "id": "observe",
+          "text": "observe",
+          "pos": "verb",
+          "definition": "to watch something carefully",
+          "example": "Through the lens, we could {observe} tiny creatures moving."
+        },
+        {
+          "id": "mixture",
+          "text": "mixture",
+          "pos": "noun",
+          "definition": "something made by putting two or more things together",
+          "example": "Salt water is a {mixture} because it is made of two different things."
+        },
+        {
+          "id": "substance",
+          "text": "substance",
+          "pos": "noun",
+          "definition": "a solid, a liquid or a gas of a particular kind",
+          "example": "Salt is a white {substance} that dissolves in water."
+        },
+        {
+          "id": "dissolve",
+          "text": "dissolve",
+          "pos": "verb",
+          "definition": "to mix into a liquid and disappear",
+          "example": "Stir the sugar into cold water and it will slowly {dissolve} until you cannot see it."
+        },
+        {
+          "id": "oxygen",
+          "text": "oxygen",
+          "pos": "noun",
+          "definition": "the gas in the air that we need to breathe",
+          "example": "Plants give out {oxygen} during the day."
+        },
+        {
+          "id": "microscope",
+          "text": "microscope",
+          "pos": "noun",
+          "emoji": "🔬",
+          "definition": "an instrument that makes very small things look much bigger",
+          "example": "We looked at onion cells under a {microscope}."
+        },
+        {
+          "id": "magnet",
+          "text": "magnet",
+          "pos": "noun",
+          "emoji": "🧲",
+          "definition": "a piece of metal that pulls iron towards it",
+          "example": "The {magnet} picked up all the paper clips."
+        },
+        {
+          "id": "evaporate",
+          "text": "evaporate",
+          "pos": "verb",
+          "definition": "to change from a liquid into a gas",
+          "example": "In the sun, the puddles soon {evaporate}."
+        }
+      ]
+    },
+    {
+      "id": "s4-travel",
+      "title": "Travel and tourism",
+      "emoji": "🗺️",
+      "words": [
+        {
+          "id": "check-in",
+          "text": "check-in",
+          "pos": "noun",
+          "definition": "the place at an airport where you show your ticket and leave your big bags",
+          "example": "When you arrive at the airport, go to {check-in} first and leave your big suitcase there."
+        },
+        {
+          "id": "guesthouse",
+          "text": "guesthouse",
+          "pos": "noun",
+          "definition": "a small place to stay, often run by a family in their own home",
+          "example": "We stayed at a little {guesthouse} by the sea, run by a friendly couple."
+        },
+        {
+          "id": "overnight",
+          "text": "overnight",
+          "pos": "adverb",
+          "definition": "for or during the night",
+          "example": "We travelled {overnight} on the train and woke up in Scotland."
+        },
+        {
+          "id": "sightseeing",
+          "text": "sightseeing",
+          "pos": "noun",
+          "definition": "visiting famous places as a tourist",
+          "example": "We spent the whole day {sightseeing} in Rome."
+        },
+        {
+          "id": "boarding-pass",
+          "text": "boarding pass",
+          "pos": "noun",
+          "definition": "a document, on paper or on your phone, that you must show to get on a plane",
+          "example": "Show your {boarding pass} at the gate before you get on the plane."
+        },
+        {
+          "id": "excursion",
+          "text": "excursion",
+          "pos": "noun",
+          "definition": "a short trip, often organised for a group on holiday",
+          "example": "On the third day of our holiday we went on an {excursion} to an old castle."
+        },
+        {
+          "id": "backpacker",
+          "text": "backpacker",
+          "pos": "noun",
+          "definition": "a person who travels cheaply, carrying their things in a big bag on their back",
+          "example": "A {backpacker} carries everything in one big bag and stays in cheap hostels."
+        },
+        {
+          "id": "customs",
+          "text": "customs",
+          "pos": "noun",
+          "definition": "the place at a border where officials check what you bring into a country",
+          "example": "At {customs}, an officer opened our suitcase to check what we had brought into the country."
+        },
+        {
+          "id": "jet-lag",
+          "text": "jet lag",
+          "pos": "noun",
+          "definition": "a tired feeling after flying to a place where the time is different",
+          "example": "After flying to Tokyo, my body clock was confused and I had terrible {jet lag}."
+        }
+      ]
+    },
+    {
+      "id": "s4-relationships",
+      "title": "Friends and relationships",
+      "emoji": "🧑‍🤝‍🧑",
+      "words": [
+        {
+          "id": "trust",
+          "text": "trust",
+          "pos": "verb",
+          "definition": "to believe that someone is honest and will not hurt you",
+          "example": "I {trust} my best friend with all my secrets."
+        },
+        {
+          "id": "respect",
+          "text": "respect",
+          "pos": "noun",
+          "definition": "a feeling that someone is good and important",
+          "example": "Treat older people with {respect}."
+        },
+        {
+          "id": "apologise",
+          "text": "apologise",
+          "pos": "verb",
+          "definition": "to say sorry",
+          "example": "You should {apologise} to her for being rude."
+        },
+        {
+          "id": "bossy",
+          "text": "bossy",
+          "pos": "adjective",
+          "definition": "always telling other people what to do",
+          "example": "My older sister is so {bossy}; she always tells me what to wear."
+        },
+        {
+          "id": "loyal",
+          "text": "loyal",
+          "pos": "adjective",
+          "definition": "always supporting a person, team or group, even in hard times",
+          "example": "Ben stayed {loyal} to his old club, even when a richer team offered him more money."
+        },
+        {
+          "id": "get-on-with",
+          "text": "get on with",
+          "pos": "phrase",
+          "definition": "to have a friendly relationship with someone",
+          "example": "I {get on with} my cousins really well."
+        },
+        {
+          "id": "peer-pressure",
+          "text": "peer pressure",
+          "pos": "noun",
+          "definition": "the feeling that you must do what people your age do",
+          "example": "Don't give in to {peer pressure} if something feels wrong."
+        },
+        {
+          "id": "forgive",
+          "text": "forgive",
+          "pos": "verb",
+          "definition": "to stop being angry with someone who did something wrong",
+          "example": "It took me a long time to {forgive} him for lying."
+        },
+        {
+          "id": "supportive",
+          "text": "supportive",
+          "pos": "adjective",
+          "definition": "helping and encouraging someone, especially when things are hard",
+          "example": "When I was nervous about my exams, my {supportive} parents kept telling me I could do it."
+        }
+      ]
+    },
+    {
+      "id": "s4-character",
+      "title": "Personality",
+      "emoji": "😊",
+      "words": [
+        {
+          "id": "outgoing",
+          "text": "outgoing",
+          "pos": "adjective",
+          "definition": "friendly and enjoying meeting new people",
+          "example": "Tom is {outgoing}: at parties he talks to everyone, even people he has never met."
+        },
+        {
+          "id": "modest",
+          "text": "modest",
+          "pos": "adjective",
+          "definition": "not talking much about your own skills or successes",
+          "example": "Even after winning the gold medal, she was {modest} and said her team deserved the praise."
+        },
+        {
+          "id": "selfish",
+          "text": "selfish",
+          "pos": "adjective",
+          "definition": "thinking only about yourself",
+          "example": "It was {selfish} of him to eat all the biscuits."
+        },
+        {
+          "id": "moody",
+          "text": "moody",
+          "pos": "adjective",
+          "definition": "often changing from happy to angry or sad without warning",
+          "example": "He's very {moody}: cheerful one minute, and grumpy the next for no reason."
+        },
+        {
+          "id": "hard-working",
+          "text": "hard-working",
+          "pos": "adjective",
+          "definition": "putting a lot of effort into what you do",
+          "example": "Our {hard-working} neighbour never takes a day off, yet he always seems full of energy."
+        },
+        {
+          "id": "creative",
+          "text": "creative",
+          "pos": "adjective",
+          "definition": "good at thinking of new and original ideas",
+          "example": "My {creative} cousin is always inventing new games and writing her own songs."
+        },
+        {
+          "id": "sensible",
+          "text": "sensible",
+          "pos": "adjective",
+          "definition": "showing good judgement",
+          "example": "It's {sensible} to wear a helmet when you cycle."
+        },
+        {
+          "id": "easy-going",
+          "text": "easy-going",
+          "pos": "adjective",
+          "definition": "relaxed and not easily worried",
+          "example": "My dad is {easy-going}; he doesn't mind what we have for dinner."
+        },
+        {
+          "id": "nosy",
+          "text": "nosy",
+          "pos": "adjective",
+          "definition": "too interested in other people's private business",
+          "example": "Our {nosy} neighbour always looks out of the window to see who is visiting us."
+        }
+      ]
+    },
+    {
+      "id": "s4-law",
+      "title": "Rules and the law",
+      "emoji": "⚖️",
+      "words": [
+        {
+          "id": "fine-penalty",
+          "text": "fine",
+          "pos": "noun",
+          "definition": "money you must pay for breaking a rule",
+          "example": "He got a parking {fine} for leaving his car on the pavement."
+        },
+        {
+          "id": "illegal",
+          "text": "illegal",
+          "pos": "adjective",
+          "definition": "not allowed by the law",
+          "example": "It is {illegal} to drive without a licence."
+        },
+        {
+          "id": "witness",
+          "text": "witness",
+          "pos": "noun",
+          "definition": "a person who sees a crime or an accident happen",
+          "example": "The police need a {witness}: someone who actually saw the crash happen."
+        },
+        {
+          "id": "arrest",
+          "text": "arrest",
+          "pos": "verb",
+          "definition": "to take someone to a police station because they may have done a crime",
+          "example": "The police will {arrest} anyone caught stealing."
+        },
+        {
+          "id": "guilty",
+          "text": "guilty",
+          "pos": "adjective",
+          "definition": "having done something wrong or against the law",
+          "example": "The jury decided he was {guilty}, so he was sent to prison for theft."
+        },
+        {
+          "id": "innocent",
+          "text": "innocent",
+          "pos": "adjective",
+          "definition": "not having done anything wrong",
+          "example": "He spent years in prison before they proved he was {innocent}."
+        },
+        {
+          "id": "vandalism",
+          "text": "vandalism",
+          "pos": "noun",
+          "definition": "damaging public property on purpose",
+          "example": "Breaking the park benches was an act of {vandalism}."
+        },
+        {
+          "id": "theft",
+          "text": "theft",
+          "pos": "noun",
+          "definition": "the crime of stealing",
+          "example": "Lock your bike: {theft} is common here, and bikes often disappear from the station."
+        },
+        {
+          "id": "jury",
+          "text": "jury",
+          "pos": "noun",
+          "definition": "a group of people who decide in court if someone did a crime",
+          "example": "In court, the {jury} listened to the witness before deciding if he was guilty."
+        }
+      ]
+    },
+    {
+      "id": "s4-phrasal",
+      "title": "Phrasal verbs",
+      "emoji": "💡",
+      "words": [
+        {
+          "id": "give-up",
+          "text": "give up",
+          "pos": "phrase",
+          "definition": "to stop trying or stop doing something",
+          "example": "Don't {give up} now; you're nearly at the top!"
+        },
+        {
+          "id": "find-out",
+          "text": "find out",
+          "pos": "phrase",
+          "definition": "to discover a fact",
+          "example": "I want to {find out} who left the gate open."
+        },
+        {
+          "id": "look-forward-to",
+          "text": "look forward to",
+          "pos": "phrase",
+          "definition": "to feel happy about something that is going to happen",
+          "example": "I {look forward to} seeing you next week."
+        },
+        {
+          "id": "put-off",
+          "text": "put off",
+          "pos": "phrase",
+          "definition": "to decide to do something later",
+          "example": "I always {put off} my homework until Sunday night, and then I have to rush it."
+        },
+        {
+          "id": "turn-down",
+          "text": "turn down",
+          "pos": "phrase",
+          "definition": "to say no to an offer",
+          "example": "She was offered a job abroad but decided to {turn down} the offer."
+        },
+        {
+          "id": "set-up",
+          "text": "set up",
+          "pos": "phrase",
+          "definition": "to start a business, club or organisation",
+          "example": "They want to {set up} a recycling club at school."
+        },
+        {
+          "id": "run-out-of",
+          "text": "run out of",
+          "pos": "phrase",
+          "definition": "to use all of something so that none is left",
+          "example": "Hurry up, or we'll {run out of} time!"
+        },
+        {
+          "id": "deal-with",
+          "text": "deal with",
+          "pos": "phrase",
+          "definition": "to take action to solve a problem",
+          "example": "The head teacher will {deal with} the noisy pupils."
+        },
+        {
+          "id": "come-up-with",
+          "text": "come up with",
+          "pos": "phrase",
+          "definition": "to think of an idea or a plan",
+          "example": "We need to {come up with} a name for our band."
+        },
+        {
+          "id": "get-over",
+          "text": "get over",
+          "pos": "phrase",
+          "definition": "to feel better after something bad has happened",
+          "example": "It took him two weeks to {get over} a bad cold."
+        }
+      ]
+    },
+    {
+      "id": "s4-confusing",
+      "title": "Easily confused words",
+      "emoji": "❓",
+      "words": [
+        {
+          "id": "advice",
+          "text": "advice",
+          "pos": "noun",
+          "definition": "an opinion about what someone should do",
+          "example": "Can I give you some {advice} about your essay?"
+        },
+        {
+          "id": "advise",
+          "text": "advise",
+          "pos": "verb",
+          "definition": "to tell someone what you think they should do",
+          "example": "The guide will {advise} you on which paths are safe."
+        },
+        {
+          "id": "affect",
+          "text": "affect",
+          "pos": "verb",
+          "definition": "to change or influence something",
+          "example": "Lack of sleep can {affect} your memory."
+        },
+        {
+          "id": "effect",
+          "text": "effect",
+          "pos": "noun",
+          "definition": "a change that something causes",
+          "example": "The new law had a big {effect} on traffic."
+        },
+        {
+          "id": "accept",
+          "text": "accept",
+          "pos": "verb",
+          "definition": "to say yes to something you are offered",
+          "example": "I'm happy to {accept} your invitation to the wedding."
+        },
+        {
+          "id": "except",
+          "text": "except",
+          "pos": "other",
+          "definition": "but not",
+          "example": "Everyone came to the party {except} Tom, who was ill."
+        },
+        {
+          "id": "raise",
+          "text": "raise",
+          "pos": "verb",
+          "definition": "to lift or move something up",
+          "example": "Please {raise} your hand if you know the answer."
+        },
+        {
+          "id": "rise",
+          "text": "rise",
+          "pos": "verb",
+          "definition": "to go up",
+          "example": "We watched the smoke {rise} slowly from the chimney."
+        },
+        {
+          "id": "stationery",
+          "text": "stationery",
+          "pos": "noun",
+          "definition": "pens, paper, envelopes and other things for writing",
+          "example": "The {stationery} cupboard is full of pens and paper."
+        }
+      ]
+    }
+  ]
+}
