@@ -51,4 +51,8 @@
     <string name="lesson_check">Check</string>
     <string name="lesson_reset">Start again</string>
     <string name="lesson_selected">Selected</string>
+    <string name="lesson_pair_right">Correct pair</string>
+    <string name="lesson_pair_wrong">Try this pair again</string>
+    <string name="lesson_pairs_wrong">Try these pairs again. The arrows show the right words.</string>
+    <string name="lesson_pair_answer">→ %1$s</string>
 </resources>

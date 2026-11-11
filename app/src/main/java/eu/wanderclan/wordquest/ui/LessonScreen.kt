@@ -31,6 +31,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import eu.wanderclan.wordquest.audio.SpeechResult
 import eu.wanderclan.wordquest.AppContainer
 import eu.wanderclan.wordquest.R
 import eu.wanderclan.wordquest.content.Band
@@ -70,7 +71,7 @@ class LessonViewModel(
         val home = container.catalog.word(wordId) ?: return
         val position = _session.value.position
         speaking = viewModelScope.launch {
-            if (!container.speech.say(home.word, home.gradePack.band)) {
+            if (container.speech.say(home.word, home.gradePack.band) == SpeechResult.FAILED) {
                 _session.update { if (it.position == position) it.withoutSpeech(container.generator, environment) else it }
             }
         }
@@ -140,7 +141,7 @@ fun LessonScreen(
         } else {
             key(session.position) {
                 ExerciseQuestion(exercise, session.response, band, available && !session.speechUnavailable,
-                    { viewModel.say(it) }, viewModel::answer, viewModel::next, Modifier.padding(padding))
+                    { viewModel.say(it) }, viewModel::answer, viewModel::next, requireNotNull(home).word.text, Modifier.padding(padding))
             }
         }
     }

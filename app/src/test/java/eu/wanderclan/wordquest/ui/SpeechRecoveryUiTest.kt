@@ -98,4 +98,25 @@ class SpeechRecoveryUiTest {
         rule.onNodeWithTag("speaker").assertExists()
         rule.onNodeWithTag("option-0").assertExists()
     }
+    @Test fun `optional speaker failure keeps the gap question sentence`() {
+        val request = LessonRequest.Practice(listOf("kitchen"))
+        val generator = LessonGenerator(Fixtures.catalog())
+        val seed = (0L..100L).first {
+            generator.generate(request, Environment(true, true), it).exercises.first().type == ExerciseType.GAP_FILL
+        }
+        val container = container(FakeSpeech(FakeSpeech.Mode.FAILING), seed)
+        val exercise = container.generator.generate(request, Environment(true, true), seed).exercises.single() as ChoiceExercise
+        val example = (exercise.prompt as Prompt.Gap).example
+        val sentence = example.before + "____" + example.after
+        rule.setContent {
+            CompositionLocalProvider(LocalPictures provides container.pictures) {
+                WordQuestTheme { LessonScreen(container, 0, request, {}, {}) }
+            }
+        }
+        rule.onNodeWithTag("prompt").assertTextEquals(sentence)
+        rule.onNodeWithTag("speaker").performClick()
+        rule.onNodeWithTag("speaker").assertDoesNotExist()
+        rule.onNodeWithTag("prompt").assertTextEquals(sentence)
+    }
+
 }

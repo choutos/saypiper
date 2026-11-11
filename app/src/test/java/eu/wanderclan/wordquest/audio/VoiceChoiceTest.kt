@@ -24,4 +24,9 @@ class VoiceChoiceTest {
         assertNull(chooseVoice(listOf(voice("fr", Locale.FRANCE))))
         assertNull(chooseVoice(emptyList()))
     }
+    @Test fun `three letter English and British locale codes are accepted`() {
+        val british = voice("uk-three", Locale("eng", "GBR"))
+        assertEquals(british, chooseVoice(listOf(voice("us", Locale.US), british)))
+    }
+
 }

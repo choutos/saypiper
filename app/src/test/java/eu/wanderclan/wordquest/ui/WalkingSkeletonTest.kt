@@ -84,7 +84,13 @@ class WalkingSkeletonTest {
         lesson.exercises.forEachIndexed { index, exercise ->
             val tag = "option-${(exercise as ChoiceExercise).answerIndex}"
             rule.waitFor(hasTestTag(tag))
-            if (index == 0) screenshot("4-question")
+            if (index == 0) {
+                val matcher = if (exercise.prompt is eu.wanderclan.wordquest.game.Prompt.Picture) {
+                    hasContentDescription("Picture to name")
+                } else hasContentDescription("Picture", substring = true)
+                rule.waitFor(matcher)
+                screenshot("4-question")
+            }
             rule.onNodeWithTag(tag).performScrollTo().performClick()
             rule.waitFor(hasText("Well done!"))
             if (index == 0) screenshot("5-feedback")

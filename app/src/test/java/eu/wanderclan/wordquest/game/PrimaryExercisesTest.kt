@@ -136,4 +136,25 @@ class PrimaryExercisesTest {
         assertTrue(session.queue.drop(listening).none { it.type == ExerciseType.LISTEN_AND_PICK })
         assertEquals(lesson.wordIds.toSet(), session.queue.flatMap { it.wordIds }.toSet())
     }
+    @Test fun `optional speaker failure never replaces a working visual or written prompt`() {
+        val found = mutableSetOf<ExerciseType>()
+        for (seed in 0L..30L) {
+            val lesson = generator.generate(LessonRequest.UnitLesson("fx-home", 4), Environment(true, true), seed)
+            for (exercise in lesson.exercises) {
+                val listening = when (exercise) {
+                    is ChoiceExercise -> exercise.prompt == Prompt.Listening
+                    is TilesExercise -> exercise.prompt == Prompt.Listening
+                    is PairsExercise -> false
+                }
+                if (!listening) {
+                    found += exercise.type
+                    assertEquals(exercise, generator.withoutSpeech(exercise, showWord = true))
+                    assertEquals(exercise, generator.withoutSpeech(exercise, showWord = false))
+                }
+            }
+        }
+        assertTrue(found.containsAll(setOf(ExerciseType.PICTURE_TO_WORD, ExerciseType.GAP_FILL,
+            ExerciseType.DEFINITION_TO_WORD, ExerciseType.SPELL_WITH_TILES)))
+    }
+
 }

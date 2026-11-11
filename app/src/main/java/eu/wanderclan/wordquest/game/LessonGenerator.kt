@@ -98,6 +98,9 @@ class LessonGenerator(private val catalog: Catalog) {
 
     /** Recover the current prompt visibly; replace queued listening types using the normal filter. */
     fun withoutSpeech(exercise: Exercise, showWord: Boolean, environment: Environment = Environment(false, true)): Exercise {
+        val needsSpeech = (exercise is ChoiceExercise && exercise.prompt == Prompt.Listening) ||
+            (exercise is TilesExercise && exercise.prompt == Prompt.Listening)
+        if (!needsSpeech) return exercise
         val home = requireNotNull(catalog.word(exercise.wordId))
         if (showWord) return when (exercise) {
             is ChoiceExercise -> exercise.copy(
@@ -107,9 +110,6 @@ class LessonGenerator(private val catalog: Catalog) {
             is TilesExercise -> exercise.copy(prompt = Prompt.Text(home.word.text))
             is PairsExercise -> exercise
         }
-        val needsSpeech = (exercise is ChoiceExercise && exercise.type == ExerciseType.LISTEN_AND_PICK) ||
-            (exercise is TilesExercise && exercise.prompt == Prompt.Listening)
-        if (!needsSpeech) return exercise
         val types = ExerciseType.entries.filter {
             it != ExerciseType.MATCH_PAIRS &&
                 Capabilities.supports(it, home.word, home.gradePack.band, environment.copy(speechAvailable = false), home.gradePack.words)

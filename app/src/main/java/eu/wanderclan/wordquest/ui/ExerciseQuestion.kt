@@ -60,6 +60,7 @@ fun ExerciseQuestion(
     onSay: (String) -> Unit,
     onAnswer: (Answer) -> Unit,
     onContinue: () -> Unit,
+    wordText: String,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier.fillMaxSize()) {
@@ -71,17 +72,17 @@ fun ExerciseQuestion(
                 }
             }
             when (exercise) {
-                is ChoiceExercise -> ChoiceQuestion(exercise, response as? Answer.Choice, band, onAnswer)
+                is ChoiceExercise -> ChoiceQuestion(exercise, response as? Answer.Choice, band, onAnswer) { onSay(exercise.wordId) }
                 is PairsExercise -> key(exercise.wordId) { PairsQuestion(exercise, response as? Answer.Pairs, onAnswer) }
-                is TilesExercise -> key(exercise.wordId) { TilesQuestion(exercise, response as? Answer.Tiles, onAnswer) }
+                is TilesExercise -> key(exercise.wordId) { TilesQuestion(exercise, response as? Answer.Tiles, onAnswer) { onSay(exercise.wordId) } }
             }
             Spacer(Modifier.height(12.dp))
         }
         if (response != null) {
             val correct = exercise.incorrectWords(response).isEmpty()
             val answer = when (exercise) {
-                is ChoiceExercise -> (exercise.options[exercise.answerIndex] as? Option.Text)?.text.orEmpty()
-                is PairsExercise -> exercise.words.joinToString(", ") { it.text }
+                is ChoiceExercise -> wordText
+                is PairsExercise -> null
                 is TilesExercise -> exercise.text
             }
             Feedback(correct, answer, onContinue)
@@ -90,19 +91,21 @@ fun ExerciseQuestion(
 }
 
 @Composable
-private fun QuestionPrompt(prompt: Prompt) {
+private fun QuestionPrompt(prompt: Prompt, onReplay: () -> Unit) {
     when (prompt) {
         is Prompt.Picture -> Picture(prompt.emoji, stringResource(R.string.lesson_question_picture), Modifier.size(160.dp))
         is Prompt.Text -> Text(prompt.text, style = MaterialTheme.typography.headlineMedium, modifier = Modifier.testTag("prompt"))
         is Prompt.Gap -> Text(prompt.example.before + "____" + prompt.example.after,
             style = MaterialTheme.typography.headlineSmall, modifier = Modifier.testTag("prompt"))
-        Prompt.Listening -> Icon(painterResource(R.drawable.ic_speaker), stringResource(R.string.lesson_listen), Modifier.size(96.dp))
+        Prompt.Listening -> FilledTonalIconButton(onClick = onReplay, modifier = Modifier.size(96.dp).testTag("listen-replay")) {
+            Icon(painterResource(R.drawable.ic_speaker), stringResource(R.string.lesson_listen), Modifier.size(64.dp))
+        }
     }
 }
 
 @Composable
-private fun ChoiceQuestion(exercise: ChoiceExercise, response: Answer.Choice?, band: Band, onAnswer: (Answer) -> Unit) {
-    QuestionPrompt(exercise.prompt)
+private fun ChoiceQuestion(exercise: ChoiceExercise, response: Answer.Choice?, band: Band, onAnswer: (Answer) -> Unit, onReplay: () -> Unit) {
+    QuestionPrompt(exercise.prompt, onReplay)
     exercise.options.forEachIndexed { index, option ->
         val correct = response != null && index == exercise.answerIndex
         val wrong = response?.index == index && !correct
@@ -131,6 +134,9 @@ private fun PairsQuestion(exercise: PairsExercise, response: Answer.Pairs?, onAn
     Text(stringResource(R.string.lesson_pairs), style = MaterialTheme.typography.titleLarge)
     exercise.words.forEachIndexed { index, word ->
         val picture = exercise.pictures[index]
+        val correct = response?.wordIds?.get(index)?.let { it == picture.wordId }
+        val colours = MaterialTheme.colorScheme
+        val colour = when (correct) { true -> colours.tertiaryContainer; false -> colours.errorContainer; null -> colours.surface }
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             OutlinedButton(onClick = { selected = word.wordId },
                 enabled = response == null && word.wordId !in matches.values,
@@ -141,12 +147,26 @@ private fun PairsQuestion(exercise: PairsExercise, response: Answer.Pairs?, onAn
             OutlinedButton(onClick = {
                 selected?.let { matches = matches + (picture.wordId to it); selected = null }
             }, enabled = response == null && selected != null && picture.wordId !in matches,
+                colors = ButtonDefaults.outlinedButtonColors(disabledContainerColor = colour, disabledContentColor = colours.onSurface),
+                border = BorderStroke(if (correct == null) 1.dp else 3.dp,
+                    when (correct) { true -> colours.tertiary; false -> colours.error; null -> colours.outline }),
+                contentPadding = PaddingValues(4.dp),
                 modifier = Modifier.weight(1f).height(64.dp).testTag("pair-picture-${picture.wordId}")) {
                 Picture(picture.emoji, stringResource(R.string.lesson_picture_option, index + 1), Modifier.size(48.dp))
-                val paired = if (response != null) picture.wordId else matches[picture.wordId]
+                val paired = response?.wordIds?.get(index) ?: matches[picture.wordId]
                 paired?.let { id ->
-                    Text(exercise.words.first { it.wordId == id }.text, Modifier.padding(start = 4.dp))
+                    Column(Modifier.weight(1f).padding(horizontal = 4.dp)) {
+                        Text(exercise.words.first { it.wordId == id }.text)
+                        if (correct == false) Text(
+                            stringResource(R.string.lesson_pair_answer, exercise.words.first { it.wordId == picture.wordId }.text),
+                            style = MaterialTheme.typography.bodySmall,
+                            modifier = Modifier.testTag("pair-answer-${picture.wordId}"),
+                        )
+                    }
                 }
+                if (correct != null) Icon(if (correct) Icons.Filled.Check else Icons.Filled.Close,
+                    stringResource(if (correct) R.string.lesson_pair_right else R.string.lesson_pair_wrong),
+                    Modifier.size(24.dp).testTag("pair-feedback-${picture.wordId}"))
             }
         }
     }
@@ -157,10 +177,10 @@ private fun PairsQuestion(exercise: PairsExercise, response: Answer.Pairs?, onAn
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun TilesQuestion(exercise: TilesExercise, response: Answer.Tiles?, onAnswer: (Answer) -> Unit) {
+private fun TilesQuestion(exercise: TilesExercise, response: Answer.Tiles?, onAnswer: (Answer) -> Unit, onReplay: () -> Unit) {
     var selected by remember { mutableStateOf<List<Int>>(emptyList()) }
     Text(stringResource(R.string.lesson_tiles), style = MaterialTheme.typography.titleLarge)
-    QuestionPrompt(exercise.prompt)
+    QuestionPrompt(exercise.prompt, onReplay)
     Text(selected.map { exercise.tiles[it] }.joinToString(" ").ifEmpty { "____" },
         style = MaterialTheme.typography.headlineMedium, modifier = Modifier.testTag("spelling"))
     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -185,13 +205,17 @@ private fun AnswerControls(complete: Boolean, answered: Boolean, reset: () -> Un
 }
 
 @Composable
-private fun Feedback(correct: Boolean, answer: String, onContinue: () -> Unit) {
+private fun Feedback(correct: Boolean, answer: String?, onContinue: () -> Unit) {
     val colours = MaterialTheme.colorScheme
     Surface(color = if (correct) colours.tertiaryContainer else colours.errorContainer) {
         Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(if (correct) Icons.Filled.Check else Icons.Filled.Close, null, Modifier.size(32.dp))
-                Text(if (correct) stringResource(R.string.lesson_right) else stringResource(R.string.lesson_wrong, answer),
+                Text(when {
+                    correct -> stringResource(R.string.lesson_right)
+                    answer == null -> stringResource(R.string.lesson_pairs_wrong)
+                    else -> stringResource(R.string.lesson_wrong, answer)
+                },
                     style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(start = 8.dp))
             }
             Button(onClick = onContinue, modifier = Modifier.fillMaxWidth().height(64.dp)) {

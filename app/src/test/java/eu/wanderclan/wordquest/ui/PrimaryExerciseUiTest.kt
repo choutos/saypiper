@@ -35,20 +35,32 @@ class PrimaryExerciseUiTest {
         val exercise = exercise(type)
         var session by mutableStateOf(LessonSession("ui", Lesson(LessonRequest.Practice(exercise.wordIds), listOf(exercise), emptyList())))
         var continued = false
+        var replayed: String? = null
         rule.setContent {
             CompositionLocalProvider(LocalPictures provides pictures) {
                 WordQuestTheme {
                     ExerciseQuestion(exercise, session.response, catalog.word(exercise.wordId)!!.gradePack.band, true,
-                        {}, { session = session.answer(it) }, { continued = true })
+                        { replayed = it }, { session = session.answer(it) }, { continued = true }, catalog.word(exercise.wordId)!!.word.text)
                 }
             }
         }
         rule.waitForIdle()
+        if (exercise is ChoiceExercise && exercise.prompt == Prompt.Listening) {
+            rule.onNodeWithTag("listen-replay").performClick()
+            rule.runOnIdle { assertEquals(exercise.wordId, replayed) }
+        }
         // Await the asynchronous decode before capturing; test nodes only appear once Image is ready.
-        val hasPictures = exercise is PairsExercise || (exercise is TilesExercise && exercise.prompt is Prompt.Picture) ||
-            (exercise is ChoiceExercise && exercise.options.any { it is Option.Picture })
-        if (hasPictures) rule.waitUntil(10_000) {
-            rule.onAllNodes(hasContentDescription("Picture", substring = true)).fetchSemanticsNodes().isNotEmpty()
+        val pictureDescriptions = when (exercise) {
+            is PairsExercise -> exercise.pictures.indices.map { "Picture ${it + 1}" }
+            is ChoiceExercise -> exercise.options.mapIndexedNotNull { index, option ->
+                if (option is Option.Picture) "Picture ${index + 1}" else null
+            } + if (exercise.prompt is Prompt.Picture) listOf("Picture to name") else emptyList()
+            is TilesExercise -> if (exercise.prompt is Prompt.Picture) listOf("Picture to name") else emptyList()
+        }
+        rule.waitUntil(30_000) {
+            pictureDescriptions.all { description ->
+                rule.onAllNodes(hasContentDescription(description), useUnmergedTree = true).fetchSemanticsNodes().isNotEmpty()
+            }
         }
         if (right) rule.onRoot().captureRoboImage("build/outputs/roborazzi/primary-${type.name.lowercase()}.png")
         when (exercise) {
@@ -77,6 +89,19 @@ class PrimaryExerciseUiTest {
             }
         }
         rule.runOnIdle { assertEquals(right, session.lastAnswerCorrect); assertEquals(if (right) 3 else 2, session.stars) }
+        if (!right && exercise is ChoiceExercise) {
+            rule.onNodeWithText("Not quite. It is: ${catalog.word(exercise.wordId)!!.word.text}").assertExists()
+        }
+        if (exercise is PairsExercise) {
+            exercise.pictures.forEachIndexed { index, picture ->
+                val correct = right || index >= 2
+                rule.onNodeWithTag("pair-feedback-${picture.wordId}", useUnmergedTree = true)
+                    .assertContentDescriptionEquals(if (correct) "Correct pair" else "Try this pair again")
+                if (!correct) rule.onNodeWithTag("pair-answer-${picture.wordId}", useUnmergedTree = true)
+                    .assertTextEquals("→ ${catalog.word(picture.wordId)!!.word.text}")
+            }
+            if (!right) rule.onRoot().captureRoboImage("build/outputs/roborazzi/primary-match_pairs-feedback.png")
+        }
         rule.onNodeWithText("Continue").performClick()
         rule.runOnIdle { assertTrue(continued) }
     }
