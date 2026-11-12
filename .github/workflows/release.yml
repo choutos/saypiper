@@ -11,6 +11,8 @@ concurrency:
   group: release-${{ github.ref }}
   cancel-in-progress: false
 
+# Every action in this job runs where the signing passwords are in the environment: each is GitHub's own and
+# pinned to a full commit, so it cannot change after review. Update a pin only to a reviewed release.
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -23,9 +25,9 @@ jobs:
     env:
       REAL_RELEASE: ${{ startsWith(github.ref_name, 'v') }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: ~/.cache/android-toolchain
           key: android-toolchain-${{ hashFiles('scripts/setup-toolchain.sh') }}
@@ -89,7 +91,7 @@ jobs:
           "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --print-certs "dist/saypiper-$version.apk" | grep -E 'SHA-256' | tee dist/certificate.txt
           rm -f "$RUNNER_TEMP"/*.p12
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: release-${{ github.ref_name }}
           path: |

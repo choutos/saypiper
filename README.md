@@ -54,7 +54,9 @@ Before tagging a release:
 2. Run `scripts/release/released-ids.py --version-name <versionName> --version-code <versionCode>` and commit `app/released-ids.json`. `ReleasedIdsTest` then fails when a released unit or word id disappears without being listed under `retired`, is used again after retirement, or moves to another unit (ADR section 4).
 3. Run the emulator smoke test (Actions, "Emulator smoke test", build type `release`) on the commit to be tagged.
 
-A tag `test-release-<anything>` runs the same workflow with a key made for that run and publishes nothing; delete the tag afterwards. To undo a release, delete the GitHub release and its tag: installed copies keep working and the previous APK stays installable.
+A tag `test-release-<anything>` runs the same workflow with a key made for that run and publishes nothing; delete the tag afterwards.
+
+A release cannot be taken back from the devices that installed it. Android refuses an APK with a lower version code over a higher one, and an older build may not open the database a newer one has migrated. Deleting a GitHub release only stops further downloads; keep its `v*` tag, which F-Droid builds from. To correct a bad release, publish a new one with a higher `versionCode`, the same signing key and application id, every released id kept or retired (`ReleasedIdsTest`), and a tested forward migration for any schema change (ADR section 9).
 
 The launcher component `eu.wanderclan.wordquest.MainActivity` ships with the first release. From then on it is not renamed without an `activity-alias` of that name: launchers drop the home-screen icon of a component that disappears.
 
