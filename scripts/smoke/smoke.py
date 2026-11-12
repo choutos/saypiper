@@ -298,13 +298,17 @@ def play(device: Device, state_path: Path) -> dict:
 
 
 def verify(device: Device, state: dict):
-    """After a restart or an upgrade the single profile opens on its last class, P3, and P1 still has its stars."""
+    """After a restart or an upgrade the single profile opens on the class it played last; both classes keep their stars."""
     lessons = state["lessons"]
-    for index, grade in enumerate(("P3", "P1")):
+    _, unit, stars = first_lesson(device, timeout=60)
+    current = next((grade for grade, lesson in lessons.items() if lesson["unit"] == unit), None)
+    if current is None:
+        raise SmokeFailure(f"the app opened on {unit}, which is the first unit of neither {' nor '.join(lessons)}")
+    for index, grade in enumerate([current] + [g for g in lessons if g != current]):
         if index:
             device.tap_text("Change class")
             choose_class(device, grade)
-        _, unit, stars = first_lesson(device, timeout=60)
+            _, unit, stars = first_lesson(device, timeout=60)
         device.screenshot(f"{grade}-after-restart")
         expected = lessons[grade]
         if (unit, stars) != (expected["unit"], expected["stars"]):
