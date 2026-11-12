@@ -1,0 +1,1176 @@
+{
+  "schemaVersion": 1,
+  "grade": "s6",
+  "units": [
+    {
+      "id": "s6-trends",
+      "title": "Describing trends",
+      "emoji": "📊",
+      "words": [
+        {
+          "id": "fluctuate",
+          "text": "fluctuate",
+          "pos": "verb",
+          "definition": "to go up and down often",
+          "example": "Petrol prices {fluctuate} from week to week, rising one week and falling the next."
+        },
+        {
+          "id": "steadily",
+          "text": "steadily",
+          "pos": "adverb",
+          "definition": "slowly and evenly, without stopping",
+          "example": "The population grew {steadily}, by about one per cent every year."
+        },
+        {
+          "id": "sharply",
+          "text": "sharply",
+          "pos": "adverb",
+          "definition": "suddenly and by a large amount",
+          "example": "Sales fell {sharply}, by half in a single day, when the news broke."
+        },
+        {
+          "id": "peak",
+          "text": "peak",
+          "pos": "noun",
+          "definition": "the highest point or level",
+          "example": "Visitor numbers reach their {peak} in August."
+        },
+        {
+          "id": "decline",
+          "text": "decline",
+          "pos": "noun",
+          "definition": "a gradual fall in amount or quality",
+          "example": "Pesticides have caused a sharp {decline} in the number of bees."
+        },
+        {
+          "id": "approximately",
+          "text": "approximately",
+          "pos": "adverb",
+          "definition": "about; not exactly",
+          "example": "The journey takes {approximately} three hours."
+        },
+        {
+          "id": "proportion",
+          "text": "proportion",
+          "pos": "noun",
+          "definition": "a part of a whole, compared with the total",
+          "example": "A large {proportion} of students walk to school."
+        },
+        {
+          "id": "double",
+          "text": "double",
+          "pos": "verb",
+          "definition": "to become twice as big",
+          "example": "With all the new houses, our town's population could {double} in ten years."
+        },
+        {
+          "id": "plummet",
+          "text": "plummet",
+          "pos": "verb",
+          "definition": "to fall very fast and very far",
+          "example": "In some deserts, temperatures can {plummet} after sunset, falling by over twenty degrees overnight."
+        },
+        {
+          "id": "trend",
+          "text": "trend",
+          "pos": "noun",
+          "definition": "a general direction in which things are changing",
+          "example": "The graph shows a clear upward {trend}: sales have risen every year since 2010."
+        }
+      ]
+    },
+    {
+      "id": "s6-critical",
+      "title": "Critical thinking",
+      "emoji": "🤔",
+      "words": [
+        {
+          "id": "flaw",
+          "text": "flaw",
+          "pos": "noun",
+          "definition": "a mistake or weakness that makes something less good or less correct",
+          "example": "The test showed a {flaw} in the bridge's design, so engineers had to strengthen it."
+        },
+        {
+          "id": "assumption",
+          "text": "assumption",
+          "pos": "noun",
+          "definition": "something you believe is true without proof",
+          "example": "You made the {assumption} that I was busy, but you never actually asked me."
+        },
+        {
+          "id": "fallacy",
+          "text": "fallacy",
+          "pos": "noun",
+          "definition": "a false belief, or a mistake in reasoning",
+          "example": "In debates, people often commit the {fallacy} of attacking the speaker, not the argument."
+        },
+        {
+          "id": "credible",
+          "text": "credible",
+          "pos": "adjective",
+          "definition": "able to be believed or trusted",
+          "example": "Her story was {credible}: it was easy to believe, and later it turned out to be true."
+        },
+        {
+          "id": "objective",
+          "text": "objective",
+          "pos": "adjective",
+          "definition": "based on facts and not on personal feelings",
+          "example": "A referee must be {objective} and not take sides."
+        },
+        {
+          "id": "subjective",
+          "text": "subjective",
+          "pos": "adjective",
+          "definition": "based on personal feelings and tastes",
+          "example": "Whether a painting is beautiful is {subjective}."
+        },
+        {
+          "id": "scepticism",
+          "text": "scepticism",
+          "pos": "noun",
+          "definition": "doubt about whether something is true",
+          "example": "Treat claims about miracle cures with {scepticism}."
+        },
+        {
+          "id": "implication",
+          "text": "implication",
+          "pos": "noun",
+          "definition": "a possible result or effect of something",
+          "example": "If the study is right, one {implication} is that doctors must change how they treat colds."
+        },
+        {
+          "id": "infer",
+          "text": "infer",
+          "pos": "verb",
+          "definition": "to form an opinion from the facts you have",
+          "example": "The ending is never stated, so readers must {infer} it from small clues."
+        },
+        {
+          "id": "correlation",
+          "text": "correlation",
+          "pos": "noun",
+          "definition": "a connection between two things that change together",
+          "example": "There is a strong {correlation} between smoking and lung disease."
+        }
+      ]
+    },
+    {
+      "id": "s6-justice",
+      "title": "Law and justice",
+      "emoji": "⚖️",
+      "words": [
+        {
+          "id": "verdict",
+          "text": "verdict",
+          "pos": "noun",
+          "definition": "the decision of a jury or judge at the end of a trial",
+          "example": "The jury reached a {verdict} after three days."
+        },
+        {
+          "id": "defendant",
+          "text": "defendant",
+          "pos": "noun",
+          "definition": "the person in court who is accused of a crime",
+          "example": "In court, the {defendant} denied stealing the car."
+        },
+        {
+          "id": "sentence-court",
+          "text": "sentence",
+          "pos": "noun",
+          "definition": "the punishment that a judge gives",
+          "example": "He received a {sentence} of two years in prison."
+        },
+        {
+          "id": "prosecute",
+          "text": "prosecute",
+          "pos": "verb",
+          "definition": "to accuse someone officially of a crime in a court",
+          "example": "The shop will {prosecute} anyone caught stealing."
+        },
+        {
+          "id": "appeal",
+          "text": "appeal",
+          "pos": "noun",
+          "definition": "a request to a higher court to change a decision",
+          "example": "Her lawyer has started an {appeal} against the decision."
+        },
+        {
+          "id": "legislation",
+          "text": "legislation",
+          "pos": "noun",
+          "definition": "laws, or the process of making laws",
+          "example": "Parliament passes {legislation}, and the courts decide how to apply it."
+        },
+        {
+          "id": "justice",
+          "text": "justice",
+          "pos": "noun",
+          "definition": "fair treatment by the law",
+          "example": "The families want {justice}: a fair trial and proper punishment for the guilty driver."
+        },
+        {
+          "id": "convict",
+          "text": "convict",
+          "pos": "verb",
+          "definition": "to decide officially in court that someone is guilty",
+          "example": "The jury did not {convict} him because there was not enough proof."
+        },
+        {
+          "id": "bail",
+          "text": "bail",
+          "pos": "noun",
+          "definition": "permission for an accused person to stay out of prison until their trial, often with conditions",
+          "example": "The accused is out on {bail} until his trial next month but must report to the police weekly."
+        }
+      ]
+    },
+    {
+      "id": "s6-global",
+      "title": "Global issues",
+      "emoji": "🌍",
+      "words": [
+        {
+          "id": "refugee",
+          "text": "refugee",
+          "pos": "noun",
+          "definition": "a person forced to leave their country, for example because of war",
+          "example": "The {refugee} camp is home to ten thousand families."
+        },
+        {
+          "id": "famine",
+          "text": "famine",
+          "pos": "noun",
+          "definition": "a serious lack of food in a large area",
+          "example": "After years without rain, millions went hungry during the {famine}."
+        },
+        {
+          "id": "humanitarian",
+          "text": "humanitarian",
+          "pos": "adjective",
+          "definition": "helping people who are suffering",
+          "example": "The charity sends {humanitarian} aid after earthquakes."
+        },
+        {
+          "id": "globalisation",
+          "text": "globalisation",
+          "pos": "noun",
+          "definition": "the way the world's economies and cultures are becoming connected",
+          "example": "Through {globalisation}, companies trade across the world, so the same shops appear in Tokyo and Paris."
+        },
+        {
+          "id": "conflict",
+          "text": "conflict",
+          "pos": "noun",
+          "definition": "a serious disagreement or a war",
+          "example": "The {conflict} between the two countries lasted ten years and cost thousands of lives."
+        },
+        {
+          "id": "sanctions",
+          "text": "sanctions",
+          "pos": "noun",
+          "definition": "official orders that stop trade with a country",
+          "example": "Several countries imposed {sanctions} on the regime."
+        },
+        {
+          "id": "ceasefire",
+          "text": "ceasefire",
+          "pos": "noun",
+          "definition": "an agreement to stop fighting",
+          "example": "The two armies agreed to a {ceasefire}, and the fighting stopped at midnight."
+        },
+        {
+          "id": "developing-countries",
+          "text": "developing countries",
+          "pos": "noun",
+          "definition": "poorer countries that are building up their industry",
+          "example": "Many {developing countries} still lack clean drinking water."
+        },
+        {
+          "id": "aid",
+          "text": "aid",
+          "pos": "noun",
+          "definition": "help such as food, money or medicine given to people in need",
+          "example": "Planes carried emergency {aid} to the flooded region."
+        },
+        {
+          "id": "migration",
+          "text": "migration",
+          "pos": "noun",
+          "definition": "the movement of people or animals from one place to another",
+          "example": "Bird {migration} happens every autumn."
+        }
+      ]
+    },
+    {
+      "id": "s6-medicine",
+      "title": "Medicine and the body",
+      "emoji": "💊",
+      "words": [
+        {
+          "id": "diagnosis",
+          "text": "diagnosis",
+          "pos": "noun",
+          "definition": "a doctor's decision about what illness someone has",
+          "example": "The doctor could not make a {diagnosis} until the blood test showed which illness it was."
+        },
+        {
+          "id": "vaccine",
+          "text": "vaccine",
+          "pos": "noun",
+          "definition": "a substance that protects the body from a disease",
+          "example": "The nurse gave each child the measles {vaccine} with one quick injection in the arm."
+        },
+        {
+          "id": "immune-system",
+          "text": "immune system",
+          "pos": "noun",
+          "definition": "the parts of the body that fight illness",
+          "example": "Sleep keeps your {immune system} strong enough to fight off colds and flu."
+        },
+        {
+          "id": "chronic",
+          "text": "chronic",
+          "pos": "adjective",
+          "definition": "lasting a long time",
+          "example": "Asthma is a {chronic} condition: it lasts for years, though attacks come and go."
+        },
+        {
+          "id": "contagious",
+          "text": "contagious",
+          "pos": "adjective",
+          "definition": "spreading easily from one person to another",
+          "example": "Stay at home while your cold is {contagious}."
+        },
+        {
+          "id": "side-effect",
+          "text": "side effect",
+          "pos": "noun",
+          "definition": "an unwanted result of taking a medicine",
+          "example": "A common {side effect} of this medicine is feeling sleepy."
+        },
+        {
+          "id": "surgery",
+          "text": "surgery",
+          "pos": "noun",
+          "definition": "treatment in which a doctor cuts into the body",
+          "example": "He needed {surgery} on his knee after the fall."
+        },
+        {
+          "id": "epidemic",
+          "text": "epidemic",
+          "pos": "noun",
+          "definition": "a disease that spreads quickly to many people in one area",
+          "example": "The town faced a flu {epidemic} last winter."
+        },
+        {
+          "id": "antibiotic",
+          "text": "antibiotic",
+          "pos": "noun",
+          "definition": "a medicine that kills bacteria",
+          "example": "The doctor prescribed an {antibiotic} for my ear infection."
+        },
+        {
+          "id": "genetic",
+          "text": "genetic",
+          "pos": "adjective",
+          "definition": "passed down from parents to children through the body's cells",
+          "example": "Eye colour is mainly {genetic}."
+        }
+      ]
+    },
+    {
+      "id": "s6-psychology",
+      "title": "Psychology and behaviour",
+      "emoji": "🧩",
+      "words": [
+        {
+          "id": "willpower",
+          "text": "willpower",
+          "pos": "noun",
+          "definition": "the ability to control yourself and make yourself do difficult things",
+          "example": "It takes real {willpower} to put your phone away and study for three hours."
+        },
+        {
+          "id": "instinct",
+          "text": "instinct",
+          "pos": "noun",
+          "definition": "a natural way of acting without having to learn or think",
+          "example": "Birds build nests by {instinct}."
+        },
+        {
+          "id": "impulsive",
+          "text": "impulsive",
+          "pos": "adjective",
+          "definition": "acting suddenly without thinking first",
+          "example": "Buying a puppy on the way home was an {impulsive} decision."
+        },
+        {
+          "id": "perceive",
+          "text": "perceive",
+          "pos": "verb",
+          "definition": "to notice or understand something in a particular way",
+          "example": "Others may {perceive} you as shy, even if you feel confident inside."
+        },
+        {
+          "id": "conscious",
+          "text": "conscious",
+          "pos": "adjective",
+          "definition": "awake and aware of what is around you",
+          "example": "After the fall, he was still {conscious} and able to talk."
+        },
+        {
+          "id": "phobia",
+          "text": "phobia",
+          "pos": "noun",
+          "definition": "a very strong fear of something, often without good reason",
+          "example": "She has a {phobia} of spiders."
+        },
+        {
+          "id": "introvert",
+          "text": "introvert",
+          "pos": "noun",
+          "definition": "a quiet person who often prefers to be alone",
+          "example": "As an {introvert}, he prefers small groups to big parties."
+        },
+        {
+          "id": "extrovert",
+          "text": "extrovert",
+          "pos": "noun",
+          "definition": "a lively person who enjoys being with other people",
+          "example": "My sister is a real {extrovert} who loves big parties."
+        },
+        {
+          "id": "procrastinate",
+          "text": "procrastinate",
+          "pos": "verb",
+          "definition": "to keep delaying something you should do",
+          "example": "I always {procrastinate} when I have an essay to write."
+        }
+      ]
+    },
+    {
+      "id": "s6-business",
+      "title": "Business",
+      "emoji": "🏢",
+      "words": [
+        {
+          "id": "revenue",
+          "text": "revenue",
+          "pos": "noun",
+          "definition": "the money a company receives from what it sells",
+          "example": "The company's {revenue} from ticket sales rose to two million pounds."
+        },
+        {
+          "id": "merger",
+          "text": "merger",
+          "pos": "noun",
+          "definition": "the joining of two companies into one",
+          "example": "The {merger} created the country's largest bank."
+        },
+        {
+          "id": "shareholder",
+          "text": "shareholder",
+          "pos": "noun",
+          "definition": "a person who owns part of a company",
+          "example": "As a {shareholder}, she owns a small part of the company."
+        },
+        {
+          "id": "marketing",
+          "text": "marketing",
+          "pos": "noun",
+          "definition": "the work of advertising and selling products",
+          "example": "She works in {marketing}, planning adverts that make people want new products."
+        },
+        {
+          "id": "brand",
+          "text": "brand",
+          "pos": "noun",
+          "definition": "a name that a company gives to its products",
+          "example": "Which {brand} of cereal do you usually buy?"
+        },
+        {
+          "id": "retail",
+          "text": "retail",
+          "pos": "noun",
+          "definition": "the selling of goods to the public in shops",
+          "example": "She has worked in {retail} for years, serving customers in clothes shops."
+        },
+        {
+          "id": "outsource",
+          "text": "outsource",
+          "pos": "verb",
+          "definition": "to pay another company to do part of your work",
+          "example": "Many firms {outsource} their customer service to call centres."
+        },
+        {
+          "id": "bankrupt",
+          "text": "bankrupt",
+          "pos": "adjective",
+          "definition": "not able to pay your debts",
+          "example": "The shop went {bankrupt} and closed last year."
+        },
+        {
+          "id": "start-up",
+          "text": "start-up",
+          "pos": "noun",
+          "definition": "a new, small company",
+          "example": "She works for a tiny {start-up}: the company is only a year old and has five staff."
+        },
+        {
+          "id": "monopoly",
+          "text": "monopoly",
+          "pos": "noun",
+          "definition": "complete control of a market by one company",
+          "example": "The company has a {monopoly} on trains in the region."
+        }
+      ]
+    },
+    {
+      "id": "s6-finance",
+      "title": "Personal finance",
+      "emoji": "🪙",
+      "words": [
+        {
+          "id": "mortgage",
+          "text": "mortgage",
+          "pos": "noun",
+          "definition": "a loan used to buy a house or flat",
+          "example": "To buy their flat, they took out a {mortgage} that they will repay over twenty-five years."
+        },
+        {
+          "id": "interest-money",
+          "text": "interest",
+          "pos": "noun",
+          "definition": "extra money paid on a loan or on savings",
+          "example": "The bank pays two per cent {interest} on savings."
+        },
+        {
+          "id": "pension",
+          "text": "pension",
+          "pos": "noun",
+          "definition": "money paid regularly to someone who has stopped working because of age",
+          "example": "Since retiring, my grandad has lived on the {pension} his old employer pays him monthly."
+        },
+        {
+          "id": "insurance",
+          "text": "insurance",
+          "pos": "noun",
+          "definition": "paying a company so that it pays you if something bad happens",
+          "example": "Travel {insurance} covers lost luggage."
+        },
+        {
+          "id": "expenses",
+          "text": "expenses",
+          "pos": "noun",
+          "definition": "money spent on something, often as part of a job",
+          "example": "Keep your receipts so that the company can pay back your {expenses}."
+        },
+        {
+          "id": "deposit",
+          "text": "deposit",
+          "pos": "noun",
+          "definition": "a first payment for something, with the rest paid later",
+          "example": "We paid a {deposit} on the bike and will pay the rest next month."
+        },
+        {
+          "id": "tuition-fees",
+          "text": "tuition fees",
+          "pos": "noun",
+          "definition": "money paid for being taught, especially at university",
+          "example": "Students in England pay {tuition fees} to their university."
+        },
+        {
+          "id": "overdraft",
+          "text": "overdraft",
+          "pos": "noun",
+          "definition": "an amount a bank lets you spend when your account has nothing left in it",
+          "example": "My account was empty, so I paid for the books using my {overdraft}."
+        },
+        {
+          "id": "wealthy",
+          "text": "wealthy",
+          "pos": "adjective",
+          "definition": "having a lot of money",
+          "example": "Only {wealthy} families could afford private tutors."
+        }
+      ]
+    },
+    {
+      "id": "s6-life",
+      "title": "Life sciences",
+      "emoji": "🧬",
+      "words": [
+        {
+          "id": "gene",
+          "text": "gene",
+          "pos": "noun",
+          "definition": "a tiny part of your DNA that passes a feature, such as eye colour, from parents to children",
+          "example": "Eye colour depends on more than one {gene}, each a short section of DNA from your parents."
+        },
+        {
+          "id": "evolution",
+          "text": "evolution",
+          "pos": "noun",
+          "definition": "the slow change of living things over millions of years",
+          "example": "Fossils help us understand the {evolution} of birds."
+        },
+        {
+          "id": "organism",
+          "text": "organism",
+          "pos": "noun",
+          "definition": "a living thing",
+          "example": "A bacterium is a tiny {organism} made of a single cell."
+        },
+        {
+          "id": "cell",
+          "text": "cell",
+          "pos": "noun",
+          "definition": "the smallest living part of a plant or animal",
+          "example": "Under the microscope, we could see each {cell} in the onion skin."
+        },
+        {
+          "id": "parasite",
+          "text": "parasite",
+          "pos": "noun",
+          "definition": "a living thing that lives on or in another and takes its food from it",
+          "example": "A flea is a {parasite} that lives on cats and dogs and feeds on their blood."
+        },
+        {
+          "id": "photosynthesis",
+          "text": "photosynthesis",
+          "pos": "noun",
+          "definition": "the way plants make food using sunlight",
+          "example": "During {photosynthesis}, leaves take in carbon dioxide."
+        },
+        {
+          "id": "ecosystem",
+          "text": "ecosystem",
+          "pos": "noun",
+          "definition": "all the living things in an area and the way they depend on each other",
+          "example": "A coral reef is a delicate {ecosystem}."
+        },
+        {
+          "id": "mutation",
+          "text": "mutation",
+          "pos": "noun",
+          "definition": "a change in the genes of a living thing",
+          "example": "A random {mutation} gave the moth its dark wings."
+        },
+        {
+          "id": "predator",
+          "text": "predator",
+          "pos": "noun",
+          "definition": "an animal that hunts and eats other animals",
+          "example": "The fox is a {predator} of rabbits."
+        },
+        {
+          "id": "adapt",
+          "text": "adapt",
+          "pos": "verb",
+          "definition": "to change in order to suit new conditions",
+          "example": "Animals must {adapt} to survive in the desert."
+        }
+      ]
+    },
+    {
+      "id": "s6-physics",
+      "title": "Physics and space",
+      "emoji": "🪐",
+      "words": [
+        {
+          "id": "gravity",
+          "text": "gravity",
+          "pos": "noun",
+          "definition": "the force that pulls things towards the ground",
+          "example": "On the Moon, {gravity} is much weaker than on Earth."
+        },
+        {
+          "id": "orbit",
+          "text": "orbit",
+          "pos": "verb",
+          "definition": "to travel round a planet or star",
+          "example": "The Earth takes a year to {orbit} the Sun."
+        },
+        {
+          "id": "friction",
+          "text": "friction",
+          "pos": "noun",
+          "definition": "the force that slows things down when they rub together",
+          "example": "Rubbing your hands together creates {friction} and warmth."
+        },
+        {
+          "id": "velocity",
+          "text": "velocity",
+          "pos": "noun",
+          "definition": "speed in a particular direction",
+          "example": "The rocket's {velocity}, its speed in one direction, increased quickly after launch."
+        },
+        {
+          "id": "atom",
+          "text": "atom",
+          "pos": "noun",
+          "emoji": "⚛️",
+          "definition": "the smallest part of a chemical element",
+          "example": "A water molecule has one oxygen {atom} and two hydrogen atoms."
+        },
+        {
+          "id": "radiation",
+          "text": "radiation",
+          "pos": "noun",
+          "definition": "energy that is sent out as rays",
+          "example": "The Sun's {radiation} can damage your skin."
+        },
+        {
+          "id": "particle",
+          "text": "particle",
+          "pos": "noun",
+          "definition": "a very small piece of something",
+          "example": "A {particle} of dust floated in the sunlight."
+        },
+        {
+          "id": "vacuum",
+          "text": "vacuum",
+          "pos": "noun",
+          "definition": "a space with no air in it",
+          "example": "Sound cannot travel through a {vacuum}."
+        },
+        {
+          "id": "galaxy",
+          "text": "galaxy",
+          "pos": "noun",
+          "definition": "a huge group of stars",
+          "example": "Our {galaxy} is called the Milky Way."
+        },
+        {
+          "id": "light-year",
+          "text": "light year",
+          "pos": "noun",
+          "definition": "the distance that light travels in one year",
+          "example": "A {light year} is almost ten trillion kilometres."
+        }
+      ]
+    },
+    {
+      "id": "s6-literature",
+      "title": "Literature",
+      "emoji": "📖",
+      "words": [
+        {
+          "id": "narrator",
+          "text": "narrator",
+          "pos": "noun",
+          "definition": "the person who tells a story",
+          "example": "In this novel, the {narrator} tells the story but never takes part in it."
+        },
+        {
+          "id": "protagonist",
+          "text": "protagonist",
+          "pos": "noun",
+          "definition": "the main character in a story",
+          "example": "Most stories have one main character, the {protagonist}, whom the reader follows."
+        },
+        {
+          "id": "metaphor",
+          "text": "metaphor",
+          "pos": "noun",
+          "definition": "describing something as if it were something else",
+          "example": "Saying that time is a thief is a {metaphor}."
+        },
+        {
+          "id": "simile",
+          "text": "simile",
+          "pos": "noun",
+          "definition": "a comparison that uses \"like\" or \"as\"",
+          "example": "\"As brave as a lion\" is a {simile}."
+        },
+        {
+          "id": "stanza",
+          "text": "stanza",
+          "pos": "noun",
+          "definition": "a group of lines in a poem",
+          "example": "The poem has four lines in each {stanza}."
+        },
+        {
+          "id": "genre",
+          "text": "genre",
+          "pos": "noun",
+          "definition": "a type of book, film or music",
+          "example": "Science fiction is my favourite {genre}."
+        },
+        {
+          "id": "tragedy",
+          "text": "tragedy",
+          "pos": "noun",
+          "definition": "a serious play with a sad ending",
+          "example": "Shakespeare's \"Macbeth\" is a famous {tragedy}."
+        },
+        {
+          "id": "setting",
+          "text": "setting",
+          "pos": "noun",
+          "definition": "the time and place in which a story happens",
+          "example": "The {setting} of the novel is a Scottish island in 1900."
+        },
+        {
+          "id": "irony",
+          "text": "irony",
+          "pos": "noun",
+          "definition": "saying the opposite of what you mean, often to be funny",
+          "example": "With heavy {irony}, he called the rainy day perfect beach weather."
+        }
+      ]
+    },
+    {
+      "id": "s6-ethics",
+      "title": "Ethics and philosophy",
+      "emoji": "💭",
+      "words": [
+        {
+          "id": "ethical",
+          "text": "ethical",
+          "pos": "adjective",
+          "definition": "morally right or acceptable",
+          "example": "Our school only buys {ethical} chocolate from farmers who are paid fairly."
+        },
+        {
+          "id": "dilemma",
+          "text": "dilemma",
+          "pos": "noun",
+          "definition": "a situation in which you must choose between two difficult options",
+          "example": "She faced a {dilemma}: tell the truth or protect her friend."
+        },
+        {
+          "id": "conscience",
+          "text": "conscience",
+          "pos": "noun",
+          "definition": "the feeling inside you that tells you what is right",
+          "example": "I copied my friend's homework, and afterwards my {conscience} made me feel terribly guilty."
+        },
+        {
+          "id": "integrity",
+          "text": "integrity",
+          "pos": "noun",
+          "definition": "being honest and having strong principles",
+          "example": "A judge must have {integrity}: she must be honest and never take a bribe."
+        },
+        {
+          "id": "moral",
+          "text": "moral",
+          "pos": "adjective",
+          "definition": "connected with right and wrong",
+          "example": "The fable ends with a {moral} lesson about greed."
+        },
+        {
+          "id": "consent",
+          "text": "consent",
+          "pos": "noun",
+          "definition": "permission to do something",
+          "example": "You need your parents' {consent} to go on the trip."
+        },
+        {
+          "id": "autonomy",
+          "text": "autonomy",
+          "pos": "noun",
+          "definition": "the freedom to make your own decisions",
+          "example": "Teenagers want more {autonomy} over their own lives."
+        },
+        {
+          "id": "exploit",
+          "text": "exploit",
+          "pos": "verb",
+          "definition": "to treat someone unfairly in order to gain from them",
+          "example": "Some factories {exploit} workers by paying them very little."
+        },
+        {
+          "id": "privilege",
+          "text": "privilege",
+          "pos": "noun",
+          "definition": "a special advantage that only some people have",
+          "example": "Going to university is a {privilege} that not everyone has."
+        }
+      ]
+    },
+    {
+      "id": "s6-city",
+      "title": "Cities and change",
+      "emoji": "🏙️",
+      "words": [
+        {
+          "id": "urban",
+          "text": "urban",
+          "pos": "adjective",
+          "definition": "connected with towns and cities",
+          "example": "Cities are growing as more families leave the countryside for {urban} life."
+        },
+        {
+          "id": "rural",
+          "text": "rural",
+          "pos": "adjective",
+          "definition": "connected with the countryside",
+          "example": "Buses are rare in {rural} villages."
+        },
+        {
+          "id": "infrastructure",
+          "text": "infrastructure",
+          "pos": "noun",
+          "definition": "the roads, railways, pipes and cables that a country needs",
+          "example": "Roads, bridges, railways and power cables are all part of a country's {infrastructure}."
+        },
+        {
+          "id": "overcrowded",
+          "text": "overcrowded",
+          "pos": "adjective",
+          "definition": "with too many people in it",
+          "example": "At rush hour the trains are {overcrowded}, with far too many passengers for everyone to get a seat."
+        },
+        {
+          "id": "suburb",
+          "text": "suburb",
+          "pos": "noun",
+          "definition": "an area of houses at the edge of a city",
+          "example": "They moved to a quiet {suburb} outside Manchester."
+        },
+        {
+          "id": "congestion",
+          "text": "congestion",
+          "pos": "noun",
+          "definition": "too much traffic on the roads",
+          "example": "Road {congestion} makes the journey twice as long."
+        },
+        {
+          "id": "residential",
+          "text": "residential",
+          "pos": "adjective",
+          "definition": "with homes rather than shops or offices",
+          "example": "The new {residential} block has two hundred flats but no shops or offices."
+        },
+        {
+          "id": "gentrification",
+          "text": "gentrification",
+          "pos": "noun",
+          "definition": "richer people moving into a poorer area and changing it",
+          "example": "As {gentrification} took hold, wealthy newcomers pushed up rents and cheap shops became expensive cafés."
+        },
+        {
+          "id": "public-transport",
+          "text": "public transport",
+          "pos": "noun",
+          "definition": "buses and trains that everyone can use",
+          "example": "Using {public transport} instead of a car cuts pollution."
+        }
+      ]
+    },
+    {
+      "id": "s6-communication",
+      "title": "Language and communication",
+      "emoji": "🗣️",
+      "words": [
+        {
+          "id": "fluent",
+          "text": "fluent",
+          "pos": "adjective",
+          "definition": "able to speak a language easily and well",
+          "example": "After a year in Paris, her French was {fluent}; she could chat easily with anyone."
+        },
+        {
+          "id": "dialect",
+          "text": "dialect",
+          "pos": "noun",
+          "definition": "a form of a language spoken in one area",
+          "example": "In the north-east, people speak a {dialect} with its own words and grammar."
+        },
+        {
+          "id": "intonation",
+          "text": "intonation",
+          "pos": "noun",
+          "definition": "the way your voice goes up and down when you speak",
+          "example": "In English, a rising {intonation} at the end often shows that you are asking a question."
+        },
+        {
+          "id": "bilingual",
+          "text": "bilingual",
+          "pos": "adjective",
+          "definition": "able to speak two languages equally well",
+          "example": "Her mum speaks Spanish and her dad speaks English, so she grew up {bilingual}."
+        },
+        {
+          "id": "body-language",
+          "text": "body language",
+          "pos": "noun",
+          "definition": "messages you send by the way you move or stand",
+          "example": "Crossed arms are {body language} that can show you feel defensive."
+        },
+        {
+          "id": "jargon",
+          "text": "jargon",
+          "pos": "noun",
+          "definition": "special words used by one group that others find hard to understand",
+          "example": "Doctors' reports are full of medical {jargon}, technical terms that patients rarely understand."
+        },
+        {
+          "id": "slang",
+          "text": "slang",
+          "pos": "noun",
+          "definition": "very informal words, often used by young people",
+          "example": "Words like 'gonna' are {slang}, so avoid them in formal essays."
+        },
+        {
+          "id": "eloquent",
+          "text": "eloquent",
+          "pos": "adjective",
+          "definition": "speaking or writing well and in a way that moves people",
+          "example": "Her {eloquent} speech moved the whole audience."
+        },
+        {
+          "id": "misunderstanding",
+          "text": "misunderstanding",
+          "pos": "noun",
+          "definition": "a failure to understand something correctly",
+          "example": "I thought the meeting was at ten, but it was at two: a simple {misunderstanding}."
+        }
+      ]
+    },
+    {
+      "id": "s6-adverbs",
+      "title": "Useful adverbs",
+      "emoji": "✏️",
+      "words": [
+        {
+          "id": "consequently",
+          "text": "consequently",
+          "pos": "adverb",
+          "definition": "as a result",
+          "example": "The bus was cancelled and, {consequently}, we chose to share a taxi to the match."
+        },
+        {
+          "id": "nevertheless",
+          "text": "nevertheless",
+          "pos": "adverb",
+          "definition": "in spite of that",
+          "example": "It was raining; {nevertheless}, we went for a long walk."
+        },
+        {
+          "id": "furthermore",
+          "text": "furthermore",
+          "pos": "adverb",
+          "definition": "in addition to what has been said",
+          "example": "The plan is cheap; {furthermore}, it can be set up in a single afternoon."
+        },
+        {
+          "id": "relatively",
+          "text": "relatively",
+          "pos": "adverb",
+          "definition": "when compared with others",
+          "example": "Flats here are {relatively} cheap when you compare them with London."
+        },
+        {
+          "id": "inevitably",
+          "text": "inevitably",
+          "pos": "adverb",
+          "definition": "in a way that cannot be avoided",
+          "example": "If you invite thirty people, {inevitably} someone will be late; it always happens."
+        },
+        {
+          "id": "arguably",
+          "text": "arguably",
+          "pos": "adverb",
+          "definition": "used to say that there are good reasons to believe something",
+          "example": "She is {arguably} the best tennis player of her generation."
+        },
+        {
+          "id": "predominantly",
+          "text": "predominantly",
+          "pos": "adverb",
+          "definition": "mostly; mainly",
+          "example": "The audience was {predominantly} teenagers."
+        },
+        {
+          "id": "deliberately",
+          "text": "deliberately",
+          "pos": "adverb",
+          "definition": "on purpose",
+          "example": "I think he broke the vase {deliberately}, not by accident."
+        },
+        {
+          "id": "thoroughly",
+          "text": "thoroughly",
+          "pos": "adverb",
+          "definition": "completely and carefully",
+          "example": "Wash your hands {thoroughly} before cooking."
+        }
+      ]
+    },
+    {
+      "id": "s6-confusing",
+      "title": "Tricky pairs",
+      "emoji": "❓",
+      "words": [
+        {
+          "id": "imply",
+          "text": "imply",
+          "pos": "verb",
+          "definition": "to suggest something without saying it directly",
+          "example": "He didn't say it directly, but did he mean to {imply} that I was lying?"
+        },
+        {
+          "id": "continuous",
+          "text": "continuous",
+          "pos": "adjective",
+          "definition": "without any break",
+          "example": "This country road has a {continuous} white line down the middle that drivers must not cross."
+        },
+        {
+          "id": "continual",
+          "text": "continual",
+          "pos": "adjective",
+          "definition": "happening again and again, often annoyingly",
+          "example": "I'm tired of your {continual} complaints; you've moaned again and again all day."
+        },
+        {
+          "id": "ensure",
+          "text": "ensure",
+          "pos": "verb",
+          "definition": "to make certain that something happens",
+          "example": "Please {ensure} that all windows are closed before you leave."
+        },
+        {
+          "id": "precede",
+          "text": "precede",
+          "pos": "verb",
+          "definition": "to come before something",
+          "example": "In a storm, lightning will always {precede} thunder, because light travels faster than sound."
+        },
+        {
+          "id": "proceed",
+          "text": "proceed",
+          "pos": "verb",
+          "definition": "to continue or go forward",
+          "example": "Passengers for Paris should {proceed} to gate twelve."
+        },
+        {
+          "id": "complement",
+          "text": "complement",
+          "pos": "verb",
+          "definition": "to go well with something",
+          "example": "The red scarf will {complement} your coat perfectly."
+        },
+        {
+          "id": "compliment",
+          "text": "compliment",
+          "pos": "noun",
+          "definition": "something nice said about someone",
+          "example": "She paid me a {compliment} on my new haircut."
+        },
+        {
+          "id": "stationary",
+          "text": "stationary",
+          "pos": "adjective",
+          "definition": "not moving",
+          "example": "The bus was {stationary}, not moving at all, while the lights were red."
+        }
+      ]
+    }
+  ]
+}

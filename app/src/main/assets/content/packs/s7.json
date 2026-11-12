@@ -1,0 +1,1182 @@
+{
+  "schemaVersion": 1,
+  "grade": "s7",
+  "units": [
+    {
+      "id": "s7-university",
+      "title": "University life",
+      "emoji": "🎓",
+      "words": [
+        {
+          "id": "undergraduate",
+          "text": "undergraduate",
+          "pos": "noun",
+          "definition": "a university student studying for a first degree",
+          "example": "As an {undergraduate}, she studied chemistry at Leeds."
+        },
+        {
+          "id": "dissertation",
+          "text": "dissertation",
+          "pos": "noun",
+          "definition": "a long piece of writing done as part of a degree",
+          "example": "For her degree, she spent a year researching and writing a long {dissertation} on Scottish castles."
+        },
+        {
+          "id": "seminar",
+          "text": "seminar",
+          "pos": "noun",
+          "definition": "a class in which a small group discusses a topic with a teacher",
+          "example": "Only twelve students attend each {seminar}, so everyone has to speak."
+        },
+        {
+          "id": "faculty",
+          "text": "faculty",
+          "pos": "noun",
+          "definition": "a group of related departments in a university",
+          "example": "She teaches in the {faculty} of law."
+        },
+        {
+          "id": "campus",
+          "text": "campus",
+          "pos": "noun",
+          "definition": "the land and buildings of a university",
+          "example": "Many universities have halls where first-year students can live on {campus}."
+        },
+        {
+          "id": "graduate",
+          "text": "graduate",
+          "pos": "verb",
+          "definition": "to complete a university degree",
+          "example": "He hopes to {graduate} with a first in physics."
+        },
+        {
+          "id": "gap-year",
+          "text": "gap year",
+          "pos": "noun",
+          "definition": "a year off between school and university",
+          "example": "Before starting university, she took a {gap year} to work on a farm in New Zealand."
+        },
+        {
+          "id": "prospectus",
+          "text": "prospectus",
+          "pos": "noun",
+          "definition": "a booklet that describes a university and its courses",
+          "example": "Read the {prospectus} carefully before you choose a course."
+        },
+        {
+          "id": "postgraduate",
+          "text": "postgraduate",
+          "pos": "adjective",
+          "definition": "studying for a second, higher degree",
+          "example": "Having finished her first degree, she is now studying for a {postgraduate} degree in teaching."
+        }
+      ]
+    },
+    {
+      "id": "s7-academic-verbs",
+      "title": "Academic verbs",
+      "emoji": "✍️",
+      "words": [
+        {
+          "id": "illustrate",
+          "text": "illustrate",
+          "pos": "verb",
+          "definition": "to explain something by giving examples or pictures",
+          "example": "The teacher used a simple drawing to {illustrate} how the heart pumps blood."
+        },
+        {
+          "id": "synthesise",
+          "text": "synthesise",
+          "pos": "verb",
+          "definition": "to combine ideas from different sources into one whole",
+          "example": "A good essay should {synthesise} ideas from several sources into one clear argument."
+        },
+        {
+          "id": "evaluate",
+          "text": "evaluate",
+          "pos": "verb",
+          "definition": "to judge how good or useful something is",
+          "example": "We must {evaluate} each solution carefully before choosing one."
+        },
+        {
+          "id": "derive",
+          "text": "derive",
+          "pos": "verb",
+          "definition": "to come from something, or get something from it",
+          "example": "Many English words {derive} from Latin."
+        },
+        {
+          "id": "constitute",
+          "text": "constitute",
+          "pos": "verb",
+          "definition": "to form or make up something",
+          "example": "Women now {constitute} over half of the university's students."
+        },
+        {
+          "id": "undermine",
+          "text": "undermine",
+          "pos": "verb",
+          "definition": "to make something weaker, often slowly",
+          "example": "Constant criticism can {undermine} a child's confidence."
+        },
+        {
+          "id": "facilitate",
+          "text": "facilitate",
+          "pos": "verb",
+          "definition": "to make something easier or possible",
+          "example": "The new lift will {facilitate} access for wheelchair users."
+        },
+        {
+          "id": "advocate",
+          "text": "advocate",
+          "pos": "verb",
+          "definition": "to speak in public in support of an idea",
+          "example": "Many doctors {advocate} a tax on sugary drinks."
+        },
+        {
+          "id": "allocate",
+          "text": "allocate",
+          "pos": "verb",
+          "definition": "to give something to someone for a particular purpose",
+          "example": "The school will {allocate} each student a locker from those it already owns."
+        },
+        {
+          "id": "attribute",
+          "text": "attribute",
+          "pos": "verb",
+          "definition": "to say that something is caused by something else",
+          "example": "Experts {attribute} the rise in obesity to poor diet."
+        }
+      ]
+    },
+    {
+      "id": "s7-adjectives",
+      "title": "Precise adjectives",
+      "emoji": "🔍",
+      "words": [
+        {
+          "id": "comprehensive",
+          "text": "comprehensive",
+          "pos": "adjective",
+          "definition": "including everything or almost everything",
+          "example": "The guide gives a {comprehensive} list of the island's beaches, with every single one included."
+        },
+        {
+          "id": "substantial",
+          "text": "substantial",
+          "pos": "adjective",
+          "definition": "large in size, amount or importance",
+          "example": "She inherited a {substantial} sum, over a million pounds, from her aunt."
+        },
+        {
+          "id": "inherent",
+          "text": "inherent",
+          "pos": "adjective",
+          "definition": "existing as a natural part of something",
+          "example": "Danger is part of climbing itself; every climb carries an {inherent} risk."
+        },
+        {
+          "id": "plausible",
+          "text": "plausible",
+          "pos": "adjective",
+          "definition": "seeming likely to be true",
+          "example": "It seems {plausible} that the fire started in the kitchen, though nobody can be certain."
+        },
+        {
+          "id": "ambiguous",
+          "text": "ambiguous",
+          "pos": "adjective",
+          "definition": "having more than one possible meaning",
+          "example": "The sentence 'I saw her duck' is {ambiguous} because it has two possible meanings."
+        },
+        {
+          "id": "feasible",
+          "text": "feasible",
+          "pos": "adjective",
+          "definition": "possible to do",
+          "example": "Is it {feasible} to finish the whole project by Friday?"
+        },
+        {
+          "id": "arbitrary",
+          "text": "arbitrary",
+          "pos": "adjective",
+          "definition": "chosen by chance or on a whim, not for a reason",
+          "example": "The referee's decision seemed {arbitrary}, with no clear reason behind it."
+        },
+        {
+          "id": "explicit",
+          "text": "explicit",
+          "pos": "adjective",
+          "definition": "stated clearly and fully",
+          "example": "The instructions were {explicit}: no phones in the exam room."
+        },
+        {
+          "id": "profound",
+          "text": "profound",
+          "pos": "adjective",
+          "definition": "very deep or serious",
+          "example": "The novel raises {profound} questions about life and death."
+        },
+        {
+          "id": "marginal",
+          "text": "marginal",
+          "pos": "adjective",
+          "definition": "very small in amount or importance",
+          "example": "There was only a {marginal} difference between the two results."
+        }
+      ]
+    },
+    {
+      "id": "s7-rhetoric",
+      "title": "Rhetoric and debate",
+      "emoji": "🎤",
+      "words": [
+        {
+          "id": "rhetoric",
+          "text": "rhetoric",
+          "pos": "noun",
+          "definition": "language used to persuade, sometimes without much real meaning",
+          "example": "The politician's speech was full of empty {rhetoric}."
+        },
+        {
+          "id": "concede",
+          "text": "concede",
+          "pos": "verb",
+          "definition": "to admit, often unwillingly, that something is true",
+          "example": "I hate to admit it, but I {concede} that your plan is cheaper than mine."
+        },
+        {
+          "id": "refute",
+          "text": "refute",
+          "pos": "verb",
+          "definition": "to prove that a statement is wrong",
+          "example": "She used official figures to {refute} his claim, proving beyond doubt that it was false."
+        },
+        {
+          "id": "assertion",
+          "text": "assertion",
+          "pos": "noun",
+          "definition": "a statement made firmly, as if it were certainly true",
+          "example": "He insisted that crime had doubled, an {assertion} he could not support with evidence."
+        },
+        {
+          "id": "premise",
+          "text": "premise",
+          "pos": "noun",
+          "definition": "an idea that an argument is based on",
+          "example": "Every argument starts from a {premise}, an idea accepted as true, and ends with a conclusion."
+        },
+        {
+          "id": "articulate",
+          "text": "articulate",
+          "pos": "adjective",
+          "definition": "able to express ideas clearly in words",
+          "example": "Although she is only twelve, she is {articulate} and explains her ideas clearly."
+        },
+        {
+          "id": "digress",
+          "text": "digress",
+          "pos": "verb",
+          "definition": "to move away from the main subject when speaking or writing",
+          "example": "Sorry, I tend to {digress}; let's get back to the main point."
+        },
+        {
+          "id": "persuasive",
+          "text": "persuasive",
+          "pos": "adjective",
+          "definition": "good at making people agree or believe something",
+          "example": "She wrote a {persuasive} letter that changed the council's mind."
+        },
+        {
+          "id": "anecdote",
+          "text": "anecdote",
+          "pos": "noun",
+          "definition": "a short, interesting story about a real event",
+          "example": "He began his speech with a funny {anecdote} about his dog."
+        },
+        {
+          "id": "rebuttal",
+          "text": "rebuttal",
+          "pos": "noun",
+          "definition": "an answer that shows an argument is wrong",
+          "example": "In the debate, she answered her opponent with a powerful {rebuttal} that proved him wrong."
+        }
+      ]
+    },
+    {
+      "id": "s7-governance",
+      "title": "Power and governance",
+      "emoji": "🏛️",
+      "words": [
+        {
+          "id": "sovereignty",
+          "text": "sovereignty",
+          "pos": "noun",
+          "definition": "the power of a country to rule itself",
+          "example": "After centuries of foreign rule, the island finally won full {sovereignty} and could govern itself."
+        },
+        {
+          "id": "referendum",
+          "text": "referendum",
+          "pos": "noun",
+          "definition": "a vote by all the people of a country on one question",
+          "example": "The country held a {referendum} on leaving the union."
+        },
+        {
+          "id": "constitution",
+          "text": "constitution",
+          "pos": "noun",
+          "definition": "the basic laws and principles of a country",
+          "example": "In many countries, a written {constitution} sets out citizens' basic rights."
+        },
+        {
+          "id": "coalition",
+          "text": "coalition",
+          "pos": "noun",
+          "definition": "a government made of two or more political parties",
+          "example": "The two parties formed a {coalition} after the election."
+        },
+        {
+          "id": "bureaucracy",
+          "text": "bureaucracy",
+          "pos": "noun",
+          "definition": "a system with too many rules, forms and officials",
+          "example": "Opening a café involves a lot of {bureaucracy}."
+        },
+        {
+          "id": "accountable",
+          "text": "accountable",
+          "pos": "adjective",
+          "definition": "responsible for your actions and having to explain them",
+          "example": "Politicians must be held {accountable} for their decisions."
+        },
+        {
+          "id": "corruption",
+          "text": "corruption",
+          "pos": "noun",
+          "definition": "dishonest behaviour by people in power, for money or favours",
+          "example": "The mayor was arrested for {corruption}."
+        },
+        {
+          "id": "authoritarian",
+          "text": "authoritarian",
+          "pos": "adjective",
+          "definition": "demanding that everyone obeys those in power",
+          "example": "Under the {authoritarian} regime, critical newspapers were closed."
+        },
+        {
+          "id": "lobby",
+          "text": "lobby",
+          "pos": "verb",
+          "definition": "to try to persuade politicians to support something",
+          "example": "Farmers met MPs in Parliament to {lobby} them for lower fuel prices."
+        },
+        {
+          "id": "mandate",
+          "text": "mandate",
+          "pos": "noun",
+          "definition": "the authority that voters give to a government",
+          "example": "The new president has a clear {mandate} for change."
+        }
+      ]
+    },
+    {
+      "id": "s7-economics",
+      "title": "Economics and globalisation",
+      "emoji": "🌐",
+      "words": [
+        {
+          "id": "subsidy",
+          "text": "subsidy",
+          "pos": "noun",
+          "definition": "money a government gives to make something cheaper",
+          "example": "Farmers receive a {subsidy} for growing certain crops."
+        },
+        {
+          "id": "austerity",
+          "text": "austerity",
+          "pos": "noun",
+          "definition": "strict cuts in government spending",
+          "example": "Years of {austerity}, with deep cuts in public spending, meant fewer libraries and youth clubs."
+        },
+        {
+          "id": "tariff",
+          "text": "tariff",
+          "pos": "noun",
+          "definition": "a tax on goods coming into a country",
+          "example": "A new {tariff} made foreign cars more expensive."
+        },
+        {
+          "id": "fiscal",
+          "text": "fiscal",
+          "pos": "adjective",
+          "definition": "connected with government money and taxes",
+          "example": "The government announced new {fiscal} rules on borrowing."
+        },
+        {
+          "id": "commodity",
+          "text": "commodity",
+          "pos": "noun",
+          "definition": "a product that can be bought and sold, such as oil or wheat",
+          "example": "Oil is the most valuable {commodity} in the region."
+        },
+        {
+          "id": "deficit",
+          "text": "deficit",
+          "pos": "noun",
+          "definition": "the amount by which spending is greater than income",
+          "example": "The country has a huge budget {deficit}."
+        },
+        {
+          "id": "capitalism",
+          "text": "capitalism",
+          "pos": "noun",
+          "definition": "a system in which businesses are privately owned for profit",
+          "example": "Under {capitalism}, prices are mostly set by the market."
+        },
+        {
+          "id": "labour-market",
+          "text": "labour market",
+          "pos": "noun",
+          "definition": "all the jobs available and the people available to do them",
+          "example": "Young people are finding it hard to enter the {labour market}."
+        },
+        {
+          "id": "multinational",
+          "text": "multinational",
+          "pos": "noun",
+          "definition": "a large company that operates in many countries",
+          "example": "The {multinational} has factories in twenty countries."
+        },
+        {
+          "id": "prosperity",
+          "text": "prosperity",
+          "pos": "noun",
+          "definition": "the state of being successful and having plenty of money",
+          "example": "Trade brought great {prosperity} to the port city."
+        }
+      ]
+    },
+    {
+      "id": "s7-environment",
+      "title": "The environment in depth",
+      "emoji": "🌳",
+      "words": [
+        {
+          "id": "mitigate",
+          "text": "mitigate",
+          "pos": "verb",
+          "definition": "to make something bad less serious",
+          "example": "Planting trees can {mitigate} the effects of flooding."
+        },
+        {
+          "id": "carbon-neutral",
+          "text": "carbon neutral",
+          "pos": "adjective",
+          "definition": "adding no extra carbon dioxide to the air overall",
+          "example": "By planting trees to balance its emissions, the company aims to be {carbon neutral} by 2030."
+        },
+        {
+          "id": "depletion",
+          "text": "depletion",
+          "pos": "noun",
+          "definition": "the reduction of something until little of it is left",
+          "example": "The {depletion} of fish stocks worries scientists."
+        },
+        {
+          "id": "irreversible",
+          "text": "irreversible",
+          "pos": "adjective",
+          "definition": "impossible to change back",
+          "example": "Once a species dies out, the loss is {irreversible}: it can never be brought back."
+        },
+        {
+          "id": "degradation",
+          "text": "degradation",
+          "pos": "noun",
+          "definition": "the process of something becoming worse in quality",
+          "example": "Air pollution has caused the slow {degradation} of the cathedral's stone carvings."
+        },
+        {
+          "id": "precipitation",
+          "text": "precipitation",
+          "pos": "noun",
+          "definition": "rain, snow or hail",
+          "example": "The forecast shows heavy {precipitation} in the north tonight."
+        },
+        {
+          "id": "ecological",
+          "text": "ecological",
+          "pos": "adjective",
+          "definition": "connected with living things and their environment",
+          "example": "Bees play a vital {ecological} role, keeping plants and their environment healthy."
+        },
+        {
+          "id": "conservationist",
+          "text": "conservationist",
+          "pos": "noun",
+          "definition": "a person who works to protect nature",
+          "example": "A {conservationist} has spent years protecting the island's turtles."
+        },
+        {
+          "id": "rewilding",
+          "text": "rewilding",
+          "pos": "noun",
+          "definition": "letting land go back to its natural state",
+          "example": "Beavers are part of a {rewilding} project in Scotland."
+        }
+      ]
+    },
+    {
+      "id": "s7-bioethics",
+      "title": "Science and ethics",
+      "emoji": "🧪",
+      "words": [
+        {
+          "id": "cloning",
+          "text": "cloning",
+          "pos": "noun",
+          "definition": "making an exact genetic copy of a plant or animal",
+          "example": "Dolly the sheep was the first mammal created by {cloning} from an adult cell."
+        },
+        {
+          "id": "genetically-modified",
+          "text": "genetically modified",
+          "pos": "adjective",
+          "definition": "having had its genes changed by scientists",
+          "example": "Some countries ban {genetically modified} crops."
+        },
+        {
+          "id": "embryo",
+          "text": "embryo",
+          "pos": "noun",
+          "definition": "an animal or plant at the very first stage of its growth",
+          "example": "The chick {embryo} develops inside the egg for three weeks."
+        },
+        {
+          "id": "placebo",
+          "text": "placebo",
+          "pos": "noun",
+          "definition": "a pill with no medicine in it, used in tests of a new drug",
+          "example": "Half the patients were given a {placebo} instead of the real drug."
+        },
+        {
+          "id": "clinical-trial",
+          "text": "clinical trial",
+          "pos": "noun",
+          "definition": "a test of a new medicine or treatment on volunteers",
+          "example": "The new drug is being tested in a {clinical trial} with 500 volunteers."
+        },
+        {
+          "id": "unprecedented",
+          "text": "unprecedented",
+          "pos": "adjective",
+          "definition": "never having happened before",
+          "example": "No team had ever won four titles in a row; it was an {unprecedented} achievement."
+        },
+        {
+          "id": "peer-review",
+          "text": "peer review",
+          "pos": "noun",
+          "definition": "the checking of research by other experts before it is published",
+          "example": "Before publication, other scientists checked the study in a process called {peer review}."
+        },
+        {
+          "id": "empirical",
+          "text": "empirical",
+          "pos": "adjective",
+          "definition": "based on observation and experiment, not on theory",
+          "example": "Their claim rests on {empirical} research: careful observation and experiments, not just theory."
+        },
+        {
+          "id": "replicate",
+          "text": "replicate",
+          "pos": "verb",
+          "definition": "to repeat an experiment and get the same result",
+          "example": "To test the discovery, other labs tried to {replicate} the experiment exactly, step by step."
+        }
+      ]
+    },
+    {
+      "id": "s7-tech-society",
+      "title": "Technology and society",
+      "emoji": "🛰️",
+      "words": [
+        {
+          "id": "surveillance",
+          "text": "surveillance",
+          "pos": "noun",
+          "definition": "the careful watching of people, often in secret",
+          "example": "Cameras are used for {surveillance} in city centres."
+        },
+        {
+          "id": "misinformation",
+          "text": "misinformation",
+          "pos": "noun",
+          "definition": "false information, spread by mistake or on purpose",
+          "example": "The incorrect date was {misinformation}, an honest typing error rather than an attempt to influence anyone."
+        },
+        {
+          "id": "digital-footprint",
+          "text": "digital footprint",
+          "pos": "noun",
+          "definition": "the record of everything you do online",
+          "example": "Every post you share adds to your {digital footprint}."
+        },
+        {
+          "id": "disruptive",
+          "text": "disruptive",
+          "pos": "adjective",
+          "definition": "changing an industry or market completely",
+          "example": "Music streaming was a {disruptive} technology: it completely changed how the music industry makes money."
+        },
+        {
+          "id": "echo-chamber",
+          "text": "echo chamber",
+          "pos": "noun",
+          "definition": "a place where people only hear opinions like their own",
+          "example": "Following only people who agree with you creates an {echo chamber}."
+        },
+        {
+          "id": "data-protection",
+          "text": "data protection",
+          "pos": "noun",
+          "definition": "laws that keep people's personal information safe",
+          "example": "In the UK, {data protection} laws require schools to keep pupils' records secure."
+        },
+        {
+          "id": "ubiquitous",
+          "text": "ubiquitous",
+          "pos": "adjective",
+          "definition": "seeming to be everywhere",
+          "example": "Smartphones are now {ubiquitous}: you see them everywhere, from buses to classrooms."
+        },
+        {
+          "id": "anonymity",
+          "text": "anonymity",
+          "pos": "noun",
+          "definition": "the state of nobody knowing who you are",
+          "example": "The {anonymity} of the internet lets some people be cruel."
+        },
+        {
+          "id": "addictive",
+          "text": "addictive",
+          "pos": "adjective",
+          "definition": "making you want to do or have more and more",
+          "example": "These games are {addictive}: once you start playing, it is very hard to stop."
+        }
+      ]
+    },
+    {
+      "id": "s7-press",
+      "title": "Information and the press",
+      "emoji": "📰",
+      "words": [
+        {
+          "id": "propaganda",
+          "text": "propaganda",
+          "pos": "noun",
+          "definition": "one-sided or false information used to influence people",
+          "example": "During the war, the government used posters as {propaganda} to persuade people to support it."
+        },
+        {
+          "id": "sensationalism",
+          "text": "sensationalism",
+          "pos": "noun",
+          "definition": "reporting news in a shocking way to attract readers",
+          "example": "The paper was accused of {sensationalism} for exaggerating a small story just to sell copies."
+        },
+        {
+          "id": "editorial",
+          "text": "editorial",
+          "pos": "noun",
+          "definition": "a newspaper article giving the opinion of the paper itself",
+          "example": "In today's {editorial}, the newspaper gives its own opinion on the new tax."
+        },
+        {
+          "id": "tabloid",
+          "text": "tabloid",
+          "pos": "noun",
+          "definition": "a newspaper with short stories and lots of gossip",
+          "example": "The {tabloid} printed rumours about the footballer's private life."
+        },
+        {
+          "id": "impartial",
+          "text": "impartial",
+          "pos": "adjective",
+          "definition": "not supporting either side",
+          "example": "Referees must remain {impartial} and never favour either team."
+        },
+        {
+          "id": "scrutiny",
+          "text": "scrutiny",
+          "pos": "noun",
+          "definition": "careful and detailed examination",
+          "example": "Every line of the minister's spending came under close {scrutiny} from the auditors."
+        },
+        {
+          "id": "leak",
+          "text": "leak",
+          "pos": "verb",
+          "definition": "to give secret information to the public",
+          "example": "Someone decided to {leak} the report to the press."
+        },
+        {
+          "id": "whistle-blower",
+          "text": "whistle-blower",
+          "pos": "noun",
+          "definition": "a person who tells the public about wrongdoing in an organisation",
+          "example": "The {whistle-blower} revealed that the company had hidden the danger."
+        },
+        {
+          "id": "press-freedom",
+          "text": "press freedom",
+          "pos": "noun",
+          "definition": "the right of newspapers to report without government control",
+          "example": "Journalists marched to defend {press freedom}."
+        }
+      ]
+    },
+    {
+      "id": "s7-arts",
+      "title": "Arts and criticism",
+      "emoji": "🎨",
+      "words": [
+        {
+          "id": "aesthetic",
+          "text": "aesthetic",
+          "pos": "adjective",
+          "definition": "connected with beauty and the way things look",
+          "example": "The concrete building has little {aesthetic} appeal."
+        },
+        {
+          "id": "avant-garde",
+          "text": "avant-garde",
+          "pos": "adjective",
+          "definition": "new and experimental, especially in art",
+          "example": "Her {avant-garde} music was so new and experimental that it seemed decades ahead of its time."
+        },
+        {
+          "id": "critique",
+          "text": "critique",
+          "pos": "noun",
+          "definition": "a detailed judgement of a piece of work",
+          "example": "The art critic wrote a detailed {critique} of the exhibition, praising some paintings and attacking others."
+        },
+        {
+          "id": "masterpiece",
+          "text": "masterpiece",
+          "pos": "noun",
+          "definition": "the best piece of work by an artist",
+          "example": "Many people consider this painting his {masterpiece}."
+        },
+        {
+          "id": "satire",
+          "text": "satire",
+          "pos": "noun",
+          "definition": "using humour to criticise people or ideas",
+          "example": "The show mocks politicians with silly jokes and impressions; it is pure {satire}."
+        },
+        {
+          "id": "nostalgia",
+          "text": "nostalgia",
+          "pos": "noun",
+          "definition": "a happy but slightly sad feeling about the past",
+          "example": "Old family photos fill me with {nostalgia}."
+        },
+        {
+          "id": "portray",
+          "text": "portray",
+          "pos": "verb",
+          "definition": "to show someone in a particular way in art or writing",
+          "example": "The film tries to {portray} the queen as kind and wise."
+        },
+        {
+          "id": "evocative",
+          "text": "evocative",
+          "pos": "adjective",
+          "definition": "bringing strong memories, feelings or images into your mind",
+          "example": "The {evocative} smell of the old house reminded her of childhood summers."
+        },
+        {
+          "id": "contemporary",
+          "text": "contemporary",
+          "pos": "adjective",
+          "definition": "belonging to the present time",
+          "example": "Is Shakespeare still relevant to {contemporary} life, or only to the time he lived in?"
+        },
+        {
+          "id": "acclaimed",
+          "text": "acclaimed",
+          "pos": "adjective",
+          "definition": "praised by many critics",
+          "example": "The film was widely {acclaimed} by critics and audiences alike."
+        }
+      ]
+    },
+    {
+      "id": "s7-careers",
+      "title": "Careers and the workplace",
+      "emoji": "💼",
+      "words": [
+        {
+          "id": "recruit",
+          "text": "recruit",
+          "pos": "verb",
+          "definition": "to find new people to join a company or group",
+          "example": "The firm plans to {recruit} fifty graduates and give them jobs this year."
+        },
+        {
+          "id": "redundant",
+          "text": "redundant",
+          "pos": "adjective",
+          "definition": "having lost your job because it is no longer needed",
+          "example": "Two hundred workers were made {redundant} when the factory closed."
+        },
+        {
+          "id": "incentive",
+          "text": "incentive",
+          "pos": "noun",
+          "definition": "something that encourages you to do something",
+          "example": "A bonus is an {incentive} to work harder."
+        },
+        {
+          "id": "performance-review",
+          "text": "performance review",
+          "pos": "noun",
+          "definition": "a meeting where a manager judges how well an employee is working",
+          "example": "At my annual {performance review}, my manager praised my work and set new goals."
+        },
+        {
+          "id": "delegate",
+          "text": "delegate",
+          "pos": "verb",
+          "definition": "to give part of your work to someone else",
+          "example": "Busy managers who try to do everything themselves must learn to {delegate}."
+        },
+        {
+          "id": "freelance",
+          "text": "freelance",
+          "pos": "adjective",
+          "definition": "working for different companies rather than for one employer",
+          "example": "She works as a {freelance} photographer, taking jobs from many different magazines."
+        },
+        {
+          "id": "networking",
+          "text": "networking",
+          "pos": "noun",
+          "definition": "meeting people who may be useful for your career",
+          "example": "At conferences, she does a lot of {networking}, meeting people who might help her career."
+        },
+        {
+          "id": "burnout",
+          "text": "burnout",
+          "pos": "noun",
+          "definition": "extreme tiredness caused by working too hard for too long",
+          "example": "Working seventy hours a week for months left him exhausted, suffering from {burnout}."
+        },
+        {
+          "id": "apprenticeship",
+          "text": "apprenticeship",
+          "pos": "noun",
+          "definition": "a job in which you learn a skill while you work",
+          "example": "He did an {apprenticeship} with a local electrician."
+        }
+      ]
+    },
+    {
+      "id": "s7-idioms",
+      "title": "Idioms",
+      "emoji": "💬",
+      "words": [
+        {
+          "id": "tip-of-the-iceberg",
+          "text": "tip of the iceberg",
+          "pos": "phrase",
+          "definition": "a small, visible part of a much bigger problem",
+          "example": "These complaints are only the {tip of the iceberg}."
+        },
+        {
+          "id": "a-blessing-in-disguise",
+          "text": "a blessing in disguise",
+          "pos": "phrase",
+          "definition": "something that seems bad but turns out to be good",
+          "example": "Losing that job seemed terrible, but it was {a blessing in disguise}: I found a better one."
+        },
+        {
+          "id": "cut-corners",
+          "text": "cut corners",
+          "pos": "phrase",
+          "definition": "to do something cheaply or badly to save time",
+          "example": "Never {cut corners} when checking the brakes."
+        },
+        {
+          "id": "on-the-fence",
+          "text": "on the fence",
+          "pos": "phrase",
+          "definition": "not able to decide between two things",
+          "example": "I'm still {on the fence} about which university to choose."
+        },
+        {
+          "id": "break-the-ice",
+          "text": "break the ice",
+          "pos": "phrase",
+          "definition": "to make people feel relaxed when they first meet",
+          "example": "A silly game helped {break the ice} on the first day."
+        },
+        {
+          "id": "a-double-edged-sword",
+          "text": "a double-edged sword",
+          "pos": "phrase",
+          "definition": "something that has both good and bad effects",
+          "example": "Fame can be {a double-edged sword}: it brings money but also takes away your privacy."
+        },
+        {
+          "id": "hit-the-nail-on-the-head",
+          "text": "hit the nail on the head",
+          "pos": "phrase",
+          "definition": "to describe something exactly right",
+          "example": "Your answer was exactly right: you {hit the nail on the head}."
+        },
+        {
+          "id": "the-last-straw",
+          "text": "the last straw",
+          "pos": "phrase",
+          "definition": "the final problem that makes you lose patience",
+          "example": "When the bus broke down too, it was {the last straw}."
+        },
+        {
+          "id": "in-the-long-run",
+          "text": "in the long run",
+          "pos": "phrase",
+          "definition": "over a long period of time",
+          "example": "Studying now will pay off {in the long run}."
+        }
+      ]
+    },
+    {
+      "id": "s7-formal",
+      "title": "Formal alternatives",
+      "emoji": "🎩",
+      "words": [
+        {
+          "id": "commence",
+          "text": "commence",
+          "pos": "verb",
+          "definition": "to begin (formal)",
+          "example": "Guests should be seated before noon, when the ceremony will {commence}."
+        },
+        {
+          "id": "terminate",
+          "text": "terminate",
+          "pos": "verb",
+          "definition": "to end (formal)",
+          "example": "This train will {terminate} at the next station."
+        },
+        {
+          "id": "endeavour",
+          "text": "endeavour",
+          "pos": "verb",
+          "definition": "to try very hard (formal)",
+          "example": "We will {endeavour} to reply within two working days."
+        },
+        {
+          "id": "purchase",
+          "text": "purchase",
+          "pos": "verb",
+          "definition": "to buy (formal)",
+          "example": "Customers may {purchase} tickets at the box office for ten pounds each."
+        },
+        {
+          "id": "sufficient",
+          "text": "sufficient",
+          "pos": "adjective",
+          "definition": "enough (formal)",
+          "example": "Two hours will be {sufficient} to finish the test; you won't need more."
+        },
+        {
+          "id": "subsequently",
+          "text": "subsequently",
+          "pos": "adverb",
+          "definition": "afterwards (formal)",
+          "example": "He was arrested and {subsequently} released."
+        },
+        {
+          "id": "prior-to",
+          "text": "prior to",
+          "pos": "phrase",
+          "definition": "before (formal)",
+          "example": "Please arrive ten minutes {prior to} your appointment."
+        },
+        {
+          "id": "enquire",
+          "text": "enquire",
+          "pos": "verb",
+          "definition": "to ask for information (formal)",
+          "example": "I am writing to {enquire} about your summer courses."
+        },
+        {
+          "id": "residence",
+          "text": "residence",
+          "pos": "noun",
+          "definition": "the place where someone lives (formal)",
+          "example": "The British prime minister's official {residence} is at 10 Downing Street."
+        },
+        {
+          "id": "assist",
+          "text": "assist",
+          "pos": "verb",
+          "definition": "to help (formal)",
+          "example": "Staff will {assist} passengers with heavy bags."
+        }
+      ]
+    },
+    {
+      "id": "s7-confusing",
+      "title": "Words that mislead",
+      "emoji": "❓",
+      "words": [
+        {
+          "id": "elicit",
+          "text": "elicit",
+          "pos": "verb",
+          "definition": "to get information or a reaction from someone",
+          "example": "The teacher's question failed to {elicit} any reaction from the bored class."
+        },
+        {
+          "id": "illicit",
+          "text": "illicit",
+          "pos": "adjective",
+          "definition": "not allowed by law or by the rules",
+          "example": "Customs officers found {illicit} goods hidden in the van."
+        },
+        {
+          "id": "discreet",
+          "text": "discreet",
+          "pos": "adjective",
+          "definition": "careful not to cause embarrassment or attract attention",
+          "example": "Please be {discreet} and keep this news to yourself."
+        },
+        {
+          "id": "discrete",
+          "text": "discrete",
+          "pos": "adjective",
+          "definition": "separate and different from each other",
+          "example": "The course is split into four {discrete} units, each completely separate from the others."
+        },
+        {
+          "id": "adverse",
+          "text": "adverse",
+          "pos": "adjective",
+          "definition": "harmful or bad for something",
+          "example": "Heavy frost had an {adverse} effect on the harvest, damaging much of the crop."
+        },
+        {
+          "id": "averse",
+          "text": "averse",
+          "pos": "adjective",
+          "definition": "not liking something or not wanting to do it",
+          "example": "I'm not {averse} to a bit of hard work."
+        },
+        {
+          "id": "flout",
+          "text": "flout",
+          "pos": "verb",
+          "definition": "to break a rule openly",
+          "example": "Some drivers {flout} the speed limit every day."
+        },
+        {
+          "id": "flaunt",
+          "text": "flaunt",
+          "pos": "verb",
+          "definition": "to show something off so that people notice it",
+          "example": "He likes to {flaunt} his expensive new watch."
+        },
+        {
+          "id": "eminent",
+          "text": "eminent",
+          "pos": "adjective",
+          "definition": "famous and respected",
+          "example": "She comes from an {eminent} family of judges and professors, respected by everyone."
+        },
+        {
+          "id": "imminent",
+          "text": "imminent",
+          "pos": "adjective",
+          "definition": "about to happen very soon",
+          "example": "Dark clouds warned that heavy rain was {imminent}."
+        }
+      ]
+    },
+    {
+      "id": "s7-people",
+      "title": "Describing people precisely",
+      "emoji": "🧑",
+      "words": [
+        {
+          "id": "meticulous",
+          "text": "meticulous",
+          "pos": "adjective",
+          "definition": "very careful about every small detail",
+          "example": "Her drawings are {meticulous}: every feather on every bird is perfectly detailed."
+        },
+        {
+          "id": "arrogant",
+          "text": "arrogant",
+          "pos": "adjective",
+          "definition": "behaving as if you are better than other people",
+          "example": "He's so {arrogant} that he thinks he is better than everyone else in the class."
+        },
+        {
+          "id": "humble",
+          "text": "humble",
+          "pos": "adjective",
+          "definition": "not proud; not thinking you are better than others",
+          "example": "Despite winning the prize, she stayed {humble}, saying her teammates deserved more credit than she did."
+        },
+        {
+          "id": "pragmatic",
+          "text": "pragmatic",
+          "pos": "adjective",
+          "definition": "dealing with problems in a practical way",
+          "example": "She takes a {pragmatic} approach: whatever works is fine with her."
+        },
+        {
+          "id": "conscientious",
+          "text": "conscientious",
+          "pos": "adjective",
+          "definition": "working hard and carefully, wanting to do things right",
+          "example": "Out of a sense of duty, the {conscientious} student finished her homework before going out."
+        },
+        {
+          "id": "cynical",
+          "text": "cynical",
+          "pos": "adjective",
+          "definition": "believing that people only act for themselves",
+          "example": "He's {cynical} about politicians, believing they only make promises to win votes."
+        },
+        {
+          "id": "tenacious",
+          "text": "tenacious",
+          "pos": "adjective",
+          "definition": "not giving up easily",
+          "example": "The {tenacious} climber reached the summit on her third attempt."
+        },
+        {
+          "id": "naive",
+          "text": "naive",
+          "pos": "adjective",
+          "definition": "trusting too easily because of lack of experience",
+          "example": "It was {naive} to think the free gift had no catch."
+        },
+        {
+          "id": "charismatic",
+          "text": "charismatic",
+          "pos": "adjective",
+          "definition": "having a charm that attracts and inspires people",
+          "example": "Crowds were drawn to the {charismatic} young politician by her magnetic personality, not her arguments."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1154 @@
+{
+  "schemaVersion": 1,
+  "grade": "s5",
+  "units": [
+    {
+      "id": "s5-essays",
+      "title": "Writing essays",
+      "emoji": "✍️",
+      "words": [
+        {
+          "id": "outline",
+          "text": "outline",
+          "pos": "noun",
+          "definition": "a short plan of the main points",
+          "example": "Before writing, make an {outline} of your three main arguments."
+        },
+        {
+          "id": "cite",
+          "text": "cite",
+          "pos": "verb",
+          "definition": "to name a book or writer as support for what you say",
+          "example": "In your essay, {cite} two experts by name to support your main argument."
+        },
+        {
+          "id": "paraphrase",
+          "text": "paraphrase",
+          "pos": "verb",
+          "definition": "to say the same thing using different words",
+          "example": "Try to {paraphrase} the text: keep its meaning but put it in your own words."
+        },
+        {
+          "id": "plagiarism",
+          "text": "plagiarism",
+          "pos": "noun",
+          "definition": "copying someone else's work and saying it is yours",
+          "example": "Copying a whole essay from a website is {plagiarism}."
+        },
+        {
+          "id": "bibliography",
+          "text": "bibliography",
+          "pos": "noun",
+          "definition": "a list of the books and other sources you used",
+          "example": "List every book and website you used in the {bibliography} at the end of your project."
+        },
+        {
+          "id": "formal",
+          "text": "formal",
+          "pos": "adjective",
+          "definition": "suitable for serious or official situations",
+          "example": "Don't use slang in a {formal} letter to the head teacher."
+        },
+        {
+          "id": "coherent",
+          "text": "coherent",
+          "pos": "adjective",
+          "definition": "clear and logical, with parts that fit together well",
+          "example": "Her essay was {coherent}: each paragraph followed logically from the one before."
+        },
+        {
+          "id": "elaborate",
+          "text": "elaborate",
+          "pos": "verb",
+          "definition": "to give more details or explain an idea more fully",
+          "example": "Your point is interesting, but please {elaborate}: give us some examples."
+        },
+        {
+          "id": "word-count",
+          "text": "word count",
+          "pos": "noun",
+          "definition": "the number of words in a text",
+          "example": "Check the {word count}; the limit is three hundred."
+        }
+      ]
+    },
+    {
+      "id": "s5-argument",
+      "title": "Building an argument",
+      "emoji": "💭",
+      "words": [
+        {
+          "id": "contradict",
+          "text": "contradict",
+          "pos": "verb",
+          "definition": "to say the opposite of what someone else has said",
+          "example": "The two witnesses {contradict} each other: one says the car was red, the other says blue."
+        },
+        {
+          "id": "assume",
+          "text": "assume",
+          "pos": "verb",
+          "definition": "to think that something is true without checking",
+          "example": "Don't {assume} that everyone in the class has a smartphone."
+        },
+        {
+          "id": "outweigh",
+          "text": "outweigh",
+          "pos": "verb",
+          "definition": "to be greater or more important than something else",
+          "example": "The benefits of exercise far {outweigh} the risks of getting a small injury."
+        },
+        {
+          "id": "valid",
+          "text": "valid",
+          "pos": "adjective",
+          "definition": "based on good reasons and facts",
+          "example": "Your reason for missing the test is {valid}: being ill is a good excuse."
+        },
+        {
+          "id": "counter-argument",
+          "text": "counter-argument",
+          "pos": "noun",
+          "definition": "a reason given against another argument",
+          "example": "A good essay answers each {counter-argument} fairly."
+        },
+        {
+          "id": "controversial",
+          "text": "controversial",
+          "pos": "adjective",
+          "definition": "causing a lot of strong disagreement",
+          "example": "Testing on animals is {controversial}: some people strongly support it and others strongly oppose it."
+        },
+        {
+          "id": "perspective",
+          "text": "perspective",
+          "pos": "noun",
+          "definition": "a particular way of thinking about something",
+          "example": "Try to see the problem from your parents' {perspective}."
+        },
+        {
+          "id": "acknowledge",
+          "text": "acknowledge",
+          "pos": "verb",
+          "definition": "to accept or admit that something is true",
+          "example": "She knew she was wrong but refused to {acknowledge} her mistake in public."
+        },
+        {
+          "id": "undeniable",
+          "text": "undeniable",
+          "pos": "adjective",
+          "definition": "certainly true; impossible to doubt",
+          "example": "With so much clear evidence, it is {undeniable} that the planet is getting warmer."
+        },
+        {
+          "id": "generalisation",
+          "text": "generalisation",
+          "pos": "noun",
+          "definition": "a statement that says something is true of every case",
+          "example": "'All teenagers are lazy' is a {generalisation}: it says something is true of every teenager."
+        }
+      ]
+    },
+    {
+      "id": "s5-research",
+      "title": "Science and research",
+      "emoji": "🔭",
+      "words": [
+        {
+          "id": "hypothesis",
+          "text": "hypothesis",
+          "pos": "noun",
+          "definition": "an idea that has not yet been proved and needs to be tested",
+          "example": "Before the experiment, write down your {hypothesis}: what you predict will happen."
+        },
+        {
+          "id": "findings",
+          "text": "findings",
+          "pos": "noun",
+          "definition": "the information that people discover from research",
+          "example": "The survey's {findings} showed that most students sleep less than eight hours."
+        },
+        {
+          "id": "interpret",
+          "text": "interpret",
+          "pos": "verb",
+          "definition": "to decide what something means",
+          "example": "How do you {interpret} this graph? I think it shows prices are rising."
+        },
+        {
+          "id": "theory",
+          "text": "theory",
+          "pos": "noun",
+          "definition": "a set of ideas that explains why something happens",
+          "example": "Darwin's {theory} of evolution changed biology for ever."
+        },
+        {
+          "id": "control-group",
+          "text": "control group",
+          "pos": "noun",
+          "definition": "people in an experiment who do not get the treatment being tested, so they can be compared with the others",
+          "example": "Half the patients got the new drug, and the {control group} got sugar pills."
+        },
+        {
+          "id": "survey",
+          "text": "survey",
+          "pos": "noun",
+          "definition": "a set of questions you ask many people to find out what they think",
+          "example": "We did a {survey} of two hundred students to find out how they get to school."
+        },
+        {
+          "id": "inconclusive",
+          "text": "inconclusive",
+          "pos": "adjective",
+          "definition": "not giving a clear answer or result",
+          "example": "The data neither proved nor disproved our idea, so the results were {inconclusive}."
+        },
+        {
+          "id": "breakthrough",
+          "text": "breakthrough",
+          "pos": "noun",
+          "definition": "an important new discovery",
+          "example": "After years of failed experiments, the scientists made a {breakthrough} and found a cure."
+        },
+        {
+          "id": "significant",
+          "text": "significant",
+          "pos": "adjective",
+          "definition": "large or important enough to be noticed",
+          "example": "The change was not tiny; it was {significant} enough for everyone to notice."
+        },
+        {
+          "id": "investigate",
+          "text": "investigate",
+          "pos": "verb",
+          "definition": "to try to find out the truth about something",
+          "example": "Detectives are trying to {investigate} the burglary."
+        }
+      ]
+    },
+    {
+      "id": "s5-society",
+      "title": "Society and equality",
+      "emoji": "🧑‍🤝‍🧑",
+      "words": [
+        {
+          "id": "asylum",
+          "text": "asylum",
+          "pos": "noun",
+          "definition": "protection that a country gives to someone who has escaped danger in their own country",
+          "example": "Fleeing the war, the family asked for {asylum}: permission to stay safely in a new country."
+        },
+        {
+          "id": "discrimination",
+          "text": "discrimination",
+          "pos": "noun",
+          "definition": "treating people unfairly because of who they are",
+          "example": "Laws protect workers from {discrimination} because of their age."
+        },
+        {
+          "id": "poverty",
+          "text": "poverty",
+          "pos": "noun",
+          "definition": "the state of being very poor",
+          "example": "Millions of children around the world live in {poverty}."
+        },
+        {
+          "id": "homeless",
+          "text": "homeless",
+          "pos": "adjective",
+          "definition": "having no place to live",
+          "example": "The charity gives hot meals to {homeless} people."
+        },
+        {
+          "id": "minority",
+          "text": "minority",
+          "pos": "noun",
+          "definition": "the smaller part of a group; less than half",
+          "example": "Only a small {minority} of students, three out of thirty, voted against the plan."
+        },
+        {
+          "id": "food-bank",
+          "text": "food bank",
+          "pos": "noun",
+          "definition": "a charity that hands out free tins and packets to people who cannot afford to eat",
+          "example": "Our school collects tins every December for the local {food bank}."
+        },
+        {
+          "id": "benefits",
+          "text": "benefits",
+          "pos": "noun",
+          "definition": "money the government pays to people who are ill, poor or out of work",
+          "example": "Because she is too ill to work, she gets {benefits}, money paid by the government."
+        },
+        {
+          "id": "immigrant",
+          "text": "immigrant",
+          "pos": "noun",
+          "definition": "a person who has come to live in a new country",
+          "example": "As an {immigrant} from Portugal, my grandfather had to learn English when he moved here."
+        },
+        {
+          "id": "human-rights",
+          "text": "human rights",
+          "pos": "noun",
+          "definition": "the basic freedoms that every person should have",
+          "example": "Free speech is one of our most important {human rights}."
+        }
+      ]
+    },
+    {
+      "id": "s5-politics",
+      "title": "Government and politics",
+      "emoji": "🏛️",
+      "words": [
+        {
+          "id": "manifesto",
+          "text": "manifesto",
+          "pos": "noun",
+          "definition": "a written list of what a political party promises to do if it wins",
+          "example": "Before the election, the party's {manifesto} listed fifty promises, from free buses to lower taxes."
+        },
+        {
+          "id": "parliament",
+          "text": "parliament",
+          "pos": "noun",
+          "definition": "the group of people elected to make a country's laws",
+          "example": "The new law was passed by {parliament} last week."
+        },
+        {
+          "id": "petition",
+          "text": "petition",
+          "pos": "noun",
+          "definition": "a document signed by many people asking someone in power to do something",
+          "example": "Over five thousand people signed our {petition} asking the council to keep the library open."
+        },
+        {
+          "id": "opposition",
+          "text": "opposition",
+          "pos": "noun",
+          "definition": "the political parties that are not in the government",
+          "example": "The leader of the {opposition} attacked the government's plan and promised to scrap it if her party won."
+        },
+        {
+          "id": "republic",
+          "text": "republic",
+          "pos": "noun",
+          "definition": "a country whose head of state is not a king or queen",
+          "example": "In a {republic}, the head of state is usually elected instead of inheriting the role from a parent."
+        },
+        {
+          "id": "monarchy",
+          "text": "monarchy",
+          "pos": "noun",
+          "definition": "a system in which a king or queen is the head of a country",
+          "example": "In a {monarchy}, the role of head of state usually passes to another member of the royal family."
+        },
+        {
+          "id": "protest",
+          "text": "protest",
+          "pos": "noun",
+          "definition": "a public show that people strongly disagree with something",
+          "example": "Thousands marched through the streets in a peaceful {protest}."
+        },
+        {
+          "id": "minister",
+          "text": "minister",
+          "pos": "noun",
+          "definition": "a senior member of a government",
+          "example": "The health {minister} opened the new hospital."
+        },
+        {
+          "id": "tax",
+          "text": "tax",
+          "pos": "noun",
+          "definition": "money that people must pay to the government",
+          "example": "Part of what you earn goes to the government as {tax}."
+        },
+        {
+          "id": "ballot",
+          "text": "ballot",
+          "pos": "noun",
+          "definition": "a secret vote, or the paper on which you vote",
+          "example": "In the school election, each pupil marked one name on the {ballot} and put it in a box."
+        }
+      ]
+    },
+    {
+      "id": "s5-economy",
+      "title": "The economy",
+      "emoji": "📈",
+      "words": [
+        {
+          "id": "economy",
+          "text": "economy",
+          "pos": "noun",
+          "definition": "the system of money, trade and jobs in a country",
+          "example": "Tourism is very important to the {economy} of Greece."
+        },
+        {
+          "id": "inflation",
+          "text": "inflation",
+          "pos": "noun",
+          "definition": "a general rise in prices",
+          "example": "Because of {inflation}, prices across the whole economy rose, so our weekly shopping cost five per cent more."
+        },
+        {
+          "id": "shortage",
+          "text": "shortage",
+          "pos": "noun",
+          "definition": "a situation when there is not enough of something",
+          "example": "Because of the dry summer, there is a {shortage} of water and we can't fill the pool."
+        },
+        {
+          "id": "cost-of-living",
+          "text": "cost of living",
+          "pos": "noun",
+          "definition": "how much money people need to pay for basic things like rent and food",
+          "example": "London's {cost of living} is high because rent and food cost more there than elsewhere in the UK."
+        },
+        {
+          "id": "boost",
+          "text": "boost",
+          "pos": "verb",
+          "definition": "to help something increase or improve",
+          "example": "Lower prices could {boost} sales and bring more customers into the shops."
+        },
+        {
+          "id": "consumer",
+          "text": "consumer",
+          "pos": "noun",
+          "definition": "a person who buys goods or services",
+          "example": "A careful {consumer} compares prices in several shops before buying anything."
+        },
+        {
+          "id": "export",
+          "text": "export",
+          "pos": "verb",
+          "definition": "to sell goods to another country",
+          "example": "Countries like Brazil {export} coffee all over the world."
+        },
+        {
+          "id": "import",
+          "text": "import",
+          "pos": "verb",
+          "definition": "to buy goods from another country",
+          "example": "Britain has to {import} almost all of its bananas."
+        },
+        {
+          "id": "recession",
+          "text": "recession",
+          "pos": "noun",
+          "definition": "a time when a country's trade and business fall",
+          "example": "Many people lost their jobs during the {recession}."
+        }
+      ]
+    },
+    {
+      "id": "s5-workplace",
+      "title": "At work",
+      "emoji": "💼",
+      "words": [
+        {
+          "id": "pay-rise",
+          "text": "pay rise",
+          "pos": "noun",
+          "definition": "an increase in the money you get for your work",
+          "example": "After a great year, my mum's boss gave her a {pay rise} of five per cent."
+        },
+        {
+          "id": "resign",
+          "text": "resign",
+          "pos": "verb",
+          "definition": "to leave your job because you choose to",
+          "example": "He decided to {resign} from his job and travel the world."
+        },
+        {
+          "id": "negotiate",
+          "text": "negotiate",
+          "pos": "verb",
+          "definition": "to discuss something in order to reach an agreement",
+          "example": "The union will {negotiate} a better pay deal with the bosses."
+        },
+        {
+          "id": "cv",
+          "text": "CV",
+          "pos": "noun",
+          "definition": "a document listing your education and jobs, sent with a job application",
+          "example": "Attach your {CV}, which lists your education and past jobs, to every job application."
+        },
+        {
+          "id": "internship",
+          "text": "internship",
+          "pos": "noun",
+          "definition": "a short period of work that gives a student experience",
+          "example": "She did a summer {internship} at a law firm."
+        },
+        {
+          "id": "workload",
+          "text": "workload",
+          "pos": "noun",
+          "definition": "the amount of work you have to do",
+          "example": "My {workload} is so heavy that I am at my desk until nine."
+        },
+        {
+          "id": "productive",
+          "text": "productive",
+          "pos": "adjective",
+          "definition": "doing or achieving a lot",
+          "example": "I'm most {productive} in the morning: I get more work done before lunch than after."
+        },
+        {
+          "id": "teamwork",
+          "text": "teamwork",
+          "pos": "noun",
+          "definition": "working well together in a group",
+          "example": "Our {teamwork} was excellent: everyone in the group shared the jobs and helped each other."
+        },
+        {
+          "id": "commute",
+          "text": "commute",
+          "pos": "verb",
+          "definition": "to travel regularly between home and work",
+          "example": "Many people {commute} to London by train every day."
+        },
+        {
+          "id": "entrepreneur",
+          "text": "entrepreneur",
+          "pos": "noun",
+          "definition": "a person who starts their own business",
+          "example": "Anyone who starts their own business is an {entrepreneur}, like my aunt with her bakery."
+        }
+      ]
+    },
+    {
+      "id": "s5-media",
+      "title": "Media and advertising",
+      "emoji": "📺",
+      "words": [
+        {
+          "id": "slogan",
+          "text": "slogan",
+          "pos": "noun",
+          "definition": "a short phrase that is easy to remember, used in advertising",
+          "example": "The company's {slogan}, 'Fresh every day', is printed on every bag."
+        },
+        {
+          "id": "target-audience",
+          "text": "target audience",
+          "pos": "noun",
+          "definition": "the group of people a product or message is meant for",
+          "example": "Teenagers are the {target audience} for this new game."
+        },
+        {
+          "id": "influencer",
+          "text": "influencer",
+          "pos": "noun",
+          "definition": "a person with many online followers who can affect what those followers buy",
+          "example": "The {influencer} was paid to show the face cream to her two million followers."
+        },
+        {
+          "id": "sponsor",
+          "text": "sponsor",
+          "pos": "noun",
+          "definition": "a company that pays for an event or team in return for advertising",
+          "example": "A bank is the football club's main {sponsor}: it pays to have its name on every shirt."
+        },
+        {
+          "id": "censorship",
+          "text": "censorship",
+          "pos": "noun",
+          "definition": "stopping people from seeing, reading or hearing certain things",
+          "example": "Under strict {censorship}, newspapers could not criticise the king."
+        },
+        {
+          "id": "trailer",
+          "text": "trailer",
+          "pos": "noun",
+          "definition": "a short video showing parts of a new film to advertise it",
+          "example": "We watched the {trailer} for the new film, and now I can't wait to see it."
+        },
+        {
+          "id": "catchy",
+          "text": "catchy",
+          "pos": "adjective",
+          "definition": "easy to remember, especially a song or a slogan",
+          "example": "The advert had such a {catchy} tune that I sang it all day."
+        },
+        {
+          "id": "clickbait",
+          "text": "clickbait",
+          "pos": "noun",
+          "definition": "a headline or picture that makes you click a link, often to something disappointing",
+          "example": "That shocking headline was just {clickbait}: the article itself was boring and had nothing new."
+        },
+        {
+          "id": "subscribe",
+          "text": "subscribe",
+          "pos": "verb",
+          "definition": "to pay regularly to receive something",
+          "example": "I {subscribe} to a science magazine that comes every month."
+        }
+      ]
+    },
+    {
+      "id": "s5-arts",
+      "title": "Arts and culture",
+      "emoji": "🎭",
+      "words": [
+        {
+          "id": "critic",
+          "text": "critic",
+          "pos": "noun",
+          "definition": "a person whose job is to give opinions about books, films, plays or art",
+          "example": "The newspaper's {critic} gave the new film only one star out of five."
+        },
+        {
+          "id": "performance",
+          "text": "performance",
+          "pos": "noun",
+          "definition": "singing, acting or playing music in front of an audience",
+          "example": "After weeks of rehearsals, her first {performance} as Juliet in front of an audience was brilliant."
+        },
+        {
+          "id": "sequel",
+          "text": "sequel",
+          "pos": "noun",
+          "definition": "a film or book that continues the story of an earlier one",
+          "example": "The first film was so popular that they made a {sequel} two years later."
+        },
+        {
+          "id": "gallery",
+          "text": "gallery",
+          "pos": "noun",
+          "definition": "a room or building where works of art are shown",
+          "example": "The paintings hang in a {gallery} with white walls and high windows."
+        },
+        {
+          "id": "playwright",
+          "text": "playwright",
+          "pos": "noun",
+          "definition": "a person who writes plays",
+          "example": "Shakespeare is England's most famous {playwright}."
+        },
+        {
+          "id": "mural",
+          "text": "mural",
+          "pos": "noun",
+          "definition": "a large painting on a wall",
+          "example": "Students covered the playground wall with a huge {mural} of trees, birds and flowers."
+        },
+        {
+          "id": "premiere",
+          "text": "premiere",
+          "pos": "noun",
+          "definition": "the first public showing of a film or play",
+          "example": "The actors walked down the red carpet at the film's {premiere} in London."
+        },
+        {
+          "id": "orchestra",
+          "text": "orchestra",
+          "pos": "noun",
+          "definition": "a large group of musicians who play different instruments together",
+          "example": "The {orchestra} has over eighty musicians, from violins to drums."
+        },
+        {
+          "id": "cast",
+          "text": "cast",
+          "pos": "noun",
+          "definition": "all the actors in a film or play",
+          "example": "The play has a {cast} of twelve actors, but only four of them have big parts."
+        }
+      ]
+    },
+    {
+      "id": "s5-planet",
+      "title": "Protecting the planet",
+      "emoji": "🌱",
+      "words": [
+        {
+          "id": "biodegradable",
+          "text": "biodegradable",
+          "pos": "adjective",
+          "definition": "able to break down naturally without harming the environment",
+          "example": "These cups are {biodegradable}, so they rot away in a few months instead of lasting for years."
+        },
+        {
+          "id": "biodiversity",
+          "text": "biodiversity",
+          "pos": "noun",
+          "definition": "the variety of plants and animals in a place",
+          "example": "Scientists counted every kind of plant and animal in the forest to measure its {biodiversity}."
+        },
+        {
+          "id": "deforestation",
+          "text": "deforestation",
+          "pos": "noun",
+          "definition": "cutting down large areas of forest",
+          "example": "Farming for palm oil has led to {deforestation} in Borneo."
+        },
+        {
+          "id": "carbon-footprint",
+          "text": "carbon footprint",
+          "pos": "noun",
+          "definition": "the amount of carbon dioxide that your activities produce",
+          "example": "Flying less is one way to shrink your {carbon footprint}."
+        },
+        {
+          "id": "conservation",
+          "text": "conservation",
+          "pos": "noun",
+          "definition": "protecting nature and wildlife",
+          "example": "The charity works on the {conservation} of rare birds."
+        },
+        {
+          "id": "global-warming",
+          "text": "global warming",
+          "pos": "noun",
+          "definition": "the rise in the temperature of the Earth's air and oceans",
+          "example": "Melting ice at the poles is a sign of {global warming}."
+        },
+        {
+          "id": "organic",
+          "text": "organic",
+          "pos": "adjective",
+          "definition": "grown without artificial chemicals",
+          "example": "These {organic} carrots were grown without any artificial chemicals."
+        },
+        {
+          "id": "landfill",
+          "text": "landfill",
+          "pos": "noun",
+          "definition": "a place where rubbish is buried under the ground",
+          "example": "Most plastic ends up in {landfill} or in the sea."
+        },
+        {
+          "id": "solar-panel",
+          "text": "solar panel",
+          "pos": "noun",
+          "definition": "a flat object that turns sunlight into electricity",
+          "example": "We put a {solar panel} on the roof of the shed."
+        }
+      ]
+    },
+    {
+      "id": "s5-mind",
+      "title": "Mind and well-being",
+      "emoji": "🧠",
+      "words": [
+        {
+          "id": "anxiety",
+          "text": "anxiety",
+          "pos": "noun",
+          "definition": "a feeling of worry and nervousness",
+          "example": "Before exams, many students feel {anxiety}: a racing heart, sweaty hands and constant worry."
+        },
+        {
+          "id": "cope",
+          "text": "cope",
+          "pos": "verb",
+          "definition": "to deal successfully with something difficult",
+          "example": "How do you {cope} with the pressure of exams?"
+        },
+        {
+          "id": "motivation",
+          "text": "motivation",
+          "pos": "noun",
+          "definition": "the wish to do something",
+          "example": "I've lost all my {motivation} to practise the piano."
+        },
+        {
+          "id": "mental-health",
+          "text": "mental health",
+          "pos": "noun",
+          "definition": "the health of your mind and feelings",
+          "example": "Look after your {mental health} as carefully as you look after your body."
+        },
+        {
+          "id": "resilient",
+          "text": "resilient",
+          "pos": "adjective",
+          "definition": "able to recover quickly from difficulties",
+          "example": "Children are often {resilient}: after a bad day, they bounce back very quickly."
+        },
+        {
+          "id": "self-esteem",
+          "text": "self-esteem",
+          "pos": "noun",
+          "definition": "how much you like and value yourself",
+          "example": "Children with low {self-esteem} often believe they are worse than everyone else."
+        },
+        {
+          "id": "overwhelmed",
+          "text": "overwhelmed",
+          "pos": "adjective",
+          "definition": "feeling that there is too much to deal with",
+          "example": "With five exams in a week, I felt completely {overwhelmed}."
+        },
+        {
+          "id": "insomnia",
+          "text": "insomnia",
+          "pos": "noun",
+          "definition": "a problem with getting to sleep or staying asleep",
+          "example": "Lying awake night after night, unable to fall asleep, is called {insomnia}."
+        },
+        {
+          "id": "therapy",
+          "text": "therapy",
+          "pos": "noun",
+          "definition": "treatment that helps someone with problems of the mind or body",
+          "example": "After the accident, she had {therapy} to help her walk again."
+        }
+      ]
+    },
+    {
+      "id": "s5-tech",
+      "title": "Technology and the future",
+      "emoji": "🤖",
+      "words": [
+        {
+          "id": "artificial-intelligence",
+          "text": "artificial intelligence",
+          "pos": "noun",
+          "definition": "computer systems that can learn and make decisions",
+          "example": "Self-driving cars use {artificial intelligence} to learn from experience and make decisions on the road."
+        },
+        {
+          "id": "algorithm",
+          "text": "algorithm",
+          "pos": "noun",
+          "definition": "a set of steps that a computer follows to solve a problem",
+          "example": "Write an {algorithm}: a list of steps the computer must follow to sort these numbers."
+        },
+        {
+          "id": "automation",
+          "text": "automation",
+          "pos": "noun",
+          "definition": "using machines to do work that people used to do",
+          "example": "Factory {automation} has replaced many workers."
+        },
+        {
+          "id": "innovation",
+          "text": "innovation",
+          "pos": "noun",
+          "definition": "a new idea or a new way of doing something",
+          "example": "The company rewards {innovation}: staff who come up with new ideas get a bonus."
+        },
+        {
+          "id": "virtual-reality",
+          "text": "virtual reality",
+          "pos": "noun",
+          "definition": "a computer world that seems real when you wear a headset",
+          "example": "With {virtual reality}, you can walk around ancient Rome."
+        },
+        {
+          "id": "encrypt",
+          "text": "encrypt",
+          "pos": "verb",
+          "definition": "to change information into a secret code",
+          "example": "Secure apps {encrypt} your messages so that nobody else can read them."
+        },
+        {
+          "id": "hack",
+          "text": "hack",
+          "pos": "verb",
+          "definition": "to get into a computer system without permission",
+          "example": "Someone tried to {hack} into the school's computers."
+        },
+        {
+          "id": "obsolete",
+          "text": "obsolete",
+          "pos": "adjective",
+          "definition": "no longer used because something newer exists",
+          "example": "Video tapes became {obsolete} when DVDs arrived."
+        },
+        {
+          "id": "cutting-edge",
+          "text": "cutting-edge",
+          "pos": "adjective",
+          "definition": "the newest and most advanced",
+          "example": "The hospital has the newest, most advanced scanners: truly {cutting-edge} equipment."
+        }
+      ]
+    },
+    {
+      "id": "s5-collocations",
+      "title": "Make, do, take and pay",
+      "emoji": "🧩",
+      "words": [
+        {
+          "id": "make-an-effort",
+          "text": "make an effort",
+          "pos": "phrase",
+          "definition": "to try hard",
+          "example": "You should {make an effort} to talk to the new student."
+        },
+        {
+          "id": "make-progress",
+          "text": "make progress",
+          "pos": "phrase",
+          "definition": "to get better at something or move forward",
+          "example": "After months of hard practice, she is finally starting to {make progress} with her Spanish."
+        },
+        {
+          "id": "take-responsibility",
+          "text": "take responsibility",
+          "pos": "phrase",
+          "definition": "to accept that something is your duty or your fault",
+          "example": "Leaders must {take responsibility} for their decisions."
+        },
+        {
+          "id": "take-advantage-of",
+          "text": "take advantage of",
+          "pos": "phrase",
+          "definition": "to make good use of a chance",
+          "example": "You should {take advantage of} the sunny weather and go outside."
+        },
+        {
+          "id": "do-damage",
+          "text": "do damage",
+          "pos": "phrase",
+          "definition": "to harm something",
+          "example": "Strong winds can {do damage} to old buildings."
+        },
+        {
+          "id": "make-sense",
+          "text": "make sense",
+          "pos": "phrase",
+          "definition": "to be easy to understand",
+          "example": "I've read this instruction three times, but it still doesn't {make sense} to me."
+        },
+        {
+          "id": "take-into-account",
+          "text": "take into account",
+          "pos": "phrase",
+          "definition": "to think about something when you decide or judge",
+          "example": "The judges will {take into account} the age of each dancer."
+        },
+        {
+          "id": "make-a-living",
+          "text": "make a living",
+          "pos": "phrase",
+          "definition": "to earn the money you need to live",
+          "example": "Few musicians earn enough money to {make a living} from their music alone."
+        },
+        {
+          "id": "pay-attention",
+          "text": "pay attention",
+          "pos": "phrase",
+          "definition": "to watch, listen or think carefully",
+          "example": "Please {pay attention} while I explain the safety rules."
+        }
+      ]
+    },
+    {
+      "id": "s5-phrasal",
+      "title": "More phrasal verbs",
+      "emoji": "💡",
+      "words": [
+        {
+          "id": "carry-out",
+          "text": "carry out",
+          "pos": "phrase",
+          "definition": "to do a task or a piece of work",
+          "example": "Scientists {carry out} tests on new medicines."
+        },
+        {
+          "id": "point-out",
+          "text": "point out",
+          "pos": "phrase",
+          "definition": "to make someone notice a fact",
+          "example": "She was kind enough to {point out} my spelling mistake so that I could fix it."
+        },
+        {
+          "id": "bring-up",
+          "text": "bring up",
+          "pos": "phrase",
+          "definition": "to look after a child until it is an adult",
+          "example": "My grandparents helped to {bring up} my brother and me."
+        },
+        {
+          "id": "break-down",
+          "text": "break down",
+          "pos": "phrase",
+          "definition": "to stop working, of a machine or vehicle",
+          "example": "Our old car tends to {break down} on long journeys."
+        },
+        {
+          "id": "cut-down-on",
+          "text": "cut down on",
+          "pos": "phrase",
+          "definition": "to do or use less of something",
+          "example": "I'm trying to {cut down on} sugar."
+        },
+        {
+          "id": "figure-out",
+          "text": "figure out",
+          "pos": "phrase",
+          "definition": "to understand or solve something after thinking",
+          "example": "I can't {figure out} how to open this box."
+        },
+        {
+          "id": "stand-out",
+          "text": "stand out",
+          "pos": "phrase",
+          "definition": "to be very easy to notice",
+          "example": "Her bright red coat made her {stand out} in the crowd."
+        },
+        {
+          "id": "turn-out",
+          "text": "turn out",
+          "pos": "phrase",
+          "definition": "to happen or end in a particular way, often a surprising one",
+          "example": "We planned a quiet party, but it didn't {turn out} that way: forty people came."
+        },
+        {
+          "id": "rely-on",
+          "text": "rely on",
+          "pos": "phrase",
+          "definition": "to need someone or something and trust them to help",
+          "example": "You can always {rely on} me to help with your homework."
+        }
+      ]
+    },
+    {
+      "id": "s5-confusing",
+      "title": "Words people mix up",
+      "emoji": "❓",
+      "words": [
+        {
+          "id": "economic",
+          "text": "economic",
+          "pos": "adjective",
+          "definition": "connected with trade, industry and money",
+          "example": "The country is going through an {economic} crisis."
+        },
+        {
+          "id": "economical",
+          "text": "economical",
+          "pos": "adjective",
+          "definition": "using little money, fuel or time",
+          "example": "This small car is {economical}: it uses very little petrol, so it's cheap to run."
+        },
+        {
+          "id": "sensitive",
+          "text": "sensitive",
+          "pos": "adjective",
+          "definition": "easily upset by what people say or do",
+          "example": "He's very {sensitive} about his height, so don't tease him."
+        },
+        {
+          "id": "historic",
+          "text": "historic",
+          "pos": "adjective",
+          "definition": "so important that people will remember it for a long time",
+          "example": "Today's vote is {historic}: people will still be talking about it in a hundred years."
+        },
+        {
+          "id": "historical",
+          "text": "historical",
+          "pos": "adjective",
+          "definition": "connected with the past",
+          "example": "She loves reading {historical} novels set in Tudor times."
+        },
+        {
+          "id": "principle",
+          "text": "principle",
+          "pos": "noun",
+          "definition": "a basic rule or belief that guides what you do",
+          "example": "I never eat meat; it's a matter of {principle}."
+        },
+        {
+          "id": "lay",
+          "text": "lay",
+          "pos": "verb",
+          "definition": "to put something down carefully",
+          "example": "Please {lay} the baby gently in the cot."
+        },
+        {
+          "id": "lie-down",
+          "text": "lie",
+          "pos": "verb",
+          "definition": "to be in a flat position on a bed or the ground",
+          "example": "I need to {lie} down for a while; I feel dizzy."
+        },
+        {
+          "id": "emigrate",
+          "text": "emigrate",
+          "pos": "verb",
+          "definition": "to leave your own country to live in another one",
+          "example": "Her family decided to {emigrate} to Canada."
+        }
+      ]
+    },
+    {
+      "id": "s5-education",
+      "title": "Education",
+      "emoji": "🏫",
+      "words": [
+        {
+          "id": "curriculum",
+          "text": "curriculum",
+          "pos": "noun",
+          "definition": "all the subjects that are taught in a school",
+          "example": "The {curriculum} lists all the subjects a school teaches, from maths to music."
+        },
+        {
+          "id": "compulsory",
+          "text": "compulsory",
+          "pos": "adjective",
+          "definition": "that must be done because of a rule or law",
+          "example": "At our school, wearing a uniform is {compulsory}; nobody may come in jeans."
+        },
+        {
+          "id": "assessment",
+          "text": "assessment",
+          "pos": "noun",
+          "definition": "a test or judgement of how well someone is doing",
+          "example": "The final {assessment} for the course is a spoken presentation."
+        },
+        {
+          "id": "literacy",
+          "text": "literacy",
+          "pos": "noun",
+          "definition": "the ability to read and write",
+          "example": "In our town, adults with poor {literacy} can join free classes to learn to read and write."
+        },
+        {
+          "id": "vocational",
+          "text": "vocational",
+          "pos": "adjective",
+          "definition": "teaching the skills needed for a particular job",
+          "example": "She chose a {vocational} course in hairdressing."
+        },
+        {
+          "id": "truancy",
+          "text": "truancy",
+          "pos": "noun",
+          "definition": "staying away from school without permission",
+          "example": "The school is worried about {truancy}, as some pupils skip lessons without permission."
+        },
+        {
+          "id": "expel",
+          "text": "expel",
+          "pos": "verb",
+          "definition": "to make a pupil leave a school for ever as a punishment",
+          "example": "The head teacher decided to {expel} him, so he can never come back to the school."
+        },
+        {
+          "id": "boarding-school",
+          "text": "boarding school",
+          "pos": "noun",
+          "definition": "a school where pupils live during the term",
+          "example": "At {boarding school}, she only saw her family in the holidays."
+        },
+        {
+          "id": "extracurricular",
+          "text": "extracurricular",
+          "pos": "adjective",
+          "definition": "done in addition to normal lessons",
+          "example": "After lessons end, the school offers chess, drama and other {extracurricular} activities."
+        }
+      ]
+    }
+  ]
+}
