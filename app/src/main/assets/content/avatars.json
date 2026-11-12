@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "avatars": [
+    {
+      "id": "fox",
+      "emoji": "🦊"
+    },
+    {
+      "id": "owl",
+      "emoji": "🦉"
+    },
+    {
+      "id": "frog",
+      "emoji": "🐸"
+    },
+    {
+      "id": "lion",
+      "emoji": "🦁"
+    },
+    {
+      "id": "panda",
+      "emoji": "🐼"
+    },
+    {
+      "id": "unicorn",
+      "emoji": "🦄"
+    },
+    {
+      "id": "rocket",
+      "emoji": "🚀"
+    },
+    {
+      "id": "sun",
+      "emoji": "☀️"
+    }
+  ]
+}

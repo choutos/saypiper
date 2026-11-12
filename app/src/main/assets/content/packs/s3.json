@@ -1,0 +1,1070 @@
+{
+  "schemaVersion": 1,
+  "grade": "s3",
+  "units": [
+    {
+      "id": "s3-education",
+      "title": "Paths through education",
+      "words": [
+        {
+          "id": "coursework",
+          "text": "coursework",
+          "pos": "noun",
+          "definition": "work done during a course that counts towards the final mark",
+          "example": "My {coursework} consists of projects completed during the year, not in timed exams."
+        },
+        {
+          "id": "degree",
+          "text": "degree",
+          "pos": "noun",
+          "definition": "a qualification earned by completing a university course",
+          "example": "She studied for a bachelor's {degree} in engineering at university."
+        },
+        {
+          "id": "scholarship",
+          "text": "scholarship",
+          "pos": "noun",
+          "definition": "money awarded to help someone pay for their studies",
+          "example": "Her music {scholarship} pays half the fees at her new school."
+        },
+        {
+          "id": "attendance",
+          "text": "attendance",
+          "pos": "noun",
+          "definition": "being present at a place you are expected to go",
+          "example": "Perfect {attendance} means being at school every day, without missing a single session."
+        },
+        {
+          "id": "term",
+          "text": "term",
+          "pos": "noun",
+          "definition": "one of the periods into which a school year is divided",
+          "example": "Our school year is divided into three parts; the autumn {term} comes first."
+        },
+        {
+          "id": "tutor",
+          "text": "tutor",
+          "pos": "noun",
+          "definition": "a teacher who gives extra help to one learner or a small group",
+          "example": "My maths {tutor} gives me extra lessons alone after school."
+        },
+        {
+          "id": "lecture",
+          "text": "lecture",
+          "pos": "noun",
+          "definition": "a talk given to teach a group about a subject",
+          "example": "The professor gave a {lecture}, speaking for an hour while students listened silently."
+        },
+        {
+          "id": "workshop",
+          "text": "workshop",
+          "pos": "noun",
+          "definition": "a practical class where people learn by doing activities together",
+          "example": "At the pottery {workshop}, we all made clay bowls with the instructor."
+        },
+        {
+          "id": "certificate",
+          "text": "certificate",
+          "pos": "noun",
+          "definition": "an official document showing that you have done or passed something",
+          "example": "I received a swimming {certificate} with my name and the distance I completed."
+        },
+        {
+          "id": "exchange",
+          "text": "exchange",
+          "pos": "noun",
+          "definition": "a visit where students stay with families in another country",
+          "example": "On our school {exchange}, we stay with French families who later visit us."
+        }
+      ]
+    },
+    {
+      "id": "s3-investigation",
+      "title": "Investigating a question",
+      "words": [
+        {
+          "id": "prediction",
+          "text": "prediction",
+          "pos": "noun",
+          "definition": "a statement about what you think will happen in the future",
+          "example": "My {prediction} is that the taller plant will flower first next week."
+        },
+        {
+          "id": "observation",
+          "text": "observation",
+          "pos": "noun",
+          "definition": "something noticed by watching carefully",
+          "example": "I wrote an {observation} about what I saw: each touched leaf curled."
+        },
+        {
+          "id": "measurement",
+          "text": "measurement",
+          "pos": "noun",
+          "definition": "a number found by checking size, weight or amount",
+          "example": "The ruler's {measurement} shows that this leaf is eight centimetres long."
+        },
+        {
+          "id": "data",
+          "text": "data",
+          "pos": "noun",
+          "definition": "facts or numbers collected for study",
+          "example": "We entered all fifty temperature readings into a table of {data}."
+        },
+        {
+          "id": "sample",
+          "text": "sample",
+          "pos": "noun",
+          "definition": "a small amount chosen to show what the whole is like",
+          "example": "We tested a water {sample} taken from just one part of the lake."
+        },
+        {
+          "id": "method",
+          "text": "method",
+          "pos": "noun",
+          "definition": "a particular way of doing something",
+          "example": "Our {method} involves weighing each pot before and after adding water."
+        },
+        {
+          "id": "variable",
+          "text": "variable",
+          "pos": "noun",
+          "definition": "something in a test that can change",
+          "example": "The only {variable} we change is temperature; everything else stays fixed throughout the test."
+        },
+        {
+          "id": "average",
+          "text": "average",
+          "pos": "noun",
+          "definition": "a number found by adding amounts and dividing by how many there are",
+          "example": "The {average} of two, four and six is four."
+        },
+        {
+          "id": "accurate",
+          "text": "accurate",
+          "pos": "adjective",
+          "definition": "correct and free from mistakes",
+          "example": "Our estimate was {accurate}: the exact count matched it, with no error."
+        },
+        {
+          "id": "approximate",
+          "text": "approximate",
+          "pos": "adjective",
+          "definition": "close to the correct amount but not exact",
+          "example": "The {approximate} weight is ten kilograms; we have not measured it exactly."
+        }
+      ]
+    },
+    {
+      "id": "s3-arguments",
+      "title": "Building an argument",
+      "words": [
+        {
+          "id": "argument",
+          "text": "argument",
+          "pos": "noun",
+          "definition": "a set of reasons given to support an idea",
+          "example": "The strongest {argument} in favour of later starts is that teenagers need sleep."
+        },
+        {
+          "id": "viewpoint",
+          "text": "viewpoint",
+          "pos": "noun",
+          "definition": "the way someone sees or thinks about an issue",
+          "example": "From a cyclist's {viewpoint}, a cycle lane matters more than extra parking."
+        },
+        {
+          "id": "proposal",
+          "text": "proposal",
+          "pos": "noun",
+          "definition": "a plan or idea put forward for others to consider",
+          "example": "We submitted a {proposal} for approval, with drawings of our suggested cycle lane."
+        },
+        {
+          "id": "objection",
+          "text": "objection",
+          "pos": "noun",
+          "definition": "a reason given for being against a plan or idea",
+          "example": "My {objection} to the route concerns safety: I oppose sending cyclists through that junction."
+        },
+        {
+          "id": "alternative",
+          "text": "alternative",
+          "pos": "noun",
+          "definition": "another possibility you can choose instead",
+          "example": "Walking is one option; taking the bus is an {alternative}."
+        },
+        {
+          "id": "consequence",
+          "text": "consequence",
+          "pos": "noun",
+          "definition": "something that happens because of an action or situation",
+          "example": "I arrived late as a direct {consequence} of missing the bus."
+        },
+        {
+          "id": "purpose",
+          "text": "purpose",
+          "pos": "noun",
+          "definition": "the reason something exists or is done",
+          "example": "The {purpose} of this button is to stop the machine in an emergency."
+        },
+        {
+          "id": "benefit",
+          "text": "benefit",
+          "pos": "noun",
+          "definition": "a good effect that something has",
+          "example": "We planted trees for the {benefit} of everyone who uses the park."
+        },
+        {
+          "id": "debate",
+          "text": "debate",
+          "pos": "noun",
+          "definition": "an organised discussion where people argue different sides of a question",
+          "example": "In our formal {debate}, each team had two minutes to argue its side."
+        },
+        {
+          "id": "limitation",
+          "text": "limitation",
+          "pos": "noun",
+          "definition": "something that restricts how much can be done or known",
+          "example": "A key {limitation} of our study is that we questioned only five people."
+        }
+      ]
+    },
+    {
+      "id": "s3-discussion",
+      "title": "Developing a discussion",
+      "words": [
+        {
+          "id": "analyse",
+          "text": "analyse",
+          "pos": "verb",
+          "definition": "to study parts of something carefully to understand it",
+          "example": "In chemistry, we {analyse} a mixture to identify the substances it contains."
+        },
+        {
+          "id": "estimate",
+          "text": "estimate",
+          "pos": "verb",
+          "definition": "to judge an amount roughly without measuring it exactly",
+          "example": "We {estimate} the crowd at two hundred, because counting everyone exactly is impossible."
+        },
+        {
+          "id": "justify",
+          "text": "justify",
+          "pos": "verb",
+          "definition": "to give good reasons for something you have done or believe",
+          "example": "You must {justify} the expense by showing why spending so much was necessary."
+        },
+        {
+          "id": "conclude",
+          "text": "conclude",
+          "pos": "verb",
+          "definition": "to reach a final judgement after thinking about information",
+          "example": "From these results, we can {conclude} that sunlight helped the plants grow."
+        },
+        {
+          "id": "distinguish",
+          "text": "distinguish",
+          "pos": "verb",
+          "definition": "to recognise or show the difference between things",
+          "example": "Can you {distinguish} between fact and opinion, telling which is which?"
+        },
+        {
+          "id": "emphasise",
+          "text": "emphasise",
+          "pos": "verb",
+          "definition": "to show that one point is particularly important",
+          "example": "The speaker will {emphasise} the key point by repeating it three times."
+        },
+        {
+          "id": "challenge",
+          "text": "challenge",
+          "pos": "verb",
+          "definition": "to question whether something is right or true",
+          "example": "We {challenge} that claim as false, showing penguins as birds that cannot fly."
+        },
+        {
+          "id": "clarify",
+          "text": "clarify",
+          "pos": "verb",
+          "definition": "to make something easier to understand",
+          "example": "Could you {clarify} this confusing sentence by explaining exactly what you mean?"
+        },
+        {
+          "id": "convince",
+          "text": "convince",
+          "pos": "verb",
+          "definition": "to make someone believe something is true",
+          "example": "The footprints may {convince} you that a fox really visited our garden."
+        },
+        {
+          "id": "admit",
+          "text": "admit",
+          "pos": "verb",
+          "definition": "to accept that something is true, especially something you would rather hide",
+          "example": "I must {admit} that I broke the window, though I fear being blamed."
+        }
+      ]
+    },
+    {
+      "id": "s3-linking",
+      "title": "Linking a longer explanation",
+      "words": [
+        {
+          "id": "yet",
+          "text": "yet",
+          "pos": "other",
+          "definition": "used to introduce a surprising fact after what was just said",
+          "example": "The climb exhausted us, {yet} we reached the top instead of turning back."
+        },
+        {
+          "id": "besides",
+          "text": "besides",
+          "pos": "adverb",
+          "definition": "used to add another reason or point",
+          "example": "The library is free; {besides}, it lends computers as well as books."
+        },
+        {
+          "id": "otherwise",
+          "text": "otherwise",
+          "pos": "adverb",
+          "definition": "used to say what will happen if something is not done",
+          "example": "Put the milk in the fridge; {otherwise}, it may go sour."
+        },
+        {
+          "id": "meanwhile",
+          "text": "meanwhile",
+          "pos": "adverb",
+          "definition": "during the time that something else is happening",
+          "example": "Mum cooked dinner; {meanwhile}, I set the table as she worked."
+        },
+        {
+          "id": "eventually",
+          "text": "eventually",
+          "pos": "adverb",
+          "definition": "in the end, after a long time or many difficulties",
+          "example": "After months of practice, I {eventually} managed to swim a whole kilometre."
+        },
+        {
+          "id": "provided-that",
+          "text": "provided that",
+          "pos": "phrase",
+          "definition": "only if a particular condition is met",
+          "example": "You may borrow my bike {provided that} you return it before dinner."
+        },
+        {
+          "id": "even-though",
+          "text": "even though",
+          "pos": "phrase",
+          "definition": "used before a fact that makes another fact surprising",
+          "example": "I finished the book {even though} I found its opening chapters dull."
+        },
+        {
+          "id": "as-a-result",
+          "text": "as a result",
+          "pos": "phrase",
+          "definition": "because of something that happened before",
+          "example": "The pipe burst; {as a result}, water flooded the kitchen floor."
+        },
+        {
+          "id": "in-contrast",
+          "text": "in contrast",
+          "pos": "phrase",
+          "definition": "used when the next thing is very different from the last",
+          "example": "The north was rainy; {in contrast}, the south had clear blue skies."
+        },
+        {
+          "id": "in-spite-of",
+          "text": "in spite of",
+          "pos": "phrase",
+          "definition": "without being stopped by a difficulty",
+          "example": "We completed the walk {in spite of} the wind blowing against us."
+        }
+      ]
+    },
+    {
+      "id": "s3-computing",
+      "title": "Managing digital information",
+      "words": [
+        {
+          "id": "database",
+          "text": "database",
+          "pos": "noun",
+          "definition": "an organised collection of information that can be searched on a computer",
+          "example": "The library's {database} lets staff search thousands of book records by author."
+        },
+        {
+          "id": "spreadsheet",
+          "text": "spreadsheet",
+          "pos": "noun",
+          "definition": "a computer document with rows and columns for working with numbers",
+          "example": "Our budget {spreadsheet} adds the numbers in each column automatically."
+        },
+        {
+          "id": "network",
+          "text": "network",
+          "pos": "noun",
+          "definition": "a group of computers connected so they can exchange information",
+          "example": "All classroom computers belong to one school {network} and share a printer."
+        },
+        {
+          "id": "storage",
+          "text": "storage",
+          "pos": "noun",
+          "definition": "space used to keep information on a device",
+          "example": "Deleting old videos frees up {storage} for more files on my tablet."
+        },
+        {
+          "id": "backup",
+          "text": "backup",
+          "pos": "noun",
+          "definition": "an extra copy kept in case the original is lost",
+          "example": "I keep a {backup} on a separate drive in case my laptop breaks."
+        },
+        {
+          "id": "access",
+          "text": "access",
+          "pos": "noun",
+          "definition": "the ability or right to enter or use something",
+          "example": "Only staff have {access} to this folder; pupils cannot open it."
+        },
+        {
+          "id": "digital",
+          "text": "digital",
+          "pos": "adjective",
+          "definition": "using computer signals to store or show information",
+          "example": "A {digital} camera stores photographs as electronic files instead of on film."
+        },
+        {
+          "id": "virtual",
+          "text": "virtual",
+          "pos": "adjective",
+          "definition": "created by a computer to seem like a real place or experience",
+          "example": "A {virtual} reality headset makes computer-generated worlds seem all around you."
+        },
+        {
+          "id": "install",
+          "text": "install",
+          "pos": "verb",
+          "definition": "to put a program on a computer so it can be used",
+          "example": "We {install} the program by copying its files into the computer's system folders."
+        },
+        {
+          "id": "scan",
+          "text": "scan",
+          "pos": "verb",
+          "definition": "to use a machine to make a computer copy of paper or a picture",
+          "example": "Please {scan} this paper drawing to create an image file on the computer."
+        }
+      ]
+    },
+    {
+      "id": "s3-news",
+      "title": "Reading the news critically",
+      "words": [
+        {
+          "id": "journalism",
+          "text": "journalism",
+          "pos": "noun",
+          "definition": "the work of gathering and reporting news",
+          "example": "She studies {journalism} at college to train for a career in reporting news."
+        },
+        {
+          "id": "coverage",
+          "text": "coverage",
+          "pos": "noun",
+          "definition": "the amount or way that news services report an event",
+          "example": "The channel's live election {coverage} reported results from every counting centre."
+        },
+        {
+          "id": "edition",
+          "text": "edition",
+          "pos": "noun",
+          "definition": "one particular version or issue of a book or newspaper",
+          "example": "Today's morning {edition} of the newspaper was printed before the evening update."
+        },
+        {
+          "id": "circulation",
+          "text": "circulation",
+          "pos": "noun",
+          "definition": "the number of copies of a newspaper or magazine sold regularly",
+          "example": "The newspaper's daily {circulation} is ten thousand copies sold."
+        },
+        {
+          "id": "subscription",
+          "text": "subscription",
+          "pos": "noun",
+          "definition": "regular payments to receive a publication or service",
+          "example": "My magazine {subscription} delivers a new issue to my home every month."
+        },
+        {
+          "id": "publicity",
+          "text": "publicity",
+          "pos": "noun",
+          "definition": "attention from newspapers or television intended to make people interested in something",
+          "example": "Posters and newspaper stories gave the play {publicity}, attracting people who might buy tickets."
+        },
+        {
+          "id": "bias",
+          "text": "bias",
+          "pos": "noun",
+          "definition": "an unfair preference that stops someone judging things equally",
+          "example": "The report shows {bias} by praising one team and ignoring the other's achievements."
+        },
+        {
+          "id": "misleading",
+          "text": "misleading",
+          "pos": "adjective",
+          "definition": "likely to make someone believe something that is not true",
+          "example": "The {misleading} headline suggests the pool closed forever, though it closed only today."
+        },
+        {
+          "id": "report",
+          "text": "report",
+          "pos": "verb",
+          "definition": "to tell people information about something that has happened",
+          "example": "Journalists {report} on events, telling the public what has happened and where."
+        },
+        {
+          "id": "quote",
+          "text": "quote",
+          "pos": "verb",
+          "definition": "to repeat exactly what someone else has said or written",
+          "example": "If you {quote} her, copy her exact words inside quotation marks."
+        }
+      ]
+    },
+    {
+      "id": "s3-climate",
+      "title": "Energy and conservation",
+      "words": [
+        {
+          "id": "reserve",
+          "text": "reserve",
+          "pos": "noun",
+          "definition": "an area of land where wild animals and plants are protected",
+          "example": "This nature {reserve} protects wild birds, and visitors must stay on marked paths."
+        },
+        {
+          "id": "greenhouse",
+          "text": "greenhouse",
+          "pos": "noun",
+          "definition": "a building with clear walls and roof where plants are grown",
+          "example": "Tomatoes grow in our glass {greenhouse}, which traps warmth around the plants."
+        },
+        {
+          "id": "atmosphere",
+          "text": "atmosphere",
+          "pos": "noun",
+          "definition": "the layer of gases around a planet",
+          "example": "Earth's {atmosphere} contains the air we breathe and surrounds the whole planet."
+        },
+        {
+          "id": "carbon-dioxide",
+          "text": "carbon dioxide",
+          "pos": "noun",
+          "definition": "a gas released when fuels burn and taken in by plants",
+          "example": "Burning coal releases {carbon dioxide}, a gas that contributes to global warming."
+        },
+        {
+          "id": "fossil-fuel",
+          "text": "fossil fuel",
+          "pos": "noun",
+          "definition": "coal, oil or gas formed underground from ancient living things",
+          "example": "Coal is a {fossil fuel} formed from plants buried millions of years ago."
+        },
+        {
+          "id": "solar",
+          "text": "solar",
+          "pos": "adjective",
+          "definition": "using or coming from the sun",
+          "example": "The roof's {solar} panels use sunlight to produce electricity."
+        },
+        {
+          "id": "sustainable",
+          "text": "sustainable",
+          "pos": "adjective",
+          "definition": "able to continue without using up supplies or harming the natural world",
+          "example": "A {sustainable} forest provides wood while new trees replace those cut down."
+        },
+        {
+          "id": "extinction",
+          "text": "extinction",
+          "pos": "noun",
+          "definition": "the disappearance of every living member of an animal or plant group",
+          "example": "Protecting their habitat could save these rare frogs from {extinction}."
+        },
+        {
+          "id": "consume",
+          "text": "consume",
+          "pos": "verb",
+          "definition": "to use a supply of something such as fuel or energy",
+          "example": "Older light bulbs {consume} more electricity than newer ones producing the same light."
+        },
+        {
+          "id": "preserve",
+          "text": "preserve",
+          "pos": "verb",
+          "definition": "to keep something in its existing state and prevent harm or decay",
+          "example": "Museum staff {preserve} old documents by stopping the paper from decaying."
+        }
+      ]
+    },
+    {
+      "id": "s3-society",
+      "title": "Taking part in society",
+      "words": [
+        {
+          "id": "citizen",
+          "text": "citizen",
+          "pos": "noun",
+          "definition": "a person who legally belongs to a particular country",
+          "example": "She remains a British {citizen} while living permanently abroad and holding a British passport."
+        },
+        {
+          "id": "council",
+          "text": "council",
+          "pos": "noun",
+          "definition": "a group of people chosen to make decisions for a local area",
+          "example": "The town {council} decides how local money is spent on parks and roads."
+        },
+        {
+          "id": "election",
+          "text": "election",
+          "pos": "noun",
+          "definition": "an organised occasion when people choose someone by voting",
+          "example": "Our class {election} chooses a representative through a secret ballot."
+        },
+        {
+          "id": "policy",
+          "text": "policy",
+          "pos": "noun",
+          "definition": "an agreed plan or set of ideas used to guide decisions",
+          "example": "The school's homework {policy} explains its general approach to setting work."
+        },
+        {
+          "id": "law",
+          "text": "law",
+          "pos": "noun",
+          "definition": "an official rule made by a government that people must obey",
+          "example": "The new {law} was passed by Parliament and is enforced by the courts."
+        },
+        {
+          "id": "equality",
+          "text": "equality",
+          "pos": "noun",
+          "definition": "a situation where people have the same rights and chances",
+          "example": "Campaigners call for {equality} before the law: the same legal rights for everyone."
+        },
+        {
+          "id": "democracy",
+          "text": "democracy",
+          "pos": "noun",
+          "definition": "a form of government in which people choose their leaders by voting",
+          "example": "A country is a {democracy} when its people can freely elect their government."
+        },
+        {
+          "id": "inclusion",
+          "text": "inclusion",
+          "pos": "noun",
+          "definition": "making sure everyone can take part and feels welcome",
+          "example": "Her {inclusion} on the team list meant she could take part in every game."
+        },
+        {
+          "id": "vote",
+          "text": "vote",
+          "pos": "verb",
+          "definition": "to choose officially by marking a paper or raising your hand",
+          "example": "We each {vote} by marking one candidate's name on a secret ballot."
+        },
+        {
+          "id": "represent",
+          "text": "represent",
+          "pos": "verb",
+          "definition": "to speak or act for a person or group",
+          "example": "Our delegate will {represent} us, speaking on our behalf at the council meeting."
+        }
+      ]
+    },
+    {
+      "id": "s3-careers",
+      "title": "Thinking about work",
+      "words": [
+        {
+          "id": "career",
+          "text": "career",
+          "pos": "noun",
+          "definition": "the series of jobs someone does during their working life",
+          "example": "Her teaching {career} lasted forty years, from her first job to retirement."
+        },
+        {
+          "id": "promotion",
+          "text": "promotion",
+          "pos": "noun",
+          "definition": "a move to a higher position at work",
+          "example": "She received a {promotion}, moving from assistant to manager with greater responsibility."
+        },
+        {
+          "id": "employer",
+          "text": "employer",
+          "pos": "noun",
+          "definition": "a person or organisation that pays people to work",
+          "example": "The factory is the town's biggest {employer}, paying wages to five hundred workers."
+        },
+        {
+          "id": "employee",
+          "text": "employee",
+          "pos": "noun",
+          "definition": "someone paid to work for a person or organisation",
+          "example": "The company calls every paid worker an {employee}, including managers and apprentices."
+        },
+        {
+          "id": "application",
+          "text": "application",
+          "pos": "noun",
+          "definition": "a formal written request to get a job or place on a course",
+          "example": "I sent a job {application} explaining why the shop should hire me."
+        },
+        {
+          "id": "candidate",
+          "text": "candidate",
+          "pos": "noun",
+          "definition": "someone being considered for a job or position",
+          "example": "The final job {candidate} will meet the manager before she makes her choice."
+        },
+        {
+          "id": "vacancy",
+          "text": "vacancy",
+          "pos": "noun",
+          "definition": "a job that is available for someone to take",
+          "example": "The shop advertises a {vacancy} because it needs a new assistant."
+        },
+        {
+          "id": "salary",
+          "text": "salary",
+          "pos": "noun",
+          "definition": "a fixed amount of money paid regularly for doing a job",
+          "example": "Unlike bonuses, her {salary} is the fixed amount her employer pays each month."
+        },
+        {
+          "id": "experience",
+          "text": "experience",
+          "pos": "noun",
+          "definition": "knowledge or skill gained by doing something yourself",
+          "example": "She has ten years of teaching {experience} from working in several schools."
+        },
+        {
+          "id": "apprentice",
+          "text": "apprentice",
+          "pos": "noun",
+          "definition": "someone who learns a skilled job while working for an experienced person",
+          "example": "After finishing her training, the electrician stopped being an {apprentice} and became fully qualified."
+        }
+      ]
+    },
+    {
+      "id": "s3-money",
+      "title": "Managing money",
+      "words": [
+        {
+          "id": "budget",
+          "text": "budget",
+          "pos": "noun",
+          "definition": "a plan for how much money you can spend",
+          "example": "Our holiday {budget} sets a limit of fifty pounds a day."
+        },
+        {
+          "id": "income",
+          "text": "income",
+          "pos": "noun",
+          "definition": "money that a person receives, usually from work",
+          "example": "Her monthly {income} includes wages, rent from her flat and interest from savings."
+        },
+        {
+          "id": "expense",
+          "text": "expense",
+          "pos": "noun",
+          "definition": "money spent on something you need to do or have",
+          "example": "The largest {expense} on our trip was the cost of the hotel."
+        },
+        {
+          "id": "savings",
+          "text": "savings",
+          "pos": "noun",
+          "definition": "money kept instead of spent so it can be used later",
+          "example": "My {savings} are the money I have put aside instead of spending."
+        },
+        {
+          "id": "profit",
+          "text": "profit",
+          "pos": "noun",
+          "definition": "money left after a business has paid all its costs",
+          "example": "Sales exceeded costs by eighty pounds, so our stall made a {profit}."
+        },
+        {
+          "id": "loss",
+          "text": "loss",
+          "pos": "noun",
+          "definition": "the amount by which a business spends more than it earns",
+          "example": "Costs exceeded sales by twenty pounds, so the stall made a {loss}."
+        },
+        {
+          "id": "debt",
+          "text": "debt",
+          "pos": "noun",
+          "definition": "money you owe and have not yet paid back",
+          "example": "Paying back the money I borrowed will clear my {debt}."
+        },
+        {
+          "id": "value",
+          "text": "value",
+          "pos": "noun",
+          "definition": "how much money something is worth",
+          "example": "The painting's {value} rose from fifty pounds to two hundred pounds."
+        },
+        {
+          "id": "affordable",
+          "text": "affordable",
+          "pos": "adjective",
+          "definition": "cheap enough for someone to be able to pay for",
+          "example": "This ticket is {affordable} even on my small pocket-money allowance."
+        },
+        {
+          "id": "invest",
+          "text": "invest",
+          "pos": "verb",
+          "definition": "to put money into something hoping it will earn more later",
+          "example": "People {invest} money in businesses hoping their money will grow over time."
+        }
+      ]
+    },
+    {
+      "id": "s3-relationships",
+      "title": "Understanding other people",
+      "words": [
+        {
+          "id": "frustration",
+          "text": "frustration",
+          "pos": "noun",
+          "definition": "annoyance because something stops you doing what you want",
+          "example": "After the printer jammed five times, my {frustration} made me want to shout."
+        },
+        {
+          "id": "patience",
+          "text": "patience",
+          "pos": "noun",
+          "definition": "the ability to wait or face difficulties without becoming annoyed",
+          "example": "Teaching a puppy takes {patience}; you must stay calm through repeated mistakes."
+        },
+        {
+          "id": "empathy",
+          "text": "empathy",
+          "pos": "noun",
+          "definition": "the ability to understand how another person feels",
+          "example": "I felt {empathy} with the winner's joy, imagining how happy she must be."
+        },
+        {
+          "id": "apology",
+          "text": "apology",
+          "pos": "noun",
+          "definition": "words saying you are sorry for something you did wrong",
+          "example": "My written {apology} said sorry for breaking her toy and promised to replace it."
+        },
+        {
+          "id": "confidence",
+          "text": "confidence",
+          "pos": "noun",
+          "definition": "the feeling that you can do something successfully",
+          "example": "Each successful performance increased my {confidence} in my ability to play well."
+        },
+        {
+          "id": "determination",
+          "text": "determination",
+          "pos": "noun",
+          "definition": "the strong wish to keep trying until you succeed",
+          "example": "Her {determination} never to give up kept her going despite failure after failure."
+        },
+        {
+          "id": "encouragement",
+          "text": "encouragement",
+          "pos": "noun",
+          "definition": "words or actions that give someone hope and help them keep trying",
+          "example": "The crowd shouted {encouragement}: 'Keep going! You can do it!'"
+        },
+        {
+          "id": "compromise",
+          "text": "compromise",
+          "pos": "noun",
+          "definition": "an agreement where each side gives up something it wanted",
+          "example": "We reached a {compromise}: each side gave up something to reach an agreement."
+        },
+        {
+          "id": "cheerful",
+          "text": "cheerful",
+          "pos": "adjective",
+          "definition": "feeling happy and showing it",
+          "example": "I felt {cheerful} this morning, smiling and humming because everything seemed happy."
+        },
+        {
+          "id": "considerate",
+          "text": "considerate",
+          "pos": "adjective",
+          "definition": "careful to avoid causing trouble or unhappiness for others",
+          "example": "Please be {considerate} of sleeping neighbours by keeping your music low."
+        }
+      ]
+    },
+    {
+      "id": "s3-arts",
+      "title": "Art and music",
+      "words": [
+        {
+          "id": "exhibition",
+          "text": "exhibition",
+          "pos": "noun",
+          "definition": "a public display of art or other objects for people to visit",
+          "example": "The gallery's {exhibition} displays fifty paintings for visitors to see this month."
+        },
+        {
+          "id": "sculpture",
+          "text": "sculpture",
+          "pos": "noun",
+          "definition": "a work of art made by shaping a solid material",
+          "example": "The marble {sculpture} is a three-dimensional horse that visitors can walk around."
+        },
+        {
+          "id": "portrait",
+          "text": "portrait",
+          "pos": "noun",
+          "definition": "a picture of a person, especially their face",
+          "example": "The artist painted my {portrait} on canvas, showing my face and shoulders."
+        },
+        {
+          "id": "landscape",
+          "text": "landscape",
+          "pos": "noun",
+          "definition": "a picture showing an area of countryside",
+          "example": "The {landscape} on this canvas shows hills and fields, with no people."
+        },
+        {
+          "id": "abstract",
+          "text": "abstract",
+          "pos": "adjective",
+          "definition": "showing shapes and colours rather than recognisable people or objects",
+          "example": "The {abstract} painting has only circles and lines, with no recognisable objects."
+        },
+        {
+          "id": "original",
+          "text": "original",
+          "pos": "adjective",
+          "definition": "created first, rather than copied from something else",
+          "example": "This is the {original} drawing; the other versions are photocopies of it."
+        },
+        {
+          "id": "audition",
+          "text": "audition",
+          "pos": "noun",
+          "definition": "a short performance given to try to get a part in a show",
+          "example": "She sang at an {audition} to see whether she would get the part."
+        },
+        {
+          "id": "composition",
+          "text": "composition",
+          "pos": "noun",
+          "definition": "a piece of music that someone has written",
+          "example": "The orchestra performed her newest {composition}, a piece she wrote for strings."
+        },
+        {
+          "id": "harmony",
+          "text": "harmony",
+          "pos": "noun",
+          "definition": "the pleasant sound of different musical notes played together",
+          "example": "The singers' different notes blend in {harmony} rather than clashing with each other."
+        },
+        {
+          "id": "rhythm",
+          "text": "rhythm",
+          "pos": "noun",
+          "definition": "a repeated pattern of beats in music",
+          "example": "We clap the {rhythm} of the song: two short beats, then one long."
+        }
+      ]
+    },
+    {
+      "id": "s3-places",
+      "title": "Exploring places",
+      "words": [
+        {
+          "id": "border",
+          "text": "border",
+          "pos": "noun",
+          "definition": "the line separating two countries or areas",
+          "example": "We crossed the {border} from France into Spain."
+        },
+        {
+          "id": "embassy",
+          "text": "embassy",
+          "pos": "noun",
+          "definition": "a country's official office in another country",
+          "example": "Our country's {embassy} in Paris is its official office in France."
+        },
+        {
+          "id": "passport",
+          "text": "passport",
+          "pos": "noun",
+          "definition": "an official document used to show who you are when travelling abroad",
+          "example": "My {passport} is a travel document containing my photograph, nationality and border stamps."
+        },
+        {
+          "id": "visa",
+          "text": "visa",
+          "pos": "noun",
+          "definition": "official permission to enter or stay in a country for a period",
+          "example": "My student {visa} allows me to stay in the country for one year."
+        },
+        {
+          "id": "resident",
+          "text": "resident",
+          "pos": "noun",
+          "definition": "a person who lives in a particular place",
+          "example": "She is a {resident} of Britain, living here without being a British citizen."
+        },
+        {
+          "id": "region",
+          "text": "region",
+          "pos": "noun",
+          "definition": "a large area that forms part of a country or the world",
+          "example": "This mountainous {region} covers several towns and villages in the country's north."
+        },
+        {
+          "id": "landmark",
+          "text": "landmark",
+          "pos": "noun",
+          "definition": "a famous or easily recognised building or feature of a place",
+          "example": "The tall clock tower is a city {landmark} that visitors easily recognise."
+        },
+        {
+          "id": "heritage",
+          "text": "heritage",
+          "pos": "noun",
+          "definition": "buildings, traditions and objects passed down from earlier generations",
+          "example": "Our cultural {heritage} includes old castles and songs passed down through many generations."
+        },
+        {
+          "id": "accessible",
+          "text": "accessible",
+          "pos": "adjective",
+          "definition": "easy for people, including those with disabilities, to enter or use",
+          "example": "The museum is wheelchair {accessible}, with ramps and wide doorways throughout."
+        },
+        {
+          "id": "navigate",
+          "text": "navigate",
+          "pos": "verb",
+          "definition": "to find and follow a way through a place",
+          "example": "We use a compass to {navigate} across the hills without getting lost."
+        }
+      ]
+    }
+  ]
+}

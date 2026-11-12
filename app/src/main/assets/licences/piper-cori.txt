@@ -1,0 +1,30 @@
+Synthetic speech: Piper, Cori voice (Michael Hansen and contributors).
+Based on Cori Samuel’s LibriVox readings through Hi-Fi TTS, NVIDIA Corporation;
+Bakhturina, Lavrukhin, Ginsburg and Zhang (2021), CC BY 4.0.
+Generated, trimmed, level-adjusted and converted to Vorbis.
+
+The bundled synthetic clips are supplied under Creative Commons Attribution 4.0
+International (CC BY 4.0). Retain this attribution and indicate further changes.
+Licence: https://creativecommons.org/licenses/by/4.0/
+Full terms: licences/cc-by-4.0.txt in this APK.
+
+Generator: Piper 1.8.0 (GPL-3.0-or-later), Michael Hansen and contributors.
+https://github.com/OHF-Voice/piper1-gpl/tree/v1.8.0
+Piper and its model are generation tools, not included in the APK.
+
+Voice: en_GB-cori-medium, model repository declared MIT.
+Revision: cf910fb59f1d79ab3b625a63993a108751c6c25d
+https://huggingface.co/rhasspy/piper-voices/tree/cf910fb59f1d79ab3b625a63993a108751c6c25d/en/en_GB/cori/medium
+The specific voice card traces both Cori and its base model to Hi-Fi TTS.
+Model card:
+https://huggingface.co/rhasspy/piper-voices/blob/cf910fb59f1d79ab3b625a63993a108751c6c25d/en/en_GB/cori/medium/MODEL_CARD
+
+Training data: Hi-Fi TTS, NVIDIA Corporation, CC BY 4.0.
+Evelina Bakhturina, Vitaly Lavrukhin, Boris Ginsburg and Yang Zhang (2021).
+Hi-Fi TTS: A High-Fidelity English Multi-Speaker Corpus for TTS Training.
+https://www.openslr.org/109/
+https://arxiv.org/abs/2104.01497
+Cori Samuel’s LibriVox readings are the source recordings for this voice.
+
+Regeneration source, settings, exact dependencies and model checksums:
+scripts/make-audio and scripts/audio/ in the application source repository.

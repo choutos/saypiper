@@ -1,6 +1,7 @@
 # Gradle
 .gradle/
 build/
+.kotlin/
 !gradle/wrapper/gradle-wrapper.jar
 
 # Android
@@ -19,3 +20,7 @@ captures/
 
 # OS
 .DS_Store
+
+# Audio generation reports and Python bytecode
+/audio-metrics.json
+__pycache__/

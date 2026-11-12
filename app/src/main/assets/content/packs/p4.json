@@ -1,0 +1,748 @@
+{
+  "schemaVersion": 1,
+  "grade": "p4",
+  "units": [
+    {
+      "id": "p4-family",
+      "title": "Family and friends",
+      "emoji": "👨‍👩‍👧‍👦",
+      "words": [
+        {
+          "id": "parents",
+          "text": "parents",
+          "pos": "noun",
+          "definition": "your mother and father",
+          "example": "My mum and dad are my {parents}."
+        },
+        {
+          "id": "aunt",
+          "text": "aunt",
+          "pos": "noun",
+          "definition": "the sister of your mother or father",
+          "example": "My mum's sister is my {aunt}."
+        },
+        {
+          "id": "uncle",
+          "text": "uncle",
+          "pos": "noun",
+          "definition": "the brother of your mother or father",
+          "example": "My dad's brother is my {uncle}."
+        },
+        {
+          "id": "cousin",
+          "text": "cousin",
+          "pos": "noun",
+          "definition": "the child of your aunt or uncle",
+          "example": "My uncle's daughter is my {cousin}."
+        },
+        {
+          "id": "son",
+          "text": "son",
+          "pos": "noun",
+          "definition": "a boy or man who is someone's child",
+          "example": "A prince is the {son} of a king and queen."
+        },
+        {
+          "id": "daughter",
+          "text": "daughter",
+          "pos": "noun",
+          "definition": "a girl or woman who is someone's child",
+          "example": "A princess is the {daughter} of a king and queen."
+        },
+        {
+          "id": "friend",
+          "text": "friend",
+          "pos": "noun",
+          "definition": "a person you know and like",
+          "example": "Tom is my best {friend}."
+        },
+        {
+          "id": "neighbour",
+          "text": "neighbour",
+          "pos": "noun",
+          "definition": "a person who lives next to you",
+          "example": "Anyone who lives next to you is your {neighbour}."
+        }
+      ]
+    },
+    {
+      "id": "p4-clothes",
+      "title": "Clothes",
+      "emoji": "👕",
+      "words": [
+        {
+          "id": "jumper",
+          "text": "jumper",
+          "pos": "noun",
+          "definition": "a warm top made of wool that you pull over your head",
+          "example": "I wear a warm {jumper} over my school shirt."
+        },
+        {
+          "id": "pyjamas",
+          "text": "pyjamas",
+          "pos": "noun",
+          "definition": "soft clothes that you wear in bed",
+          "example": "My {pyjamas} have a top and trousers for sleeping."
+        },
+        {
+          "id": "uniform",
+          "text": "uniform",
+          "pos": "noun",
+          "definition": "the same clothes that all children at a school wear",
+          "example": "Police officers and nurses wear a {uniform} at work."
+        },
+        {
+          "id": "shorts",
+          "text": "shorts",
+          "pos": "noun",
+          "definition": "short trousers that stop above your knees",
+          "example": "It's hot, so I'm wearing {shorts} instead of trousers."
+        },
+        {
+          "id": "boots",
+          "text": "boots",
+          "pos": "noun",
+          "emoji": "🥾"
+        },
+        {
+          "id": "trainers",
+          "text": "trainers",
+          "pos": "noun",
+          "emoji": "👟"
+        },
+        {
+          "id": "swimsuit",
+          "text": "swimsuit",
+          "pos": "noun",
+          "emoji": "🩱"
+        },
+        {
+          "id": "sunglasses",
+          "text": "sunglasses",
+          "pos": "noun",
+          "emoji": "🕶️"
+        }
+      ]
+    },
+    {
+      "id": "p4-weather",
+      "title": "Seasons and weather",
+      "emoji": "🌦️",
+      "words": [
+        {
+          "id": "spring",
+          "text": "spring",
+          "pos": "noun",
+          "definition": "the season after winter, when flowers start to grow",
+          "example": "The trees get new leaves in {spring}."
+        },
+        {
+          "id": "summer",
+          "text": "summer",
+          "pos": "noun",
+          "definition": "the warmest season of the year",
+          "example": "We have the long school holiday in {summer}."
+        },
+        {
+          "id": "autumn",
+          "text": "autumn",
+          "pos": "noun",
+          "definition": "the season when leaves fall from the trees",
+          "example": "The leaves turn brown and fall in {autumn}."
+        },
+        {
+          "id": "winter",
+          "text": "winter",
+          "pos": "noun",
+          "definition": "the coldest season of the year",
+          "example": "The season after autumn is {winter}."
+        },
+        {
+          "id": "sunny",
+          "text": "sunny",
+          "pos": "adjective",
+          "emoji": "☀️"
+        },
+        {
+          "id": "cloudy",
+          "text": "cloudy",
+          "pos": "adjective",
+          "emoji": "☁️"
+        },
+        {
+          "id": "rainy",
+          "text": "rainy",
+          "pos": "adjective",
+          "emoji": "☔"
+        },
+        {
+          "id": "windy",
+          "text": "windy",
+          "pos": "adjective",
+          "emoji": "🌬️"
+        },
+        {
+          "id": "snowy",
+          "text": "snowy",
+          "pos": "adjective",
+          "emoji": "🌨️"
+        }
+      ]
+    },
+    {
+      "id": "p4-body",
+      "title": "Body and health",
+      "emoji": "🩺",
+      "words": [
+        {
+          "id": "finger",
+          "text": "finger",
+          "pos": "noun",
+          "emoji": "👆"
+        },
+        {
+          "id": "brain",
+          "text": "brain",
+          "pos": "noun",
+          "emoji": "🧠"
+        },
+        {
+          "id": "bone",
+          "text": "bone",
+          "pos": "noun",
+          "emoji": "🦴"
+        },
+        {
+          "id": "medicine",
+          "text": "medicine",
+          "pos": "noun",
+          "emoji": "💊"
+        },
+        {
+          "id": "plaster",
+          "text": "plaster",
+          "pos": "noun",
+          "emoji": "🩹"
+        },
+        {
+          "id": "neck",
+          "text": "neck",
+          "pos": "noun",
+          "definition": "the part of your body between your head and your shoulders",
+          "example": "A giraffe has a very long {neck}."
+        },
+        {
+          "id": "shoulder",
+          "text": "shoulder",
+          "pos": "noun",
+          "definition": "the part of your body where your arm joins it",
+          "example": "I carry my school bag on one {shoulder}."
+        },
+        {
+          "id": "knee",
+          "text": "knee",
+          "pos": "noun",
+          "definition": "the middle part of your leg, where it bends",
+          "example": "You bend your {knee} when you sit down."
+        },
+        {
+          "id": "headache",
+          "text": "headache",
+          "pos": "noun",
+          "definition": "a pain in your head",
+          "example": "The music was so loud that I got a {headache}."
+        },
+        {
+          "id": "cough",
+          "text": "cough",
+          "pos": "verb",
+          "definition": "to push air out of your throat with a loud noise",
+          "example": "Please cover your mouth when you {cough}."
+        }
+      ]
+    },
+    {
+      "id": "p4-time",
+      "title": "Time",
+      "emoji": "⏳",
+      "words": [
+        {
+          "id": "morning",
+          "text": "morning",
+          "pos": "noun",
+          "definition": "the part of the day from when you wake up until lunch",
+          "example": "I have breakfast every {morning}."
+        },
+        {
+          "id": "afternoon",
+          "text": "afternoon",
+          "pos": "noun",
+          "definition": "the part of the day after lunch and before evening",
+          "example": "School finishes at three in the {afternoon}."
+        },
+        {
+          "id": "evening",
+          "text": "evening",
+          "pos": "noun",
+          "definition": "the part of the day after the afternoon and before night",
+          "example": "We have dinner at seven in the {evening}."
+        },
+        {
+          "id": "night",
+          "text": "night",
+          "pos": "noun",
+          "definition": "the time when it is dark and people sleep",
+          "example": "The moon and the stars shine at {night}."
+        },
+        {
+          "id": "yesterday",
+          "text": "yesterday",
+          "pos": "adverb",
+          "definition": "the day before today",
+          "example": "Today is Monday, so {yesterday} was Sunday."
+        },
+        {
+          "id": "tomorrow",
+          "text": "tomorrow",
+          "pos": "adverb",
+          "definition": "the day after today",
+          "example": "Today is Monday, so {tomorrow} is Tuesday."
+        },
+        {
+          "id": "week",
+          "text": "week",
+          "pos": "noun",
+          "definition": "seven days",
+          "example": "There are seven days in a {week}."
+        },
+        {
+          "id": "weekend",
+          "text": "weekend",
+          "pos": "noun",
+          "definition": "Saturday and Sunday",
+          "example": "We do not go to school at the {weekend}."
+        },
+        {
+          "id": "hour",
+          "text": "hour",
+          "pos": "noun",
+          "definition": "sixty minutes",
+          "example": "The lesson lasts one {hour}."
+        },
+        {
+          "id": "minute",
+          "text": "minute",
+          "pos": "noun",
+          "definition": "sixty seconds",
+          "example": "Wait a {minute}, I am nearly ready!"
+        }
+      ]
+    },
+    {
+      "id": "p4-months",
+      "title": "Months",
+      "emoji": "🗓️",
+      "words": [
+        {
+          "id": "january",
+          "text": "January",
+          "pos": "noun",
+          "definition": "the first month of the year",
+          "example": "The new year starts in {January}."
+        },
+        {
+          "id": "february",
+          "text": "February",
+          "pos": "noun",
+          "definition": "the second month of the year",
+          "example": "The shortest month of the year is {February}."
+        },
+        {
+          "id": "march",
+          "text": "March",
+          "pos": "noun",
+          "definition": "the third month of the year",
+          "example": "The month after February is {March}."
+        },
+        {
+          "id": "april",
+          "text": "April",
+          "pos": "noun",
+          "definition": "the fourth month of the year",
+          "example": "The month after March is {April}."
+        },
+        {
+          "id": "may",
+          "text": "May",
+          "pos": "noun",
+          "definition": "the fifth month of the year",
+          "example": "The month after April is {May}."
+        },
+        {
+          "id": "june",
+          "text": "June",
+          "pos": "noun",
+          "definition": "the sixth month of the year",
+          "example": "The month after May is {June}."
+        },
+        {
+          "id": "july",
+          "text": "July",
+          "pos": "noun",
+          "definition": "the seventh month of the year",
+          "example": "The month after June is {July}."
+        },
+        {
+          "id": "august",
+          "text": "August",
+          "pos": "noun",
+          "definition": "the eighth month of the year",
+          "example": "The month before September is {August}."
+        },
+        {
+          "id": "september",
+          "text": "September",
+          "pos": "noun",
+          "definition": "the ninth month of the year",
+          "example": "The month after August is {September}."
+        },
+        {
+          "id": "october",
+          "text": "October",
+          "pos": "noun",
+          "definition": "the tenth month of the year",
+          "example": "The month after September is {October}."
+        },
+        {
+          "id": "november",
+          "text": "November",
+          "pos": "noun",
+          "definition": "the eleventh month of the year",
+          "example": "The month before December is {November}."
+        },
+        {
+          "id": "december",
+          "text": "December",
+          "pos": "noun",
+          "definition": "the last month of the year",
+          "example": "The year ends on the last day of {December}."
+        }
+      ]
+    },
+    {
+      "id": "p4-shopping",
+      "title": "Shopping",
+      "emoji": "🛍️",
+      "words": [
+        {
+          "id": "money",
+          "text": "money",
+          "pos": "noun",
+          "emoji": "💰"
+        },
+        {
+          "id": "coin",
+          "text": "coin",
+          "pos": "noun",
+          "emoji": "🪙"
+        },
+        {
+          "id": "trolley",
+          "text": "trolley",
+          "pos": "noun",
+          "emoji": "🛒"
+        },
+        {
+          "id": "basket",
+          "text": "basket",
+          "pos": "noun",
+          "emoji": "🧺"
+        },
+        {
+          "id": "buy",
+          "text": "buy",
+          "pos": "verb",
+          "definition": "to get something by giving money for it",
+          "example": "I want to {buy} a new toy with my money."
+        },
+        {
+          "id": "sell",
+          "text": "sell",
+          "pos": "verb",
+          "definition": "to give something to someone who pays you for it",
+          "example": "We want to {sell} our old car for some money."
+        },
+        {
+          "id": "pay",
+          "text": "pay",
+          "pos": "verb",
+          "definition": "to give money for something you get",
+          "example": "You must {pay} for the bread before you leave."
+        },
+        {
+          "id": "cheap",
+          "text": "cheap",
+          "pos": "adjective",
+          "definition": "costing only a little money",
+          "example": "This pen is {cheap}; it only costs ten pence."
+        },
+        {
+          "id": "expensive",
+          "text": "expensive",
+          "pos": "adjective",
+          "definition": "costing a lot of money",
+          "example": "This bike costs a lot of money; it's very {expensive}."
+        }
+      ]
+    },
+    {
+      "id": "p4-kitchen",
+      "title": "In the kitchen",
+      "emoji": "🧑‍🍳",
+      "words": [
+        {
+          "id": "teapot",
+          "text": "teapot",
+          "pos": "noun",
+          "emoji": "🫖"
+        },
+        {
+          "id": "jar",
+          "text": "jar",
+          "pos": "noun",
+          "emoji": "🫙"
+        },
+        {
+          "id": "fridge",
+          "text": "fridge",
+          "pos": "noun",
+          "definition": "a cold box in the kitchen that keeps food fresh",
+          "example": "Keep the milk cold in the {fridge}."
+        },
+        {
+          "id": "oven",
+          "text": "oven",
+          "pos": "noun",
+          "definition": "a hot box in the kitchen where you cook food",
+          "example": "Mum bakes bread in the {oven}."
+        },
+        {
+          "id": "cut",
+          "text": "cut",
+          "pos": "verb",
+          "definition": "to make something into pieces with a knife",
+          "example": "Can you {cut} the cake into eight pieces?"
+        },
+        {
+          "id": "mix",
+          "text": "mix",
+          "pos": "verb",
+          "definition": "to put different things together so they become one",
+          "example": "First, {mix} the eggs and the milk in a bowl."
+        },
+        {
+          "id": "bake",
+          "text": "bake",
+          "pos": "verb",
+          "definition": "to cook bread or cakes in an oven",
+          "example": "Let's {bake} a cake in the oven for Mum."
+        }
+      ]
+    },
+    {
+      "id": "p4-people",
+      "title": "Describing people",
+      "emoji": "🧑",
+      "words": [
+        {
+          "id": "tall",
+          "text": "tall",
+          "pos": "adjective",
+          "definition": "higher than most people",
+          "example": "My dad is so {tall} that he touches the ceiling."
+        },
+        {
+          "id": "kind",
+          "text": "kind",
+          "pos": "adjective",
+          "definition": "nice and helpful to other people",
+          "example": "It was {kind} of you to share your sweets."
+        },
+        {
+          "id": "funny",
+          "text": "funny",
+          "pos": "adjective",
+          "definition": "making people laugh",
+          "example": "Something that makes you laugh is {funny}."
+        },
+        {
+          "id": "young",
+          "text": "young",
+          "pos": "adjective",
+          "definition": "having lived for only a short time; not old",
+          "example": "My baby sister is only one; she is very {young}."
+        },
+        {
+          "id": "clever",
+          "text": "clever",
+          "pos": "adjective",
+          "definition": "quick to learn and understand things",
+          "example": "She is very {clever} and knows all the answers."
+        },
+        {
+          "id": "brave",
+          "text": "brave",
+          "pos": "adjective",
+          "definition": "not afraid to do something difficult or dangerous",
+          "example": "The {brave} girl was not afraid of the dark."
+        },
+        {
+          "id": "quiet",
+          "text": "quiet",
+          "pos": "adjective",
+          "definition": "making little or no noise",
+          "example": "Please be {quiet} in the library."
+        },
+        {
+          "id": "lazy",
+          "text": "lazy",
+          "pos": "adjective",
+          "definition": "not wanting to work or do anything",
+          "example": "He can do his homework, but he is too {lazy}."
+        },
+        {
+          "id": "strong",
+          "text": "strong",
+          "pos": "adjective",
+          "definition": "able to lift heavy things",
+          "example": "He is {strong} enough to lift the heavy box."
+        }
+      ]
+    },
+    {
+      "id": "p4-travel",
+      "title": "Travel and holidays",
+      "emoji": "🛫",
+      "words": [
+        {
+          "id": "suitcase",
+          "text": "suitcase",
+          "pos": "noun",
+          "emoji": "🧳"
+        },
+        {
+          "id": "ticket",
+          "text": "ticket",
+          "pos": "noun",
+          "emoji": "🎫"
+        },
+        {
+          "id": "map",
+          "text": "map",
+          "pos": "noun",
+          "emoji": "🗺️"
+        },
+        {
+          "id": "tent",
+          "text": "tent",
+          "pos": "noun",
+          "definition": "a small house made of cloth that you sleep in outside",
+          "example": "We slept in a {tent} next to the lake."
+        },
+        {
+          "id": "camera",
+          "text": "camera",
+          "pos": "noun",
+          "emoji": "📷"
+        },
+        {
+          "id": "airport",
+          "text": "airport",
+          "pos": "noun",
+          "definition": "the place where planes take off and land",
+          "example": "Our plane leaves the {airport} at ten."
+        },
+        {
+          "id": "station",
+          "text": "station",
+          "pos": "noun",
+          "definition": "the place where trains stop for people to get on and off",
+          "example": "The train is waiting at the {station}."
+        },
+        {
+          "id": "holiday",
+          "text": "holiday",
+          "pos": "noun",
+          "definition": "time when you do not go to school or work, and often travel",
+          "example": "We are going to Spain for our summer {holiday}."
+        }
+      ]
+    },
+    {
+      "id": "p4-countryside",
+      "title": "In the countryside",
+      "emoji": "🏞️",
+      "words": [
+        {
+          "id": "mountain",
+          "text": "mountain",
+          "pos": "noun",
+          "emoji": "⛰️"
+        },
+        {
+          "id": "island",
+          "text": "island",
+          "pos": "noun",
+          "emoji": "🏝️"
+        },
+        {
+          "id": "volcano",
+          "text": "volcano",
+          "pos": "noun",
+          "emoji": "🌋"
+        },
+        {
+          "id": "desert",
+          "text": "desert",
+          "pos": "noun",
+          "emoji": "🏜️"
+        },
+        {
+          "id": "river",
+          "text": "river",
+          "pos": "noun",
+          "definition": "water that moves across the land to the sea",
+          "example": "The {river} flows from the mountains down to the sea."
+        },
+        {
+          "id": "lake",
+          "text": "lake",
+          "pos": "noun",
+          "definition": "a large area of water with land all around it",
+          "example": "A {lake} is water with land all around it."
+        },
+        {
+          "id": "forest",
+          "text": "forest",
+          "pos": "noun",
+          "definition": "a large area with lots of trees",
+          "example": "We walked among thousands of trees in the {forest}."
+        },
+        {
+          "id": "hill",
+          "text": "hill",
+          "pos": "noun",
+          "definition": "a high piece of land, smaller than a mountain",
+          "example": "We rolled down the grassy {hill}."
+        },
+        {
+          "id": "field",
+          "text": "field",
+          "pos": "noun",
+          "definition": "an area of land with grass, often on a farm",
+          "example": "The cows are eating grass in the {field}."
+        }
+      ]
+    }
+  ]
+}
