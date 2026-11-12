@@ -1,6 +1,6 @@
 package eu.wanderclan.wordquest.game
 
-/** One immutable session for choices, pairs and tiles; mistakes return at most twice per word. */
+/** One immutable session for every exercise; mistakes return at most twice per word. */
 data class LessonSession(
     val sessionId: String,
     val lesson: Lesson,

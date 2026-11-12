@@ -2,11 +2,12 @@ package eu.wanderclan.wordquest.game
 
 import eu.wanderclan.wordquest.content.Example
 import eu.wanderclan.wordquest.content.Word
+import eu.wanderclan.wordquest.content.normaliseText
 
 data class Environment(val speechAvailable: (Word) -> Boolean, val picturesPerceivable: Boolean)
 
 enum class ExerciseType {
-    PICTURE_TO_WORD, WORD_TO_PICTURE, LISTEN_AND_PICK, MATCH_PAIRS, SPELL_WITH_TILES, GAP_FILL, DEFINITION_TO_WORD,
+    PICTURE_TO_WORD, WORD_TO_PICTURE, LISTEN_AND_PICK, MATCH_PAIRS, SPELL_WITH_TILES, GAP_FILL, DEFINITION_TO_WORD, TYPE_THE_WORD,
 }
 
 /** What the child is shown or hears. */
@@ -26,10 +27,11 @@ sealed interface Option {
 
 sealed interface Answer {
     data class Choice(val index: Int) : Answer
-    /** Word ids matched to pictures, in picture order. */
+    /** Word ids matched to meanings (pictures or definitions), in meaning order. */
     data class Pairs(val wordIds: List<String>) : Answer
     /** Indices into the original shuffled tiles; repeated letters remain separate tiles. */
     data class Tiles(val indices: List<Int>) : Answer
+    data class Typed(val text: String) : Answer
 }
 
 sealed interface Exercise {
@@ -56,14 +58,14 @@ data class ChoiceExercise(
 data class PairsExercise(
     override val wordId: String,
     val words: List<Option.Text>,
-    val pictures: List<Option.Picture>,
+    val meanings: List<Option>,
 ) : Exercise {
     override val type = ExerciseType.MATCH_PAIRS
     override val wordIds get() = words.map { it.wordId }
     override fun incorrectWords(answer: Answer): Set<String> {
-        require(answer is Answer.Pairs && answer.wordIds.size == pictures.size && answer.wordIds.toSet() == wordIds.toSet())
-        return pictures.zip(answer.wordIds).filter { (picture, id) -> picture.wordId != id }
-            .flatMap { (picture, id) -> listOf(picture.wordId, id) }.toSet()
+        require(answer is Answer.Pairs && answer.wordIds.size == meanings.size && answer.wordIds.toSet() == wordIds.toSet())
+        return meanings.zip(answer.wordIds).filter { (meaning, id) -> meaning.wordId != id }
+            .flatMap { (meaning, id) -> listOf(meaning.wordId, id) }.toSet()
     }
 }
 
@@ -77,6 +79,18 @@ data class TilesExercise(
     override fun incorrectWords(answer: Answer): Set<String> {
         require(answer is Answer.Tiles && answer.indices.sorted() == tiles.indices.toList())
         return if (answer.indices.map { tiles[it] }.joinToString("") == text) emptySet() else setOf(wordId)
+    }
+}
+
+data class TypingExercise(
+    override val wordId: String,
+    val prompt: Prompt,
+    val text: String,
+) : Exercise {
+    override val type = ExerciseType.TYPE_THE_WORD
+    override fun incorrectWords(answer: Answer): Set<String> {
+        require(answer is Answer.Typed)
+        return if (normaliseText(answer.text) == normaliseText(text)) emptySet() else setOf(wordId)
     }
 }
 

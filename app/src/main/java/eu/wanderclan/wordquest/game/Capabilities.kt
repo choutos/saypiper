@@ -11,20 +11,30 @@ object Capabilities {
         val candidates = distractorCandidates(word, pool)
         val choice = candidates.size >= band.choices - 1
         val pictureChoice = candidates.count { it.emoji != null } >= band.choices - 1
-        // FRL-9 owns the secondary mixes; preserve their existing picture exercise for now.
-        if (band == Band.C || band == Band.D) return type == ExerciseType.PICTURE_TO_WORD && picture && choice
+        val secondary = band == Band.C || band == Band.D
         return when (type) {
-            ExerciseType.PICTURE_TO_WORD -> picture && choice && (band != Band.A || !environment.speechAvailable(word))
-            ExerciseType.WORD_TO_PICTURE -> picture && pictureChoice
-            ExerciseType.LISTEN_AND_PICK -> environment.speechAvailable(word) &&
+            ExerciseType.PICTURE_TO_WORD -> band != Band.D && picture && choice && (band != Band.A || !environment.speechAvailable(word))
+            ExerciseType.WORD_TO_PICTURE -> band != Band.D && picture && pictureChoice
+            ExerciseType.LISTEN_AND_PICK -> band != Band.D && environment.speechAvailable(word) &&
                 if (band == Band.A) picture && pictureChoice else choice
-            ExerciseType.MATCH_PAIRS -> band == Band.B && picture && candidates.count { it.emoji != null } >= 3
-            ExerciseType.SPELL_WITH_TILES -> band == Band.B && word.text.matches(Regex("[a-zA-Z]{1,10}")) &&
+            ExerciseType.MATCH_PAIRS -> (if (secondary) word.definition != null else band == Band.B && picture) &&
+                pairCandidates(word, band, pool).size >= 3
+            ExerciseType.SPELL_WITH_TILES -> (band == Band.B || band == Band.C) && word.text.matches(Regex("[a-zA-Z]{1,10}")) &&
                 (picture || environment.speechAvailable(word))
-            ExerciseType.GAP_FILL -> band == Band.B && word.parsedExample != null &&
+            ExerciseType.GAP_FILL -> band != Band.A && word.parsedExample != null &&
                 candidates.count { it.pos == word.pos } >= band.choices - 1
-            ExerciseType.DEFINITION_TO_WORD -> band == Band.B && word.emoji == null && word.definition != null && choice
+            ExerciseType.DEFINITION_TO_WORD -> (secondary || band == Band.B && word.emoji == null) && word.definition != null && choice
+            ExerciseType.TYPE_THE_WORD -> secondary && (word.definition != null || environment.speechAvailable(word))
         }
+    }
+
+    /** Secondary meanings must be distinct so that each definition has only one matching word. */
+    fun pairCandidates(word: Word, band: Band, pool: List<Word>): List<Word> {
+        val candidates = distractorCandidates(word, pool)
+        return if (band == Band.C || band == Band.D) candidates.filter {
+            it.definition != null && normaliseText(it.definition) != word.definition?.let(::normaliseText)
+        }.distinctBy { normaliseText(requireNotNull(it.definition)) }
+        else candidates.filter { it.emoji != null }
     }
 
     fun distractorCandidates(answer: Word, pool: List<Word>): List<Word> {

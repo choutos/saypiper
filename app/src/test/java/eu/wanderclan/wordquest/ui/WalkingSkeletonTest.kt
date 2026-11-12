@@ -1,6 +1,7 @@
 package eu.wanderclan.wordquest.ui
 
 import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasSetTextAction
@@ -62,10 +63,10 @@ class WalkingSkeletonTest {
         screenshot("1-profile-creation")
         rule.onNode(hasText("Let's go")).performClick()
 
-        // Class picker: P1 has a pack; S1 has a fixture pack that cannot be played yet; S7 has none.
+        // Class picker: primary and secondary fixture packs are playable; S7 has none.
         rule.waitFor(hasText("P1"))
         rule.onNode(hasContentDescription("S7, coming soon")).assertIsNotEnabled()
-        rule.onNode(hasContentDescription("S1, coming soon")).assertIsNotEnabled()
+        rule.onNode(hasText("S1")).assertIsEnabled()
         screenshot("2-class-picker")
         rule.onNode(hasText("P1")).performClick()
 
