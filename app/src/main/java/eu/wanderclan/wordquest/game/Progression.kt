@@ -16,15 +16,17 @@ object Progression {
     fun hasCrown(unit: VocabUnit, bestStars: Map<Pair<String, Int>, Int>): Boolean =
         (1..LessonPlan.lessonCount(unit)).all { (bestStars[unit.id to it] ?: 0) > 0 }
 
-    fun path(units: List<VocabUnit>, bestStars: Map<Pair<String, Int>, Int>): List<PathUnit> {
+    fun path(units: List<VocabUnit>, bestStars: Map<Pair<String, Int>, Int>, allUnitsOpen: Boolean = false): List<PathUnit> {
         var previousCrowned = true
         return units.map { unit ->
-            val unitOpen = previousCrowned
+            val unitOpen = allUnitsOpen || previousCrowned || bestStars.keys.any { it.first == unit.id }
             val count = LessonPlan.lessonCount(unit)
             var previousStarred = true
             val lessons = (1..count).map { number ->
                 val stars = bestStars[unit.id to number] ?: 0
-                PathLesson(number, number == count, stars, unitOpen && previousStarred).also { previousStarred = stars > 0 }
+                PathLesson(number, number == count, stars,
+                    allUnitsOpen || unitOpen && (previousStarred || bestStars.containsKey(unit.id to number)))
+                    .also { previousStarred = stars > 0 }
             }
             val crowned = hasCrown(unit, bestStars)
             previousCrowned = crowned

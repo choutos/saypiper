@@ -1,6 +1,7 @@
 package eu.wanderclan.wordquest
 
 import eu.wanderclan.wordquest.audio.Speech
+import eu.wanderclan.wordquest.data.SettingsRepository
 import eu.wanderclan.wordquest.content.ContentSource
 import eu.wanderclan.wordquest.content.LoadedContent
 import eu.wanderclan.wordquest.data.ProfileRepository
@@ -28,6 +29,7 @@ class AppContainer(
 ) {
     val catalog get() = content.catalog
     val profiles = ProfileRepository(database)
+    val settings = SettingsRepository(database)
     val progress = ProgressRepository(database, clock)
     val generator = LessonGenerator(content.catalog)
     val pictures = Pictures(contentSource, content.pictureIndex, pictureDecodeDispatcher)

@@ -14,7 +14,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -28,20 +27,19 @@ import eu.wanderclan.wordquest.R
 fun AboutScreen(onBack: () -> Unit) {
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.about_title)) },
-                navigationIcon = {
-                    IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.lesson_back)) }
-                },
-            )
+            ScreenHeader(stringResource(R.string.about_title)) {
+                IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.lesson_back)) }
+            }
         },
     ) { padding ->
         Column(
-            Modifier.fillMaxSize().padding(padding).verticalScroll(rememberScrollState()).padding(24.dp),
+            Modifier.fillMaxSize().padding(padding).screenWidth().verticalScroll(rememberScrollState()).padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Text(stringResource(R.string.about_version, BuildConfig.VERSION_NAME), style = MaterialTheme.typography.bodyLarge)
             Text(stringResource(R.string.about_offline), style = MaterialTheme.typography.bodyLarge)
+            Text(stringResource(R.string.about_privacy), style = MaterialTheme.typography.bodyLarge)
+            Text(stringResource(R.string.about_accessibility), style = MaterialTheme.typography.bodyLarge)
             Text(stringResource(R.string.about_pictures), style = MaterialTheme.typography.bodyLarge)
             Text(stringResource(R.string.about_audio), style = MaterialTheme.typography.bodyLarge)
             Text(stringResource(R.string.about_licence_notice), style = MaterialTheme.typography.bodyMedium)

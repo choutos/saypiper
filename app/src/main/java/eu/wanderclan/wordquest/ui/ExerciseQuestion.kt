@@ -41,6 +41,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -62,6 +63,7 @@ import eu.wanderclan.wordquest.game.PairsExercise
 import eu.wanderclan.wordquest.game.Prompt
 import eu.wanderclan.wordquest.game.TilesExercise
 import eu.wanderclan.wordquest.game.TypingExercise
+import kotlinx.coroutines.flow.collectLatest
 
 /** A given word may be heard immediately; an answer is heard only with feedback. */
 private val Exercise.wordIsPrompt: Boolean get() = when (this) {
@@ -86,13 +88,19 @@ fun ExerciseQuestion(
 ) {
     val say by rememberUpdatedState(onSay)
     val answered = response != null
+    val scroll = rememberScrollState()
+    // Feedback can be taller than the remaining space at large fonts. Keep its final control
+    // visible, including when layout changes after the answer (for example, decoded pictures).
+    LaunchedEffect(answered) {
+        if (answered) snapshotFlow { scroll.maxValue }.collectLatest { scroll.animateScrollTo(it) }
+    }
     // Pairs has several words and no single spoken prompt or answer.
     val canSayWord = speechAvailable && exercise !is PairsExercise
     LaunchedEffect(exercise, answered) {
         if (canSayWord && (if (exercise.wordIsPrompt) !answered else answered)) say(exercise.wordId)
     }
-    Column(modifier.fillMaxSize().then(if (exercise is TypingExercise) Modifier.imePadding() else Modifier)) {
-        Column(Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = 24.dp),
+    Column(modifier.fillMaxSize().screenWidth().then(if (exercise is TypingExercise) Modifier.imePadding() else Modifier).verticalScroll(scroll)) {
+        Column(Modifier.fillMaxWidth().padding(horizontal = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
             if (canSayWord && (exercise.wordIsPrompt || answered)) {
                 FilledTonalIconButton(onClick = { onSay(exercise.wordId) }, modifier = Modifier.size(64.dp).testTag("speaker")) {
@@ -145,7 +153,7 @@ private fun ChoiceQuestion(exercise: ChoiceExercise, response: Answer.Choice?, b
             onClick = { onAnswer(Answer.Choice(index)) }, enabled = response == null,
             colors = ButtonDefaults.outlinedButtonColors(disabledContainerColor = colour, disabledContentColor = colours.onSurface),
             border = BorderStroke(if (correct || wrong) 3.dp else 1.dp, when { correct -> colours.tertiary; wrong -> colours.error; else -> colours.outline }),
-            modifier = Modifier.fillMaxWidth().height(if (option is Option.Picture) 104.dp else if (band == Band.A) 72.dp else 64.dp)
+            modifier = Modifier.fillMaxWidth().heightIn(min = if (option is Option.Picture) 104.dp else if (band == Band.A) 72.dp else 64.dp)
                 .testTag("option-$index"),
         ) {
             when (option) {
@@ -253,9 +261,10 @@ private fun TilesQuestion(exercise: TilesExercise, response: Answer.Tiles?, onAn
         { onAnswer(Answer.Tiles(selected)) })
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun AnswerControls(complete: Boolean, answered: Boolean, reset: () -> Unit, submit: () -> Unit) {
-    if (!answered) Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+    if (!answered) FlowRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
         OutlinedButton(onClick = reset, modifier = Modifier.heightIn(min = 56.dp).testTag("reset")) { Text(stringResource(R.string.lesson_reset)) }
         Button(onClick = submit, enabled = complete, modifier = Modifier.heightIn(min = 56.dp).testTag("submit")) {
             Icon(Icons.Filled.Check, null)
@@ -278,7 +287,7 @@ private fun Feedback(correct: Boolean, answer: String?, onContinue: () -> Unit) 
                 },
                     style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(start = 8.dp))
             }
-            Button(onClick = onContinue, modifier = Modifier.fillMaxWidth().height(64.dp)) {
+            Button(onClick = onContinue, modifier = Modifier.fillMaxWidth().heightIn(min = 64.dp)) {
                 Text(stringResource(R.string.lesson_continue))
                 Icon(Icons.AutoMirrored.Filled.ArrowForward, null, Modifier.padding(start = 8.dp))
             }

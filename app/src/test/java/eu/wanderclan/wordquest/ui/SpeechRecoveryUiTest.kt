@@ -32,6 +32,10 @@ class SpeechRecoveryUiTest {
     @get:Rule val rule = createComposeRule()
     private val request = LessonRequest.UnitLesson("fx-pets", 1)
 
+    private fun waitForLesson() {
+        rule.waitUntil(10_000) { rule.onAllNodesWithContentDescription("Stop the lesson").fetchSemanticsNodes().isNotEmpty() }
+    }
+
     private fun container(speech: Speech, seed: Long): AppContainer = AppContainer(
         ContentLoader.load(Fixtures.source), Fixtures.source,
         Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), WordQuestDatabase::class.java).build(),
@@ -52,6 +56,7 @@ class SpeechRecoveryUiTest {
                 WordQuestTheme { LessonScreen(container, 0, request, {}, {}) }
             }
         }
+        waitForLesson()
         val word = container.catalog.word(expected.current!!.wordId)!!.word.text
         rule.waitForIdle()
         rule.onNodeWithTag("prompt").assertTextEquals(word)
@@ -81,6 +86,7 @@ class SpeechRecoveryUiTest {
                 WordQuestTheme { LessonScreen(container, 0, request, {}, {}) }
             }
         }
+        waitForLesson()
         exercise.tiles.indices.forEach { rule.onNodeWithTag("tile-$it").performScrollTo().performClick() }
         rule.onNodeWithTag("submit").performScrollTo().performClick()
         rule.onNodeWithText("Continue").performClick()
@@ -103,6 +109,7 @@ class SpeechRecoveryUiTest {
                 WordQuestTheme { LessonScreen(container, 0, request, {}, {}) }
             }
         }
+        waitForLesson()
         lesson.exercises.forEachIndexed { index, exercise ->
             rule.waitForIdle()
             assertEquals("content/audio/${exercise.wordId}.ogg", spoken[index])
@@ -134,6 +141,7 @@ class SpeechRecoveryUiTest {
                 WordQuestTheme { LessonScreen(container, 0, request, {}, {}) }
             }
         }
+        waitForLesson()
         rule.onNodeWithTag("speaker").assertDoesNotExist()
         rule.onNodeWithTag("listen-replay").assertDoesNotExist()
         rule.onNodeWithTag("option-${exercise.answerIndex}").performScrollTo().performClick()
@@ -159,6 +167,7 @@ class SpeechRecoveryUiTest {
                 WordQuestTheme { LessonScreen(container, 0, request, {}, {}) }
             }
         }
+        waitForLesson()
         rule.onNodeWithTag("prompt").assertTextEquals(container.catalog.word(expected.current!!.wordId)!!.word.text)
         repeat(lesson.exercises.size - 1) {
             rule.onNodeWithTag("speaker").assertDoesNotExist()
@@ -185,6 +194,7 @@ class SpeechRecoveryUiTest {
                 WordQuestTheme { LessonScreen(container, 0, request, {}, {}) }
             }
         }
+        waitForLesson()
         rule.onNodeWithTag("prompt").assertTextEquals(sentence)
         rule.onNodeWithTag("speaker").assertDoesNotExist()
         rule.onNodeWithTag("option-${exercise.answerIndex}").performScrollTo().performClick()

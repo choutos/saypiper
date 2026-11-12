@@ -34,7 +34,28 @@ data class LessonStars(val unitId: String, val lessonNumber: Int, val stars: Int
 data class WordDue(val wordId: String, val dueDay: Long)
 
 @Dao
+interface SettingsDao {
+    @Query("SELECT * FROM app_settings WHERE id = 1")
+    fun observe(): Flow<AppSettingsEntity?>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertDefault(settings: AppSettingsEntity)
+
+    @Query("UPDATE app_settings SET soundEnabled = :enabled WHERE id = 1")
+    suspend fun setSound(enabled: Boolean)
+}
+
+@Dao
 interface ProgressDao {
+    @Query("DELETE FROM lesson_result WHERE profileId = :profileId")
+    suspend fun clearResults(profileId: Long)
+
+    @Query("DELETE FROM word_progress WHERE profileId = :profileId")
+    suspend fun clearWords(profileId: Long)
+
+    @Query("DELETE FROM daily_activity WHERE profileId = :profileId")
+    suspend fun clearActivity(profileId: Long)
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertLessonResult(result: LessonResultEntity): Long
 
