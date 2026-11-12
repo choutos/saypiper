@@ -45,7 +45,7 @@ jobs:
           password="$(openssl rand -hex 16)"
           echo "::add-mask::$password"
           keytool -genkeypair -keystore "$RUNNER_TEMP/smoke.p12" -storetype PKCS12 -storepass "$password" -keypass "$password" \
-            -alias smoke -keyalg RSA -keysize 3072 -validity 2 -dname "CN=Smoke test only, not a release key"
+            -alias smoke -keyalg RSA -keysize 3072 -validity 2 -dname "CN=Smoke test only - not a release key"
           {
             echo "RELEASE_STORE_FILE=$RUNNER_TEMP/smoke.p12"
             echo "RELEASE_STORE_PASSWORD=$password"
