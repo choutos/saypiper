@@ -67,7 +67,7 @@
           "text": "feedback",
           "pos": "noun",
           "definition": "comments about your work that help you make it better",
-          "example": "Her {feedback} consists of comments on my work, identifying strengths and possible improvements."
+          "example": "Comments on your work, identifying strengths and possible improvements, are called {feedback}."
         },
         {
           "id": "qualification",
@@ -668,7 +668,7 @@
           "text": "announce",
           "pos": "verb",
           "definition": "to tell people something officially or publicly",
-          "example": "The host will {announce} the winner's name aloud after opening the sealed envelope."
+          "example": "To {announce} means to make news known through an official public statement."
         },
         {
           "id": "describe",
