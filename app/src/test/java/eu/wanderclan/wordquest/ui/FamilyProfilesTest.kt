@@ -203,7 +203,7 @@ class FamilyProfilesTest {
         root(); enterParent()
         rule.onAllNodesWithText("Delete player")[1].performScrollTo().performClick()
         rule.onNode(hasContentDescription("Avatar: sun") and hasAnyAncestor(isDialog()), useUnmergedTree = true).assertExists()
-        rule.onNode(hasText("P3") and hasAnyAncestor(isDialog())).assertExists()
+        rule.onNode(hasText("Mia · P3") and hasAnyAncestor(isDialog())).assertExists()
         click("Cancel")
         runBlocking { assertEquals(2, container.profiles.profiles().first().size) }
     }
