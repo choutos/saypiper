@@ -1,8 +1,8 @@
 # SayPiper
 
-Named SayPiper since 12 November 2026. The application id and the app label still say Word Quest, the working title, until the release changes them; the Kotlin namespace and class names keep the old name. An offline Android game for children to practise English vocabulary. The child picks their school year (P1–P5 primary, S1–S7 secondary) and the vocabulary, exercise types and difficulty follow from it.
+Named SayPiper since 12 November 2026: the app label is SayPiper and the application id is `eu.wanderclan.saypiper`. Only the Kotlin namespace, the class names and the database file keep Word Quest, the working title. An offline Android game for children to practise English vocabulary. The child picks their school year (P1–P5 primary, S1–S7 secondary) and the vocabulary, exercise types and difficulty follow from it.
 
-Status: all twelve classes are playable on `main`, with 1,434 words, eight exercise types, practice, rewards, profiles and a parent corner. Not released yet: there is no signed build, and the app has not been run on a device.
+Status: all twelve classes are playable on `main`, with 1,434 words, eight exercise types, practice, rewards, profiles and a parent corner. Not released yet: there is a release build and an emulator smoke test on Android 7 and Android 15, but no release, and nobody has reported a run on a physical device.
 
 - Design: [docs/adr/0001-architecture-and-content-model.md](docs/adr/0001-architecture-and-content-model.md)
 - Tracking: Multica issue FRL-3
