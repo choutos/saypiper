@@ -25,7 +25,7 @@ eval "$(scripts/setup-toolchain.sh --print-env)" # JAVA_HOME, ANDROID_HOME, PATH
 
 The script is idempotent: a second run installs nothing. Set `ANDROID_TOOLCHAIN_DIR` to install elsewhere. On the shared agent host (4 vCPU, 7.9 GB), the install takes under a minute and about 1.1 GB including the downloads; run one Gradle build at a time, with `--no-daemon`. Gradle is capped at 2 GB in `gradle.properties`.
 
-The first build also downloads the two Android runtimes Robolectric needs for the unit tests (about 350 MB, listed in `app/build.gradle.kts`) into the Gradle cache. The tests themselves never use the network.
+The first build also downloads the Android runtime Robolectric needs for the unit tests (Android 15, listed in `app/build.gradle.kts`) into the Gradle cache. The tests themselves never use the network.
 
 Outputs:
 
@@ -33,6 +33,30 @@ Outputs:
 - `app/build/outputs/roborazzi/*.png`: screenshots taken by the Robolectric UI test (CI uploads them as an artifact)
 
 There is no emulator on the agent host: UI is verified with Robolectric tests and CI.
+
+## Installing
+
+SayPiper runs on Android 7.0 or newer and needs no internet connection.
+
+1. On the Android device, open the project's GitHub releases page and download `saypiper-<version>.apk` from the newest release.
+2. Open the downloaded file. Android asks once to allow the browser or file manager to install apps ("Install unknown apps"); allow it, then install.
+3. To update, install the APK of a newer release in the same way. It installs over the old one and keeps every profile and its progress.
+
+Progress is stored only on the device and is never backed up, so uninstalling the app removes it. A copy installed from F-Droid is signed with a different key from the APK published here, and Android refuses to update one with the other: stay with the channel you installed from.
+
+## Releases
+
+A tag `v<versionName>` on `main` runs `.github/workflows/release.yml`: tests, the R8-shrunk release APK signed with the release key, `scripts/release/check-apk.sh`, and a GitHub release with the APK and its SHA-256. The key and its passwords come from four repository secrets and never from the repo: `RELEASE_KEYSTORE_BASE64` (the PKCS12 keystore, base64), `RELEASE_STORE_PASSWORD`, `RELEASE_KEY_ALIAS`, `RELEASE_KEY_PASSWORD`. Without them the release build is unsigned, which is what F-Droid builds from source.
+
+Before tagging a release:
+
+1. Raise `versionCode` and set `versionName` in `app/build.gradle.kts`, and add `fastlane/metadata/android/en-GB/changelogs/<versionCode>.txt`.
+2. Run `scripts/release/released-ids.py --version-name <versionName> --version-code <versionCode>` and commit `app/released-ids.json`. `ReleasedIdsTest` then fails when a released unit or word id disappears without being listed under `retired`, is used again after retirement, or moves to another unit (ADR section 4).
+3. Run the emulator smoke test (Actions, "Emulator smoke test", build type `release`) on the commit to be tagged.
+
+A tag `test-release-<anything>` runs the same workflow with a key made for that run and publishes nothing; delete the tag afterwards. To undo a release, delete the GitHub release and its tag: installed copies keep working and the previous APK stays installable.
+
+First build installed on a child's device: none yet. Record its version code here. From that build on, every Room schema change ships with a tested migration (ADR section 7).
 
 ## Content
 

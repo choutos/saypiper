@@ -1,0 +1,107 @@
+name: Release
+
+# A version tag (v1.0.0) builds the signed release APK and attaches it to a GitHub release.
+# A tag test-release-<anything> runs the same build signed with a key made for the run, and publishes
+# nothing: it tries the workflow without the release key (FRL-13). Delete such a tag afterwards.
+on:
+  push:
+    tags: ['v[0-9]*', 'test-release-*']
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    env:
+      REAL_RELEASE: ${{ startsWith(github.ref_name, 'v') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/android-toolchain
+          key: android-toolchain-${{ hashFiles('scripts/setup-toolchain.sh') }}
+      - name: Toolchain
+        run: |
+          scripts/setup-toolchain.sh
+          scripts/setup-toolchain.sh --print-env | sed -e 's/^export //' -e 's/"//g' | grep -v '^PATH=' >> "$GITHUB_ENV"
+          echo "ANDROID_SDK_ROOT=$HOME/.cache/android-toolchain/sdk" >> "$GITHUB_ENV"
+          echo "$HOME/.cache/android-toolchain/jdk-17/bin" >> "$GITHUB_PATH"
+
+      - name: The tag matches versionName
+        if: env.REAL_RELEASE == 'true'
+        run: |
+          version="$(sed -n 's/^ *versionName = "\(.*\)"$/\1/p' app/build.gradle.kts)"
+          test "v$version" = "$GITHUB_REF_NAME" || { echo "tag $GITHUB_REF_NAME, versionName $version" >&2; exit 1; }
+
+      - name: Release key
+        if: env.REAL_RELEASE == 'true'
+        env:
+          KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+          STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+        run: |
+          if [ -z "$KEYSTORE_BASE64" ] || [ -z "$STORE_PASSWORD" ] || [ -z "$KEY_ALIAS" ] || [ -z "$KEY_PASSWORD" ]; then
+            echo "The release secrets are not set; see README, Releases." >&2; exit 1
+          fi
+          base64 -d <<<"$KEYSTORE_BASE64" > "$RUNNER_TEMP/release.p12"
+          {
+            echo "RELEASE_STORE_FILE=$RUNNER_TEMP/release.p12"
+            echo "RELEASE_STORE_PASSWORD=$STORE_PASSWORD"
+            echo "RELEASE_KEY_ALIAS=$KEY_ALIAS"
+            echo "RELEASE_KEY_PASSWORD=$KEY_PASSWORD"
+          } >> "$GITHUB_ENV"
+
+      - name: Throw-away key (test tag)
+        if: env.REAL_RELEASE != 'true'
+        run: |
+          password="$(openssl rand -hex 16)"
+          echo "::add-mask::$password"
+          keytool -genkeypair -keystore "$RUNNER_TEMP/test.p12" -storetype PKCS12 -storepass "$password" -keypass "$password" \
+            -alias test -keyalg RSA -keysize 3072 -validity 2 -dname "CN=Release workflow test - not a release key"
+          {
+            echo "RELEASE_STORE_FILE=$RUNNER_TEMP/test.p12"
+            echo "RELEASE_STORE_PASSWORD=$password"
+            echo "RELEASE_KEY_ALIAS=test"
+            echo "RELEASE_KEY_PASSWORD=$password"
+          } >> "$GITHUB_ENV"
+
+      # No Gradle cache action here: a release resolves its dependencies afresh.
+      - name: Tests and signed release APK
+        run: ./gradlew --no-daemon lint testDebugUnitTest assembleRelease
+
+      - name: Check the APK
+        run: |
+          version="$(sed -n 's/^ *versionName = "\(.*\)"$/\1/p' app/build.gradle.kts)"
+          mkdir dist
+          cp app/build/outputs/apk/release/app-release.apk "dist/saypiper-$version.apk"
+          scripts/release/check-apk.sh "dist/saypiper-$version.apk" --signed
+          (cd dist && sha256sum "saypiper-$version.apk" > "saypiper-$version.apk.sha256")
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --print-certs "dist/saypiper-$version.apk" | grep -E 'SHA-256' | tee dist/certificate.txt
+          rm -f "$RUNNER_TEMP"/*.p12
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-${{ github.ref_name }}
+          path: |
+            dist/
+            app/build/outputs/mapping/release/mapping.txt
+
+      - name: GitHub release
+        if: env.REAL_RELEASE == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          {
+            echo "Install: download the APK below on the Android device and open it. Android 7.0 or newer."
+            echo
+            echo "Signing certificate:"
+            sed 's/^/    /' dist/certificate.txt
+          } > notes.md
+          gh release create "$GITHUB_REF_NAME" dist/*.apk dist/*.apk.sha256 --title "SayPiper $GITHUB_REF_NAME" --notes-file notes.md --verify-tag

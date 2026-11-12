@@ -15,7 +15,8 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "eu.wanderclan.wordquest"
+        // SayPiper (FRL-14). Fixed for good by the first release; the namespace and class names keep the working title.
+        applicationId = "eu.wanderclan.saypiper"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -40,6 +41,9 @@ android {
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             if (releaseStoreFile != null) signingConfig = signingConfigs.getByName("release")
+            // The git revision AGP stamps into the APK depends on how the source was checked out. Without it
+            // F-Droid's build from the tag matches ours byte for byte and can ship our signature (FRL-13).
+            vcsInfo.include = false
         }
     }
     // F-Droid rejects the encrypted dependency list AGP adds to the signing block; nothing reads it here.
@@ -90,13 +94,12 @@ androidComponents {
 }
 
 // Robolectric's Android runtimes come from Gradle (cached, with retries), never from the test JVM, which
-// would download them from Maven Central on every CI run. Robolectric 4.14.1 loads two: the runtime the
-// tests run on (sdk=34 in robolectric.properties) and the newest one the JVM supports (Android 15), whose
+// would download them from Maven Central on every CI run. Robolectric 4.14.1 loads one: Android 15, the
+// runtime the tests run on (sdk=35 in robolectric.properties) and also the newest one the JVM supports, whose
 // framework resources it reads while parsing the app. If Robolectric asks for another, the test failure
 // names the coordinates to add here (see RobolectricRuntimeResolver in the unit tests). One configuration
 // per runtime: in a shared one, Gradle would keep only the newest version of the module.
 val robolectricRuntimes = listOf(
-    "org.robolectric:android-all-instrumented:14-robolectric-10818077-i7",
     "org.robolectric:android-all-instrumented:15-robolectric-12650502-i7",
 )
 val robolectricRuntimeDir = layout.buildDirectory.dir("robolectric-runtime")

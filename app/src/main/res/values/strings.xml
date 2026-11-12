@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Word Quest</string>
+    <string name="app_name">SayPiper</string>
 
     <string name="profiles_title">Who is playing?</string>
     <string name="profiles_empty">Make a profile to start playing.</string>
@@ -67,9 +67,9 @@
     <string name="result_crown">You earned the crown for %1$s!</string>
 
     <string name="about">About</string>
-    <string name="about_title">About Word Quest</string>
+    <string name="about_title">About SayPiper</string>
     <string name="about_version">Version %1$s</string>
-    <string name="about_offline">Word Quest works without the internet. It has no accounts, adverts or purchases, and your progress stays on this device.</string>
+    <string name="about_offline">SayPiper works without the internet. It has no accounts, adverts or purchases, and your progress stays on this device.</string>
     <string name="about_privacy">Privacy: nicknames, avatars, classes, settings, lesson results and word progress are stored only on this device. Nothing leaves the device. Nothing is backed up or transferred to another device. Deleting a profile removes its progress; uninstalling the app removes all stored data.</string>
     <string name="about_accessibility">P1 and P2 cannot be played without sight in this version.</string>
     <string name="parent_title">Parent corner</string>
