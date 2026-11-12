@@ -118,6 +118,8 @@ class LessonGenerator(private val catalog: Catalog) {
             (exercise is TilesExercise && exercise.prompt == Prompt.Listening) ||
             (exercise is TypingExercise && exercise.prompt == Prompt.Listening)
         if (!needsSpeech) return exercise
+        // A dictation's clue is safe for both the current question and every queued question.
+        if (exercise is TypingExercise && exercise.clue != null) return exercise.copy(prompt = exercise.clue, clue = null)
         val home = requireNotNull(catalog.word(exercise.wordId))
         if (showWord) return when (exercise) {
             is ChoiceExercise -> exercise.copy(

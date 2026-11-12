@@ -51,6 +51,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -175,6 +176,13 @@ private fun PairsQuestion(exercise: PairsExercise, response: Answer.Pairs?, onAn
     var matches by remember { mutableStateOf<Map<String, String>>(emptyMap()) }
     val definitions = exercise.meanings.first() is Option.Text
     val shape = MaterialTheme.shapes.medium
+    val textMeasurer = rememberTextMeasurer()
+    val labelStyle = MaterialTheme.typography.labelLarge
+    val widestWord = remember(exercise.words, exercise.meanings, textMeasurer, labelStyle) {
+        (exercise.words.map { it.text } + exercise.meanings.filterIsInstance<Option.Text>().map { it.text })
+            .flatMap { it.split(Regex("\\s+")) }
+            .maxOf { textMeasurer.measure(it, style = labelStyle, softWrap = false).size.width }
+    }
     Text(stringResource(if (definitions) R.string.lesson_definition_pairs else R.string.lesson_pairs), style = MaterialTheme.typography.titleLarge)
     exercise.words.forEachIndexed { index, word ->
         val meaning = exercise.meanings[index]
@@ -182,12 +190,16 @@ private fun PairsQuestion(exercise: PairsExercise, response: Answer.Pairs?, onAn
         val colours = MaterialTheme.colorScheme
         val colour = when (correct) { true -> colours.tertiaryContainer; false -> colours.errorContainer; null -> colours.surface }
         BoxWithConstraints(Modifier.fillMaxWidth()) {
-            // At large fonts a half-row is too narrow even for ordinary primary vocabulary.
-            val stacked = maxWidth / LocalDensity.current.fontScale < 300.dp
+            // Reserve both buttons' padding and the definition feedback icon before measuring.
+            // Use the same layout before and after Check so feedback cannot squeeze a word.
+            val reservedWidth = if (definitions) 52.dp else 24.dp
+            val wordWidth = with(LocalDensity.current) { ((maxWidth - 12.dp) / 2 - reservedWidth).toPx().toInt() }
+            val stacked = widestWord > wordWidth
             val choices: @Composable (Modifier) -> Unit = { choiceModifier ->
                 OutlinedButton(onClick = { selected = word.wordId },
                     enabled = response == null && word.wordId !in matches.values,
                     shape = shape,
+                    contentPadding = PaddingValues(12.dp),
                     border = BorderStroke(if (selected == word.wordId) 3.dp else 1.dp, MaterialTheme.colorScheme.primary),
                     modifier = choiceModifier.heightIn(min = 64.dp).testTag("pair-word-${word.wordId}")) {
                     Text(word.text)

@@ -216,21 +216,33 @@ abstract class FamilyLayoutTest {
         }
     }
 
-    @Test fun longPairWords() {
-        val words = listOf("basketball", "firefighter", "sunglasses", "astronaut")
+    @Test fun longPairWords() = longPairs(false)
+    @Test fun longDefinitionPairWords() = longPairs(true)
+
+    private fun longPairs(definitions: Boolean) {
+        val descriptions = linkedMapOf(
+            "accommodation" to "a place where someone can stay",
+            "misunderstanding" to "a failure to understand what someone means",
+            "encouragement" to "kind words that give someone confidence",
+            "conservationist" to "a person who works to protect nature",
+        )
+        val words = (if (definitions) descriptions.keys.toList() else listOf("basketball", "firefighter", "sunglasses", "astronaut"))
             .map { Option.Text(it, it) }
-        val exercise = PairsExercise(words.first().wordId, words,
-            words.zip(listOf("🐭", "🐹", "🐰", "🐢")) { word, emoji -> Option.Picture(word.wordId, emoji) })
+        val meanings = if (definitions) words.map { Option.Text(it.wordId, descriptions.getValue(it.wordId)) }
+            else words.zip(listOf("🐭", "🐹", "🐰", "🐢")) { word, emoji -> Option.Picture(word.wordId, emoji) }
+        val exercise = PairsExercise(words.first().wordId, words, meanings)
         val response = mutableStateOf<Answer?>(null)
-        content { ExerciseQuestion(exercise, response.value, eu.wanderclan.wordquest.content.Band.B, false,
+        val name = if (definitions) "long-definition-pairs" else "long-pairs"
+        content { ExerciseQuestion(exercise, response.value,
+            if (definitions) eu.wanderclan.wordquest.content.Band.D else eu.wanderclan.wordquest.content.Band.B, false,
             {}, { response.value = it }, {}, words.first().text) }
-        capture("long-pairs-question")
+        capture("$name-question")
         rule.onNodeWithTag("submit").performScrollTo().assertIsDisplayed()
         rule.onNodeWithTag("reset").assertIsDisplayed()
-        capture("long-pairs-question-bottom")
+        capture("$name-question-bottom")
         for (correct in listOf(true, false)) {
             rule.runOnIdle { response.value = Answer.Pairs(if (correct) words.map { it.wordId } else words.map { it.wordId }.reversed()) }
-            capture("long-pairs-${if (correct) "correct" else "incorrect"}")
+            capture("$name-${if (correct) "correct" else "incorrect"}")
             rule.onNodeWithText("Continue").assertIsDisplayed()
         }
     }

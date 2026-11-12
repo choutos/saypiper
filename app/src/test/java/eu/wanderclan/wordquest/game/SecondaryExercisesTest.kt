@@ -146,6 +146,23 @@ class SecondaryExercisesTest {
         }
     }
 
+    @Test fun `speech failure keeps current and queued dictations as typing from their clues`() {
+        val request = LessonRequest.UnitLesson("fx-feelings", 3)
+        val dictations = (0L..100L).flatMap { seed ->
+            generator.generate(request, Environment({ true }, true), seed).exercises.filterIsInstance<TypingExercise>()
+        }.filter { it.prompt == Prompt.Listening }.distinctBy { it.wordId }.take(2)
+        assertEquals(2, dictations.size)
+        val lesson = Lesson(request, dictations, emptyList())
+        val recovered = LessonSession("failed-dictation", lesson).withoutSpeech(generator, silent)
+        assertTrue(recovered.queue.all { it is TypingExercise })
+        recovered.queue.zip(dictations).forEach { (actual, original) ->
+            actual as TypingExercise
+            assertEquals(original.copy(prompt = original.clue!!, clue = null), actual)
+            assertEquals(Prompt.Text(catalog.word(actual.wordId)!!.word.definition!!), actual.prompt)
+            assertTrue(actual.incorrectWords(Answer.Typed(actual.text)).isEmpty())
+        }
+    }
+
     @Test fun `dictation without a definition shows a picture and requires it to be perceivable`() {
         for (band in listOf(Band.C, Band.D)) {
             val home = catalog.word("proud")!!
