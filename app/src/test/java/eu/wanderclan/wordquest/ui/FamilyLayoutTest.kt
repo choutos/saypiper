@@ -204,6 +204,9 @@ abstract class FamilyLayoutTest {
                 }
                 rule.waitUntil(10_000) { rule.onAllNodesWithContentDescription("Stop the lesson").fetchSemanticsNodes().isNotEmpty() }
                 capture("$name-${if (correct) "question" else "retry-question"}")
+                rule.onNodeWithTag("submit").performScrollTo().assertIsDisplayed()
+                rule.onNodeWithTag("reset").assertIsDisplayed()
+                capture("$name-${if (correct) "question" else "retry-question"}-bottom")
                 answer(exercise, correct)
                 rule.onNodeWithText("Continue").assertIsDisplayed()
                 capture("$name-${if (correct) "correct" else "incorrect"}")
@@ -222,6 +225,9 @@ abstract class FamilyLayoutTest {
         content { ExerciseQuestion(exercise, response.value, eu.wanderclan.wordquest.content.Band.B, false,
             {}, { response.value = it }, {}, words.first().text) }
         capture("long-pairs-question")
+        rule.onNodeWithTag("submit").performScrollTo().assertIsDisplayed()
+        rule.onNodeWithTag("reset").assertIsDisplayed()
+        capture("long-pairs-question-bottom")
         for (correct in listOf(true, false)) {
             rule.runOnIdle { response.value = Answer.Pairs(if (correct) words.map { it.wordId } else words.map { it.wordId }.reversed()) }
             capture("long-pairs-${if (correct) "correct" else "incorrect"}")
