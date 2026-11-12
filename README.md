@@ -2,7 +2,7 @@
 
 Working title: the name is already used by other apps and will change before the first release. An offline Android game for children to practise English vocabulary. The child picks their school year (P1–P5 primary, S1–S7 secondary) and the vocabulary, exercise types and difficulty follow from it.
 
-Status: walking skeleton. A child can make a profile, pick a class, play picture lessons from a small P1 seed pack and keep their stars.
+Status: all twelve classes are playable on `main`, with 1,434 words, nine exercise types, practice, rewards, profiles and a parent corner. Not released yet: there is no signed build, and the app has not been run on a device.
 
 - Design: [docs/adr/0001-architecture-and-content-model.md](docs/adr/0001-architecture-and-content-model.md)
 - Tracking: Multica issue FRL-3
