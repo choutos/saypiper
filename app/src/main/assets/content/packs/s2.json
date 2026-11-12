@@ -53,21 +53,21 @@
           "text": "result",
           "pos": "noun",
           "definition": "what happens or is found at the end of a test, race or match",
-          "example": "The race {result} confirmed that Maya finished first."
+          "example": "The {result} was two-nil, the final score of the football match."
         },
         {
           "id": "presentation",
           "text": "presentation",
           "pos": "noun",
           "definition": "a talk in which someone explains something to a group",
-          "example": "My {presentation} includes slides that I explain aloud to the class."
+          "example": "A prepared talk explaining something to a group is called a {presentation}."
         },
         {
           "id": "feedback",
           "text": "feedback",
           "pos": "noun",
           "definition": "comments about your work that help you make it better",
-          "example": "Helpful {feedback} tells you what worked well and how to improve your work."
+          "example": "Her {feedback} consists of comments on my work, identifying strengths and possible improvements."
         },
         {
           "id": "qualification",
@@ -129,7 +129,7 @@
           "text": "example",
           "pos": "noun",
           "definition": "a particular thing used to show what a larger group is like",
-          "example": "A robin is one {example} of a bird that lives in gardens."
+          "example": "For {example}, a robin is a bird commonly seen in gardens."
         },
         {
           "id": "choice",
@@ -170,7 +170,7 @@
           "text": "disagree",
           "pos": "verb",
           "definition": "to have a different view from someone else",
-          "example": "I {disagree} with your answer: I think the total should be twelve."
+          "example": "Your answer is ten, but I {disagree}: I think it should be twelve."
         },
         {
           "id": "suggest",
@@ -378,7 +378,7 @@
           "text": "share",
           "pos": "verb",
           "definition": "to let other people see or use something you have",
-          "example": "I {share} my private notes with one friend, without making them public."
+          "example": "I {share} my umbrella, letting my friend use it with me."
         }
       ]
     },
@@ -633,14 +633,14 @@
           "text": "editor",
           "pos": "noun",
           "definition": "the person who checks and chooses material for publication",
-          "example": "The magazine's {editor} decides which stories will appear in the next issue."
+          "example": "The {editor} is the person whose job is checking and choosing magazine articles."
         },
         {
           "id": "reporter",
           "text": "reporter",
           "pos": "noun",
           "definition": "someone whose job is to gather and tell news",
-          "example": "The {reporter} stood outside the town hall to tell viewers the news."
+          "example": "A {reporter} is a journalist whose main job is gathering and reporting news."
         },
         {
           "id": "caption",
@@ -668,7 +668,7 @@
           "text": "announce",
           "pos": "verb",
           "definition": "to tell people something officially or publicly",
-          "example": "The head teacher will {announce} the winner over the loudspeaker at noon."
+          "example": "The host will {announce} the winner's name aloud after opening the sealed envelope."
         },
         {
           "id": "describe",
@@ -868,7 +868,7 @@
           "text": "effort",
           "pos": "noun",
           "definition": "the hard work needed to do something",
-          "example": "Learning this difficult piece took a lot of {effort} and many practice sessions."
+          "example": "It took great physical {effort} to push the heavy van uphill."
         },
         {
           "id": "opportunity",

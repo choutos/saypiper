@@ -25,7 +25,7 @@
           "text": "scholarship",
           "pos": "noun",
           "definition": "money awarded to help someone pay for their studies",
-          "example": "Her music {scholarship} pays half the fees at her new school."
+          "example": "She won a music {scholarship}, an award that pays half her school fees."
         },
         {
           "id": "attendance",
@@ -122,7 +122,7 @@
           "text": "method",
           "pos": "noun",
           "definition": "a particular way of doing something",
-          "example": "Our {method} involves weighing each pot before and after adding water."
+          "example": "Scientists call their ordered procedure for testing ideas the scientific {method}."
         },
         {
           "id": "variable",
@@ -170,7 +170,7 @@
           "text": "viewpoint",
           "pos": "noun",
           "definition": "the way someone sees or thinks about an issue",
-          "example": "From a cyclist's {viewpoint}, a cycle lane matters more than extra parking."
+          "example": "A personal way of seeing an issue is called a {viewpoint}."
         },
         {
           "id": "proposal",
@@ -239,14 +239,14 @@
           "text": "analyse",
           "pos": "verb",
           "definition": "to study parts of something carefully to understand it",
-          "example": "In chemistry, we {analyse} a mixture to identify the substances it contains."
+          "example": "To {analyse} something is to study its parts carefully and understand their relationships."
         },
         {
           "id": "estimate",
           "text": "estimate",
           "pos": "verb",
           "definition": "to judge an amount roughly without measuring it exactly",
-          "example": "We {estimate} the crowd at two hundred, because counting everyone exactly is impossible."
+          "example": "To {estimate} means to judge an amount roughly, without measuring or counting exactly."
         },
         {
           "id": "justify",
@@ -260,7 +260,7 @@
           "text": "conclude",
           "pos": "verb",
           "definition": "to reach a final judgement after thinking about information",
-          "example": "From these results, we can {conclude} that sunlight helped the plants grow."
+          "example": "To {conclude} is to reach a final judgement after considering all the evidence."
         },
         {
           "id": "distinguish",
@@ -391,14 +391,14 @@
           "text": "database",
           "pos": "noun",
           "definition": "an organised collection of information that can be searched on a computer",
-          "example": "The library's {database} lets staff search thousands of book records by author."
+          "example": "Our {database} is a searchable collection of related records, not a calculation sheet."
         },
         {
           "id": "spreadsheet",
           "text": "spreadsheet",
           "pos": "noun",
           "definition": "a computer document with rows and columns for working with numbers",
-          "example": "Our budget {spreadsheet} adds the numbers in each column automatically."
+          "example": "This {spreadsheet} is a calculation document whose cells have addresses like A1."
         },
         {
           "id": "network",
@@ -474,7 +474,7 @@
           "text": "coverage",
           "pos": "noun",
           "definition": "the amount or way that news services report an event",
-          "example": "The channel's live election {coverage} reported results from every counting centre."
+          "example": "In news, {coverage} means how much reporting an event receives, and in what detail."
         },
         {
           "id": "edition",
@@ -502,7 +502,7 @@
           "text": "publicity",
           "pos": "noun",
           "definition": "attention from newspapers or television intended to make people interested in something",
-          "example": "Posters and newspaper stories gave the play {publicity}, attracting people who might buy tickets."
+          "example": "The {publicity} stunt attracted newspaper attention: an author balanced a teapot on stilts."
         },
         {
           "id": "bias",
@@ -640,7 +640,7 @@
           "text": "policy",
           "pos": "noun",
           "definition": "an agreed plan or set of ideas used to guide decisions",
-          "example": "The school's homework {policy} explains its general approach to setting work."
+          "example": "An agreed set of school rules guiding homework decisions forms its {policy}."
         },
         {
           "id": "law",
@@ -695,7 +695,7 @@
           "text": "career",
           "pos": "noun",
           "definition": "the series of jobs someone does during their working life",
-          "example": "Her teaching {career} lasted forty years, from her first job to retirement."
+          "example": "Her {career} was her working life, spanning jobs from first employment to retirement."
         },
         {
           "id": "promotion",
@@ -723,7 +723,7 @@
           "text": "application",
           "pos": "noun",
           "definition": "a formal written request to get a job or place on a course",
-          "example": "I sent a job {application} explaining why the shop should hire me."
+          "example": "Please complete this job {application} form with your details and employment history."
         },
         {
           "id": "candidate",
@@ -737,7 +737,7 @@
           "text": "vacancy",
           "pos": "noun",
           "definition": "a job that is available for someone to take",
-          "example": "The shop advertises a {vacancy} because it needs a new assistant."
+          "example": "A job left empty, available for someone to fill, is a {vacancy}."
         },
         {
           "id": "salary",
@@ -771,7 +771,7 @@
           "text": "budget",
           "pos": "noun",
           "definition": "a plan for how much money you can spend",
-          "example": "Our holiday {budget} sets a limit of fifty pounds a day."
+          "example": "A plan listing expected income and spending is called a {budget}."
         },
         {
           "id": "income",
@@ -820,7 +820,7 @@
           "text": "value",
           "pos": "noun",
           "definition": "how much money something is worth",
-          "example": "The painting's {value} rose from fifty pounds to two hundred pounds."
+          "example": "The painting is worth two hundred pounds: that is its {value}."
         },
         {
           "id": "affordable",
@@ -882,7 +882,7 @@
           "text": "determination",
           "pos": "noun",
           "definition": "the strong wish to keep trying until you succeed",
-          "example": "Her {determination} never to give up kept her going despite failure after failure."
+          "example": "Her {determination} was a strong personal resolve to succeed, even after repeated failures."
         },
         {
           "id": "encouragement",
@@ -944,7 +944,7 @@
           "text": "landscape",
           "pos": "noun",
           "definition": "a picture showing an area of countryside",
-          "example": "The {landscape} on this canvas shows hills and fields, with no people."
+          "example": "A painting of countryside, rather than a person, is called a {landscape}."
         },
         {
           "id": "abstract",
@@ -1013,7 +1013,7 @@
           "text": "passport",
           "pos": "noun",
           "definition": "an official document used to show who you are when travelling abroad",
-          "example": "My {passport} is a travel document containing my photograph, nationality and border stamps."
+          "example": "My {passport} is my country's official travel booklet proving my identity and nationality."
         },
         {
           "id": "visa",
@@ -1034,7 +1034,7 @@
           "text": "region",
           "pos": "noun",
           "definition": "a large area that forms part of a country or the world",
-          "example": "This mountainous {region} covers several towns and villages in the country's north."
+          "example": "The country is divided into northern and southern areas; each is a {region}."
         },
         {
           "id": "landmark",
