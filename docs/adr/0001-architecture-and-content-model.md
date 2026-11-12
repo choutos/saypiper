@@ -1,6 +1,6 @@
 # ADR 0001 — Architecture and content model
 
-- Status: **Accepted**, revision 2. Reviewed by Architect Astra in FRL-4; merging this revision is the owner's sign-off. Section 12 lists what the review changed; section 11 holds the owner's decisions of 2026-11-10.
+- Status: **Accepted**, revision 2. Reviewed by Architect Astra in FRL-4 and again on FRL-3 on 2026-11-12; merging this revision is the owner's sign-off. Section 12 lists what the reviews changed; section 11 holds the owner's decisions of 2026-11-10 to 2026-11-12.
 - Date: 2026-11-10
 - Tracking: FRL-3
 
@@ -31,13 +31,15 @@ The request: an Android game to practise English vocabulary, in the lesson-path 
 | Google Play | Since 31 August 2026 new apps and updates must target API 36; the extension ended on 1 November 2026 ([Play Console help](https://support.google.com/googleplay/android-developer/answer/11926878)). |
 | F-Droid | The public F-Droid catalogue builds every app itself, from publicly accessible source under a free licence and with a free toolchain. It forbids Google Play services and tracking libraries. An app "should have been actively developed for at least 3 months" unless it has proven users, its author already maintains apps on F-Droid, or it is built for an event; the author commits to ongoing maintenance ([inclusion policy](https://f-droid.org/docs/Inclusion_Policy/)). Assets under a Creative Commons licence with a non-commercial or no-derivatives clause count as non-free; BY-SA has neither ([anti-features](https://f-droid.org/docs/Anti-Features/)). It publishes a developer's own signature only when the build is reproducible ([reproducible builds](https://f-droid.org/docs/Reproducible_Builds/)). A self-hosted F-Droid repository can serve any APK and signs its own index ([guide](https://f-droid.org/docs/Setup_an_F-Droid_App_Repo/)). Read on 2026-11-10. |
 
-### Confirmed by the owner (2026-11-10)
+### Confirmed by the owner (2026-11-10 to 2026-11-12)
 
 - British English.
 - Level targets follow the European Schools L2 anchors.
 - No first language is assumed: the app is in English only.
 - Distribution is an APK from CI and, if it accepts the app, F-Droid's public catalogue. Not Google Play.
 - Pictures are OpenMoji for the first version.
+- P1–P2 words are spoken from bundled clips in the Piper "Cori" voice.
+- The app is called SayPiper, application id `eu.wanderclan.saypiper`. "Word Quest" was the working title and is used by others.
 
 ### Inferences (not confirmed by the owner)
 
@@ -47,7 +49,6 @@ The request: an Android game to practise English vocabulary, in the lesson-path 
 ### Unknown
 
 - Which devices the children use, and whether those have an offline English voice.
-- The app's name. "Word Quest" is already used by others.
 
 ## 3. Decisions
 
@@ -124,13 +125,13 @@ Checked by one pure function in package `content`. The app's loader calls it at 
 7. `pos` is one of `noun`, `verb`, `adjective`, `adverb`, `phrase`, `other`.
 8. Structure: `schemaVersion` is one the app supports; grade ids are unique; a pack's `grade` is the grade whose `pack` path points to it.
 9. Every emoji of a word, a unit or an avatar has a file in `pictures/`, and `pictures/` holds no file that nothing uses.
-10. Playability: the real generator can build every lesson of every unit, once with speech available and once without, and every word appears in at least one exercise both times. "Coming soon" is for a class with no pack, never for a pack that was merged but cannot be played.
+10. Playability: the real generator can build every lesson of every unit, once with a device voice and once without, and every word appears in at least one exercise both times. Both runs assume that pictures can be seen. "Coming soon" is for a class with no pack, never for a pack that was merged but cannot be played. The rule does not cover a screen reader: section 6 says what happens then.
 11. Audio: every band A word has a clip in `audio/`, and `audio/` holds no clip without a word.
 
 Two things no test can prove, so authors and reviewers check them for every word:
 
 - The picture means the word to a child of that age. Reviewers open the PNG.
-- An example identifies its word. "The {dog} is big" fits any animal; "A {dog} can bark" does not.
+- An example identifies its word. "The {dog} is big" fits any animal; "A {dog} can bark" does not. The check is against every other word of the same part of speech in the whole pack, not only in the unit. Review reduces this defect and does not prove its absence: at first review it was found in 61 of 217 primary examples, then, after the authors had checked their own work, in 6 of 380 for S1–S3 and 64 of 598 for S4–S7, and once more in S3 after two approvals.
 
 There is deliberately one validator. A separate schema file would be a second contract that can drift from the code.
 
@@ -200,15 +201,15 @@ Bands decide the mix:
 
 | Band | Classes | Mix |
 |---|---|---|
-| A | P1–P2 | Picture and listening types only, three choices, the word is spoken automatically. Screens work without reading: pictures and icons carry the controls. Every word has a bundled clip, so a child who cannot read yet succeeds on any device (see "Speech"). |
+| A | P1–P2 | Picture and listening types only, three choices, the word is spoken automatically. Screens work without reading: pictures and icons carry the controls. Every word has a bundled clip, so these lessons need no speech engine on the device (see "Speech"). They do need sight: with a screen reader on, a band A lesson has nothing to offer and says so. |
 | B | P3–P5 | Adds spelling tiles. A word without a picture is practised with gap-fill and definition to word; a word with a picture also gets gap-fill when it has an example. Four choices. |
 | C | S1–S3 | Definitions and typing become regular. Fewer picture questions. |
 | D | S4–S7 | Definitions, gap-fill, typing, and pairs of word and definition. No picture questions. About one typing question in three is dictation when the word can be spoken; the same holds in band C. |
 
 Rules:
 
-- **Capability filter.** The generator only emits an exercise that can work: `supports(type, word, band, environment, pool)`. The environment says whether a word can be spoken (it can when it has a clip or the device has a voice) and whether pictures can be perceived (they cannot when a screen reader is on). The pool is the rest of the word's pack: a choice needs enough other words of the right kind to fill its options. A word left with no type is skipped at run time, and rule 10 in section 4 makes sure that no shipped word is in that position.
-- **Distractors** come from the same pack, same part of speech where possible, and never share a picture or text with the answer. For gap-fill they come from other units of the pack where possible: words from another theme rarely fit the sentence, which is the cheapest protection against two right answers.
+- **Capability filter.** The generator only emits an exercise that can work: `supports(type, word, band, environment, pool)`. The environment says whether a word can be spoken (it can when it has a clip or the device has a voice) and whether pictures can be perceived (they cannot when a screen reader is on). The pool is the rest of the word's pack: a choice needs enough other words of the right kind to fill its options. A word left with no type is skipped at run time. Rule 10 in section 4 makes sure that no shipped word is in that position while pictures can be seen. With a screen reader on it happens by design: a word that only has a picture is skipped, and band A cannot be played.
+- **Distractors** come from the same pack, same part of speech where possible, and never share a picture or text with the answer. For gap-fill they come from other units of the pack where possible, because words from another theme rarely fit the sentence. That is the second line of defence against two right answers, not the first: the generator still draws from the whole pack. The first is the content rule in section 4 that an example admits no other word of its part of speech anywhere in its pack.
 - **Mistakes** are re-queued at the end of the lesson, at most twice per word. Stars: three for no mistakes, two for one or two, one for finishing.
 - **Spaced repetition** is a five-box Leitner scheme per profile and word. Boxes are due after 0, 1, 3, 7 and 21 days. A session gives each word one outcome, however often the word appeared: any wrong answer sends it to box 1, due today; all right moves it up one box, but only if it was due; all right when it was not due changes nothing. So replaying a lesson three times in an afternoon cannot push a word to box 4. A word with no history counts as box 1 and due, so a first lesson without mistakes puts it in box 2. The intervals are a reasonable starting point, not tuned values. Chosen over SM-2 because it has no tuning parameters and a child or parent can understand it.
 - **Practice** serves up to ten due words, the longest overdue first. It works with a single due word: distractors come from that word's pack, never from the due list. Each word is exercised in the band of its own class, so a P2 word stays a picture question for a child who has moved to P4. Words whose id is no longer in the content are ignored. A practice session has one exercise per word.
@@ -224,7 +225,7 @@ Band A depends on speech: without it a P1 child has to read. So the words of ban
 - Every band A word ships with a clip (section 4, "Audio"). The app plays it; no speech engine is involved.
 - Any other word is spoken by the device's text-to-speech. The app picks the voice itself: English, installed, not needing the network. British first, any other English voice second. It never asks the system to download voice data.
 - Whether a word can be spoken is asked per word: a word with a clip always can, another word can when such a voice exists. Where a word cannot be spoken, its speaker button is hidden and the capability filter drops the listening types for it. Children in bands B to D can read, so their lessons go on with the other types.
-- If a clip or an utterance fails in the middle of a lesson, the current question shows its word as text and that source of speech counts as unavailable for the rest of the session. A child never faces a listening question that made no sound.
+- If a clip or an utterance fails in the middle of a lesson, the current question shows its word as text and that source of speech counts as unavailable for the rest of the session. A child never faces a listening question that made no sound. The text keeps the lesson moving; it does not let a child who cannot read answer alone.
 - Android 11 and later need a `<queries>` entry for the speech service, or no engine is visible to the app.
 - Speech never answers the question for the child. Where the word is what the child is given (word to picture, listen and pick, tiles or typing from speech), it is spoken at the start and a speaker button repeats it. Where the word is what the child has to find (picture to word, definition to word, gap-fill, tiles or typing from a picture or a definition), there is no speaker button until the child has answered; then the word is spoken once with the feedback, right or wrong. Band A is not affected: while its words can be spoken it has no question whose answer is a written word.
 
@@ -290,7 +291,7 @@ Room schemas are exported to the repo from the first commit. The schema may chan
 | No Google Play | The largest store | Nothing in the design prevents it later. It would need target API 36, the Families declarations and a privacy policy in the Console. |
 | Leitner | Fine-grained scheduling | Scheduling is one class in `game`; stored data (box, due day, counts) is enough to seed another algorithm. |
 
-Rollback for the project as a whole: nothing here touches an existing system. Any PR can be reverted on its own.
+Rollback for the project as a whole: nothing here touches an existing system. Before the first release nothing is installed anywhere, so a change is undone by reverting it in source, together with what depends on it: a vocabulary pack needs the exercise types that make it playable (rule 10), and the code since the parent corner expects schema version 2. After the first release there is no going back to an older build on a device that holds newer progress. A fault is then corrected by a new release that keeps the installed schema, with forward migrations only, and keeps the released ids.
 
 ## 10. Risks and how each would show up
 
@@ -300,7 +301,7 @@ Rollback for the project as a whole: nothing here touches an existing system. An
 | No offline English voice on a device | No sound in P3 and above: speaker buttons and listening questions disappear. P1 and P2 are not affected, their words are clips. | Accepted: those children can read. Clips can be extended to more classes. |
 | A clip or a voice that sounds wrong | A word is mispronounced or cut short, or a question is silent. | Clips are checked by script for silence, clipping and length, and heard by the owner in the app, since no agent can listen. The device voice prefers installed British voices. A failed clip or utterance turns the question into text. |
 | A picture is ambiguous | A child cannot tell what the picture means (a face for "cold"). | Authors use a picture only where the meaning is obvious, otherwise a definition. Reviewers open each PNG. |
-| Gap-fill has two right answers | A child picks a word that fits and is marked wrong. | Examples must identify their word; distractors come from other units; reviewers check every example. Not provable by a test. |
+| Gap-fill has two right answers | A child picks a word that fits and is marked wrong. | Examples must identify their word against the whole pack; the author and two reviewers check every example; distractors prefer other units. Not provable by a test, and reviews have missed cases (section 4). Before the release, S1–S3 get one more audit by the reviewer that found the most in the other packs and has not read these. |
 | Progress lost on update | A child's stars vanish after an app update. | Exported Room schemas and migration tests from the first installed build; released ids are frozen by a test. |
 | Progress lost with the device | A broken or replaced tablet starts from zero. | Accepted for v1 as the price of "nothing leaves the device" (section 9). |
 | The tests do not run on the Android versions that matter | Something works in every test and fails on a real device. Robolectric is pinned to SDK 34 and brings its own SQLite, so neither Android 15 nor Android 7 behaviour is exercised. The reason recorded for the pin, that the SDK 35 runtime needs JDK 21, turned out to be wrong for the Robolectric version in use; running the tests at SDK 35 is to be tried with the layout work. | A smoke test on emulators for API 24 and API 35 in CI before the first release: create a profile, play a lesson, restart, stars remain. Part of the release issue. |
@@ -309,22 +310,23 @@ Rollback for the project as a whole: nothing here touches an existing system. An
 | Two channels, two signing keys | A family that installed from F-Droid cannot update from the CI APK, or the other way round: Android refuses an update signed with another key, and with backup off a reinstall loses the progress. | F-Droid's catalogue signs with its own key unless the build is reproducible. Either make the build reproducible so that F-Droid ships our signature, or say plainly in the README and on the About screen that a family stays on one channel. Settled in the release issue. |
 | F-Droid's catalogue refuses or delays the app | No listing for weeks or months. Its policy expects three months of active development, which for this project means February 2027, unless the app has proven users by then. Acceptance is their decision. | The CI APK does not depend on it, and families using that APK are the proven users the policy asks for. An F-Droid repository of our own is the fallback. |
 | Looks like a copy of an existing product | Takedown or rejection. | Own name, mascot, colours and content; mechanics only. Pictures are openly licensed and credited. |
+| The name is read as something else | On F-Droid "SayPiper" may be taken for a text-to-speech app: the clips are made with a synthesiser called Piper, which that audience knows, and a search for "piper" there returns a speech engine. | Raised with the owner on 2026-11-12, after he chose the name; it stands unless he says otherwise before the first signed build fixes the application id. The first line of any store description says what the app is. |
 
 ## 11. Owner decisions and open questions
 
-Answered by the owner on 2026-11-10 and 2026-11-11 (the numbers are those of the questions in revision 1 and on FRL-3):
+Answered by the owner between 2026-11-10 and 2026-11-12 (the numbers are those of the questions in revision 1 and on FRL-3):
 
 1. Level targets: the European Schools L2 anchors.
 2. Distribution: an APK from CI, and F-Droid's public catalogue if that is possible. It is: nothing in this design conflicts with their policy. Acceptance and timing are theirs.
 3. English variety: British.
 4. First language: none assumed. No translations; hints are explanations in English.
-5. Name: "Word Quest" is already used by others. A new name is being chosen in its own issue. Until then it stays as the working title, and the release sets the final label and application id.
+5. Name: SayPiper, application id `eu.wanderclan.saypiper`, chosen on 2026-11-12 from a shortlist checked against app stores and trade mark registers. "Word Quest" was the working title. The release applies the name; the Kotlin namespace and class names are internal and keep the old one.
 6. Speech for P1–P2: bundled clips in Piper's "Cori" voice, chosen by ear from samples. The eSpeak NG samples were rejected.
 7. Pictures: OpenMoji for the first version.
 
 Still open:
 
-- **The licence.** The public catalogue needs one. Proposed: GPL-3.0-or-later for the code, CC BY-SA 4.0 for everything under `assets/content/` (our vocabulary, and OpenMoji's pictures, which already carry it). It is decided when the owner merges the licence files, which come in their own pull request.
+- **The licence.** The public catalogue needs one. Proposed: GPL-3.0-or-later for the code; CC BY-SA 4.0 for our vocabulary and for OpenMoji's pictures, which already carry it; CC BY 4.0 for the audio clips, as their notice requires. It is decided when the owner merges the licence files, which come in their own pull request.
 - **When the repo becomes public.** At the latest before the F-Droid submission. Earlier is possible and makes CI minutes free. It is the owner's switch to flip, after a look at what becomes readable with it (the release issue lists that).
 
 ## 12. Revision 2: what the second opinion changed
@@ -335,10 +337,10 @@ Architect Astra reviewed revision 1 (commit `687f11e`) in FRL-4 and agreed with 
 |---|---|---|
 | 1 | Stack | Unchanged. The claim "smallest APK" is removed: no Flutter build was ever measured. |
 | 2 | Pictures | Accepted. A bundled OpenMoji PNG subset replaces the bundled emoji font (D4, sections 4 and 8). |
-| 3 | Speech | Accepted, in two steps. Revision 2 took the explicit choice of an installed offline voice, the any-English fallback and the failure handling, and left bundled audio open. The owner then chose bundled clips for band A (D5), as the reviewer recommended, which made the planned notice to adults unnecessary. |
-| 4 | Content contract | Accepted: stable unit ids, tighter rules 3 to 5, structural checks, the playability rule, released-id bookkeeping from the first release. Two alternatives chosen over the reviewer's: gap-fill ambiguity is handled by an authoring rule and other-unit distractors, not by hand-written distractor lists for a thousand words; and a changed lesson composition after release is a documented limit, not a mechanism. |
+| 3 | Speech | Partly accepted, in two steps. The reviewer recommended bundled audio for the P1–P2 words and for essential instructions, and an installed offline British voice for older readers. Revision 2 first took the explicit choice of an installed offline voice and the failure handling, and left bundled audio open. The owner then chose bundled clips for the band A words (D5), which made the planned notice to adults unnecessary. Two things differ from the recommendation and are mine: no instruction audio, because band A screens are meant to work from pictures and icons alone, and any installed English voice as a fallback when there is no British one. The reviewer accepts that fallback for v1. |
+| 4 | Content contract | Accepted: stable unit ids, tighter rules 3 to 5, structural checks, the playability rule, released-id bookkeeping from the first release. Two alternatives chosen over the reviewer's: gap-fill ambiguity is handled by an authoring rule and other-unit distractors, not by hand-written distractor lists for a thousand words; and a changed lesson composition after release is a documented limit, not a mechanism. | The reviewer still challenges the first of these (2026-11-12), with an S3 example that two reviews had passed. The answer is in sections 4 and 6: the rule is pack-wide, reviewed and not proof, other-unit distractors are only the second line, and S1–S3 get one more audit before the release.
 | 5 | Class-to-level table | Accepted: in-between years are labelled estimates, and levels are practice targets, not a claim of proficiency. |
-| 6 | Game rules | Accepted: a filter that knows the band and the option pool, text exercises for every band B word, one Leitner outcome per word per session with promotion only when due, practice that works with one due word, a defined lesson split, and screen-reader handling through the same filter. Band A without sight is out of scope for v1. |
+| 6 | Game rules | Accepted for scheduling, practice and the lesson split: a filter that knows the band and the option pool, text exercises for every band B word, one Leitner outcome per word per session with promotion only when due (simpler than the daily limit the reviewer proposed), practice that works with one due word, a defined lesson split. Partly accepted for accessibility: screen readers are handled through the same filter, but band A without sight is out of scope for v1. That exclusion is my decision, not the reviewer's recommendation. |
 | 7 | Storage | Accepted: Room stays; one transaction per finished lesson, idempotent on session id, cascading deletes, an index on due day, exported schemas. |
 | 8 | Staging | Accepted: `grades.json` complete and frozen from the walking skeleton, the lesson contract fixed there too, gap-fill and the definition fallback moved to the primary exercise set, release after profiles and accessibility. Recorded on FRL-3. |
 | 9 | Google Play | Accepted: backup and device transfer off, no font request, privacy text inside the app. Target API 36 is recorded as a requirement of the Play path, not adopted for APK installs. The owner has since chosen F-Droid over Play (section 11). |
