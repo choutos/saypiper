@@ -281,7 +281,7 @@
           "text": "challenge",
           "pos": "verb",
           "definition": "to question whether something is right or true",
-          "example": "We {challenge} the claim that all birds fly by pointing to penguins."
+          "example": "Pointing to penguins, we {challenge} the claim that all birds fly."
         },
         {
           "id": "clarify",
