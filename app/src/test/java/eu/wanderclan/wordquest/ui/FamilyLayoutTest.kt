@@ -6,10 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import eu.wanderclan.wordquest.audio.FakeSpeech
-import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.text.TextLayoutResult
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.takahirom.roborazzi.captureRoboImage
@@ -39,21 +37,7 @@ abstract class FamilyLayoutTest {
     private fun capture(name: String) {
         rule.waitForIdle()
         rule.onAllNodes(isRoot()).onLast().captureRoboImage("build/outputs/roborazzi/FRL-12-$sizeName-$name.png")
-        // Detect ellipsised or vertically clipped text, including inside buttons.
-        rule.onAllNodes(SemanticsMatcher.keyIsDefined(SemanticsActions.GetTextLayoutResult)).fetchSemanticsNodes().forEach { node ->
-            val layouts = mutableListOf<TextLayoutResult>()
-            node.config[SemanticsActions.GetTextLayoutResult].action?.invoke(layouts)
-            layouts.forEach { layout ->
-                // MultiParagraph.width is the offered width, which can exceed the final Text size
-                // even when every glyph fits. Check actual line extents, allowing pixel rounding.
-                assertFalse("Ellipsised text in $name: ${layout.layoutInput.text}", layout.multiParagraph.didExceedMaxLines)
-                for (line in 0 until layout.lineCount) {
-                    assertTrue("Clipped line in $name: ${layout.layoutInput.text}",
-                        layout.getLineRight(line) - layout.getLineLeft(line) <= layout.size.width + 1 &&
-                            layout.getLineBottom(line) <= layout.size.height + 1)
-                }
-            }
-        }
+        rule.assertReadableText(name)
     }
     private fun content(body: @androidx.compose.runtime.Composable () -> Unit) {
         rule.setContent {
@@ -115,11 +99,19 @@ abstract class FamilyLayoutTest {
         rule.onNodeWithText("Enter parent corner").performScrollTo().performClick()
         waitText("Sound")
         capture("parent-corner")
-        rule.onNodeWithText("Reset progress").performScrollTo().performClick()
-        capture("reset-confirmation")
-        rule.onNodeWithText("Confirm").assertIsDisplayed()
-        rule.onNodeWithText("Cancel").assertIsDisplayed()
-        rule.onNodeWithText("Cancel").performClick()
+        for ((action, name) in listOf("Reset progress" to "reset", "Delete player" to "delete")) {
+            rule.onNodeWithText(action).performScrollTo().performClick()
+            capture("$name-confirmation")
+            val warning = rule.onNode(hasText("It cannot be undone. Other players are untouched.", substring = true))
+            warning.assertIsDisplayed()
+            val node = warning.fetchSemanticsNode()
+            val layouts = mutableListOf<androidx.compose.ui.text.TextLayoutResult>()
+            node.config[androidx.compose.ui.semantics.SemanticsActions.GetTextLayoutResult].action!!.invoke(layouts)
+            assertTrue("Confirmation warning clipped", layouts.single().size.height <= node.boundsInRoot.height + 1)
+            rule.onNodeWithText("Confirm").assertIsDisplayed()
+            rule.onNodeWithText("Cancel").assertIsDisplayed()
+            rule.onNodeWithText("Cancel").performClick()
+        }
         rule.onNodeWithText("Rename").performScrollTo().performClick()
         rule.onNode(hasSetTextAction()).performTextReplacement("Alex")
         capture("rename")
@@ -162,7 +154,10 @@ abstract class FamilyLayoutTest {
 
     private fun answer(exercise: Exercise, correct: Boolean) {
         when (exercise) {
-            is TypingExercise -> error("Typing layout is covered by FRL-20")
+            is TypingExercise -> {
+                rule.onNodeWithTag("typed-answer").performScrollTo().performTextInput(if (correct) exercise.text else "${exercise.text}x")
+                rule.onNodeWithTag("submit").performScrollTo().performClick()
+            }
             is ChoiceExercise -> rule.onNodeWithTag("option-${if (correct) exercise.answerIndex else (exercise.answerIndex + 1) % exercise.options.size}")
                 .performScrollTo().performClick()
             is PairsExercise -> {
@@ -170,7 +165,7 @@ abstract class FamilyLayoutTest {
                 exercise.meanings.forEachIndexed { index, picture ->
                     val word = words[if (correct) index else (index + 1) % words.size]
                     rule.onNodeWithTag("pair-word-$word").performScrollTo().performClick()
-                    rule.onNodeWithTag("pair-picture-${picture.wordId}").performScrollTo().performClick()
+                    rule.onNodeWithTag("pair-${if (picture is Option.Text) "definition" else "picture"}-${picture.wordId}").performScrollTo().performClick()
                 }
                 rule.onNodeWithTag("submit").performScrollTo().performClick()
             }
@@ -181,6 +176,56 @@ abstract class FamilyLayoutTest {
                 order.forEach { rule.onNodeWithTag("tile-$it").performScrollTo().performClick() }
                 rule.onNodeWithTag("submit").performScrollTo().performClick()
             }
+        }
+    }
+
+    @Test fun secondaryExerciseLayouts() {
+        val id = seed()
+        app.deviceVoice.mode = FakeSpeech.Mode.SILENT
+        runBlocking { container.speech.prepare() }
+        val request = LessonRequest.UnitLesson("fx-feelings", 3)
+        val plans = (0L..200L).map { seed ->
+            Triple(request, seed, container.generator.generate(request, Environment({ true }, true), seed).exercises.first())
+        }
+        val examples = listOf(
+            "typing" to plans.first { it.third is TypingExercise && (it.third as TypingExercise).prompt is Prompt.Text },
+            "dictation" to plans.first { it.third is TypingExercise && (it.third as TypingExercise).prompt == Prompt.Listening },
+            "definition-pairs" to plans.first { it.third is PairsExercise },
+        )
+        lateinit var navigation: NavHostController
+        content { navigation = rememberNavController(); WordQuestRoot(container, navigation) }
+        waitText("Alexandra · P3")
+        for ((name, plan) in examples) {
+            val (_, seed, exercise) = plan
+            for (correct in listOf(true, false)) {
+                rule.runOnIdle {
+                    app.lessonSeed = seed
+                    navigation.navigate("lesson/$id/${request.unitId}/${request.number}")
+                }
+                rule.waitUntil(10_000) { rule.onAllNodesWithContentDescription("Stop the lesson").fetchSemanticsNodes().isNotEmpty() }
+                capture("$name-${if (correct) "question" else "retry-question"}")
+                answer(exercise, correct)
+                rule.onNodeWithText("Continue").assertIsDisplayed()
+                capture("$name-${if (correct) "correct" else "incorrect"}")
+                rule.runOnIdle { navigation.popBackStack() }
+                waitText("Alexandra · P3")
+            }
+        }
+    }
+
+    @Test fun longPairWords() {
+        val words = listOf("basketball", "firefighter", "sunglasses", "astronaut")
+            .map { Option.Text(it, it) }
+        val exercise = PairsExercise(words.first().wordId, words,
+            words.zip(listOf("🐭", "🐹", "🐰", "🐢")) { word, emoji -> Option.Picture(word.wordId, emoji) })
+        val response = mutableStateOf<Answer?>(null)
+        content { ExerciseQuestion(exercise, response.value, eu.wanderclan.wordquest.content.Band.B, false,
+            {}, { response.value = it }, {}, words.first().text) }
+        capture("long-pairs-question")
+        for (correct in listOf(true, false)) {
+            rule.runOnIdle { response.value = Answer.Pairs(if (correct) words.map { it.wordId } else words.map { it.wordId }.reversed()) }
+            capture("long-pairs-${if (correct) "correct" else "incorrect"}")
+            rule.onNodeWithText("Continue").assertIsDisplayed()
         }
     }
 
@@ -289,7 +334,7 @@ abstract class FamilyLayoutTest {
     }
 }
 
-@Config(application = TestWordQuestApplication::class, qualifiers = "w400dp-h860dp-xhdpi")
+@Config(application = TestWordQuestApplication::class, qualifiers = "w360dp-h800dp-xhdpi")
 class PhoneLayoutTest : FamilyLayoutTest()
 
 @Config(application = TestWordQuestApplication::class, qualifiers = "w1280dp-h800dp-land-mdpi")
@@ -301,5 +346,5 @@ class LargeFontLayoutTest : FamilyLayoutTest()
 @Config(application = TestWordQuestApplication::class, qualifiers = "w640dp-h360dp-land-mdpi")
 class PhoneLandscapeLayoutTest : FamilyLayoutTest()
 
-@Config(application = TestWordQuestApplication::class, qualifiers = "w400dp-h860dp-xhdpi")
+@Config(application = TestWordQuestApplication::class, qualifiers = "w360dp-h800dp-xhdpi")
 class LargeFontPortraitLayoutTest : FamilyLayoutTest()

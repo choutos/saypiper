@@ -115,21 +115,56 @@ class SecondaryExercisesTest {
         assertFalse(phrase.incorrectWords(Answer.Typed("look  after")).isEmpty())
     }
 
-    @Test fun `typing from speech requires speech and recovers when speech fails`() {
+    @Test fun `seeded typing uses dictation about one third of the time with a visible definition`() {
+        for (grade in listOf("s1", "s4")) {
+            val unit = catalog.pack(grade)!!.pack.units.single()
+            var typed = 0
+            var dictated = 0
+            for (seed in 0L until 300L) {
+                val request = LessonRequest.UnitLesson(unit.id, 3)
+                val lesson = generator.generate(request, Environment({ true }, true), seed)
+                assertEquals(lesson, generator.generate(request, Environment({ true }, true), seed))
+                lesson.exercises.filterIsInstance<TypingExercise>().forEach { exercise ->
+                    typed++
+                    val definition = Prompt.Text(catalog.word(exercise.wordId)!!.word.definition!!)
+                    if (exercise.prompt == Prompt.Listening) {
+                        dictated++
+                        assertEquals(definition, exercise.clue)
+                        val recovered = generator.withoutSpeech(exercise, true) as TypingExercise
+                        assertEquals(definition, recovered.prompt)
+                        assertNull(recovered.clue)
+                    } else assertEquals(definition, exercise.prompt)
+                }
+                generator.generate(request, silent, seed).exercises.filterIsInstance<TypingExercise>().forEach {
+                    assertTrue(it.prompt is Prompt.Text)
+                    assertNull(it.clue)
+                }
+            }
+            val ratio = dictated.toDouble() / typed
+            println("$grade dictation: $dictated / $typed = $ratio")
+            assertTrue("dictation ratio $ratio", ratio in 0.28..0.39)
+        }
+    }
+
+    @Test fun `dictation without a definition shows a picture and requires it to be perceivable`() {
         for (band in listOf(Band.C, Band.D)) {
             val home = catalog.word("proud")!!
             val grade = home.gradePack.grade.copy(band = band)
-            val word = home.word.copy(definition = null, example = null)
+            val word = home.word.copy(definition = null, example = null, emoji = "🐶")
             val pack = GradePack(grade, Pack(1, grade.id, listOf(home.unit.copy(words = listOf(word)))))
             val gen = LessonGenerator(Catalog(listOf(grade), listOf(pack)))
             val request = LessonRequest.Practice(listOf(word.id))
-            val exercise = gen.generate(request, Environment({ true }, false), 0).exercises.single() as TypingExercise
-            assertEquals(Prompt.Listening, exercise.prompt)
-            assertEquals(listOf(word.id), gen.generate(request, silent, 0).skippedWordIds)
-            val recovered = gen.withoutSpeech(exercise, true) as TypingExercise
-            assertEquals(Prompt.Text(word.text), recovered.prompt)
-            assertEquals(recovered, gen.withoutSpeech(exercise, false))
-            assertTrue(recovered.incorrectWords(Answer.Typed(word.text)).isEmpty())
+            val typing = (0L..100L).flatMap { gen.generate(request, Environment({ true }, true), it).exercises }
+                .filterIsInstance<TypingExercise>()
+            assertTrue(typing.isNotEmpty())
+            typing.forEach { exercise ->
+                assertEquals(Prompt.Listening, exercise.prompt)
+                assertEquals(Prompt.Picture("🐶"), exercise.clue)
+                assertEquals(Prompt.Picture("🐶"), (gen.withoutSpeech(exercise, true) as TypingExercise).prompt)
+            }
+            for (environment in listOf(silent, Environment({ true }, false))) {
+                assertFalse(Capabilities.supports(ExerciseType.TYPE_THE_WORD, word, band, environment, listOf(word)))
+            }
         }
     }
 

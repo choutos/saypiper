@@ -1,5 +1,6 @@
 package eu.wanderclan.wordquest.ui
 
+import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -27,6 +29,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -146,7 +150,11 @@ fun ParentCornerScreen(container: AppContainer, onClose: () -> Unit) {
     val pending = action?.takeIf { it.second != ParentAction.RENAME }
     if (unlocked && pending != null) {
         val (profile, kind) = pending
-        AlertDialog(onDismissRequest = { if (!working) action = null },
+        val landscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
+        AlertDialog(
+            modifier = if (landscape) Modifier.widthIn(max = 840.dp).fillMaxWidth().padding(horizontal = 16.dp) else Modifier,
+            properties = DialogProperties(usePlatformDefaultWidth = !landscape),
+            onDismissRequest = { if (!working) action = null },
             title = { Text(stringResource(kind.title, profile.nickname)) },
             text = {
                 Column(Modifier.verticalScroll(rememberScrollState())) {
@@ -170,10 +178,9 @@ private fun ProfileIdentity(container: AppContainer, profile: ProfileEntity) {
         container.catalog.avatars.firstOrNull { it.id == profile.avatarId }?.let { avatar ->
             Picture(avatar.emoji, stringResource(R.string.avatar_description, avatar.id), Modifier.size(48.dp))
         }
-        Column(Modifier.weight(1f)) {
-            Text(profile.nickname)
-            Text(profile.gradeId?.let(container.catalog::grade)?.label ?: stringResource(R.string.profile_class_none))
-        }
+        Text(profile.nickname + " · " +
+            (profile.gradeId?.let(container.catalog::grade)?.label ?: stringResource(R.string.profile_class_none)),
+            modifier = Modifier.weight(1f))
     }
 }
 
