@@ -3,15 +3,24 @@ package eu.wanderclan.wordquest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
 import org.w3c.dom.Element
 import java.io.File
 import javax.xml.parsers.DocumentBuilderFactory
 
-/** Asserts ADR section 7 on the merged manifest of the debug app, as Gradle builds it. */
-class ManifestTest {
+/** Asserts ADR section 7 on the merged manifests of the debug and the release app, as Gradle builds them. */
+@RunWith(Parameterized::class)
+class ManifestTest(buildType: String) {
+    companion object {
+        @JvmStatic
+        @Parameterized.Parameters(name = "{0}")
+        fun buildTypes() = listOf("debug", "release")
+    }
+
     private val android = "http://schemas.android.com/apk/res/android"
     private val manifest = run {
-        val path = requireNotNull(System.getProperty("wordquest.mergedManifest")) { "Run through Gradle: the build passes the manifest path" }
+        val path = requireNotNull(System.getProperty("wordquest.mergedManifest.$buildType")) { "Run through Gradle: the build passes the manifest path" }
         DocumentBuilderFactory.newInstance().apply { isNamespaceAware = true }.newDocumentBuilder().parse(File(path)).documentElement
     }
 

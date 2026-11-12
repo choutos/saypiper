@@ -1,0 +1,200 @@
+name: Emulator smoke test
+
+# Manual only: each emulator costs about 15 runner minutes on a private repo (ADR section 10). Started from
+# Actions (workflow_dispatch), or on a pull request by adding a label to it:
+#   smoke-test          the PR's head with both build types, and an upgrade from the commit before it;
+#   smoke-test-release  the PR's head as a manual run with the defaults: release only, no upgrade.
+# Builds the debug APK and the R8 release APK, then runs scripts/smoke/smoke.py on the chosen one on
+# Android 7.0 (API 24, minSdk) and Android 15 (API 35, targetSdk): create a profile, play lesson 1 of P1
+# (bundled clips) and of P3, restart the app, the stars remain. With upgrade-from, Android 15 also installs
+# the release APK over one built from that ref with the same key and checks that the stars survive.
+on:
+  pull_request:
+    types: [labeled]
+  workflow_dispatch:
+    inputs:
+      build-type:
+        description: Build type to test
+        type: choice
+        options: [release, debug]
+        default: release
+      upgrade-from:
+        description: Upgrade test from this tag or commit (empty to skip); it must have the same application id
+        type: string
+        default: ''
+
+# One group per label, so that adding an unrelated label to the PR cancels nothing.
+concurrency:
+  group: smoke-${{ github.ref }}-${{ github.event.label.name || 'manual' }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.label.name == 'smoke-test' || github.event.label.name == 'smoke-test-release' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    outputs:
+      build-types: ${{ steps.plan.outputs.build-types }}
+      upgrade-from: ${{ steps.plan.outputs.upgrade-from }}
+    steps:
+      # What to test, decided in one place: an empty upgrade-from means no previous build and no upgrade job.
+      - name: Plan
+        id: plan
+        env:
+          EVENT: ${{ github.event_name }}
+          LABEL: ${{ github.event.label.name }}
+          BUILD_TYPE: ${{ inputs.build-type }}
+          UPGRADE_INPUT: ${{ inputs.upgrade-from }}
+        run: |
+          case "$EVENT:$LABEL" in
+            workflow_dispatch:*)          types="[\"${BUILD_TYPE:-release}\"]"; from="$UPGRADE_INPUT" ;;
+            pull_request:smoke-test)      types='["debug","release"]';           from='HEAD~1' ;;
+            pull_request:smoke-test-release) types='["release"]';               from='' ;;
+            *) echo "unexpected trigger $EVENT:$LABEL" >&2; exit 1 ;;
+          esac
+          echo "build-types=$types" >> "$GITHUB_OUTPUT"
+          echo "upgrade-from=$from" >> "$GITHUB_OUTPUT"
+          echo "build types $types, upgrade from '${from}'"
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/android-toolchain
+          key: android-toolchain-${{ hashFiles('scripts/setup-toolchain.sh') }}
+      - name: Toolchain
+        run: |
+          scripts/setup-toolchain.sh
+          scripts/setup-toolchain.sh --print-env | sed -e 's/^export //' -e 's/"//g' | grep -v '^PATH=' >> "$GITHUB_ENV"
+          echo "ANDROID_SDK_ROOT=$HOME/.cache/android-toolchain/sdk" >> "$GITHUB_ENV"
+          echo "$HOME/.cache/android-toolchain/jdk-17/bin" >> "$GITHUB_PATH"
+      - uses: gradle/actions/setup-gradle@v4
+      # The release build is signed with a key made for this run and thrown away with the runner:
+      # it tests R8 and the signing config, and is never a release (FRL-13).
+      - name: Throw-away signing key
+        run: |
+          password="$(openssl rand -hex 16)"
+          echo "::add-mask::$password"
+          keytool -genkeypair -keystore "$RUNNER_TEMP/smoke.p12" -storetype PKCS12 -storepass "$password" -keypass "$password" \
+            -alias smoke -keyalg RSA -keysize 3072 -validity 2 -dname "CN=Smoke test only - not a release key"
+          {
+            echo "RELEASE_STORE_FILE=$RUNNER_TEMP/smoke.p12"
+            echo "RELEASE_STORE_PASSWORD=$password"
+            echo "RELEASE_KEY_ALIAS=smoke"
+            echo "RELEASE_KEY_PASSWORD=$password"
+          } >> "$GITHUB_ENV"
+      - name: Build
+        run: ./gradlew --no-daemon assembleDebug assembleRelease
+      - name: Check the APKs
+        run: |
+          mkdir apk
+          cp app/build/outputs/apk/debug/app-debug.apk apk/debug.apk
+          cp app/build/outputs/apk/release/app-release.apk apk/release.apk
+          scripts/release/check-apk.sh apk/debug.apk
+          scripts/release/check-apk.sh apk/release.apk --signed
+          ls -l apk
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging apk/release.apk | sed -n "s/^package: name='\([^']*\)'.*/\1/p" > apk/application-id.txt
+      - name: Previous release APK, same key
+        if: steps.plan.outputs.upgrade-from != ''
+        env:
+          UPGRADE_FROM: ${{ steps.plan.outputs.upgrade-from }}
+        run: |
+          git worktree add "$RUNNER_TEMP/previous" "$UPGRADE_FROM"
+          (cd "$RUNNER_TEMP/previous" && ./gradlew --no-daemon assembleRelease)
+          cp "$RUNNER_TEMP/previous/app/build/outputs/apk/release/app-release.apk" apk/previous.apk
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging apk/previous.apk | head -1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: smoke-apk
+          path: apk/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: r8-mapping
+          path: app/build/outputs/mapping/release/
+
+  emulator:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        api-level: [24, 35]
+        build-type: ${{ fromJSON(needs.build.outputs.build-types) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: smoke-apk
+          path: apk
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          target: default
+          arch: x86_64
+          profile: pixel_6
+          disable-animations: true
+          # Audio stays on: P1 plays bundled clips through MediaPlayer, and a failed clip changes the lesson.
+          emulator-options: -no-window -gpu swiftshader_indirect -no-boot-anim -no-snapshot
+          script: |
+            adb install -r apk/${{ matrix.build-type }}.apk
+            python3 scripts/smoke/smoke.py play --package "$(cat apk/application-id.txt)" --out smoke-${{ matrix.build-type }}-api-${{ matrix.api-level }}
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: smoke-${{ matrix.build-type }}-api-${{ matrix.api-level }}
+          path: smoke-${{ matrix.build-type }}-api-${{ matrix.api-level }}/
+
+  upgrade:
+    needs: build
+    if: ${{ needs.build.outputs.upgrade-from != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: smoke-apk
+          path: apk
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: default
+          arch: x86_64
+          profile: pixel_6
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -no-boot-anim -no-snapshot
+          script: |
+            adb install apk/previous.apk
+            adb shell dumpsys package "$(cat apk/application-id.txt)" | grep -E 'versionCode|lastUpdateTime' | tee smoke-upgrade-before.txt
+            python3 scripts/smoke/smoke.py play --package "$(cat apk/application-id.txt)" --out smoke-upgrade
+            adb install -r apk/release.apk
+            adb shell dumpsys package "$(cat apk/application-id.txt)" | grep -E 'versionCode|lastUpdateTime' | tee smoke-upgrade-after.txt
+            python3 scripts/smoke/smoke.py verify --package "$(cat apk/application-id.txt)" --out smoke-upgrade
+            mv smoke-upgrade-before.txt smoke-upgrade-after.txt smoke-upgrade/
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: smoke-upgrade
+          path: smoke-upgrade/

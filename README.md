@@ -1,8 +1,8 @@
 # SayPiper
 
-Named SayPiper since 12 November 2026. The application id and the app label still say Word Quest, the working title, until the release changes them; the Kotlin namespace and class names keep the old name. An offline Android game for children to practise English vocabulary. The child picks their school year (P1–P5 primary, S1–S7 secondary) and the vocabulary, exercise types and difficulty follow from it.
+Named SayPiper since 12 November 2026: the app label is SayPiper and the application id is `eu.wanderclan.saypiper`. Only the Kotlin namespace, the class names and the database file keep Word Quest, the working title. An offline Android game for children to practise English vocabulary. The child picks their school year (P1–P5 primary, S1–S7 secondary) and the vocabulary, exercise types and difficulty follow from it.
 
-Status: all twelve classes are playable on `main`, with 1,434 words, eight exercise types, practice, rewards, profiles and a parent corner. Not released yet: there is no signed build, and the app has not been run on a device.
+Status: all twelve classes are playable on `main`, with 1,434 words, eight exercise types, practice, rewards, profiles and a parent corner. Not released yet: there is a release build and an emulator smoke test on Android 7 and Android 15, but no release, and nobody has reported a run on a physical device.
 
 - Design: [docs/adr/0001-architecture-and-content-model.md](docs/adr/0001-architecture-and-content-model.md)
 - Tracking: Multica issue FRL-3
@@ -25,7 +25,7 @@ eval "$(scripts/setup-toolchain.sh --print-env)" # JAVA_HOME, ANDROID_HOME, PATH
 
 The script is idempotent: a second run installs nothing. Set `ANDROID_TOOLCHAIN_DIR` to install elsewhere. On the shared agent host (4 vCPU, 7.9 GB), the install takes under a minute and about 1.1 GB including the downloads; run one Gradle build at a time, with `--no-daemon`. Gradle is capped at 2 GB in `gradle.properties`.
 
-The first build also downloads the two Android runtimes Robolectric needs for the unit tests (about 350 MB, listed in `app/build.gradle.kts`) into the Gradle cache. The tests themselves never use the network.
+The first build also downloads the Android runtime Robolectric needs for the unit tests (Android 15, listed in `app/build.gradle.kts`) into the Gradle cache. The tests themselves never use the network.
 
 Outputs:
 
@@ -33,6 +33,34 @@ Outputs:
 - `app/build/outputs/roborazzi/*.png`: screenshots taken by the Robolectric UI test (CI uploads them as an artifact)
 
 There is no emulator on the agent host: UI is verified with Robolectric tests and CI.
+
+## Installing
+
+SayPiper runs on Android 7.0 or newer and needs no internet connection.
+
+1. On the Android device, open the project's GitHub releases page and download `saypiper-<version>.apk` from the newest release.
+2. Open the downloaded file. Android asks once to allow the browser or file manager to install apps ("Install unknown apps"); allow it, then install.
+3. To update, install the APK of a newer release in the same way. It installs over the old one and keeps every profile and its progress.
+
+Progress is stored only on the device and is never backed up, so uninstalling the app removes it. The F-Droid build is meant to carry the same signature as the APK published here: the release build is reproducible, and the F-Droid recipe names this APK and its signing certificate (`Binaries`, `AllowedAPKSigningKeys`), so F-Droid ships it only if its own build from the tag matches it byte for byte. Updates then work across both channels. If F-Droid ever signs a version with its own key instead, Android refuses to update one with the other; in that case stay with the channel you installed from.
+
+## Releases
+
+A tag `v<versionName>` on `main` runs `.github/workflows/release.yml`: tests, the R8-shrunk release APK signed with the release key, `scripts/release/check-apk.sh`, and a GitHub release with the APK and its SHA-256. The key and its passwords come from four secrets of the GitHub environment `release`, which only tags matching `v*` may use, and never from the repo: `RELEASE_KEYSTORE_BASE64` (the PKCS12 keystore, base64), `RELEASE_STORE_PASSWORD`, `RELEASE_KEY_ALIAS`, `RELEASE_KEY_PASSWORD`. Without them the release build is unsigned, which is what F-Droid builds from source.
+
+Before tagging a release:
+
+1. Raise `versionCode` and set `versionName` in `app/build.gradle.kts`, and add `fastlane/metadata/android/en-GB/changelogs/<versionCode>.txt`.
+2. Run `scripts/release/released-ids.py --version-name <versionName> --version-code <versionCode>` and commit `app/released-ids.json`. `ReleasedIdsTest` then fails when a released unit or word id disappears without being listed under `retired`, is used again after retirement, or moves to another unit (ADR section 4).
+3. Run the emulator smoke test (Actions, "Emulator smoke test", build type `release`) on the commit to be tagged.
+
+A tag `test-release-<anything>` runs the same workflow with a key made for that run and publishes nothing; delete the tag afterwards.
+
+A release cannot be taken back from the devices that installed it. Android refuses an APK with a lower version code over a higher one, and an older build may not open the database a newer one has migrated. Deleting a GitHub release only stops further downloads; keep its `v*` tag, which F-Droid builds from. To correct a bad release, publish a new one with a higher `versionCode`, the same signing key and application id, every released id kept or retired (`ReleasedIdsTest`), and a tested forward migration for any schema change (ADR section 9).
+
+The launcher component `eu.wanderclan.wordquest.MainActivity` ships with the first release. From then on it is not renamed without an `activity-alias` of that name: launchers drop the home-screen icon of a component that disappears.
+
+First build installed on a child's device: none yet. Record its version code here. From that build on, every Room schema change ships with a tested migration (ADR section 7).
 
 ## Content
 

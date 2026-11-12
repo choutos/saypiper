@@ -15,7 +15,8 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "eu.wanderclan.wordquest"
+        // SayPiper (FRL-14). Fixed for good by the first release; the namespace and class names keep the working title.
+        applicationId = "eu.wanderclan.saypiper"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -23,7 +24,33 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes { release { isMinifyEnabled = false } }
+    // Release signing comes from CI secrets, never from the repo (FRL-13). Without them the release APK is
+    // unsigned: that is what F-Droid builds from source before signing it.
+    val releaseStoreFile = System.getenv("RELEASE_STORE_FILE")
+    signingConfigs {
+        if (releaseStoreFile != null) create("release") {
+            storeFile = file(releaseStoreFile)
+            storePassword = System.getenv("RELEASE_STORE_PASSWORD")
+            keyAlias = System.getenv("RELEASE_KEY_ALIAS")
+            keyPassword = System.getenv("RELEASE_KEY_PASSWORD")
+        }
+    }
+    buildTypes {
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            if (releaseStoreFile != null) signingConfig = signingConfigs.getByName("release")
+            // The git revision AGP stamps into the APK depends on how the source was checked out. Without it
+            // F-Droid's build from the tag matches ours byte for byte and can ship our signature (FRL-13).
+            vcsInfo.include = false
+        }
+    }
+    // F-Droid rejects the encrypted dependency list AGP adds to the signing block; nothing reads it here.
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -50,28 +77,29 @@ android {
 
 room { schemaDirectory("$projectDir/schemas") }
 
-// The manifest test reads the merged manifest of the debug app, not the one Robolectric builds for tests.
+// The manifest test reads the merged manifests of the debug and the release app, not the one Robolectric
+// builds for tests. Both are checked by testDebugUnitTest, so CI needs no release unit-test run.
 androidComponents {
-    onVariants(selector().withBuildType("debug")) { variant ->
+    onVariants { variant ->
         val manifest = variant.artifacts.get(SingleArtifact.MERGED_MANIFEST)
-        tasks.withType<Test>().matching { it.name == "test${variant.name.replaceFirstChar(Char::uppercase)}UnitTest" }
+        val buildType = variant.buildType ?: return@onVariants
+        tasks.withType<Test>().matching { it.name == "testDebugUnitTest" }
             .configureEach {
-                inputs.file(manifest).withPropertyName("mergedManifest")
+                inputs.file(manifest).withPropertyName("${buildType}MergedManifest")
                 jvmArgumentProviders.add(CommandLineArgumentProvider {
-                    listOf("-Dwordquest.mergedManifest=${manifest.get().asFile.absolutePath}")
+                    listOf("-Dwordquest.mergedManifest.$buildType=${manifest.get().asFile.absolutePath}")
                 })
             }
     }
 }
 
 // Robolectric's Android runtimes come from Gradle (cached, with retries), never from the test JVM, which
-// would download them from Maven Central on every CI run. Robolectric 4.14.1 loads two: the runtime the
-// tests run on (sdk=34 in robolectric.properties) and the newest one the JVM supports (Android 15), whose
+// would download them from Maven Central on every CI run. Robolectric 4.14.1 loads one: Android 15, the
+// runtime the tests run on (sdk=35 in robolectric.properties) and also the newest one the JVM supports, whose
 // framework resources it reads while parsing the app. If Robolectric asks for another, the test failure
 // names the coordinates to add here (see RobolectricRuntimeResolver in the unit tests). One configuration
 // per runtime: in a shared one, Gradle would keep only the newest version of the module.
 val robolectricRuntimes = listOf(
-    "org.robolectric:android-all-instrumented:14-robolectric-10818077-i7",
     "org.robolectric:android-all-instrumented:15-robolectric-12650502-i7",
 )
 val robolectricRuntimeDir = layout.buildDirectory.dir("robolectric-runtime")

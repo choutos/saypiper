@@ -1,0 +1,20 @@
+SayPiper is a vocabulary game for children who are learning English. The child picks their class, from P1 to P5 in primary school or S1 to S7 in secondary school, and the words, the kinds of exercise and the difficulty follow from it.
+
+<b>What a lesson looks like</b>
+
+Lessons follow a path of short units. The youngest children name pictures, pick the picture for a word they hear and build words from letter tiles; every P1 and P2 word comes with a recorded voice clip, so these lessons need no speech engine. Older children fill gaps in sentences, match words to definitions and type a word from its definition. Words that a child got wrong come back in practice sessions on later days.
+
+There are no lives and no timers. Each lesson earns up to three stars, and a unit earns a crown.
+
+<b>Made for families</b>
+
+<ul>
+<li>Works fully offline: the app has no internet permission.</li>
+<li>No accounts, adverts, purchases or analytics.</li>
+<li>Several children can each have a profile with a nickname and an avatar.</li>
+<li>A parent corner, behind a simple question, turns sound off and on, renames, resets or deletes profiles.</li>
+<li>Progress stays on the device. It is never backed up or transferred elsewhere, so uninstalling the app removes it.</li>
+<li>British English spelling and, where the device has one, a British voice.</li>
+</ul>
+
+The vocabulary for all twelve classes, 1,434 words, is written for this app. Pictures are from OpenMoji (CC BY-SA 4.0). The P1 and P2 voice clips were made with the Piper speech synthesiser and its Cori voice (CC BY 4.0).
