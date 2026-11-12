@@ -15,6 +15,9 @@ jobs:
   release:
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    # The release key lives in the environment "release", which only tags matching v* may use; a run from a
+    # branch cannot read it. A test-release-* tag runs without the environment and never sees the key.
+    environment: ${{ startsWith(github.ref_name, 'v') && 'release' || '' }}
     permissions:
       contents: write
     env:
@@ -48,7 +51,7 @@ jobs:
           KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
         run: |
           if [ -z "$KEYSTORE_BASE64" ] || [ -z "$STORE_PASSWORD" ] || [ -z "$KEY_ALIAS" ] || [ -z "$KEY_PASSWORD" ]; then
-            echo "The release secrets are not set; see README, Releases." >&2; exit 1
+            echo "The release secrets are not set in the environment 'release'; see README, Releases." >&2; exit 1
           fi
           base64 -d <<<"$KEYSTORE_BASE64" > "$RUNNER_TEMP/release.p12"
           {

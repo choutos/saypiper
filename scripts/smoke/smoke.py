@@ -255,20 +255,38 @@ def choose_class(device: Device, grade: str):
     device.tap_text(grade)
 
 
+def create_profile(device: Device, nickname: str):
+    """Types the nickname and reads it back before going on. On a slow emulator a launcher dialog
+    ("Quickstep isn't responding") can take the keystrokes; that is retried, an app fault is not."""
+    for attempt in range(1, 4):
+        edit = device.wait(lambda n: "EditText" in n["class"], "the nickname field")
+        if edit["text"] != nickname:
+            device.tap(edit)
+            if edit["text"]:
+                device.shell("input", "keyevent", "KEYCODE_MOVE_END")
+                device.shell("input", "keyevent", *["KEYCODE_DEL"] * len(edit["text"]))
+            device.shell("input", "text", nickname)
+            time.sleep(1)
+            typed = device.wait(lambda n: "EditText" in n["class"], "the nickname field")["text"]
+            if typed != nickname:
+                device.say(f"nickname reads '{typed}' after typing '{nickname}' (attempt {attempt}); typing again")
+                continue
+        avatar = device.wait(lambda n: n["label"].startswith("Avatar: ") and n["clickable"], "an avatar")
+        device.tap(avatar)
+        device.screenshot("new-player")
+        create = device.wait(lambda n: n["label"] == "Let's go" and n["clickable"], "Let's go")
+        if create["enabled"]:
+            device.tap(create)
+            return
+        device.say(f"Let's go is disabled with nickname '{nickname}' and an avatar (attempt {attempt})")
+    raise SmokeFailure(f"no profile could be created after 3 attempts at typing '{nickname}' and picking an avatar")
+
+
 def play(device: Device, state_path: Path) -> dict:
     device.launch()
     device.tap_text("New player", timeout=60)
     device.screenshot("profiles")
-    edit = device.wait(lambda n: "EditText" in n["class"], "the nickname field")
-    device.tap(edit)
-    device.shell("input", "text", "Mia")
-    avatar = device.wait(lambda n: n["label"].startswith("Avatar: ") and n["clickable"], "an avatar")
-    device.tap(avatar)
-    device.screenshot("new-player")
-    create = device.wait(lambda n: n["label"] == "Let's go" and n["clickable"], "Let's go")
-    if not create["enabled"]:
-        raise SmokeFailure("Let's go is disabled after a nickname and an avatar were given")
-    device.tap(create)
+    create_profile(device, "Mia")
 
     lessons = {}
     for grade in ("P1", "P3"):

@@ -46,7 +46,7 @@ Progress is stored only on the device and is never backed up, so uninstalling th
 
 ## Releases
 
-A tag `v<versionName>` on `main` runs `.github/workflows/release.yml`: tests, the R8-shrunk release APK signed with the release key, `scripts/release/check-apk.sh`, and a GitHub release with the APK and its SHA-256. The key and its passwords come from four repository secrets and never from the repo: `RELEASE_KEYSTORE_BASE64` (the PKCS12 keystore, base64), `RELEASE_STORE_PASSWORD`, `RELEASE_KEY_ALIAS`, `RELEASE_KEY_PASSWORD`. Without them the release build is unsigned, which is what F-Droid builds from source.
+A tag `v<versionName>` on `main` runs `.github/workflows/release.yml`: tests, the R8-shrunk release APK signed with the release key, `scripts/release/check-apk.sh`, and a GitHub release with the APK and its SHA-256. The key and its passwords come from four secrets of the GitHub environment `release`, which only tags matching `v*` may use, and never from the repo: `RELEASE_KEYSTORE_BASE64` (the PKCS12 keystore, base64), `RELEASE_STORE_PASSWORD`, `RELEASE_KEY_ALIAS`, `RELEASE_KEY_PASSWORD`. Without them the release build is unsigned, which is what F-Droid builds from source.
 
 Before tagging a release:
 
@@ -55,6 +55,8 @@ Before tagging a release:
 3. Run the emulator smoke test (Actions, "Emulator smoke test", build type `release`) on the commit to be tagged.
 
 A tag `test-release-<anything>` runs the same workflow with a key made for that run and publishes nothing; delete the tag afterwards. To undo a release, delete the GitHub release and its tag: installed copies keep working and the previous APK stays installable.
+
+The launcher component `eu.wanderclan.wordquest.MainActivity` ships with the first release. From then on it is not renamed without an `activity-alias` of that name: launchers drop the home-screen icon of a component that disappears.
 
 First build installed on a child's device: none yet. Record its version code here. From that build on, every Room schema change ships with a tested migration (ADR section 7).
 
