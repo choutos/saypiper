@@ -1,0 +1,918 @@
+{
+  "schemaVersion": 1,
+  "grade": "s2",
+  "units": [
+    {
+      "id": "s2-studies",
+      "title": "School projects",
+      "words": [
+        {
+          "id": "assignment",
+          "text": "assignment",
+          "pos": "noun",
+          "definition": "a piece of work that a teacher gives you to complete",
+          "example": "The teacher set an {assignment}: a piece of work to hand in by Friday."
+        },
+        {
+          "id": "deadline",
+          "text": "deadline",
+          "pos": "noun",
+          "definition": "the latest time by which something must be finished",
+          "example": "The {deadline} is noon; work handed in later will not be accepted."
+        },
+        {
+          "id": "research",
+          "text": "research",
+          "pos": "noun",
+          "definition": "careful study to find out facts about something",
+          "example": "Our {research} into local history involved reading records and interviewing residents."
+        },
+        {
+          "id": "source",
+          "text": "source",
+          "pos": "noun",
+          "definition": "a person, book or place from which information comes",
+          "example": "Every fact needs a {source}, such as a book, interview or official record."
+        },
+        {
+          "id": "diagram",
+          "text": "diagram",
+          "pos": "noun",
+          "definition": "a simple drawing that explains how something works",
+          "example": "This labelled {diagram} shows how water moves through a plant."
+        },
+        {
+          "id": "experiment",
+          "text": "experiment",
+          "pos": "noun",
+          "definition": "a scientific test to find out what happens",
+          "example": "We designed an {experiment} with two seed trays to test how light affects growth."
+        },
+        {
+          "id": "result",
+          "text": "result",
+          "pos": "noun",
+          "definition": "what happens or is found at the end of a test, race or match",
+          "example": "The race {result} confirmed that Maya finished first."
+        },
+        {
+          "id": "presentation",
+          "text": "presentation",
+          "pos": "noun",
+          "definition": "a talk in which someone explains something to a group",
+          "example": "My {presentation} includes slides that I explain aloud to the class."
+        },
+        {
+          "id": "feedback",
+          "text": "feedback",
+          "pos": "noun",
+          "definition": "comments about your work that help you make it better",
+          "example": "Helpful {feedback} tells you what worked well and how to improve your work."
+        },
+        {
+          "id": "qualification",
+          "text": "qualification",
+          "pos": "noun",
+          "definition": "an official record showing you have passed a course or test",
+          "example": "Passing this course earns a {qualification} that proves you can teach swimming."
+        }
+      ]
+    },
+    {
+      "id": "s2-reasoning",
+      "title": "Explaining your ideas",
+      "words": [
+        {
+          "id": "opinion",
+          "text": "opinion",
+          "pos": "noun",
+          "definition": "what someone thinks or believes about something",
+          "example": "Whether winter is best is a matter of {opinion}, not a provable fact."
+        },
+        {
+          "id": "reason",
+          "text": "reason",
+          "pos": "noun",
+          "definition": "something that explains why you do or believe something",
+          "example": "My {reason} for staying indoors is that I feel ill."
+        },
+        {
+          "id": "evidence",
+          "text": "evidence",
+          "pos": "noun",
+          "definition": "facts or objects that help show whether something is true",
+          "example": "The muddy footprints are {evidence} that someone walked through the garden."
+        },
+        {
+          "id": "advantage",
+          "text": "advantage",
+          "pos": "noun",
+          "definition": "something good that makes one choice better than another",
+          "example": "One {advantage} of walking is that it costs nothing."
+        },
+        {
+          "id": "disadvantage",
+          "text": "disadvantage",
+          "pos": "noun",
+          "definition": "something bad that makes one choice less useful",
+          "example": "One {disadvantage} of cycling here is the lack of safe cycle lanes."
+        },
+        {
+          "id": "fact",
+          "text": "fact",
+          "pos": "noun",
+          "definition": "something known to be true rather than just believed",
+          "example": "It is a {fact} that a triangle has three sides."
+        },
+        {
+          "id": "example",
+          "text": "example",
+          "pos": "noun",
+          "definition": "a particular thing used to show what a larger group is like",
+          "example": "A robin is one {example} of a bird that lives in gardens."
+        },
+        {
+          "id": "choice",
+          "text": "choice",
+          "pos": "noun",
+          "definition": "the act of picking between two or more possibilities",
+          "example": "With soup or salad available, I have a {choice} of two starters."
+        },
+        {
+          "id": "solution",
+          "text": "solution",
+          "pos": "noun",
+          "definition": "a way of dealing successfully with a problem",
+          "example": "Adding a ramp is a {solution} to the problem of wheelchair access."
+        },
+        {
+          "id": "conclusion",
+          "text": "conclusion",
+          "pos": "noun",
+          "definition": "the final judgement reached after thinking about information",
+          "example": "After studying the evidence, we reached a {conclusion} about which route saves time."
+        }
+      ]
+    },
+    {
+      "id": "s2-debate",
+      "title": "Taking part in a discussion",
+      "words": [
+        {
+          "id": "agree",
+          "text": "agree",
+          "pos": "verb",
+          "definition": "to have the same view as someone else",
+          "example": "We both think the plan is good, so I {agree} with you."
+        },
+        {
+          "id": "disagree",
+          "text": "disagree",
+          "pos": "verb",
+          "definition": "to have a different view from someone else",
+          "example": "I {disagree} with your answer: I think the total should be twelve."
+        },
+        {
+          "id": "suggest",
+          "text": "suggest",
+          "pos": "verb",
+          "definition": "to put forward an idea for people to think about",
+          "example": "Please {suggest} a name to the editor, who needs ideas for our newspaper."
+        },
+        {
+          "id": "prefer",
+          "text": "prefer",
+          "pos": "verb",
+          "definition": "to like one thing more than another",
+          "example": "I {prefer} cycling to driving because I enjoy the fresh air."
+        },
+        {
+          "id": "compare",
+          "text": "compare",
+          "pos": "verb",
+          "definition": "to look at things together to find similarities and differences",
+          "example": "We {compare} the two maps to find what has changed between them."
+        },
+        {
+          "id": "support",
+          "text": "support",
+          "pos": "verb",
+          "definition": "to help show that an idea or statement is true",
+          "example": "The results {support} our idea, although more evidence is needed to prove it."
+        },
+        {
+          "id": "persuade",
+          "text": "persuade",
+          "pos": "verb",
+          "definition": "to make someone decide to do something by giving reasons",
+          "example": "We hope to {persuade} the council to add bins by explaining the need."
+        },
+        {
+          "id": "claim",
+          "text": "claim",
+          "pos": "verb",
+          "definition": "to say something is true even when others may doubt it",
+          "example": "They {claim} to own this castle, although no evidence of ownership has been shown."
+        },
+        {
+          "id": "prove",
+          "text": "prove",
+          "pos": "verb",
+          "definition": "to show certainly that something is true",
+          "example": "These dated photographs {prove}, beyond any doubt, that the bridge existed before 1900."
+        },
+        {
+          "id": "consider",
+          "text": "consider",
+          "pos": "verb",
+          "definition": "to think carefully about something before making a decision",
+          "example": "I will {consider} whether to accept, thinking carefully before I decide."
+        }
+      ]
+    },
+    {
+      "id": "s2-connections",
+      "title": "Connecting ideas",
+      "words": [
+        {
+          "id": "although",
+          "text": "although",
+          "pos": "other",
+          "definition": "used to introduce something that makes the next fact surprising",
+          "example": "I enjoyed the walk, {although} it rained the whole way."
+        },
+        {
+          "id": "however",
+          "text": "however",
+          "pos": "adverb",
+          "definition": "used to introduce a different or surprising point",
+          "example": "The tiny room, {however}, felt spacious, contrary to what its size suggested."
+        },
+        {
+          "id": "therefore",
+          "text": "therefore",
+          "pos": "adverb",
+          "definition": "for that reason, as a result of what was just said",
+          "example": "The bus cannot move without fuel; {therefore}, its empty tank prevents departure."
+        },
+        {
+          "id": "unless",
+          "text": "unless",
+          "pos": "other",
+          "definition": "except if a particular thing happens",
+          "example": "We cannot enter {unless} someone unlocks the door for us."
+        },
+        {
+          "id": "whether",
+          "text": "whether",
+          "pos": "other",
+          "definition": "used when asking or deciding between possibilities",
+          "example": "We must decide {whether} to walk or take the bus."
+        },
+        {
+          "id": "despite",
+          "text": "despite",
+          "pos": "other",
+          "definition": "without being prevented by something",
+          "example": "We stayed dry {despite} the rain, thanks to our waterproof coats."
+        },
+        {
+          "id": "instead",
+          "text": "instead",
+          "pos": "adverb",
+          "definition": "in place of someone or something else",
+          "example": "There was no rice, so we cooked pasta {instead}."
+        },
+        {
+          "id": "in-addition",
+          "text": "in addition",
+          "pos": "phrase",
+          "definition": "used to add another point or piece of information",
+          "example": "The hostel provides breakfast; {in addition}, guests can use bicycles for free."
+        },
+        {
+          "id": "for-instance",
+          "text": "for instance",
+          "pos": "phrase",
+          "definition": "used before one thing that shows what you mean",
+          "example": "Some mammals lay eggs; {for instance}, the duck-billed platypus does."
+        },
+        {
+          "id": "on-the-other-hand",
+          "text": "on the other hand",
+          "pos": "phrase",
+          "definition": "used to introduce the opposite side of a situation",
+          "example": "On the one hand, flying is quicker; {on the other hand}, trains pollute less."
+        }
+      ]
+    },
+    {
+      "id": "s2-digital-life",
+      "title": "Digital habits",
+      "words": [
+        {
+          "id": "device",
+          "text": "device",
+          "pos": "noun",
+          "definition": "a piece of equipment made for a particular purpose",
+          "example": "A tablet is a portable electronic {device} with a touchscreen."
+        },
+        {
+          "id": "software",
+          "text": "software",
+          "pos": "noun",
+          "definition": "the programs that tell a computer what to do",
+          "example": "This drawing {software} must be installed before the computer can open pictures."
+        },
+        {
+          "id": "connection",
+          "text": "connection",
+          "pos": "noun",
+          "definition": "a joining that allows devices to exchange information",
+          "example": "Without an internet {connection}, this tablet cannot send messages online."
+        },
+        {
+          "id": "search-engine",
+          "text": "search engine",
+          "pos": "noun",
+          "definition": "a service that finds web pages from words you enter",
+          "example": "I type keywords into a {search engine} to find relevant web pages."
+        },
+        {
+          "id": "attachment",
+          "text": "attachment",
+          "pos": "noun",
+          "definition": "a file sent together with an email",
+          "example": "The photograph came as an email {attachment} that I opened separately."
+        },
+        {
+          "id": "privacy",
+          "text": "privacy",
+          "pos": "noun",
+          "definition": "being able to keep personal things away from other people",
+          "example": "Closing the curtains gives us {privacy} so people outside cannot watch us."
+        },
+        {
+          "id": "permission",
+          "text": "permission",
+          "pos": "noun",
+          "definition": "agreement that allows someone to do something",
+          "example": "You need the owner's {permission} to enter; she must first say you may."
+        },
+        {
+          "id": "update",
+          "text": "update",
+          "pos": "verb",
+          "definition": "to add the newest changes to something",
+          "example": "We {update} the computer's software to install the latest fixes."
+        },
+        {
+          "id": "connect",
+          "text": "connect",
+          "pos": "verb",
+          "definition": "to join a device to another device or a network",
+          "example": "Use this cable to {connect} the printer to the computer."
+        },
+        {
+          "id": "share",
+          "text": "share",
+          "pos": "verb",
+          "definition": "to let other people see or use something you have",
+          "example": "I {share} my private notes with one friend, without making them public."
+        }
+      ]
+    },
+    {
+      "id": "s2-travel",
+      "title": "Making travel plans",
+      "words": [
+        {
+          "id": "accommodation",
+          "text": "accommodation",
+          "pos": "noun",
+          "definition": "a place where you stay or live",
+          "example": "Our holiday {accommodation} is a cottage with three bedrooms and a kitchen."
+        },
+        {
+          "id": "itinerary",
+          "text": "itinerary",
+          "pos": "noun",
+          "definition": "a plan listing the places and times of a journey",
+          "example": "Our {itinerary} lists each city we will visit and when we leave."
+        },
+        {
+          "id": "vehicle",
+          "text": "vehicle",
+          "pos": "noun",
+          "definition": "a machine used to carry people or goods on land",
+          "example": "A van is a road {vehicle} used to carry people or goods."
+        },
+        {
+          "id": "pedestrian",
+          "text": "pedestrian",
+          "pos": "noun",
+          "definition": "a person travelling on foot",
+          "example": "A {pedestrian} is walking across the road, so the driver stops."
+        },
+        {
+          "id": "crossing",
+          "text": "crossing",
+          "pos": "noun",
+          "definition": "a marked place where people can go across a road",
+          "example": "Wait at the zebra {crossing} until the cars stop for you."
+        },
+        {
+          "id": "journey",
+          "text": "journey",
+          "pos": "noun",
+          "definition": "the act of travelling from one place to another",
+          "example": "The train {journey} from here to London takes two hours."
+        },
+        {
+          "id": "distance",
+          "text": "distance",
+          "pos": "noun",
+          "definition": "the amount of space between two places",
+          "example": "Use the map's scale to calculate the {distance} in kilometres between these villages."
+        },
+        {
+          "id": "direction",
+          "text": "direction",
+          "pos": "noun",
+          "definition": "the way towards which someone or something moves",
+          "example": "The arrow points north, showing the {direction} we must walk."
+        },
+        {
+          "id": "cancel",
+          "text": "cancel",
+          "pos": "verb",
+          "definition": "to decide that something planned will not happen",
+          "example": "We must {cancel} the trip completely, so it will not happen at all."
+        },
+        {
+          "id": "board",
+          "text": "board",
+          "pos": "verb",
+          "definition": "to get onto a ship, aircraft, train or bus",
+          "example": "Passengers will {board} the aircraft through gate seven when their group is called."
+        }
+      ]
+    },
+    {
+      "id": "s2-wellbeing",
+      "title": "Health and wellbeing",
+      "words": [
+        {
+          "id": "balanced",
+          "text": "balanced",
+          "pos": "adjective",
+          "definition": "steady because your weight is spread evenly",
+          "example": "In yoga, I stay {balanced} by keeping my weight equal on both feet."
+        },
+        {
+          "id": "nutritious",
+          "text": "nutritious",
+          "pos": "adjective",
+          "definition": "containing things your body needs to grow and stay well",
+          "example": "Lentils are {nutritious}, providing protein and other things our bodies need."
+        },
+        {
+          "id": "allergy",
+          "text": "allergy",
+          "pos": "noun",
+          "definition": "a condition where something normally harmless makes your body react badly",
+          "example": "My nut {allergy} means eating peanuts can make me seriously ill."
+        },
+        {
+          "id": "infection",
+          "text": "infection",
+          "pos": "noun",
+          "definition": "an illness caused by tiny living things entering the body",
+          "example": "The doctor says germs have caused an {infection} in my ear."
+        },
+        {
+          "id": "posture",
+          "text": "posture",
+          "pos": "noun",
+          "definition": "the way you hold your body when sitting or standing",
+          "example": "Sitting with a straight back helps me keep good {posture}."
+        },
+        {
+          "id": "stress",
+          "text": "stress",
+          "pos": "noun",
+          "definition": "a feeling of worry caused by difficult demands",
+          "example": "Too many deadlines at once can cause {stress} and make relaxation difficult."
+        },
+        {
+          "id": "routine",
+          "text": "routine",
+          "pos": "noun",
+          "definition": "a usual order of things you do regularly",
+          "example": "My evening {routine} is the usual order: homework, dinner, then brushing my teeth."
+        },
+        {
+          "id": "habit",
+          "text": "habit",
+          "pos": "noun",
+          "definition": "something you do often, sometimes without thinking",
+          "example": "Without noticing, I bit my nails again; it's a {habit} I cannot break."
+        },
+        {
+          "id": "avoid",
+          "text": "avoid",
+          "pos": "verb",
+          "definition": "to keep away from something or stop it happening",
+          "example": "To {avoid} the puddle, I walk around it instead of through it."
+        },
+        {
+          "id": "relax",
+          "text": "relax",
+          "pos": "verb",
+          "definition": "to become calm and less worried",
+          "example": "I listen to gentle music to {relax} and let my worries go."
+        }
+      ]
+    },
+    {
+      "id": "s2-planet",
+      "title": "A changing planet",
+      "words": [
+        {
+          "id": "climate",
+          "text": "climate",
+          "pos": "noun",
+          "definition": "the usual weather in a place over many years",
+          "example": "The desert's {climate} is usually hot and dry, year after year."
+        },
+        {
+          "id": "forecast",
+          "text": "forecast",
+          "pos": "noun",
+          "definition": "a statement about what the weather is likely to be",
+          "example": "Tomorrow's weather {forecast} predicts rain and strong winds."
+        },
+        {
+          "id": "emissions",
+          "text": "emissions",
+          "pos": "noun",
+          "definition": "gases sent out into the air by machines or processes",
+          "example": "Car exhaust {emissions} include gases that warm the planet."
+        },
+        {
+          "id": "resource",
+          "text": "resource",
+          "pos": "noun",
+          "definition": "something useful that people can use to meet their needs",
+          "example": "Fresh water is a natural {resource} that people need for drinking and farming."
+        },
+        {
+          "id": "species",
+          "text": "species",
+          "pos": "noun",
+          "definition": "a group of living things of the same kind",
+          "example": "A red fox and an Arctic fox belong to different {species}."
+        },
+        {
+          "id": "endangered",
+          "text": "endangered",
+          "pos": "adjective",
+          "definition": "at risk of disappearing completely as a kind of animal or plant",
+          "example": "These turtles are {endangered}; so few remain that they could disappear completely."
+        },
+        {
+          "id": "renewable",
+          "text": "renewable",
+          "pos": "adjective",
+          "definition": "coming from a supply that nature can replace",
+          "example": "Wind provides {renewable} energy because using it does not use it up."
+        },
+        {
+          "id": "conserve",
+          "text": "conserve",
+          "pos": "verb",
+          "definition": "to use carefully so that supplies will last",
+          "example": "We {conserve} water by collecting rain to use on the garden."
+        },
+        {
+          "id": "damage",
+          "text": "damage",
+          "pos": "verb",
+          "definition": "to harm something so that it works less well or looks worse",
+          "example": "Heavy boots can {damage} delicate plants by crushing their leaves."
+        },
+        {
+          "id": "reuse",
+          "text": "reuse",
+          "pos": "verb",
+          "definition": "to use something again, perhaps for a different purpose",
+          "example": "We {reuse} empty jam jars as containers for pencils."
+        }
+      ]
+    },
+    {
+      "id": "s2-communication",
+      "title": "Communicating clearly",
+      "words": [
+        {
+          "id": "broadcast",
+          "text": "broadcast",
+          "pos": "noun",
+          "definition": "a programme sent out by radio or television",
+          "example": "We listened to the live radio {broadcast} of the match."
+        },
+        {
+          "id": "article",
+          "text": "article",
+          "pos": "noun",
+          "definition": "a piece of writing in a newspaper, magazine or website",
+          "example": "I read a newspaper {article} with a headline and six paragraphs about the concert."
+        },
+        {
+          "id": "editor",
+          "text": "editor",
+          "pos": "noun",
+          "definition": "the person who checks and chooses material for publication",
+          "example": "The magazine's {editor} decides which stories will appear in the next issue."
+        },
+        {
+          "id": "reporter",
+          "text": "reporter",
+          "pos": "noun",
+          "definition": "someone whose job is to gather and tell news",
+          "example": "The {reporter} stood outside the town hall to tell viewers the news."
+        },
+        {
+          "id": "caption",
+          "text": "caption",
+          "pos": "noun",
+          "definition": "a short piece of writing that explains a picture",
+          "example": "The {caption} below the photograph names the people shown in it."
+        },
+        {
+          "id": "subtitle",
+          "text": "subtitle",
+          "pos": "noun",
+          "definition": "a line of text showing what someone says in a film",
+          "example": "Each {subtitle} translates one spoken line of the foreign-language film into English."
+        },
+        {
+          "id": "publish",
+          "text": "publish",
+          "pos": "verb",
+          "definition": "to make writing or pictures available for people to read",
+          "example": "They {publish} a monthly magazine, printing copies for sale in shops."
+        },
+        {
+          "id": "announce",
+          "text": "announce",
+          "pos": "verb",
+          "definition": "to tell people something officially or publicly",
+          "example": "The head teacher will {announce} the winner over the loudspeaker at noon."
+        },
+        {
+          "id": "describe",
+          "text": "describe",
+          "pos": "verb",
+          "definition": "to say what someone or something is like",
+          "example": "Please {describe} the missing bag, including its colour, shape and size."
+        },
+        {
+          "id": "summarise",
+          "text": "summarise",
+          "pos": "verb",
+          "definition": "to give the main points without all the details",
+          "example": "Please {summarise} the article, giving only its main points rather than every detail."
+        }
+      ]
+    },
+    {
+      "id": "s2-qualities",
+      "title": "Personal qualities",
+      "words": [
+        {
+          "id": "confident",
+          "text": "confident",
+          "pos": "adjective",
+          "definition": "sure that you can do something well",
+          "example": "After many successful rehearsals, I feel {confident} that I can perform well."
+        },
+        {
+          "id": "reliable",
+          "text": "reliable",
+          "pos": "adjective",
+          "definition": "able to be trusted to do what is needed",
+          "example": "My {reliable} alarm clock has worked perfectly every morning for ten years."
+        },
+        {
+          "id": "responsible",
+          "text": "responsible",
+          "pos": "adjective",
+          "definition": "having the duty of taking care of something",
+          "example": "I am {responsible} for feeding the rabbit; that job is mine."
+        },
+        {
+          "id": "independent",
+          "text": "independent",
+          "pos": "adjective",
+          "definition": "able to do things without needing other people's help",
+          "example": "She is financially {independent} of her parents because she earns her own money."
+        },
+        {
+          "id": "ambitious",
+          "text": "ambitious",
+          "pos": "adjective",
+          "definition": "wanting great success, or needing a lot of work to succeed",
+          "example": "His {ambitious} target is to double our school's recycling total in one month."
+        },
+        {
+          "id": "curious",
+          "text": "curious",
+          "pos": "adjective",
+          "definition": "wanting to learn or find out more",
+          "example": "A {curious} child keeps asking how things work and why."
+        },
+        {
+          "id": "stubborn",
+          "text": "stubborn",
+          "pos": "adjective",
+          "definition": "unwilling to change your mind even when others give good reasons",
+          "example": "He is so {stubborn} that no amount of reasoning changes his mind."
+        },
+        {
+          "id": "talkative",
+          "text": "talkative",
+          "pos": "adjective",
+          "definition": "speaking a lot",
+          "example": "He is so {talkative} that he rarely stops speaking long enough to listen."
+        },
+        {
+          "id": "anxious",
+          "text": "anxious",
+          "pos": "adjective",
+          "definition": "worried that something bad may happen",
+          "example": "I feel {anxious} about the test and cannot stop worrying about it."
+        },
+        {
+          "id": "ashamed",
+          "text": "ashamed",
+          "pos": "adjective",
+          "definition": "feeling bad because you have done something wrong",
+          "example": "I felt {ashamed} of cheating and wished I had acted honestly."
+        }
+      ]
+    },
+    {
+      "id": "s2-working-together",
+      "title": "Working together",
+      "words": [
+        {
+          "id": "volunteer",
+          "text": "volunteer",
+          "pos": "noun",
+          "definition": "a person who chooses to help without being paid",
+          "example": "Each {volunteer} helps at the food bank without receiving any pay."
+        },
+        {
+          "id": "charity",
+          "text": "charity",
+          "pos": "noun",
+          "definition": "an organisation that helps people or causes in need",
+          "example": "This registered {charity} uses donated money to help families who cannot afford food."
+        },
+        {
+          "id": "community",
+          "text": "community",
+          "pos": "noun",
+          "definition": "people who live in one area or share something",
+          "example": "Our village {community} includes everyone who lives here, young and old."
+        },
+        {
+          "id": "committee",
+          "text": "committee",
+          "pos": "noun",
+          "definition": "a small group chosen to organise or decide things",
+          "example": "The elected {committee} of six pupils meets to make decisions for the whole club."
+        },
+        {
+          "id": "campaign",
+          "text": "campaign",
+          "pos": "noun",
+          "definition": "organised activities intended to achieve a particular change",
+          "example": "We launched a {campaign} of petitions and posters to demand safer streets."
+        },
+        {
+          "id": "cooperate",
+          "text": "cooperate",
+          "pos": "verb",
+          "definition": "to work together to achieve something",
+          "example": "We {cooperate} by combining our efforts rather than competing against one another."
+        },
+        {
+          "id": "organise",
+          "text": "organise",
+          "pos": "verb",
+          "definition": "to plan and arrange the parts of an event or activity",
+          "example": "I will {organise} the concert, arranging performers, tickets and rehearsal times."
+        },
+        {
+          "id": "donate",
+          "text": "donate",
+          "pos": "verb",
+          "definition": "to give something to help a person or cause",
+          "example": "We {donate} spare blankets to the shelter without expecting anything back."
+        },
+        {
+          "id": "include",
+          "text": "include",
+          "pos": "verb",
+          "definition": "to make someone or something part of a group or activity",
+          "example": "Please {include} me in the team rather than leaving me out."
+        },
+        {
+          "id": "divide",
+          "text": "divide",
+          "pos": "verb",
+          "definition": "to split something into smaller parts or groups",
+          "example": "We {divide} the cake into six equal slices, one for each guest."
+        }
+      ]
+    },
+    {
+      "id": "s2-time",
+      "title": "Managing your time",
+      "words": [
+        {
+          "id": "priority",
+          "text": "priority",
+          "pos": "noun",
+          "definition": "the need to deal with one thing before others",
+          "example": "Homework takes {priority} over games because it must be finished before tomorrow."
+        },
+        {
+          "id": "goal",
+          "text": "goal",
+          "pos": "noun",
+          "definition": "something you are trying to achieve",
+          "example": "After months of training, I reached my {goal} of swimming a kilometre without stopping."
+        },
+        {
+          "id": "progress",
+          "text": "progress",
+          "pos": "noun",
+          "definition": "movement towards a better or more complete state",
+          "example": "I have made {progress} in reading: I can now finish books without help."
+        },
+        {
+          "id": "effort",
+          "text": "effort",
+          "pos": "noun",
+          "definition": "the hard work needed to do something",
+          "example": "Learning this difficult piece took a lot of {effort} and many practice sessions."
+        },
+        {
+          "id": "opportunity",
+          "text": "opportunity",
+          "pos": "noun",
+          "definition": "a chance to do something you want to do",
+          "example": "Winning the only available place gave me an {opportunity} to learn violin."
+        },
+        {
+          "id": "rehearse",
+          "text": "rehearse",
+          "pos": "verb",
+          "definition": "to practise a performance before an audience comes to see it",
+          "example": "Actors {rehearse} by performing the play in an empty theatre before opening night."
+        },
+        {
+          "id": "achieve",
+          "text": "achieve",
+          "pos": "verb",
+          "definition": "to succeed in doing something you have worked towards",
+          "example": "With hard work, I hope to {achieve} excellent marks in my final exams."
+        },
+        {
+          "id": "postpone",
+          "text": "postpone",
+          "pos": "verb",
+          "definition": "to move a planned event to a later time",
+          "example": "We will {postpone} Monday's meeting until Wednesday, two days later."
+        },
+        {
+          "id": "oversleep",
+          "text": "oversleep",
+          "pos": "verb",
+          "definition": "to sleep longer than planned and wake up too late",
+          "example": "I {oversleep} when my alarm fails and I wake later than planned."
+        },
+        {
+          "id": "regularly",
+          "text": "regularly",
+          "pos": "adverb",
+          "definition": "often, with similar amounts of time between occasions",
+          "example": "I practise {regularly}, every Monday and Thursday without missing a session."
+        }
+      ]
+    }
+  ]
+}

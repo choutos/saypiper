@@ -1,0 +1,918 @@
+{
+  "schemaVersion": 1,
+  "grade": "s1",
+  "units": [
+    {
+      "id": "s1-classroom",
+      "title": "Secondary school",
+      "words": [
+        {
+          "id": "biology",
+          "text": "biology",
+          "pos": "noun",
+          "definition": "the study of living things",
+          "example": "In {biology}, we study how plants grow from seeds."
+        },
+        {
+          "id": "chemistry",
+          "text": "chemistry",
+          "pos": "noun",
+          "definition": "the study of substances and how they change",
+          "example": "In {chemistry}, we test how two liquids react together."
+        },
+        {
+          "id": "physics",
+          "text": "physics",
+          "pos": "noun",
+          "definition": "the study of forces, light, heat and movement",
+          "example": "Our {physics} project measures how gravity changes a falling ball's speed."
+        },
+        {
+          "id": "literature",
+          "text": "literature",
+          "pos": "noun",
+          "definition": "books, poems and plays studied as writing",
+          "example": "Our {literature} course compares poems and plays from different centuries."
+        },
+        {
+          "id": "laboratory",
+          "text": "laboratory",
+          "pos": "noun",
+          "definition": "a room where people do scientific tests",
+          "example": "We wear safety glasses in the science {laboratory}."
+        },
+        {
+          "id": "calculator",
+          "text": "calculator",
+          "pos": "noun",
+          "definition": "a small machine that works out numbers",
+          "example": "I use a {calculator} to multiply two very large numbers."
+        },
+        {
+          "id": "paragraph",
+          "text": "paragraph",
+          "pos": "noun",
+          "definition": "a group of sentences about one main idea",
+          "example": "Indent the first line of each {paragraph}, a group of sentences."
+        },
+        {
+          "id": "chapter",
+          "text": "chapter",
+          "pos": "noun",
+          "definition": "one of the main numbered parts of a book",
+          "example": "This novel's fifth {chapter} begins on page sixty and ends on page seventy."
+        },
+        {
+          "id": "handwriting",
+          "text": "handwriting",
+          "pos": "noun",
+          "definition": "the way someone forms letters with a pen",
+          "example": "Your {handwriting} is easier to read when you form each letter clearly."
+        },
+        {
+          "id": "revision",
+          "text": "revision",
+          "pos": "noun",
+          "definition": "studying again to prepare for a test",
+          "example": "My exam {revision} includes rereading notes and testing myself."
+        }
+      ]
+    },
+    {
+      "id": "s1-learning",
+      "title": "Learning together",
+      "words": [
+        {
+          "id": "revise",
+          "text": "revise",
+          "pos": "verb",
+          "definition": "to study something again before a test",
+          "example": "Before exams, I {revise} by studying the topics I have already learnt."
+        },
+        {
+          "id": "underline",
+          "text": "underline",
+          "pos": "verb",
+          "definition": "to draw a line below written words",
+          "example": "Please {underline} the title by drawing a line below it."
+        },
+        {
+          "id": "pronounce",
+          "text": "pronounce",
+          "pos": "verb",
+          "definition": "to make the sounds of a word",
+          "example": "How do you {pronounce} this word: does it rhyme with chair?"
+        },
+        {
+          "id": "translate",
+          "text": "translate",
+          "pos": "verb",
+          "definition": "to change words from one language into another",
+          "example": "Can you {translate} this French sentence into English?"
+        },
+        {
+          "id": "memorise",
+          "text": "memorise",
+          "pos": "verb",
+          "definition": "to learn something so you can say it without looking",
+          "example": "Actors {memorise} their lines, learning every word by heart before performing."
+        },
+        {
+          "id": "concentrate",
+          "text": "concentrate",
+          "pos": "verb",
+          "definition": "to give all your attention to one thing",
+          "example": "I cannot {concentrate} on my work with three conversations around me."
+        },
+        {
+          "id": "improve",
+          "text": "improve",
+          "pos": "verb",
+          "definition": "to become better or make something better",
+          "example": "Daily practice will {improve} my spelling until I make fewer mistakes."
+        },
+        {
+          "id": "check",
+          "text": "check",
+          "pos": "verb",
+          "definition": "to look at something to find out whether it is correct",
+          "example": "Before handing work in, I {check} each answer for mistakes."
+        },
+        {
+          "id": "solve",
+          "text": "solve",
+          "pos": "verb",
+          "definition": "to find the answer to a problem",
+          "example": "Can you {solve} this puzzle and find the missing number?"
+        },
+        {
+          "id": "discuss",
+          "text": "discuss",
+          "pos": "verb",
+          "definition": "to talk about something and share ideas",
+          "example": "We {discuss} our plans aloud, taking turns to give our opinions."
+        }
+      ]
+    },
+    {
+      "id": "s1-online",
+      "title": "Using a computer",
+      "words": [
+        {
+          "id": "website",
+          "text": "website",
+          "pos": "noun",
+          "definition": "a set of pages that you can visit on the internet",
+          "example": "The museum's {website} has online pages about opening times and exhibitions."
+        },
+        {
+          "id": "browser",
+          "text": "browser",
+          "pos": "noun",
+          "definition": "a program used to open pages on the internet",
+          "example": "I type the web address into my {browser} to open the page."
+        },
+        {
+          "id": "download",
+          "text": "download",
+          "pos": "verb",
+          "definition": "to copy a file from the internet onto your device",
+          "example": "I {download} the worksheet from the internet onto my tablet before going offline."
+        },
+        {
+          "id": "upload",
+          "text": "upload",
+          "pos": "verb",
+          "definition": "to send a file from your device to the internet",
+          "example": "We {upload} our video from the tablet to the school's website."
+        },
+        {
+          "id": "delete",
+          "text": "delete",
+          "pos": "verb",
+          "definition": "to remove something stored on a device",
+          "example": "I will {delete} the unwanted file so it no longer exists."
+        },
+        {
+          "id": "rename",
+          "text": "rename",
+          "pos": "verb",
+          "definition": "to give something a different name",
+          "example": "I {rename} the file from draft.txt to final.txt without changing its contents."
+        },
+        {
+          "id": "click",
+          "text": "click",
+          "pos": "verb",
+          "definition": "to press a mouse button to choose something on screen",
+          "example": "With the mouse, I {click} the arrow once to open the menu."
+        },
+        {
+          "id": "file",
+          "text": "file",
+          "pos": "noun",
+          "definition": "a named set of information stored on a device",
+          "example": "The photo is stored as a JPEG {file} called beach.jpg."
+        },
+        {
+          "id": "folder",
+          "text": "folder",
+          "pos": "noun",
+          "definition": "a named place on a device that holds files",
+          "example": "I keep all ten science files together in one {folder}."
+        },
+        {
+          "id": "link",
+          "text": "link",
+          "pos": "noun",
+          "definition": "something on a web page that opens another page when chosen",
+          "example": "The blue {link} opens the museum's booking page when clicked."
+        }
+      ]
+    },
+    {
+      "id": "s1-journeys",
+      "title": "Planning a journey",
+      "words": [
+        {
+          "id": "passenger",
+          "text": "passenger",
+          "pos": "noun",
+          "definition": "someone travelling in a vehicle without driving it",
+          "example": "I travelled as a {passenger}, sitting beside my sister while she drove."
+        },
+        {
+          "id": "platform",
+          "text": "platform",
+          "pos": "noun",
+          "definition": "the raised area beside railway tracks where people board trains",
+          "example": "Our train leaves from {platform} six, beside the railway tracks."
+        },
+        {
+          "id": "departure",
+          "text": "departure",
+          "pos": "noun",
+          "definition": "the act or time of leaving a place",
+          "example": "The board lists our train's {departure} as ten o'clock, when it leaves."
+        },
+        {
+          "id": "destination",
+          "text": "destination",
+          "pos": "noun",
+          "definition": "the place you are travelling to",
+          "example": "The bus's final {destination} is York, where our journey ends."
+        },
+        {
+          "id": "fare",
+          "text": "fare",
+          "pos": "noun",
+          "definition": "the price of a journey on public transport",
+          "example": "The bus {fare} is two pounds for a single journey."
+        },
+        {
+          "id": "route",
+          "text": "route",
+          "pos": "noun",
+          "definition": "the way taken to get from one place to another",
+          "example": "The red line on this map shows our walking {route}."
+        },
+        {
+          "id": "delay",
+          "text": "delay",
+          "pos": "noun",
+          "definition": "extra time spent waiting because something happens later than planned",
+          "example": "A ten-minute {delay} means our train will leave later than planned."
+        },
+        {
+          "id": "return-ticket",
+          "text": "return ticket",
+          "pos": "noun",
+          "definition": "a travel pass for going somewhere and coming back",
+          "example": "My {return ticket} covers both the outward train journey and the journey home."
+        },
+        {
+          "id": "luggage",
+          "text": "luggage",
+          "pos": "noun",
+          "definition": "bags and cases you take when travelling",
+          "example": "The airline weighs all our {luggage}, including both suitcases."
+        },
+        {
+          "id": "seat-belt",
+          "text": "seat belt",
+          "pos": "noun",
+          "definition": "a strap that keeps you safely in your seat",
+          "example": "Fasten your {seat belt} across your body before the car moves."
+        }
+      ]
+    },
+    {
+      "id": "s1-places",
+      "title": "Staying away",
+      "words": [
+        {
+          "id": "hostel",
+          "text": "hostel",
+          "pos": "noun",
+          "definition": "a cheap place to stay, often with shared bedrooms",
+          "example": "Our youth {hostel} has bunk beds shared by six travellers."
+        },
+        {
+          "id": "reception",
+          "text": "reception",
+          "pos": "noun",
+          "definition": "the desk at a hotel where guests first give their details",
+          "example": "Ask at hotel {reception} for your room key when you arrive."
+        },
+        {
+          "id": "reservation",
+          "text": "reservation",
+          "pos": "noun",
+          "definition": "an arrangement to keep a room or seat for you",
+          "example": "Our hotel {reservation} guarantees us a room for Friday night."
+        },
+        {
+          "id": "guidebook",
+          "text": "guidebook",
+          "pos": "noun",
+          "definition": "a book with information for people visiting a place",
+          "example": "I bought a printed {guidebook} full of tips for tourists visiting Rome."
+        },
+        {
+          "id": "souvenir",
+          "text": "souvenir",
+          "pos": "noun",
+          "definition": "something you keep to remember a place you visited",
+          "example": "I bought this little tower as a {souvenir} of our trip."
+        },
+        {
+          "id": "currency",
+          "text": "currency",
+          "pos": "noun",
+          "definition": "the type of money used in a country",
+          "example": "The pound is the {currency} used in the United Kingdom."
+        },
+        {
+          "id": "abroad",
+          "text": "abroad",
+          "pos": "adverb",
+          "definition": "in or to a different country",
+          "example": "We travelled {abroad}, leaving Britain to spend a week in France."
+        },
+        {
+          "id": "local",
+          "text": "local",
+          "pos": "adjective",
+          "definition": "belonging to the area near you",
+          "example": "Our {local} library is just two streets from our house."
+        },
+        {
+          "id": "foreign",
+          "text": "foreign",
+          "pos": "adjective",
+          "definition": "from a country other than your own",
+          "example": "At the border, we exchanged pounds for {foreign} money from another country."
+        },
+        {
+          "id": "crowded",
+          "text": "crowded",
+          "pos": "adjective",
+          "definition": "full of people with little room to move",
+          "example": "The bus was so {crowded} that nobody else could squeeze inside."
+        }
+      ]
+    },
+    {
+      "id": "s1-health",
+      "title": "Looking after yourself",
+      "words": [
+        {
+          "id": "symptom",
+          "text": "symptom",
+          "pos": "noun",
+          "definition": "a change in your body that shows you may be ill",
+          "example": "A high temperature can be a {symptom} of an illness."
+        },
+        {
+          "id": "temperature",
+          "text": "temperature",
+          "pos": "noun",
+          "definition": "a measure of how hot or cold something is",
+          "example": "The thermometer shows my {temperature} is thirty-seven degrees."
+        },
+        {
+          "id": "sore-throat",
+          "text": "sore throat",
+          "pos": "noun",
+          "definition": "pain in the part inside your neck used for swallowing",
+          "example": "Swallowing hurts because I have a {sore throat}."
+        },
+        {
+          "id": "appointment",
+          "text": "appointment",
+          "pos": "noun",
+          "definition": "an agreed time to meet someone",
+          "example": "My dental {appointment} is booked for three o'clock on Tuesday."
+        },
+        {
+          "id": "patient",
+          "text": "patient",
+          "pos": "noun",
+          "definition": "a person receiving care from a doctor or nurse",
+          "example": "The nurse calls the next {patient} into the doctor's room."
+        },
+        {
+          "id": "bandage",
+          "text": "bandage",
+          "pos": "noun",
+          "definition": "a long strip of cloth wrapped around a hurt body part",
+          "example": "The nurse wraps a {bandage} around my injured wrist."
+        },
+        {
+          "id": "rest",
+          "text": "rest",
+          "pos": "noun",
+          "definition": "time spent relaxing instead of being active",
+          "example": "After the long walk, I need some quiet {rest}, lying still without doing anything."
+        },
+        {
+          "id": "recover",
+          "text": "recover",
+          "pos": "verb",
+          "definition": "to become well again after being ill or hurt",
+          "example": "It took a week to {recover} from flu and feel well again."
+        },
+        {
+          "id": "healthy",
+          "text": "healthy",
+          "pos": "adjective",
+          "definition": "well and free from illness",
+          "example": "The {healthy} seedlings have green leaves and strong roots, with no disease."
+        },
+        {
+          "id": "fit",
+          "text": "fit",
+          "pos": "adjective",
+          "definition": "strong enough to do physical activity without getting tired quickly",
+          "example": "I am healthy but not {fit}; running leaves me tired within minutes."
+        }
+      ]
+    },
+    {
+      "id": "s1-environment",
+      "title": "Caring for our surroundings",
+      "words": [
+        {
+          "id": "environment",
+          "text": "environment",
+          "pos": "noun",
+          "definition": "the natural world around us, including land, water and air",
+          "example": "We study the {environment}: the natural world, including air, water and land."
+        },
+        {
+          "id": "wildlife",
+          "text": "wildlife",
+          "pos": "noun",
+          "definition": "animals and plants that live freely in nature",
+          "example": "This reserve protects local {wildlife}, including foxes, owls and wild flowers."
+        },
+        {
+          "id": "litter",
+          "text": "litter",
+          "pos": "noun",
+          "definition": "small pieces of waste left lying in public places",
+          "example": "Volunteers picked up {litter}, including wrappers dropped beside the path."
+        },
+        {
+          "id": "habitat",
+          "text": "habitat",
+          "pos": "noun",
+          "definition": "the natural place where an animal or plant lives",
+          "example": "Melting sea ice destroys the polar bear's {habitat}, its natural home."
+        },
+        {
+          "id": "drought",
+          "text": "drought",
+          "pos": "noun",
+          "definition": "a long period with very little or no rain",
+          "example": "After months without rain, the {drought} left fields dry and dusty."
+        },
+        {
+          "id": "flood",
+          "text": "flood",
+          "pos": "noun",
+          "definition": "water covering land that is normally dry",
+          "example": "The river overflowed, causing a {flood} in nearby streets."
+        },
+        {
+          "id": "reusable",
+          "text": "reusable",
+          "pos": "adjective",
+          "definition": "able to be used again instead of being thrown away",
+          "example": "This {reusable} bottle is designed to be filled again hundreds of times."
+        },
+        {
+          "id": "reduce",
+          "text": "reduce",
+          "pos": "verb",
+          "definition": "to make something smaller in amount or size",
+          "example": "We can {reduce} water use by taking shorter showers."
+        },
+        {
+          "id": "waste",
+          "text": "waste",
+          "pos": "verb",
+          "definition": "to use more of something than you need",
+          "example": "Please don't {waste} paper by printing fifty copies nobody needs."
+        },
+        {
+          "id": "plant",
+          "text": "plant",
+          "pos": "verb",
+          "definition": "to put seeds or young trees into soil to grow",
+          "example": "We will {plant} these seeds in soil and wait for shoots."
+        }
+      ]
+    },
+    {
+      "id": "s1-media",
+      "title": "Stories and programmes",
+      "words": [
+        {
+          "id": "documentary",
+          "text": "documentary",
+          "pos": "noun",
+          "definition": "a film or programme that gives facts about real life",
+          "example": "The wildlife {documentary} uses real footage to explain how penguins survive winter."
+        },
+        {
+          "id": "cartoon",
+          "text": "cartoon",
+          "pos": "noun",
+          "definition": "a film or programme made from moving drawings",
+          "example": "The {cartoon} uses moving drawings of a talking purple rabbit."
+        },
+        {
+          "id": "headline",
+          "text": "headline",
+          "pos": "noun",
+          "definition": "the title of a news story",
+          "example": "The newspaper's {headline} reads: Local School Wins Science Prize."
+        },
+        {
+          "id": "advert",
+          "text": "advert",
+          "pos": "noun",
+          "definition": "a message intended to make people buy or use something",
+          "example": "The thirty-second television {advert} ends by asking viewers to buy a sofa."
+        },
+        {
+          "id": "interview",
+          "text": "interview",
+          "pos": "noun",
+          "definition": "a meeting where someone asks another person questions",
+          "example": "In the radio {interview}, a reporter asks the author about her book."
+        },
+        {
+          "id": "audience",
+          "text": "audience",
+          "pos": "noun",
+          "definition": "the people watching or listening to a show",
+          "example": "The {audience} clapped from their seats after the play ended."
+        },
+        {
+          "id": "character",
+          "text": "character",
+          "pos": "noun",
+          "definition": "a person or creature in a story",
+          "example": "My favourite {character} in this novel is the brave young detective."
+        },
+        {
+          "id": "plot",
+          "text": "plot",
+          "pos": "noun",
+          "definition": "the main events in a story",
+          "example": "The novel's {plot} is its chain of events, from beginning to end."
+        },
+        {
+          "id": "review",
+          "text": "review",
+          "pos": "noun",
+          "definition": "a piece of writing giving an opinion about a book or show",
+          "example": "This film {review} gives the new comedy four stars out of five."
+        },
+        {
+          "id": "channel",
+          "text": "channel",
+          "pos": "noun",
+          "definition": "a television service that shows its own set of programmes",
+          "example": "This television {channel} shows children's programmes all afternoon."
+        }
+      ]
+    },
+    {
+      "id": "s1-feelings",
+      "title": "Feelings and friendships",
+      "words": [
+        {
+          "id": "nervous",
+          "text": "nervous",
+          "pos": "adjective",
+          "definition": "worried about something that is about to happen",
+          "example": "My hands shake before performances because I feel {nervous} on stage."
+        },
+        {
+          "id": "disappointed",
+          "text": "disappointed",
+          "pos": "adjective",
+          "definition": "unhappy because something was worse than you hoped",
+          "example": "I felt {disappointed} that my long-awaited birthday outing was cancelled."
+        },
+        {
+          "id": "embarrassed",
+          "text": "embarrassed",
+          "pos": "adjective",
+          "definition": "uncomfortable because other people have seen you do something silly",
+          "example": "I felt {embarrassed} when everyone noticed my trousers were on backwards."
+        },
+        {
+          "id": "jealous",
+          "text": "jealous",
+          "pos": "adjective",
+          "definition": "unhappy because someone else has something you want",
+          "example": "I felt {jealous} of my brother because I wanted his new bike."
+        },
+        {
+          "id": "relieved",
+          "text": "relieved",
+          "pos": "adjective",
+          "definition": "happy because something worrying has ended or did not happen",
+          "example": "I felt {relieved}: my worry disappeared when the lost dog came home."
+        },
+        {
+          "id": "grateful",
+          "text": "grateful",
+          "pos": "adjective",
+          "definition": "feeling that you want to thank someone for helping you",
+          "example": "I am {grateful} for your help and want to thank you."
+        },
+        {
+          "id": "polite",
+          "text": "polite",
+          "pos": "adjective",
+          "definition": "showing good manners and respect for other people",
+          "example": "Saying please and thank you is {polite} behaviour."
+        },
+        {
+          "id": "honest",
+          "text": "honest",
+          "pos": "adjective",
+          "definition": "telling the truth and not cheating",
+          "example": "An {honest} player admits touching the ball, even when nobody saw."
+        },
+        {
+          "id": "generous",
+          "text": "generous",
+          "pos": "adjective",
+          "definition": "happy to give others more than they expect",
+          "example": "Our {generous} neighbour gives away far more food than anyone expects."
+        },
+        {
+          "id": "friendship",
+          "text": "friendship",
+          "pos": "noun",
+          "definition": "the feeling of liking and caring about someone you know well",
+          "example": "Our {friendship} began when we met and started spending time together."
+        }
+      ]
+    },
+    {
+      "id": "s1-sports",
+      "title": "Clubs and activities",
+      "words": [
+        {
+          "id": "athletics",
+          "text": "athletics",
+          "pos": "noun",
+          "definition": "sports such as running, jumping and throwing",
+          "example": "The {athletics} competition includes running races, high jump and discus."
+        },
+        {
+          "id": "gymnastics",
+          "text": "gymnastics",
+          "pos": "noun",
+          "definition": "a sport involving controlled movements, balances and jumps",
+          "example": "In {gymnastics}, we practise cartwheels and balances on a narrow beam."
+        },
+        {
+          "id": "badminton",
+          "text": "badminton",
+          "pos": "noun",
+          "definition": "a sport where players hit a feathered object over a net",
+          "example": "In {badminton}, players hit a shuttlecock over a net with rackets."
+        },
+        {
+          "id": "opponent",
+          "text": "opponent",
+          "pos": "noun",
+          "definition": "the person or team you are playing against",
+          "example": "My chess {opponent} sits opposite me and moves the black pieces."
+        },
+        {
+          "id": "referee",
+          "text": "referee",
+          "pos": "noun",
+          "definition": "the person who makes sure players follow the rules",
+          "example": "The {referee} blew the whistle and awarded a free kick."
+        },
+        {
+          "id": "tournament",
+          "text": "tournament",
+          "pos": "noun",
+          "definition": "a series of games to find an overall winner",
+          "example": "Eight teams enter this {tournament}, but only one wins the final."
+        },
+        {
+          "id": "draw",
+          "text": "draw",
+          "pos": "noun",
+          "definition": "a result where both sides finish with the same score",
+          "example": "The match ended in a {draw}, with two goals for each team."
+        },
+        {
+          "id": "rehearsal",
+          "text": "rehearsal",
+          "pos": "noun",
+          "definition": "a practice of a performance before people come to see it",
+          "example": "At the dress {rehearsal}, actors practise the whole play in costume."
+        },
+        {
+          "id": "costume",
+          "text": "costume",
+          "pos": "noun",
+          "definition": "clothes worn to look like someone else in a performance",
+          "example": "My stage {costume} includes a crown because I play the king."
+        },
+        {
+          "id": "stage",
+          "text": "stage",
+          "pos": "noun",
+          "definition": "the raised area where people perform in a theatre",
+          "example": "The actors step onto the {stage} when the curtain rises."
+        }
+      ]
+    },
+    {
+      "id": "s1-shopping",
+      "title": "Choosing and paying",
+      "words": [
+        {
+          "id": "receipt",
+          "text": "receipt",
+          "pos": "noun",
+          "definition": "a piece of paper showing what you bought and paid",
+          "example": "Keep the shop {receipt} as proof that you paid for these shoes."
+        },
+        {
+          "id": "refund",
+          "text": "refund",
+          "pos": "noun",
+          "definition": "money given back when you return something you bought",
+          "example": "The shop gave me a full {refund} when I returned the broken toy."
+        },
+        {
+          "id": "discount",
+          "text": "discount",
+          "pos": "noun",
+          "definition": "an amount taken off the usual price",
+          "example": "A ten-pound {discount} reduced the price from fifty pounds to forty."
+        },
+        {
+          "id": "size",
+          "text": "size",
+          "pos": "noun",
+          "definition": "how big or small something is",
+          "example": "These shoes are too tight; I need a larger {size}."
+        },
+        {
+          "id": "cash",
+          "text": "cash",
+          "pos": "noun",
+          "definition": "money in the form of coins and notes",
+          "example": "The stall accepts only {cash}, so bring coins or notes."
+        },
+        {
+          "id": "change",
+          "text": "change",
+          "pos": "noun",
+          "definition": "money returned when you pay more than something costs",
+          "example": "I paid five pounds for a three-pound book and received two pounds {change}."
+        },
+        {
+          "id": "customer",
+          "text": "customer",
+          "pos": "noun",
+          "definition": "someone buying goods or services from a business",
+          "example": "The shopkeeper helped the {customer} choose a coat to buy."
+        },
+        {
+          "id": "queue",
+          "text": "queue",
+          "pos": "noun",
+          "definition": "a line of people waiting for their turn",
+          "example": "We joined the {queue} and waited behind five people for tickets."
+        },
+        {
+          "id": "brand-new",
+          "text": "brand-new",
+          "pos": "adjective",
+          "definition": "completely new and never used",
+          "example": "Straight from the factory and never previously owned, these trainers are {brand-new}."
+        },
+        {
+          "id": "second-hand",
+          "text": "second-hand",
+          "pos": "adjective",
+          "definition": "owned or used by someone else before you",
+          "example": "After two years on another child's feet, these {second-hand} boots became mine."
+        }
+      ]
+    },
+    {
+      "id": "s1-daily-life",
+      "title": "Everyday problems",
+      "words": [
+        {
+          "id": "repair",
+          "text": "repair",
+          "pos": "verb",
+          "definition": "to make something broken work again",
+          "example": "We {repair} broken chairs, fixing their joints instead of buying replacements."
+        },
+        {
+          "id": "replace",
+          "text": "replace",
+          "pos": "verb",
+          "definition": "to put a new thing in the place of another",
+          "example": "We must {replace} the empty battery with a new one."
+        },
+        {
+          "id": "tidy",
+          "text": "tidy",
+          "pos": "verb",
+          "definition": "to put things in their proper places",
+          "example": "Please {tidy} your room by putting every toy back in its box."
+        },
+        {
+          "id": "pack",
+          "text": "pack",
+          "pos": "verb",
+          "definition": "to put things into a bag or case for travelling",
+          "example": "I need to {pack} my suitcase before we leave for the airport."
+        },
+        {
+          "id": "unpack",
+          "text": "unpack",
+          "pos": "verb",
+          "definition": "to take things out of a bag or case",
+          "example": "At the hotel, I {unpack} my suitcase and put clothes in drawers."
+        },
+        {
+          "id": "switch-off",
+          "text": "switch off",
+          "pos": "verb",
+          "definition": "to stop a machine or light from working using its control",
+          "example": "Please {switch off} the lamp by pressing its power button."
+        },
+        {
+          "id": "look-after",
+          "text": "look after",
+          "pos": "verb",
+          "definition": "to take care of someone or something",
+          "example": "I will {look after} your rabbit by feeding it while you're away."
+        },
+        {
+          "id": "look-for",
+          "text": "look for",
+          "pos": "verb",
+          "definition": "to try to find someone or something",
+          "example": "Can you {look for} my missing keys under the sofa?"
+        },
+        {
+          "id": "get-on",
+          "text": "get on",
+          "pos": "verb",
+          "definition": "to board a bus, train or other large vehicle",
+          "example": "To start riding, we {get on} the bus and find empty seats."
+        },
+        {
+          "id": "get-off",
+          "text": "get off",
+          "pos": "verb",
+          "definition": "to leave a bus, train or other large vehicle",
+          "example": "We {get off} the train, stepping from the carriage onto the station platform."
+        }
+      ]
+    }
+  ]
+}
