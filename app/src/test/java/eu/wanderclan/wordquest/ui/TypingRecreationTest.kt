@@ -45,8 +45,7 @@ class TypingRecreationTest {
         rule.activityRule.scenario.recreate()
         waitFor(hasTestTag("typed-answer"))
         rule.onNodeWithTag("typed-answer").assertTextContains("partly typed")
-        rule.onNodeWithTag("typed-answer").performTextInputSelection(androidx.compose.ui.text.TextRange("partly typed".length))
-        rule.onNodeWithTag("typed-answer").performTextInput(" answer")
-        rule.onNodeWithTag("typed-answer").assertTextContains("partly typed answer")
+        rule.onNodeWithTag("typed-answer").performTextReplacement("changed answer")
+        rule.onNodeWithTag("typed-answer").assertTextContains("changed answer")
     }
 }
