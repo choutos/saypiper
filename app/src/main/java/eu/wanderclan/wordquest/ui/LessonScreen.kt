@@ -1,6 +1,7 @@
 package eu.wanderclan.wordquest.ui
 
 import android.view.accessibility.AccessibilityManager
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
@@ -166,7 +167,7 @@ fun LessonScreen(
             key(session.position) {
                 ExerciseQuestion(exercise, session.response, band,
                     soundEnabled && available.canSpeak(requireNotNull(home).word) && exercise.wordId !in session.unavailableSpeechWordIds,
-                    { viewModel.say(it) }, viewModel::answer, viewModel::next, requireNotNull(home).word.text, Modifier.padding(padding))
+                    { viewModel.say(it) }, viewModel::answer, viewModel::next, requireNotNull(home).word.text, Modifier.padding(padding).consumeWindowInsets(padding))
             }
         }
     }

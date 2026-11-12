@@ -73,6 +73,27 @@ class SpeechRecoveryUiTest {
         container.speech.close()
     }
 
+    @Test fun `failed dictation becomes definition typing in the real lesson`() {
+        val request = LessonRequest.UnitLesson("fx-feelings", 3)
+        val generator = LessonGenerator(Fixtures.catalog())
+        val seed = (0L..200L).first {
+            val first = generator.generate(request, Environment({ true }, true), it).exercises.first()
+            first is TypingExercise && first.prompt == Prompt.Listening
+        }
+        val container = container(FakeSpeech(FakeSpeech.Mode.FAILING), seed)
+        val exercise = container.generator.generate(request, Environment({ true }, true), seed).exercises.first() as TypingExercise
+        rule.setContent { WordQuestTheme { LessonScreen(container, 0, request, {}, {}) } }
+        waitForLesson()
+        rule.onNodeWithTag("prompt").assertTextEquals((exercise.clue as Prompt.Text).text)
+        rule.onNodeWithTag("listen-replay").assertDoesNotExist()
+        rule.onNodeWithTag("speaker").assertDoesNotExist()
+        rule.onNodeWithTag("typed-answer").performTextInput(exercise.text)
+        rule.onNodeWithTag("submit").performScrollTo().performClick()
+        rule.onNodeWithText("Well done!").assertExists()
+        rule.onNodeWithTag("speaker").assertDoesNotExist()
+        container.speech.close()
+    }
+
     @Test fun `a tile retry starts with unused tiles even when it repeats the same exercise`() {
         val request = LessonRequest.Practice(listOf("chair"))
         val generator = LessonGenerator(Fixtures.catalog())

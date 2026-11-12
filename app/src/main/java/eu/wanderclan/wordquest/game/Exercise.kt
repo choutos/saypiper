@@ -86,6 +86,8 @@ data class TypingExercise(
     override val wordId: String,
     val prompt: Prompt,
     val text: String,
+    /** A visible definition or picture disambiguates words that sound alike in dictation. */
+    val clue: Prompt? = null,
 ) : Exercise {
     override val type = ExerciseType.TYPE_THE_WORD
     override fun incorrectWords(answer: Answer): Set<String> {
