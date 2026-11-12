@@ -42,7 +42,7 @@ SayPiper runs on Android 7.0 or newer and needs no internet connection.
 2. Open the downloaded file. Android asks once to allow the browser or file manager to install apps ("Install unknown apps"); allow it, then install.
 3. To update, install the APK of a newer release in the same way. It installs over the old one and keeps every profile and its progress.
 
-Progress is stored only on the device and is never backed up, so uninstalling the app removes it. A copy installed from F-Droid is signed with a different key from the APK published here, and Android refuses to update one with the other: stay with the channel you installed from.
+Progress is stored only on the device and is never backed up, so uninstalling the app removes it. The F-Droid build is meant to carry the same signature as the APK published here: the release build is reproducible, and the F-Droid recipe names this APK and its signing certificate (`Binaries`, `AllowedAPKSigningKeys`), so F-Droid ships it only if its own build from the tag matches it byte for byte. Updates then work across both channels. If F-Droid ever signs a version with its own key instead, Android refuses to update one with the other; in that case stay with the channel you installed from.
 
 ## Releases
 

@@ -1,8 +1,9 @@
 name: Emulator smoke test
 
 # Manual only: each emulator costs about 15 runner minutes on a private repo (ADR section 10). Started from
-# Actions (workflow_dispatch), or on a pull request by adding the label smoke-test, which tests the PR's head
-# commit with both build types and an upgrade from the commit before it.
+# Actions (workflow_dispatch), or on a pull request by adding a label to it:
+#   smoke-test          the PR's head with both build types, and an upgrade from the commit before it;
+#   smoke-test-release  the PR's head as a manual run with the defaults: release only, no upgrade.
 # Builds the debug APK and the R8 release APK, then runs scripts/smoke/smoke.py on the chosen one on
 # Android 7.0 (API 24, minSdk) and Android 15 (API 35, targetSdk): create a profile, play lesson 1 of P1
 # (bundled clips) and of P3, restart the app, the stars remain. With upgrade-from, Android 15 also installs
@@ -22,21 +23,40 @@ on:
         type: string
         default: ''
 
+# One group per label, so that adding an unrelated label to the PR cancels nothing.
 concurrency:
-  group: smoke-${{ github.ref }}
+  group: smoke-${{ github.ref }}-${{ github.event.label.name || 'manual' }}
   cancel-in-progress: true
-
-env:
-  UPGRADE_FROM: ${{ github.event_name == 'workflow_dispatch' && inputs.upgrade-from || 'HEAD~1' }}
 
 jobs:
   build:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.label.name == 'smoke-test' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.label.name == 'smoke-test' || github.event.label.name == 'smoke-test-release' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
       contents: read
+    outputs:
+      build-types: ${{ steps.plan.outputs.build-types }}
+      upgrade-from: ${{ steps.plan.outputs.upgrade-from }}
     steps:
+      # What to test, decided in one place: an empty upgrade-from means no previous build and no upgrade job.
+      - name: Plan
+        id: plan
+        env:
+          EVENT: ${{ github.event_name }}
+          LABEL: ${{ github.event.label.name }}
+          BUILD_TYPE: ${{ inputs.build-type }}
+          UPGRADE_INPUT: ${{ inputs.upgrade-from }}
+        run: |
+          case "$EVENT:$LABEL" in
+            workflow_dispatch:*)          types="[\"${BUILD_TYPE:-release}\"]"; from="$UPGRADE_INPUT" ;;
+            pull_request:smoke-test)      types='["debug","release"]';           from='HEAD~1' ;;
+            pull_request:smoke-test-release) types='["release"]';               from='' ;;
+            *) echo "unexpected trigger $EVENT:$LABEL" >&2; exit 1 ;;
+          esac
+          echo "build-types=$types" >> "$GITHUB_OUTPUT"
+          echo "upgrade-from=$from" >> "$GITHUB_OUTPUT"
+          echo "build types $types, upgrade from '${from}'"
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
@@ -78,7 +98,9 @@ jobs:
           ls -l apk
           "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging apk/release.apk | sed -n "s/^package: name='\([^']*\)'.*/\1/p" > apk/application-id.txt
       - name: Previous release APK, same key
-        if: env.UPGRADE_FROM != ''
+        if: steps.plan.outputs.upgrade-from != ''
+        env:
+          UPGRADE_FROM: ${{ steps.plan.outputs.upgrade-from }}
         run: |
           git worktree add "$RUNNER_TEMP/previous" "$UPGRADE_FROM"
           (cd "$RUNNER_TEMP/previous" && ./gradlew --no-daemon assembleRelease)
@@ -103,7 +125,7 @@ jobs:
       fail-fast: false
       matrix:
         api-level: [24, 35]
-        build-type: ${{ fromJSON(github.event_name == 'workflow_dispatch' && format('["{0}"]', inputs.build-type) || '["debug","release"]') }}
+        build-type: ${{ fromJSON(needs.build.outputs.build-types) }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -137,7 +159,7 @@ jobs:
 
   upgrade:
     needs: build
-    if: ${{ github.event_name != 'workflow_dispatch' || inputs.upgrade-from != '' }}
+    if: ${{ needs.build.outputs.upgrade-from != '' }}
     runs-on: ubuntu-latest
     timeout-minutes: 45
     permissions:
