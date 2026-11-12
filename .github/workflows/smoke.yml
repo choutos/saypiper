@@ -4,6 +4,9 @@ name: Emulator smoke test
 # Runs scripts/smoke/smoke.py on Android 7.0 (API 24, minSdk) and Android 15 (API 35, targetSdk):
 # create a profile, play lesson 1 of P1 (bundled clips) and of P3, restart the app, the stars remain.
 on:
+  # TEMPORARY (FRL-13): a workflow_dispatch job only exists once it is on main; removed before review.
+  push:
+    branches: ['release/FRL-13-*']
   workflow_dispatch:
     inputs:
       build-type:
