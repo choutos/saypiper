@@ -46,7 +46,7 @@
           "text": "calculator",
           "pos": "noun",
           "definition": "a small machine that works out numbers",
-          "example": "I use a {calculator} to multiply two very large numbers."
+          "example": "This pocket {calculator} has number keys and a screen for displaying sums."
         },
         {
           "id": "paragraph",
@@ -143,7 +143,7 @@
           "text": "solve",
           "pos": "verb",
           "definition": "to find the answer to a problem",
-          "example": "Can you {solve} this puzzle and find the missing number?"
+          "example": "To {solve} a puzzle means to find its correct answer."
         },
         {
           "id": "discuss",
@@ -226,7 +226,7 @@
           "text": "link",
           "pos": "noun",
           "definition": "something on a web page that opens another page when chosen",
-          "example": "The blue {link} opens the museum's booking page when clicked."
+          "example": "This {link} is a clickable web address that takes you to another page."
         }
       ]
     },
@@ -288,7 +288,7 @@
           "text": "return ticket",
           "pos": "noun",
           "definition": "a travel pass for going somewhere and coming back",
-          "example": "My {return ticket} covers both the outward train journey and the journey home."
+          "example": "This {return ticket} is a travel pass for going there and coming back."
         },
         {
           "id": "luggage",
@@ -474,7 +474,7 @@
           "text": "wildlife",
           "pos": "noun",
           "definition": "animals and plants that live freely in nature",
-          "example": "This reserve protects local {wildlife}, including foxes, owls and wild flowers."
+          "example": "Local {wildlife} consists of wild animals and plants, rather than pets or crops."
         },
         {
           "id": "litter",
@@ -516,7 +516,7 @@
           "text": "reduce",
           "pos": "verb",
           "definition": "to make something smaller in amount or size",
-          "example": "We can {reduce} water use by taking shorter showers."
+          "example": "Please {reduce} this number from ten to five, making it smaller."
         },
         {
           "id": "waste",
@@ -543,14 +543,14 @@
           "text": "documentary",
           "pos": "noun",
           "definition": "a film or programme that gives facts about real life",
-          "example": "The wildlife {documentary} uses real footage to explain how penguins survive winter."
+          "example": "The {documentary} is a factual film explaining real events, without fictional scenes or advertising."
         },
         {
           "id": "cartoon",
           "text": "cartoon",
           "pos": "noun",
           "definition": "a film or programme made from moving drawings",
-          "example": "The {cartoon} uses moving drawings of a talking purple rabbit."
+          "example": "The {cartoon} is a fictional film of moving drawings, without any advertising."
         },
         {
           "id": "headline",
@@ -571,7 +571,7 @@
           "text": "interview",
           "pos": "noun",
           "definition": "a meeting where someone asks another person questions",
-          "example": "In the radio {interview}, a reporter asks the author about her book."
+          "example": "The {interview} is a reporter's question-and-answer meeting with an author."
         },
         {
           "id": "audience",
@@ -599,14 +599,14 @@
           "text": "review",
           "pos": "noun",
           "definition": "a piece of writing giving an opinion about a book or show",
-          "example": "This film {review} gives the new comedy four stars out of five."
+          "example": "The {review} is a critic's written opinion piece, awarding the comedy four stars."
         },
         {
           "id": "channel",
           "text": "channel",
           "pos": "noun",
           "definition": "a television service that shows its own set of programmes",
-          "example": "This television {channel} shows children's programmes all afternoon."
+          "example": "Tune to this television {channel}, a numbered service broadcasting its own programmes."
         }
       ]
     },
@@ -758,7 +758,7 @@
           "text": "stage",
           "pos": "noun",
           "definition": "the raised area where people perform in a theatre",
-          "example": "The actors step onto the {stage} when the curtain rises."
+          "example": "Actors perform on {stage} in a theatre, facing the audience."
         }
       ]
     },
@@ -806,7 +806,7 @@
           "text": "change",
           "pos": "noun",
           "definition": "money returned when you pay more than something costs",
-          "example": "I paid five pounds for a three-pound book and received two pounds {change}."
+          "example": "The {change} due from my five-pound note is two pounds for a three-pound book."
         },
         {
           "id": "customer",
@@ -868,7 +868,7 @@
           "text": "pack",
           "pos": "verb",
           "definition": "to put things into a bag or case for travelling",
-          "example": "I need to {pack} my suitcase before we leave for the airport."
+          "example": "I {pack} my suitcase by putting clothes inside, ready for our holiday."
         },
         {
           "id": "unpack",
