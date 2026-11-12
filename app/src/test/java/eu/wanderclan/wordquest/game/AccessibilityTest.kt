@@ -45,6 +45,7 @@ class AccessibilityTest {
             lesson.exercises.forEach { exercise ->
                 types += exercise.type
                 when (exercise) {
+                    is TypingExercise -> fail("Unexpected secondary exercise in primary fixture")
                     is ChoiceExercise -> {
                         assertFalse(exercise.prompt is Prompt.Picture)
                         assertTrue(exercise.options.all { it is Option.Text && it.text.isNotBlank() })

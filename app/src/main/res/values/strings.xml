@@ -100,6 +100,9 @@
     <string name="lesson_listen">Listen</string>
     <string name="lesson_picture_option">Picture %1$d</string>
     <string name="lesson_pairs">Match the words and pictures</string>
+    <string name="lesson_definition_pairs">Match the words and definitions</string>
+    <string name="lesson_type">Type the word</string>
+    <string name="lesson_your_answer">Your answer</string>
     <string name="lesson_tiles">Build the word</string>
     <string name="lesson_check">Check</string>
     <string name="lesson_reset">Start again</string>

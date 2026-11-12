@@ -135,11 +135,13 @@ abstract class FamilyLayoutTest {
             val first = container.generator.generate(request, Environment({ true }, true), seed).exercises.first()
             Triple(request, seed, first)
         } }.groupBy { it.third.type }.mapValues { it.value.first() }
-        assertEquals(ExerciseType.entries.toSet(), plans.keys)
+        // FRL-20 owns typing and definition-pair layouts. Keep this matrix on primary fixtures.
+        val types = ExerciseType.entries.toSet() - ExerciseType.TYPE_THE_WORD
+        assertEquals(types, plans.keys)
         lateinit var navigation: NavHostController
         content { navigation = rememberNavController(); WordQuestRoot(container, navigation) }
         waitText("Alexandra · P3")
-        for (type in ExerciseType.entries) {
+        for (type in types) {
             val (request, seed, exercise) = plans.getValue(type)
             for (correct in listOf(true, false)) {
                 rule.runOnIdle {
@@ -160,11 +162,12 @@ abstract class FamilyLayoutTest {
 
     private fun answer(exercise: Exercise, correct: Boolean) {
         when (exercise) {
+            is TypingExercise -> error("Typing layout is covered by FRL-20")
             is ChoiceExercise -> rule.onNodeWithTag("option-${if (correct) exercise.answerIndex else (exercise.answerIndex + 1) % exercise.options.size}")
                 .performScrollTo().performClick()
             is PairsExercise -> {
-                val words = exercise.pictures.map { it.wordId }
-                exercise.pictures.forEachIndexed { index, picture ->
+                val words = exercise.meanings.map { it.wordId }
+                exercise.meanings.forEachIndexed { index, picture ->
                     val word = words[if (correct) index else (index + 1) % words.size]
                     rule.onNodeWithTag("pair-word-$word").performScrollTo().performClick()
                     rule.onNodeWithTag("pair-picture-${picture.wordId}").performScrollTo().performClick()
@@ -186,6 +189,7 @@ abstract class FamilyLayoutTest {
         val exercises = (0L..20L).flatMap { seed -> listOf("fx-pets" to 3, "fx-home" to 4).flatMap { (unit, number) ->
             forPictures(catalog, unit, number, seed)
         } }.filter { exercise -> when (exercise) {
+            is TypingExercise -> false
             is ChoiceExercise -> exercise.prompt is Prompt.Picture || exercise.options.any { it is Option.Picture }
             is PairsExercise -> true
             is TilesExercise -> exercise.prompt is Prompt.Picture
@@ -208,11 +212,12 @@ abstract class FamilyLayoutTest {
         for (exercise in exercises) {
             rule.runOnIdle { current.value = exercise }
             when (exercise) {
+                is TypingExercise -> error("Typing layout is covered by FRL-20")
                 is ChoiceExercise -> {
                     if (exercise.prompt is Prompt.Picture) neutral("Picture to name", exercise.wordId)
                     exercise.options.forEachIndexed { index, option -> if (option is Option.Picture) neutral("Picture ${index + 1}", option.wordId) }
                 }
-                is PairsExercise -> exercise.pictures.forEachIndexed { index, picture -> neutral("Picture ${index + 1}", picture.wordId) }
+                is PairsExercise -> exercise.meanings.forEachIndexed { index, picture -> neutral("Picture ${index + 1}", picture.wordId) }
                 is TilesExercise -> neutral("Picture to name", exercise.wordId)
             }
         }
@@ -235,6 +240,7 @@ abstract class FamilyLayoutTest {
         rule.onNodeWithTag("speaker").assertDoesNotExist()
         rule.onNodeWithTag("listen-replay").assertDoesNotExist()
         when (exercise) {
+            is TypingExercise -> error("Typing layout is covered by FRL-20")
             is ChoiceExercise -> rule.onNodeWithTag("option-${exercise.answerIndex}").performScrollTo().performClick()
             is TilesExercise -> {
                 val remaining = exercise.tiles.indices.toMutableList()
@@ -246,7 +252,7 @@ abstract class FamilyLayoutTest {
                 rule.onNodeWithTag("submit").performScrollTo().performClick()
             }
             is PairsExercise -> {
-                exercise.pictures.forEach {
+                exercise.meanings.forEach {
                     rule.onNodeWithTag("pair-word-${it.wordId}").performScrollTo().performClick()
                     rule.onNodeWithTag("pair-picture-${it.wordId}").performScrollTo().performClick()
                 }

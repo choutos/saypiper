@@ -47,10 +47,11 @@ class PrimaryExercisesTest {
                     }
                     is PairsExercise -> {
                         assertTrue(exercise.words.size in 4..5)
-                        assertEquals(exercise.words.map { it.wordId }.toSet(), exercise.pictures.map { it.wordId }.toSet())
+                        assertEquals(exercise.words.map { it.wordId }.toSet(), exercise.meanings.map { it.wordId }.toSet())
                         assertTrue(exercise.wordIds.all { id -> catalog.word(id)!!.unit == home.unit })
-                        assertEquals(emptySet<String>(), exercise.incorrectWords(Answer.Pairs(exercise.pictures.map { it.wordId })))
+                        assertEquals(emptySet<String>(), exercise.incorrectWords(Answer.Pairs(exercise.meanings.map { it.wordId })))
                     }
+                    is TypingExercise -> fail("Typing is secondary only")
                     is TilesExercise -> {
                         assertTrue(exercise.text.length <= 10 && exercise.text.all { it.isLetter() })
                         assertEquals(exercise.text.toList().sorted(), exercise.tiles.sorted())
@@ -59,7 +60,7 @@ class PrimaryExercisesTest {
                 }
             }
         }
-        assertTrue(types.containsAll(ExerciseType.entries - ExerciseType.PICTURE_TO_WORD))
+        assertTrue(types.containsAll(ExerciseType.entries - setOf(ExerciseType.PICTURE_TO_WORD, ExerciseType.TYPE_THE_WORD)))
     }
 
     @Test fun `tiles exclude phrases punctuation long words and unavailable prompts`() {
@@ -116,6 +117,7 @@ class PrimaryExercisesTest {
                         assertTrue(ex.prompt !is Prompt.Picture && ex.prompt != Prompt.Listening)
                         assertTrue(ex.options.all { it is Option.Text })
                     }
+                    is TypingExercise -> fail("Typing is secondary only")
                     is TilesExercise -> {
                         // With neither sound nor a perceivable picture, tiles reveal the word too.
                         assertEquals(Prompt.Text(catalog.word(ex.wordId)!!.word.text), ex.prompt)
@@ -145,6 +147,7 @@ class PrimaryExercisesTest {
                     is ChoiceExercise -> exercise.prompt == Prompt.Listening
                     is TilesExercise -> exercise.prompt == Prompt.Listening
                     is PairsExercise -> false
+                    is TypingExercise -> exercise.prompt == Prompt.Listening
                 }
                 if (!listening) {
                     found += exercise.type

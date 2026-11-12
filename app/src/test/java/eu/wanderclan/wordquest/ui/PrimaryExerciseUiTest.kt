@@ -64,10 +64,11 @@ class PrimaryExerciseUiTest {
         }
         // The test dispatcher completes decoding before idle; pictures must already exist.
         val pictureDescriptions = when (exercise) {
-            is PairsExercise -> exercise.pictures.indices.map { "Picture ${it + 1}" }
+            is PairsExercise -> exercise.meanings.indices.map { "Picture ${it + 1}" }
             is ChoiceExercise -> exercise.options.mapIndexedNotNull { index, option ->
                 if (option is Option.Picture) "Picture ${index + 1}" else null
             } + if (exercise.prompt is Prompt.Picture) listOf("Picture to name") else emptyList()
+            is TypingExercise -> emptyList()
             is TilesExercise -> if (exercise.prompt is Prompt.Picture) listOf("Picture to name") else emptyList()
         }
         pictureDescriptions.forEach { description ->
@@ -84,14 +85,15 @@ class PrimaryExerciseUiTest {
                 rule.onNodeWithTag("option-$index").performScrollTo().performClick()
             }
             is PairsExercise -> {
-                val ids = exercise.pictures.map { it.wordId }.toMutableList()
+                val ids = exercise.meanings.map { it.wordId }.toMutableList()
                 if (!right) ids[0] = ids[1].also { ids[1] = ids[0] }
-                exercise.pictures.forEachIndexed { index, picture ->
+                exercise.meanings.forEachIndexed { index, picture ->
                     rule.onNodeWithTag("pair-word-${ids[index]}").performScrollTo().performClick()
                     rule.onNodeWithTag("pair-picture-${picture.wordId}").performScrollTo().performClick()
                 }
                 rule.onNodeWithTag("submit").performScrollTo().performClick()
             }
+            is TypingExercise -> error("Typing is secondary only")
             is TilesExercise -> {
                 val remaining = exercise.tiles.indices.toMutableList()
                 val indices = exercise.text.map { char -> remaining.first { exercise.tiles[it] == char }.also { remaining.remove(it) } }.toMutableList()
@@ -120,7 +122,7 @@ class PrimaryExerciseUiTest {
         if (exercise is PairsExercise) {
             rule.onNodeWithTag("speaker").assertDoesNotExist()
             rule.runOnIdle { assertTrue(spoken.isEmpty()) }
-            exercise.pictures.forEachIndexed { index, picture ->
+            exercise.meanings.forEachIndexed { index, picture ->
                 val correct = right || index >= 2
                 rule.onNodeWithTag("pair-feedback-${picture.wordId}", useUnmergedTree = true)
                     .assertContentDescriptionEquals(if (correct) "Correct pair" else "Try this pair again")

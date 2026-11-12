@@ -12,9 +12,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -26,6 +30,7 @@ import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,9 +45,13 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import eu.wanderclan.wordquest.R
 import eu.wanderclan.wordquest.content.Band
 import eu.wanderclan.wordquest.game.Answer
@@ -53,12 +62,14 @@ import eu.wanderclan.wordquest.game.Option
 import eu.wanderclan.wordquest.game.PairsExercise
 import eu.wanderclan.wordquest.game.Prompt
 import eu.wanderclan.wordquest.game.TilesExercise
+import eu.wanderclan.wordquest.game.TypingExercise
 import kotlinx.coroutines.flow.collectLatest
 
 /** A given word may be heard immediately; an answer is heard only with feedback. */
 private val Exercise.wordIsPrompt: Boolean get() = when (this) {
     is ChoiceExercise -> type == ExerciseType.WORD_TO_PICTURE || prompt == Prompt.Listening
     is TilesExercise -> prompt == Prompt.Listening
+    is TypingExercise -> prompt == Prompt.Listening
     is PairsExercise -> false
 }
 
@@ -88,7 +99,7 @@ fun ExerciseQuestion(
     LaunchedEffect(exercise, answered) {
         if (canSayWord && (if (exercise.wordIsPrompt) !answered else answered)) say(exercise.wordId)
     }
-    Column(modifier.fillMaxSize().screenWidth().verticalScroll(scroll)) {
+    Column(modifier.fillMaxSize().screenWidth().then(if (exercise is TypingExercise) Modifier.imePadding() else Modifier).verticalScroll(scroll)) {
         Column(Modifier.fillMaxWidth().padding(horizontal = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
             if (canSayWord && (exercise.wordIsPrompt || answered)) {
@@ -100,6 +111,7 @@ fun ExerciseQuestion(
                 is ChoiceExercise -> ChoiceQuestion(exercise, response as? Answer.Choice, band, onAnswer) { onSay(exercise.wordId) }
                 is PairsExercise -> key(exercise.wordId) { PairsQuestion(exercise, response as? Answer.Pairs, onAnswer) }
                 is TilesExercise -> key(exercise.wordId) { TilesQuestion(exercise, response as? Answer.Tiles, onAnswer) { onSay(exercise.wordId) } }
+                is TypingExercise -> key(exercise.wordId) { TypingQuestion(exercise, response as? Answer.Typed, onAnswer) { onSay(exercise.wordId) } }
             }
             Spacer(Modifier.height(12.dp))
         }
@@ -109,6 +121,7 @@ fun ExerciseQuestion(
                 is ChoiceExercise -> wordText
                 is PairsExercise -> null
                 is TilesExercise -> exercise.text
+                is TypingExercise -> exercise.text
             }
             Feedback(correct, answer, onContinue)
         }
@@ -156,48 +169,78 @@ private fun ChoiceQuestion(exercise: ChoiceExercise, response: Answer.Choice?, b
 private fun PairsQuestion(exercise: PairsExercise, response: Answer.Pairs?, onAnswer: (Answer) -> Unit) {
     var selected by remember { mutableStateOf<String?>(null) }
     var matches by remember { mutableStateOf<Map<String, String>>(emptyMap()) }
-    Text(stringResource(R.string.lesson_pairs), style = MaterialTheme.typography.titleLarge)
+    val definitions = exercise.meanings.first() is Option.Text
+    val shape = if (definitions) MaterialTheme.shapes.medium else CircleShape
+    Text(stringResource(if (definitions) R.string.lesson_definition_pairs else R.string.lesson_pairs), style = MaterialTheme.typography.titleLarge)
     exercise.words.forEachIndexed { index, word ->
-        val picture = exercise.pictures[index]
-        val correct = response?.wordIds?.get(index)?.let { it == picture.wordId }
+        val meaning = exercise.meanings[index]
+        val correct = response?.wordIds?.get(index)?.let { it == meaning.wordId }
         val colours = MaterialTheme.colorScheme
         val colour = when (correct) { true -> colours.tertiaryContainer; false -> colours.errorContainer; null -> colours.surface }
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             OutlinedButton(onClick = { selected = word.wordId },
                 enabled = response == null && word.wordId !in matches.values,
+                shape = shape,
                 border = BorderStroke(if (selected == word.wordId) 3.dp else 1.dp, MaterialTheme.colorScheme.primary),
                 modifier = Modifier.weight(1f).heightIn(min = 64.dp).testTag("pair-word-${word.wordId}")) {
                 Text(word.text)
             }
             OutlinedButton(onClick = {
-                selected?.let { matches = matches + (picture.wordId to it); selected = null }
-            }, enabled = response == null && selected != null && picture.wordId !in matches,
+                selected?.let { matches = matches + (meaning.wordId to it); selected = null }
+            }, enabled = response == null && selected != null && meaning.wordId !in matches,
+                shape = shape,
                 colors = ButtonDefaults.outlinedButtonColors(disabledContainerColor = colour, disabledContentColor = colours.onSurface),
                 border = BorderStroke(if (correct == null) 1.dp else 3.dp,
                     when (correct) { true -> colours.tertiary; false -> colours.error; null -> colours.outline }),
-                contentPadding = PaddingValues(4.dp),
-                modifier = Modifier.weight(1f).heightIn(min = 64.dp).testTag("pair-picture-${picture.wordId}")) {
-                Picture(picture.emoji, stringResource(R.string.lesson_picture_option, index + 1), Modifier.size(48.dp))
-                val paired = response?.wordIds?.get(index) ?: matches[picture.wordId]
-                paired?.let { id ->
-                    Column(Modifier.weight(1f).padding(horizontal = 4.dp)) {
+                contentPadding = PaddingValues(if (definitions) 12.dp else 4.dp),
+                modifier = Modifier.weight(1f).heightIn(min = 64.dp)
+                    .testTag("pair-${if (definitions) "definition" else "picture"}-${meaning.wordId}")) {
+                if (meaning is Option.Picture) Picture(meaning.emoji, stringResource(R.string.lesson_picture_option, index + 1), Modifier.size(48.dp))
+                val paired = response?.wordIds?.get(index) ?: matches[meaning.wordId]
+                if (meaning is Option.Text || paired != null) Column(Modifier.weight(1f).padding(horizontal = 4.dp)) {
+                    if (meaning is Option.Text) Text(meaning.text)
+                    paired?.let { id ->
                         Text(exercise.words.first { it.wordId == id }.text)
                         if (correct == false) Text(
-                            stringResource(R.string.lesson_pair_answer, exercise.words.first { it.wordId == picture.wordId }.text),
+                            stringResource(R.string.lesson_pair_answer, exercise.words.first { it.wordId == meaning.wordId }.text),
                             style = MaterialTheme.typography.bodySmall,
-                            modifier = Modifier.testTag("pair-answer-${picture.wordId}"),
+                            modifier = Modifier.testTag("pair-answer-${meaning.wordId}"),
                         )
                     }
                 }
                 if (correct != null) Icon(if (correct) Icons.Filled.Check else Icons.Filled.Close,
                     stringResource(if (correct) R.string.lesson_pair_right else R.string.lesson_pair_wrong),
-                    Modifier.size(24.dp).testTag("pair-feedback-${picture.wordId}"))
+                    Modifier.size(24.dp).testTag("pair-feedback-${meaning.wordId}"))
             }
         }
     }
     AnswerControls(matches.size == exercise.words.size, response != null,
         { matches = emptyMap(); selected = null },
-        { onAnswer(Answer.Pairs(exercise.pictures.map { matches.getValue(it.wordId) })) })
+        { onAnswer(Answer.Pairs(exercise.meanings.map { matches.getValue(it.wordId) })) })
+}
+
+@Composable
+private fun TypingQuestion(exercise: TypingExercise, response: Answer.Typed?, onAnswer: (Answer) -> Unit, onReplay: () -> Unit) {
+    var text by remember { mutableStateOf("") }
+    val focus = LocalFocusManager.current
+    val submit = {
+        if (response == null && text.isNotBlank()) {
+            focus.clearFocus()
+            onAnswer(Answer.Typed(text))
+        }
+    }
+    Text(stringResource(R.string.lesson_type), style = MaterialTheme.typography.titleLarge)
+    QuestionPrompt(exercise.prompt, onReplay)
+    OutlinedTextField(
+        value = text, onValueChange = { text = it }, readOnly = response != null, singleLine = true,
+        label = { Text(stringResource(R.string.lesson_your_answer)) },
+        // Password input suppresses keyboard suggestions; the answer remains visibly plain text.
+        keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.None, autoCorrectEnabled = false,
+            keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
+        keyboardActions = KeyboardActions(onDone = { submit() }),
+        modifier = Modifier.fillMaxWidth().testTag("typed-answer"),
+    )
+    AnswerControls(text.isNotBlank(), response != null, { text = "" }, submit)
 }
 
 @OptIn(ExperimentalLayoutApi::class)
