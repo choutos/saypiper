@@ -281,7 +281,7 @@
           "text": "challenge",
           "pos": "verb",
           "definition": "to question whether something is right or true",
-          "example": "We {challenge} that claim as false, showing penguins as birds that cannot fly."
+          "example": "Pointing to penguins, we {challenge} the claim that all birds fly."
         },
         {
           "id": "clarify",
@@ -667,7 +667,7 @@
           "id": "inclusion",
           "text": "inclusion",
           "pos": "noun",
-          "definition": "making sure everyone can take part and feels welcome",
+          "definition": "being made part of a group or activity",
           "example": "Her {inclusion} on the team list meant she could take part in every game."
         },
         {
@@ -903,7 +903,7 @@
           "text": "cheerful",
           "pos": "adjective",
           "definition": "feeling happy and showing it",
-          "example": "I felt {cheerful} this morning, smiling and humming because everything seemed happy."
+          "example": "I felt {cheerful} this morning, smiling and humming a happy tune."
         },
         {
           "id": "considerate",
