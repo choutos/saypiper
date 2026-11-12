@@ -2,6 +2,8 @@ package eu.wanderclan.wordquest.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -16,7 +18,6 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -39,15 +40,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -102,7 +106,8 @@ fun ExerciseQuestion(
     Column(modifier.fillMaxSize().screenWidth().then(if (exercise is TypingExercise) Modifier.imePadding() else Modifier).verticalScroll(scroll)) {
         Column(Modifier.fillMaxWidth().padding(horizontal = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            if (canSayWord && (exercise.wordIsPrompt || answered)) {
+            if (canSayWord && (exercise.wordIsPrompt || answered) &&
+                !(exercise is TypingExercise && exercise.prompt == Prompt.Listening)) {
                 FilledTonalIconButton(onClick = { onSay(exercise.wordId) }, modifier = Modifier.size(64.dp).testTag("speaker")) {
                     Icon(painterResource(R.drawable.ic_speaker), stringResource(R.string.speech_say))
                 }
@@ -170,48 +175,68 @@ private fun PairsQuestion(exercise: PairsExercise, response: Answer.Pairs?, onAn
     var selected by remember { mutableStateOf<String?>(null) }
     var matches by remember { mutableStateOf<Map<String, String>>(emptyMap()) }
     val definitions = exercise.meanings.first() is Option.Text
-    val shape = if (definitions) MaterialTheme.shapes.medium else CircleShape
+    val shape = MaterialTheme.shapes.medium
+    val textMeasurer = rememberTextMeasurer()
+    val labelStyle = MaterialTheme.typography.labelLarge
+    val widestWord = remember(exercise.words, exercise.meanings, textMeasurer, labelStyle) {
+        (exercise.words.map { it.text } + exercise.meanings.filterIsInstance<Option.Text>().map { it.text })
+            .flatMap { it.split(Regex("\\s+")) }
+            .maxOf { textMeasurer.measure(it, style = labelStyle, softWrap = false).size.width }
+    }
     Text(stringResource(if (definitions) R.string.lesson_definition_pairs else R.string.lesson_pairs), style = MaterialTheme.typography.titleLarge)
     exercise.words.forEachIndexed { index, word ->
         val meaning = exercise.meanings[index]
         val correct = response?.wordIds?.get(index)?.let { it == meaning.wordId }
         val colours = MaterialTheme.colorScheme
         val colour = when (correct) { true -> colours.tertiaryContainer; false -> colours.errorContainer; null -> colours.surface }
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            OutlinedButton(onClick = { selected = word.wordId },
-                enabled = response == null && word.wordId !in matches.values,
-                shape = shape,
-                border = BorderStroke(if (selected == word.wordId) 3.dp else 1.dp, MaterialTheme.colorScheme.primary),
-                modifier = Modifier.weight(1f).heightIn(min = 64.dp).testTag("pair-word-${word.wordId}")) {
-                Text(word.text)
-            }
-            OutlinedButton(onClick = {
-                selected?.let { matches = matches + (meaning.wordId to it); selected = null }
-            }, enabled = response == null && selected != null && meaning.wordId !in matches,
-                shape = shape,
-                colors = ButtonDefaults.outlinedButtonColors(disabledContainerColor = colour, disabledContentColor = colours.onSurface),
-                border = BorderStroke(if (correct == null) 1.dp else 3.dp,
-                    when (correct) { true -> colours.tertiary; false -> colours.error; null -> colours.outline }),
-                contentPadding = PaddingValues(if (definitions) 12.dp else 4.dp),
-                modifier = Modifier.weight(1f).heightIn(min = 64.dp)
-                    .testTag("pair-${if (definitions) "definition" else "picture"}-${meaning.wordId}")) {
-                if (meaning is Option.Picture) Picture(meaning.emoji, stringResource(R.string.lesson_picture_option, index + 1), Modifier.size(48.dp))
-                val paired = response?.wordIds?.get(index) ?: matches[meaning.wordId]
-                if (meaning is Option.Text || paired != null) Column(Modifier.weight(1f).padding(horizontal = 4.dp)) {
-                    if (meaning is Option.Text) Text(meaning.text)
-                    paired?.let { id ->
-                        Text(exercise.words.first { it.wordId == id }.text)
-                        if (correct == false) Text(
-                            stringResource(R.string.lesson_pair_answer, exercise.words.first { it.wordId == meaning.wordId }.text),
-                            style = MaterialTheme.typography.bodySmall,
-                            modifier = Modifier.testTag("pair-answer-${meaning.wordId}"),
-                        )
+        BoxWithConstraints(Modifier.fillMaxWidth()) {
+            // Reserve both buttons' padding and the definition feedback icon before measuring.
+            // Use the same layout before and after Check so feedback cannot squeeze a word.
+            val reservedWidth = if (definitions) 52.dp else 24.dp
+            val wordWidth = with(LocalDensity.current) { ((maxWidth - 12.dp) / 2 - reservedWidth).toPx().toInt() }
+            val stacked = widestWord > wordWidth
+            val choices: @Composable (Modifier) -> Unit = { choiceModifier ->
+                OutlinedButton(onClick = { selected = word.wordId },
+                    enabled = response == null && word.wordId !in matches.values,
+                    shape = shape,
+                    contentPadding = PaddingValues(12.dp),
+                    border = BorderStroke(if (selected == word.wordId) 3.dp else 1.dp, MaterialTheme.colorScheme.primary),
+                    modifier = choiceModifier.heightIn(min = 64.dp).testTag("pair-word-${word.wordId}")) {
+                    Text(word.text)
+                }
+                OutlinedButton(onClick = {
+                    selected?.let { matches = matches + (meaning.wordId to it); selected = null }
+                }, enabled = response == null && selected != null && meaning.wordId !in matches,
+                    shape = shape,
+                    colors = ButtonDefaults.outlinedButtonColors(disabledContainerColor = colour, disabledContentColor = colours.onSurface),
+                    border = BorderStroke(if (correct == null) 1.dp else 3.dp,
+                        when (correct) { true -> colours.tertiary; false -> colours.error; null -> colours.outline }),
+                    contentPadding = PaddingValues(12.dp),
+                    modifier = choiceModifier.heightIn(min = 64.dp)
+                        .testTag("pair-${if (definitions) "definition" else "picture"}-${meaning.wordId}")) {
+                    Box(Modifier.fillMaxWidth()) {
+                        Column(Modifier.fillMaxWidth().padding(end = if (definitions && correct != null) 28.dp else 0.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally) {
+                            if (meaning is Option.Picture) Picture(meaning.emoji, stringResource(R.string.lesson_picture_option, index + 1), Modifier.size(48.dp))
+                            if (meaning is Option.Text) Text(meaning.text)
+                            val paired = response?.wordIds?.get(index) ?: matches[meaning.wordId]
+                            paired?.let { id ->
+                                Text(exercise.words.first { it.wordId == id }.text)
+                                if (correct == false) Text(
+                                    stringResource(R.string.lesson_pair_answer, exercise.words.first { it.wordId == meaning.wordId }.text),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    modifier = Modifier.testTag("pair-answer-${meaning.wordId}"),
+                                )
+                            }
+                        }
+                        if (correct != null) Icon(if (correct) Icons.Filled.Check else Icons.Filled.Close,
+                            stringResource(if (correct) R.string.lesson_pair_right else R.string.lesson_pair_wrong),
+                            Modifier.align(Alignment.TopEnd).size(24.dp).testTag("pair-feedback-${meaning.wordId}"))
                     }
                 }
-                if (correct != null) Icon(if (correct) Icons.Filled.Check else Icons.Filled.Close,
-                    stringResource(if (correct) R.string.lesson_pair_right else R.string.lesson_pair_wrong),
-                    Modifier.size(24.dp).testTag("pair-feedback-${meaning.wordId}"))
             }
+            if (stacked) Column(verticalArrangement = Arrangement.spacedBy(8.dp)) { choices(Modifier.fillMaxWidth()) }
+            else Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) { choices(Modifier.weight(1f)) }
         }
     }
     AnswerControls(matches.size == exercise.words.size, response != null,
@@ -221,7 +246,7 @@ private fun PairsQuestion(exercise: PairsExercise, response: Answer.Pairs?, onAn
 
 @Composable
 private fun TypingQuestion(exercise: TypingExercise, response: Answer.Typed?, onAnswer: (Answer) -> Unit, onReplay: () -> Unit) {
-    var text by remember { mutableStateOf("") }
+    var text by rememberSaveable { mutableStateOf("") }
     val focus = LocalFocusManager.current
     val submit = {
         if (response == null && text.isNotBlank()) {
@@ -231,6 +256,7 @@ private fun TypingQuestion(exercise: TypingExercise, response: Answer.Typed?, on
     }
     Text(stringResource(R.string.lesson_type), style = MaterialTheme.typography.titleLarge)
     QuestionPrompt(exercise.prompt, onReplay)
+    exercise.clue?.let { QuestionPrompt(it, onReplay) }
     OutlinedTextField(
         value = text, onValueChange = { text = it }, readOnly = response != null, singleLine = true,
         label = { Text(stringResource(R.string.lesson_your_answer)) },

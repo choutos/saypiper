@@ -6,6 +6,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.test.*
+import androidx.compose.ui.test.junit4.StateRestorationTester
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.github.takahirom.roborazzi.captureRoboImage
@@ -48,7 +49,8 @@ class SecondaryExerciseUiTest {
         rule.onNodeWithTag("typed-answer").performTextInput("  ")
         rule.onNodeWithTag("submit").assertIsNotEnabled()
         rule.onNodeWithTag("reset").performScrollTo().performClick()
-        rule.onNodeWithTag("typed-answer").assertTextContains("")
+        rule.onNodeWithTag("typed-answer").assert(SemanticsMatcher.expectValue(
+            androidx.compose.ui.semantics.SemanticsProperties.EditableText, androidx.compose.ui.text.AnnotatedString("")))
         rule.onNodeWithTag("typed-answer").performClick()
         rule.runOnIdle {
             val info = EditorInfo()
@@ -129,14 +131,50 @@ class SecondaryExerciseUiTest {
     @Test fun definitionPairsRight() = pairs(true)
     @Test fun definitionPairsWrong() = pairs(false)
 
-    @Test fun spokenTypingHasAutomaticSpeechAndReplay() {
-        val exercise = TypingExercise("proud", Prompt.Listening, "proud")
-        val spoken = mutableListOf<String>()
-        rule.setContent {
-            WordQuestTheme { ExerciseQuestion(exercise, null, Band.D, true, { spoken += it }, {}, {}, exercise.text) }
+    @Test fun typedAnswerSurvivesRecreationAndNextQuestionStartsEmpty() {
+        val exercise = exercises.filterIsInstance<TypingExercise>().first()
+        val restoration = StateRestorationTester(rule)
+        var position by mutableStateOf(0)
+        restoration.setContent {
+            WordQuestTheme { key(position) {
+                ExerciseQuestion(exercise, null, Band.C, false, {}, {}, {}, exercise.text)
+            } }
         }
+        rule.onNodeWithTag("typed-answer").performTextInput("partly typed")
+        restoration.emulateSavedInstanceStateRestore()
+        rule.onNodeWithTag("typed-answer").assertTextContains("partly typed")
+        rule.runOnIdle { position++ }
+        rule.onNodeWithTag("typed-answer").assert(SemanticsMatcher.expectValue(
+            androidx.compose.ui.semantics.SemanticsProperties.EditableText, androidx.compose.ui.text.AnnotatedString("")))
+    }
+
+    @Test fun dictationRight() = dictation(true)
+    @Test fun dictationWrong() = dictation(false)
+
+    private fun dictation(right: Boolean) {
+        val exercise = TypingExercise("proud", Prompt.Listening, "proud", Prompt.Text("happy about something you have done well"))
+        val spoken = mutableListOf<String>()
+        var response by mutableStateOf<Answer?>(null)
+        rule.setContent {
+            WordQuestTheme { ExerciseQuestion(exercise, response, Band.D, true, { spoken += it }, { response = it }, {}, exercise.text) }
+        }
+        rule.onNodeWithTag("prompt").assertTextEquals((exercise.clue as Prompt.Text).text)
         rule.runOnIdle { assertEquals(listOf("proud"), spoken) }
         rule.onNodeWithTag("listen-replay").performClick()
         rule.runOnIdle { assertEquals(listOf("proud", "proud"), spoken) }
+        rule.onNodeWithTag("typed-answer").performTextInput(if (right) "proud" else "prout")
+        rule.onNodeWithTag("submit").performScrollTo().performClick()
+        rule.onNodeWithText(if (right) "Well done!" else "Not quite. It is: proud").assertExists()
+        rule.runOnIdle { assertEquals(right, exercise.incorrectWords(response!!).isEmpty()) }
+    }
+
+    @Test fun pictureDictationShowsItsClue() {
+        val exercise = TypingExercise("mouse", Prompt.Listening, "mouse", Prompt.Picture("🐭"))
+        val pictures = androidx.test.core.app.ApplicationProvider.getApplicationContext<TestWordQuestApplication>().container.pictures
+        rule.setContent { CompositionLocalProvider(LocalPictures provides pictures) {
+            WordQuestTheme { ExerciseQuestion(exercise, null, Band.C, true, {}, {}, {}, exercise.text) }
+        } }
+        rule.onNodeWithContentDescription("Picture to name").assertExists()
+        rule.onNodeWithTag("listen-replay").assertExists()
     }
 }

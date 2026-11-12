@@ -66,8 +66,11 @@ class LessonGenerator(private val catalog: Catalog) {
         val word = home.word
         val band = home.gradePack.band
         if (type == ExerciseType.TYPE_THE_WORD) {
-            val prompt = word.definition?.let { Prompt.Text(it) } ?: Prompt.Listening
-            return TypingExercise(word.id, prompt, word.text)
+            val clue = word.definition?.let { Prompt.Text(it) }
+                ?: Prompt.Picture(requireNotNull(word.emoji))
+            val dictation = environment.speechAvailable(word) && (word.definition == null || random.nextInt(3) == 0)
+            return TypingExercise(word.id, if (dictation) Prompt.Listening else clue, word.text,
+                clue.takeIf { dictation })
         }
         if (type == ExerciseType.SPELL_WITH_TILES) {
             val tiles = word.text.toList().shuffled(random).toMutableList()
@@ -115,6 +118,8 @@ class LessonGenerator(private val catalog: Catalog) {
             (exercise is TilesExercise && exercise.prompt == Prompt.Listening) ||
             (exercise is TypingExercise && exercise.prompt == Prompt.Listening)
         if (!needsSpeech) return exercise
+        // A dictation's clue is safe for both the current question and every queued question.
+        if (exercise is TypingExercise && exercise.clue != null) return exercise.copy(prompt = exercise.clue, clue = null)
         val home = requireNotNull(catalog.word(exercise.wordId))
         if (showWord) return when (exercise) {
             is ChoiceExercise -> exercise.copy(
@@ -122,7 +127,7 @@ class LessonGenerator(private val catalog: Catalog) {
                 prompt = Prompt.Text(home.word.text),
             )
             is TilesExercise -> exercise.copy(prompt = Prompt.Text(home.word.text))
-            is TypingExercise -> exercise.copy(prompt = Prompt.Text(home.word.definition ?: home.word.text))
+            is TypingExercise -> exercise.copy(prompt = exercise.clue ?: Prompt.Text(home.word.definition ?: home.word.text), clue = null)
             is PairsExercise -> exercise
         }
         val types = ExerciseType.entries.filter {
