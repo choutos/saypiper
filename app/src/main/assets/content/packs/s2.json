@@ -246,14 +246,14 @@
           "text": "however",
           "pos": "adverb",
           "definition": "used to introduce a different or surprising point",
-          "example": "The room was tiny; {however}, it felt surprisingly spacious."
+          "example": "The room was tiny; {however}, it felt surprisingly big."
         },
         {
           "id": "therefore",
           "text": "therefore",
           "pos": "adverb",
           "definition": "for that reason, as a result of what was just said",
-          "example": "The bus has run out of fuel; {therefore}, it cannot leave."
+          "example": "The bus has no fuel left; {therefore}, it cannot leave."
         },
         {
           "id": "unless",
