@@ -653,8 +653,8 @@
           "id": "subtitle",
           "text": "subtitle",
           "pos": "noun",
-          "definition": "a line of text showing what someone says in a film",
-          "example": "Each {subtitle} translates one spoken line of the foreign-language film into English."
+          "definition": "a second title that adds information to a book's main title",
+          "example": "The book's {subtitle}, a second title beneath the main one, explains its subject."
         },
         {
           "id": "publish",
