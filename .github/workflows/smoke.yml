@@ -1,8 +1,10 @@
 name: Emulator smoke test
 
-# Manual only: two emulators cost about 30 runner minutes on a private repo (ADR section 10).
-# Builds the debug APK and the R8 release APK, then runs scripts/smoke/smoke.py on the chosen one on Android 7.0 (API 24, minSdk) and Android 15 (API 35, targetSdk):
-# create a profile, play lesson 1 of P1 (bundled clips) and of P3, restart the app, the stars remain.
+# Manual only: each emulator costs about 15 runner minutes on a private repo (ADR section 10).
+# Builds the debug APK and the R8 release APK, then runs scripts/smoke/smoke.py on the chosen one on
+# Android 7.0 (API 24, minSdk) and Android 15 (API 35, targetSdk): create a profile, play lesson 1 of P1
+# (bundled clips) and of P3, restart the app, the stars remain. With upgrade-from, Android 15 also installs
+# the release APK over one built from that ref with the same key and checks that the stars survive.
 on:
   # TEMPORARY (FRL-13): a workflow_dispatch job only exists once it is on main; removed before review.
   push:
@@ -14,10 +16,17 @@ on:
         type: choice
         options: [release, debug]
         default: release
+      upgrade-from:
+        description: Upgrade test from this tag or commit (empty to skip); it must have the same application id
+        type: string
+        default: ''
 
 concurrency:
   group: smoke-${{ github.ref }}
   cancel-in-progress: true
+
+env:
+  UPGRADE_FROM: ${{ github.event_name == 'workflow_dispatch' && inputs.upgrade-from || 'HEAD~1' }}
 
 jobs:
   build:
@@ -27,6 +36,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/cache@v4
         with:
           path: ~/.cache/android-toolchain
@@ -63,6 +74,13 @@ jobs:
           scripts/release/check-apk.sh apk/release.apk --signed
           ls -l apk
           "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging apk/release.apk | sed -n "s/^package: name='\([^']*\)'.*/\1/p" > apk/application-id.txt
+      - name: Previous release APK, same key
+        if: env.UPGRADE_FROM != ''
+        run: |
+          git worktree add "$RUNNER_TEMP/previous" "$UPGRADE_FROM"
+          (cd "$RUNNER_TEMP/previous" && ./gradlew --no-daemon assembleRelease)
+          cp "$RUNNER_TEMP/previous/app/build/outputs/apk/release/app-release.apk" apk/previous.apk
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging apk/previous.apk | head -1
       - uses: actions/upload-artifact@v4
         with:
           name: smoke-apk
@@ -82,7 +100,7 @@ jobs:
       fail-fast: false
       matrix:
         api-level: [24, 35]
-        build-type: ${{ fromJSON(github.event_name == 'workflow_dispatch' && format('["{0}"]', inputs.build-type) || '["debug","release"]') }}
+        build-type: ${{ fromJSON(github.event_name == 'workflow_dispatch' && format('["{0}"]', inputs.build-type) || '["release"]') }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
@@ -111,3 +129,43 @@ jobs:
         with:
           name: smoke-${{ matrix.build-type }}-api-${{ matrix.api-level }}
           path: smoke-${{ matrix.build-type }}-api-${{ matrix.api-level }}/
+
+  upgrade:
+    needs: build
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.upgrade-from != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: smoke-apk
+          path: apk
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: default
+          arch: x86_64
+          profile: pixel_6
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -no-boot-anim -no-snapshot
+          script: |
+            adb install apk/previous.apk
+            adb shell dumpsys package "$(cat apk/application-id.txt)" | grep -E 'versionCode|lastUpdateTime' | tee smoke-upgrade-before.txt
+            python3 scripts/smoke/smoke.py play --package "$(cat apk/application-id.txt)" --out smoke-upgrade
+            adb install -r apk/release.apk
+            adb shell dumpsys package "$(cat apk/application-id.txt)" | grep -E 'versionCode|lastUpdateTime' | tee smoke-upgrade-after.txt
+            python3 scripts/smoke/smoke.py verify --package "$(cat apk/application-id.txt)" --out smoke-upgrade
+            mv smoke-upgrade-before.txt smoke-upgrade-after.txt smoke-upgrade/
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: smoke-upgrade
+          path: smoke-upgrade/

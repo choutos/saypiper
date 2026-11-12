@@ -65,12 +65,30 @@ class Device:
                 except ET.ParseError:
                     time.sleep(1)
                     continue
+                if self.dismiss_system_dialog(root):
+                    continue
                 nodes = []
                 self.collect(root, nodes)
                 self.last_xml = xml
                 return nodes
             time.sleep(1)
         raise SmokeFailure(f"uiautomator dump failed: {output}")
+
+    def dismiss_system_dialog(self, root) -> bool:
+        """A slow emulator can show "<something> isn't responding" over the app. That is the emulator,
+        not the app (an app crash or ANR names the app and is caught from the crash log): wait."""
+        elements = list(root.iter("node"))
+        dialog = next((e.get("text") for e in elements if e.get("package") == "android" and "isn't responding" in e.get("text", "")), None)
+        wait = next((e for e in elements if e.get("package") == "android" and e.get("text") == "Wait"), None)
+        if dialog is None or wait is None:
+            return False
+        if self.package in dialog or "SayPiper" in dialog:
+            raise SmokeFailure(f"the app is not responding: {dialog}")
+        self.say(f"system dialog dismissed: {dialog}")
+        x1, y1, x2, y2 = map(int, re.findall(r"\d+", wait.get("bounds")))
+        self.shell("input", "tap", str((x1 + x2) // 2), str((y1 + y2) // 2))
+        time.sleep(2)
+        return True
 
     def collect(self, element, nodes: list) -> list:
         """Flattens the dump. Compose reports a button's text on child nodes, so each node also gets a
@@ -321,9 +339,9 @@ def main() -> int:
     except SmokeFailure as failure:
         device.say(f"FAILED: {failure}")
     finally:
-        (args.out / "logcat.txt").write_text(device.adb("logcat", "-d", "-v", "threadtime", check=False), encoding="utf-8")
+        (args.out / f"logcat-{args.mode}.txt").write_text(device.adb("logcat", "-d", "-v", "threadtime", check=False), encoding="utf-8")
         crashes = device.adb("logcat", "-d", "-b", "crash", check=False)
-        (args.out / "logcat-crash.txt").write_text(crashes, encoding="utf-8")
+        (args.out / f"logcat-crash-{args.mode}.txt").write_text(crashes, encoding="utf-8")
         if device.package in crashes:
             device.say("FAILED: the crash log names the app")
             ok = False
