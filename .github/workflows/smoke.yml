@@ -1,0 +1,89 @@
+name: Emulator smoke test
+
+# Manual only: two emulators cost about 30 runner minutes on a private repo (ADR section 10).
+# Runs scripts/smoke/smoke.py on Android 7.0 (API 24, minSdk) and Android 15 (API 35, targetSdk):
+# create a profile, play lesson 1 of P1 (bundled clips) and of P3, restart the app, the stars remain.
+on:
+  workflow_dispatch:
+    inputs:
+      build-type:
+        description: Build type to test
+        type: choice
+        options: [debug]
+        default: debug
+
+concurrency:
+  group: smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/android-toolchain
+          key: android-toolchain-${{ hashFiles('scripts/setup-toolchain.sh') }}
+      - name: Toolchain
+        run: |
+          scripts/setup-toolchain.sh
+          scripts/setup-toolchain.sh --print-env | sed -e 's/^export //' -e 's/"//g' | grep -v '^PATH=' >> "$GITHUB_ENV"
+          echo "ANDROID_SDK_ROOT=$HOME/.cache/android-toolchain/sdk" >> "$GITHUB_ENV"
+          echo "$HOME/.cache/android-toolchain/jdk-17/bin" >> "$GITHUB_PATH"
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Build
+        run: ./gradlew --no-daemon assembleDebug
+      - name: Application id
+        run: |
+          aapt="$ANDROID_HOME/build-tools/35.0.0/aapt"
+          "$aapt" dump badging app/build/outputs/apk/debug/app-debug.apk | head -3
+          "$aapt" dump badging app/build/outputs/apk/debug/app-debug.apk | sed -n "s/^package: name='\([^']*\)'.*/\1/p" > application-id.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: smoke-apk
+          path: |
+            app/build/outputs/apk/debug/app-debug.apk
+            application-id.txt
+
+  emulator:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        api-level: [24, 35]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: smoke-apk
+          path: apk
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          target: default
+          arch: x86_64
+          profile: pixel_6
+          disable-animations: true
+          # Audio stays on: P1 plays bundled clips through MediaPlayer, and a failed clip changes the lesson.
+          emulator-options: -no-window -gpu swiftshader_indirect -no-boot-anim -no-snapshot
+          script: |
+            adb install -r apk/app/build/outputs/apk/debug/app-debug.apk
+            python3 scripts/smoke/smoke.py play --package "$(cat apk/application-id.txt)" --out smoke-api-${{ matrix.api-level }}
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: smoke-api-${{ matrix.api-level }}
+          path: smoke-api-${{ matrix.api-level }}/
