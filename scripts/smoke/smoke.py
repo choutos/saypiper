@@ -66,20 +66,31 @@ class Device:
                     time.sleep(1)
                     continue
                 nodes = []
-                for element in root.iter("node"):
-                    if element.get("package") != self.package:
-                        continue
-                    x1, y1, x2, y2 = map(int, re.findall(r"\d+", element.get("bounds", "[0,0][0,0]")))
-                    nodes.append({
-                        "text": element.get("text", ""), "desc": element.get("content-desc", ""),
-                        "class": element.get("class", ""), "clickable": element.get("clickable") == "true",
-                        "enabled": element.get("enabled") == "true", "bounds": (x1, y1, x2, y2),
-                    })
-                    self.width = max(self.width, x2)
+                self.collect(root, nodes)
                 self.last_xml = xml
                 return nodes
             time.sleep(1)
         raise SmokeFailure(f"uiautomator dump failed: {output}")
+
+    def collect(self, element, nodes: list) -> list:
+        """Flattens the dump. Compose reports a button's text on child nodes, so each node also gets a
+        label: its own text and description and those of its descendants up to the next clickable node."""
+        labels = []
+        for child in element.findall("node"):
+            labels += self.collect(child, nodes)
+        if element.tag != "node" or element.get("package") != self.package:
+            return labels
+        own = [v for v in (element.get("text", ""), element.get("content-desc", "")) if v]
+        x1, y1, x2, y2 = map(int, re.findall(r"\d+", element.get("bounds", "[0,0][0,0]")))
+        node = {
+            "text": element.get("text", ""), "desc": element.get("content-desc", ""),
+            "class": element.get("class", ""), "clickable": element.get("clickable") == "true",
+            "enabled": element.get("enabled") == "true", "bounds": (x1, y1, x2, y2),
+            "label": " ".join(own + labels),
+        }
+        nodes.append(node)
+        self.width = max(self.width, x2)
+        return [] if node["clickable"] else own + labels
 
     def screenshot(self, name: str):
         self.step += 1
@@ -145,7 +156,7 @@ def play_lesson(device: Device, label: str) -> dict:
     typed = False
     for _ in range(300):
         nodes = device.dump()
-        texts = {n["text"] for n in nodes} | {n["desc"] for n in nodes}
+        texts = {n["text"] for n in nodes} | {n["desc"] for n in nodes} | {n["label"] for n in nodes}
         if "Lesson complete!" not in texts and "Stop the lesson" not in texts:
             time.sleep(0.5)  # Still on the path, or between screens.
             continue
@@ -168,7 +179,7 @@ def play_lesson(device: Device, label: str) -> dict:
                 seen["speaker_after_answer"] += 1
             if seen["questions"] <= 2:
                 device.screenshot(f"{label}-feedback-{seen['questions']}")
-            continue_button = next((n for n in nodes if n["text"] == "Continue" and n["enabled"]), None)
+            continue_button = next((n for n in nodes if n["label"] == "Continue" and n["clickable"] and n["enabled"]), None)
             if continue_button is None:
                 device.scroll_down()
             else:
@@ -176,9 +187,8 @@ def play_lesson(device: Device, label: str) -> dict:
             continue
         if seen["questions"] < 2:
             device.screenshot(f"{label}-question-{seen['questions'] + 1}")
-        clickable = [n for n in nodes if n["clickable"] and n["enabled"]
-                     and n["text"] not in NOT_OPTIONS and n["desc"] not in NOT_OPTIONS]
-        check = next((n for n in nodes if n["text"] == "Check" and n["enabled"]), None)
+        clickable = [n for n in nodes if n["clickable"] and n["enabled"] and n["label"] not in NOT_OPTIONS]
+        check = next((n for n in nodes if n["label"] == "Check" and n["clickable"] and n["enabled"]), None)
         edit = next((n for n in nodes if "EditText" in n["class"]), None)
         if edit is not None:
             seen["types"].add("typing")
@@ -193,7 +203,7 @@ def play_lesson(device: Device, label: str) -> dict:
             continue
         if "Build the word" in texts:
             seen["types"].add("tiles")
-            tiles = [n for n in clickable if len(n["text"]) == 1]
+            tiles = [n for n in clickable if len(n["label"]) == 1]
             for tile in tiles:
                 device.tap(tile)
             if not tiles:
@@ -202,11 +212,11 @@ def play_lesson(device: Device, label: str) -> dict:
         if "Match the words and pictures" in texts or "Match the words and definitions" in texts:
             seen["types"].add("pairs")
             middle = (device.width or 1080) // 2
-            words = [n for n in clickable if n["bounds"][2] <= middle + 10 and n["text"]]
+            words = [n for n in clickable if n["bounds"][2] <= middle + 10 and n["label"]]
             if words:
                 device.tap(words[0])
                 meanings = [n for n in device.dump() if n["clickable"] and n["enabled"] and n["bounds"][0] >= middle - 10
-                            and n["text"] not in NOT_OPTIONS and n["desc"] not in NOT_OPTIONS]
+                            and n["label"] not in NOT_OPTIONS]
                 if not meanings:
                     raise SmokeFailure("pairs: no meaning could be chosen")
                 device.tap(meanings[0])
@@ -214,8 +224,8 @@ def play_lesson(device: Device, label: str) -> dict:
                 device.tap(check) if check else device.scroll_down()
             continue
         if clickable:
-            seen["types"].add("choice-picture" if clickable[0]["desc"].startswith("Picture") else "choice-text")
-            device.tap(next((n for n in clickable if n["text"] in known_answers), clickable[0]))
+            seen["types"].add("choice-picture" if clickable[0]["label"].startswith("Picture") else "choice-text")
+            device.tap(next((n for n in clickable if n["label"] in known_answers), clickable[0]))
             continue
         device.scroll_down()
     raise SmokeFailure(f"{label}: the lesson did not finish after 300 screens")
@@ -234,10 +244,10 @@ def play(device: Device, state_path: Path) -> dict:
     edit = device.wait(lambda n: "EditText" in n["class"], "the nickname field")
     device.tap(edit)
     device.shell("input", "text", "Mia")
-    avatar = device.wait(lambda n: n["desc"].startswith("Avatar: ") and n["clickable"], "an avatar")
+    avatar = device.wait(lambda n: n["label"].startswith("Avatar: ") and n["clickable"], "an avatar")
     device.tap(avatar)
     device.screenshot("new-player")
-    create = device.wait(lambda n: n["text"] == "Let's go", "Let's go")
+    create = device.wait(lambda n: n["label"] == "Let's go" and n["clickable"], "Let's go")
     if not create["enabled"]:
         raise SmokeFailure("Let's go is disabled after a nickname and an avatar were given")
     device.tap(create)

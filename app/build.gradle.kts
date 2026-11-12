@@ -23,7 +23,30 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes { release { isMinifyEnabled = false } }
+    // Release signing comes from CI secrets, never from the repo (FRL-13). Without them the release APK is
+    // unsigned: that is what F-Droid builds from source before signing it.
+    val releaseStoreFile = System.getenv("RELEASE_STORE_FILE")
+    signingConfigs {
+        if (releaseStoreFile != null) create("release") {
+            storeFile = file(releaseStoreFile)
+            storePassword = System.getenv("RELEASE_STORE_PASSWORD")
+            keyAlias = System.getenv("RELEASE_KEY_ALIAS")
+            keyPassword = System.getenv("RELEASE_KEY_PASSWORD")
+        }
+    }
+    buildTypes {
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            if (releaseStoreFile != null) signingConfig = signingConfigs.getByName("release")
+        }
+    }
+    // F-Droid rejects the encrypted dependency list AGP adds to the signing block; nothing reads it here.
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -50,15 +73,17 @@ android {
 
 room { schemaDirectory("$projectDir/schemas") }
 
-// The manifest test reads the merged manifest of the debug app, not the one Robolectric builds for tests.
+// The manifest test reads the merged manifests of the debug and the release app, not the one Robolectric
+// builds for tests. Both are checked by testDebugUnitTest, so CI needs no release unit-test run.
 androidComponents {
-    onVariants(selector().withBuildType("debug")) { variant ->
+    onVariants { variant ->
         val manifest = variant.artifacts.get(SingleArtifact.MERGED_MANIFEST)
-        tasks.withType<Test>().matching { it.name == "test${variant.name.replaceFirstChar(Char::uppercase)}UnitTest" }
+        val buildType = variant.buildType ?: return@onVariants
+        tasks.withType<Test>().matching { it.name == "testDebugUnitTest" }
             .configureEach {
-                inputs.file(manifest).withPropertyName("mergedManifest")
+                inputs.file(manifest).withPropertyName("${buildType}MergedManifest")
                 jvmArgumentProviders.add(CommandLineArgumentProvider {
-                    listOf("-Dwordquest.mergedManifest=${manifest.get().asFile.absolutePath}")
+                    listOf("-Dwordquest.mergedManifest.$buildType=${manifest.get().asFile.absolutePath}")
                 })
             }
     }
