@@ -116,7 +116,7 @@ A word with no picture carries a definition instead:
 Checked by one pure function in package `content`. The app's loader calls it at start and does not offer a pack that fails; a unit test calls the same function on every shipped pack, so a broken pack cannot be merged.
 
 1. A word `id` and a unit `id` are lowercase kebab-case, and each is unique across all packs. Progress is stored against them, so from the first release they are never renamed or reused (see "Release bookkeeping").
-2. Band A (P1–P2): every word has an `emoji`. Other bands: a word has an `emoji`, or both a `definition` and an `example`.
+2. Band A (P1–P2): every word has an `emoji`. Bands B and C: a word has an `emoji`, or both a `definition` and an `example`. Band D (S4–S7): every word has both a `definition` and an `example`, because band D has no picture exercises; a picture may be added but is never the only way to practise the word.
 3. `example` contains exactly one pair of braces and no other brace. The text inside is spelled exactly as `text`. The loader parses it once into before, word and after; display and gap-fill both use that parsed form. Authors therefore use the word in its base form and not as the first word of the sentence.
 4. `definition` does not contain the word as a whole word or phrase, compared without case. A substring test is wrong: it would reject "the" for containing "he".
 5. Within a pack no two words share a `text` (compared without case and outer spaces) and no two words share an `emoji` (compared with the variation selector U+FE0F removed). Otherwise picture questions have two right answers.
@@ -192,7 +192,7 @@ Exercise types:
 | Spell with tiles | arranges letter tiles | picture or speech; single word of at most 10 letters |
 | Definition to word | reads a definition, picks the word | definition |
 | Gap-fill | picks the word that completes the sentence | example |
-| Type the word | types the word from a definition or from speech | definition or speech |
+| Type the word | types the word from its definition, or as dictation: the word is spoken and its definition is shown, so that words which sound alike cannot be confused | definition; dictation also needs speech |
 
 Five of the eight are a prompt with three or four options. They are one "choice" exercise with a kind of prompt and a kind of option, so a new choice type is data and a renderer, not a new screen.
 
@@ -203,7 +203,7 @@ Bands decide the mix:
 | A | P1–P2 | Picture and listening types only, three choices, the word is spoken automatically. Screens work without reading: pictures and icons carry the controls. Every word has a bundled clip, so a child who cannot read yet succeeds on any device (see "Speech"). |
 | B | P3–P5 | Adds spelling tiles. A word without a picture is practised with gap-fill and definition to word; a word with a picture also gets gap-fill when it has an example. Four choices. |
 | C | S1–S3 | Definitions and typing become regular. Fewer picture questions. |
-| D | S4–S7 | Definitions, gap-fill, typing, and pairs of word and definition. |
+| D | S4–S7 | Definitions, gap-fill, typing, and pairs of word and definition. No picture questions. About one typing question in three is dictation when the word can be spoken; the same holds in band C. |
 
 Rules:
 
