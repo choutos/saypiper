@@ -36,7 +36,7 @@ abstract class FamilyLayoutTest {
     private fun seed() = runBlocking { container.profiles.create("Alexandra", "fox").also { container.profiles.setGrade(it, "p3") } }
     private fun capture(name: String) {
         rule.waitForIdle()
-        rule.onAllNodes(isRoot()).onLast().captureRoboImage("build/outputs/roborazzi/FRL-12-$sizeName-$name.png")
+        rule.onAllNodes(isRoot()).onLast().captureRoboImage("build/outputs/roborazzi/family-$sizeName-$name.png")
         rule.assertReadableText(name)
     }
     private fun content(body: @androidx.compose.runtime.Composable () -> Unit) {
@@ -127,7 +127,7 @@ abstract class FamilyLayoutTest {
             val first = container.generator.generate(request, Environment({ true }, true), seed).exercises.first()
             Triple(request, seed, first)
         } }.groupBy { it.third.type }.mapValues { it.value.first() }
-        // FRL-20 owns typing and definition-pair layouts. Keep this matrix on primary fixtures.
+        // SecondaryExerciseUiTest covers typing and definition-pair layouts. Keep this matrix on primary fixtures.
         val types = ExerciseType.entries.toSet() - ExerciseType.TYPE_THE_WORD
         assertEquals(types, plans.keys)
         lateinit var navigation: NavHostController
@@ -275,7 +275,7 @@ abstract class FamilyLayoutTest {
         for (exercise in exercises) {
             rule.runOnIdle { current.value = exercise }
             when (exercise) {
-                is TypingExercise -> error("Typing layout is covered by FRL-20")
+                is TypingExercise -> error("Typing layout is covered by SecondaryExerciseUiTest")
                 is ChoiceExercise -> {
                     if (exercise.prompt is Prompt.Picture) neutral("Picture to name", exercise.wordId)
                     exercise.options.forEachIndexed { index, option -> if (option is Option.Picture) neutral("Picture ${index + 1}", option.wordId) }
@@ -303,7 +303,7 @@ abstract class FamilyLayoutTest {
         rule.onNodeWithTag("speaker").assertDoesNotExist()
         rule.onNodeWithTag("listen-replay").assertDoesNotExist()
         when (exercise) {
-            is TypingExercise -> error("Typing layout is covered by FRL-20")
+            is TypingExercise -> error("Typing layout is covered by SecondaryExerciseUiTest")
             is ChoiceExercise -> rule.onNodeWithTag("option-${exercise.answerIndex}").performScrollTo().performClick()
             is TilesExercise -> {
                 val remaining = exercise.tiles.indices.toMutableList()

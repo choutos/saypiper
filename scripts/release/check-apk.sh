@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Checks a built APK before it is tested or published (FRL-13):
+# Checks a built APK before it is tested or published:
 #   - the licence notices survived resource shrinking;
 #   - the manifest requests no platform permission and keeps backup off;
 #   - with --signed, the APK verifies and carries no AGP dependency-metadata block (F-Droid rejects it).

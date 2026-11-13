@@ -37,7 +37,7 @@ class AudioGenerationTest(unittest.TestCase):
         self.content_with([("dog", "dog")])
         self.run_generator()
         original = self.clip("dog")
-        # FRL-15's approved dog was first in a fresh session with seed 42.
+        # The reference dog clip, approved by listening, was made first in a fresh session with seed 42.
         self.assertEqual("25088b9ff882082c9422025fca0c151c85cd9a187b0c989d8b2d1841ad3ed342", hashlib.sha256(original).hexdigest())
         self.content_with([("apple", "apple"), ("dog", "dog"), ("same-text", "dog")])
         self.run_generator()
