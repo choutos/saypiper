@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Piper Cori pipeline from FRL-15; only dependency/model downloads use the network.
+"""Piper Cori pipeline for the bundled speech clips; only dependency/model downloads use the network.
 
 All synthesis runs locally, on one CPU thread. Each word starts a fresh seeded
 session. Reproducibility is checked on Linux x86_64; other CPUs are not promised.

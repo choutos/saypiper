@@ -15,7 +15,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        // SayPiper (FRL-14). Fixed for good by the first release; the namespace and class names keep the working title.
+        // Fixed for good by the first release; the namespace and class names keep Word Quest, the working title.
         applicationId = "eu.wanderclan.saypiper"
         minSdk = 24
         targetSdk = 35
@@ -24,7 +24,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    // Release signing comes from CI secrets, never from the repo (FRL-13). Without them the release APK is
+    // Release signing comes from CI secrets, never from the repo. Without them the release APK is
     // unsigned: that is what F-Droid builds from source before signing it.
     val releaseStoreFile = System.getenv("RELEASE_STORE_FILE")
     signingConfigs {
@@ -42,7 +42,7 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             if (releaseStoreFile != null) signingConfig = signingConfigs.getByName("release")
             // The git revision AGP stamps into the APK depends on how the source was checked out. Without it
-            // F-Droid's build from the tag matches ours byte for byte and can ship our signature (FRL-13).
+            // F-Droid's build from the tag matches ours byte for byte and can ship our signature.
             vcsInfo.include = false
         }
     }

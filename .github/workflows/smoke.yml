@@ -73,7 +73,7 @@ jobs:
           echo "$HOME/.cache/android-toolchain/jdk-17/bin" >> "$GITHUB_PATH"
       - uses: gradle/actions/setup-gradle@v4
       # The release build is signed with a key made for this run and thrown away with the runner:
-      # it tests R8 and the signing config, and is never a release (FRL-13).
+      # it tests R8 and the signing config, and is never a release.
       - name: Throw-away signing key
         run: |
           password="$(openssl rand -hex 16)"
