@@ -105,7 +105,7 @@ jobs:
           git worktree add "$RUNNER_TEMP/previous" "$UPGRADE_FROM"
           (cd "$RUNNER_TEMP/previous" && ./gradlew --no-daemon assembleRelease)
           cp "$RUNNER_TEMP/previous/app/build/outputs/apk/release/app-release.apk" apk/previous.apk
-          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging apk/previous.apk | head -1
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging apk/previous.apk | sed -n 1p
       - uses: actions/upload-artifact@v4
         with:
           name: smoke-apk

@@ -16,7 +16,7 @@ done
 echo "licence notices: present"
 
 manifest="$("$tools/aapt2" dump xmltree --file AndroidManifest.xml "$apk")"
-"$tools/aapt2" dump badging "$apk" | head -1
+"$tools/aapt2" dump badging "$apk" | sed -n 1p
 if grep -E 'E: uses-permission' -A1 <<<"$manifest" | grep -o '"android.permission[^"]*"'; then
   echo "the APK requests a platform permission" >&2; exit 1
 fi
