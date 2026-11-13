@@ -2,7 +2,7 @@
 
 Named SayPiper since 12 November 2026: the app label is SayPiper and the application id is `eu.wanderclan.saypiper`. Only the Kotlin namespace, the class names and the database file keep Word Quest, the working title. An offline Android game for children to practise English vocabulary. The child picks their school year (P1–P5 primary, S1–S7 secondary) and the vocabulary, exercise types and difficulty follow from it.
 
-Status: all twelve classes are playable on `main`, with 1,434 words, eight exercise types, practice, rewards, profiles and a parent corner. Not released yet: there is a release build and an emulator smoke test on Android 7 and Android 15, but no release, and nobody has reported a run on a physical device.
+Status: all twelve classes are playable on `main`, with 1,434 words, eight exercise types, practice, rewards, profiles and a parent corner. Released: 0.1.0 on 12 November 2026, as a signed APK on this repo's Releases page. Its release build passed a smoke test on Android 7 and Android 15 emulators; nobody has yet reported a run on a physical device.
 
 - Design: [docs/adr/0001-architecture-and-content-model.md](docs/adr/0001-architecture-and-content-model.md)
 - Tracking: Multica issue FRL-3
@@ -60,7 +60,7 @@ A release cannot be taken back from the devices that installed it. Android refus
 
 The launcher component `eu.wanderclan.wordquest.MainActivity` ships with the first release. From then on it is not renamed without an `activity-alias` of that name: launchers drop the home-screen icon of a component that disappears.
 
-First build installed on a child's device: none yet. Record its version code here. From that build on, every Room schema change ships with a tested migration (ADR section 7).
+The baseline is 0.1.0, version code 1, database schema version 2. It is published, so it has to be assumed installed on a child's device: from 0.1.0 on, every Room schema change ships with a tested migration (ADR section 7).
 
 ## Content
 
