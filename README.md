@@ -34,6 +34,37 @@ Outputs:
 
 There is no emulator on the agent host: UI is verified with Robolectric tests and CI.
 
+## Screenshots to share
+
+After setting up the toolchain above, generate the twelve images with one command:
+
+```sh
+./gradlew --no-daemon testDebugUnitTest --tests '*ShowcaseTest' --rerun
+```
+
+`app/build/outputs/showcase/` contains only the PNGs below. The eleven phone images
+are 1080 × 2400 (432 × 960 dp at 400 dpi); the 4:3 landscape tablet is 2560 × 1920.
+These are the real activity and shipped vocabulary with invented players, a fixed
+day and lesson seeds, and progress saved through the repositories. Audio playback
+is simulated. Robolectric renders them on the JVM, without system bars or frames;
+they are not device captures. `ShowcaseTest` also runs with the normal unit tests,
+and Android CI uploads a separate `showcase` artifact. Images are not committed.
+
+| File | Shows |
+|---|---|
+| `01-classes.png` | All classes, P1–P5 and S1–S7 |
+| `02-players.png` | Mia, Leo and Sofia sharing a device |
+| `03-path.png` | Mia's P1 stars, crown, five-day streak, points and due practice |
+| `04-p1-picture.png` | P1 word and picture answers after a correct answer |
+| `05-tiles.png` | Leo's P4 spelling with two tiles selected |
+| `06-gap-fill.png` | Leo's P4 sentence and four choices |
+| `07-definitions.png` | Sofia's S2 definition pairs with two matches made |
+| `08-typing.png` | An S5 definition with an answer typed before checking |
+| `09-crown.png` | Three stars and a newly earned unit crown |
+| `10-parent-corner.png` | Sound and profile controls after the parent question |
+| `11-about.png` | Offline use and privacy |
+| `12-tablet.png` | Mia's same path on a landscape tablet |
+
 ## Installing
 
 SayPiper runs on Android 7.0 or newer and needs no internet connection.

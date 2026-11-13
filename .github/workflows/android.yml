@@ -48,6 +48,12 @@ jobs:
           path: app/build/outputs/roborazzi/*.png
           if-no-files-found: error
       - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: showcase
+          path: app/build/outputs/showcase/*.png
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
         if: ${{ failure() }}
         with:
           name: reports
