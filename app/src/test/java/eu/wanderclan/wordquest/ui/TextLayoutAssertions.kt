@@ -2,12 +2,12 @@ package eu.wanderclan.wordquest.ui
 
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.SemanticsMatcher
-import androidx.compose.ui.test.junit4.ComposeContentTestRule
+import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.text.TextLayoutResult
 import org.junit.Assert.*
 
 /** Check every Text, including text merged into a button's semantics. */
-fun ComposeContentTestRule.assertReadableText(name: String) {
+fun ComposeTestRule.assertReadableText(name: String) {
     onAllNodes(SemanticsMatcher.keyIsDefined(SemanticsActions.GetTextLayoutResult), useUnmergedTree = true)
         .fetchSemanticsNodes().forEach { node ->
             val layouts = mutableListOf<TextLayoutResult>()

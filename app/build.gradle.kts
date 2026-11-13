@@ -115,6 +115,10 @@ tasks.withType<Test>().configureEach {
     })
 }
 
+tasks.withType<Test>().matching { it.name == "testDebugUnitTest" }.configureEach {
+    outputs.dir(layout.buildDirectory.dir("outputs/showcase"))
+}
+
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
 
