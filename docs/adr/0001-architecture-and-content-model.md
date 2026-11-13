@@ -207,7 +207,7 @@ Exercise types:
 | Spell with tiles | arranges letter tiles | picture or speech; single word of at most 10 letters |
 | Definition to word | reads a definition, picks the word | definition |
 | Gap-fill | picks the word that completes the sentence | example |
-| Type the word | types the word from its definition, or as dictation: the word is spoken and its definition is shown, so that words which sound alike cannot be confused; a word without a definition shows its picture instead | definition, or speech; dictation needs speech |
+| Type the word | types the word from its definition, or as dictation: the word is spoken and its definition is shown, so that words which sound alike cannot be confused; a word without a definition shows its picture instead | a definition, or a picture that can be seen together with speech; dictation needs speech and one of the two on screen |
 
 Five of the eight are a prompt with three or four options. They are one "choice" exercise with a kind of prompt and a kind of option, so a new choice type is data and a renderer, not a new screen.
 
@@ -313,7 +313,7 @@ Rollback for the project as a whole: until 0.1.0 nothing here touched an existin
 |---|---|---|
 | Vocabulary is too easy or too hard for a class | Children get everything right, or give up. With no analytics we only learn this from the children and parents. | The level table is data; a child can change class; review agents check each pack against its target level. |
 | No offline English voice on a device | No sound in P3 and above: speaker buttons and listening questions disappear. P1 and P2 are not affected, their words are clips. | Accepted: those children can read. Clips can be extended to more classes. |
-| A clip or a voice that sounds wrong | A word is mispronounced or cut short, or a question is silent. | Clips are checked by script for silence, clipping and length, and heard by the owner in the app, since no agent can listen. The device voice prefers installed British voices. A failed clip or utterance turns the question into text. |
+| A clip or a voice that sounds wrong | A word is mispronounced or cut short, or a question is silent. | Clips are checked by script for silence, clipping and length, and heard by the owner in the app, since no agent can listen. The device voice prefers installed British voices. A failed clip or utterance is recovered without sound: a listening or tiles question shows its word as text, and a dictation falls back to its definition or picture. |
 | A picture is ambiguous | A child cannot tell what the picture means (a face for "cold"). | Authors use a picture only where the meaning is obvious, otherwise a definition. Reviewers open each PNG. |
 | Gap-fill has two right answers | A child picks a word that fits and is marked wrong. | Examples must identify their word against the whole pack; the author and two reviewers check every example; distractors prefer other units. Not provable by a test, and reviews have missed cases (section 4). Every pack with examples has now also been read by the reviewer that found the most; in S1–S3 that last audit found 45. |
 | Progress lost on update | A child's stars vanish after an app update. | Exported Room schemas and a tested migration for every schema change from published 0.1.0 on; released ids are frozen by a test. |

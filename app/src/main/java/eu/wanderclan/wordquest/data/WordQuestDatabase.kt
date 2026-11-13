@@ -7,8 +7,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 /**
- * Schemas are exported to app/schemas. Until the first build is installed on a child's device the
- * schema may change freely; from then on every change ships with a tested migration (ADR section 7).
+ * Schemas are exported to app/schemas. Release 0.1.0 shipped schema version 2 and is published, so it
+ * has to be assumed installed: every schema change ships with a tested migration (ADR section 7).
  */
 @Database(
     entities = [ProfileEntity::class, WordProgressEntity::class, LessonResultEntity::class, DailyActivityEntity::class, AppSettingsEntity::class],
