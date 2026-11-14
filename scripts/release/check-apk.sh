@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Checks a built APK before it is tested or published (FRL-13):
+# Checks a built APK before it is tested or published:
 #   - the licence notices survived resource shrinking;
 #   - the manifest requests no platform permission and keeps backup off;
 #   - with --signed, the APK verifies and carries no AGP dependency-metadata block (F-Droid rejects it).
@@ -16,7 +16,7 @@ done
 echo "licence notices: present"
 
 manifest="$("$tools/aapt2" dump xmltree --file AndroidManifest.xml "$apk")"
-"$tools/aapt2" dump badging "$apk" | head -1
+"$tools/aapt2" dump badging "$apk" | sed -n 1p
 if grep -E 'E: uses-permission' -A1 <<<"$manifest" | grep -o '"android.permission[^"]*"'; then
   echo "the APK requests a platform permission" >&2; exit 1
 fi

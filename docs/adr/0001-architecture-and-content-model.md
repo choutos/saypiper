@@ -12,7 +12,7 @@ This is the smallest design that delivers the request, and each part has an upgr
 
 ## 2. Context
 
-The request: an Android game to practise English vocabulary, in the lesson-path style of language apps, for children. The child selects their class; level and vocabulary adapt. Classes are P1–P5 (primary) and S1–S7 (secondary). Code lives in a private repo under `choutos`.
+The request: an Android game to practise English vocabulary, in the lesson-path style of language apps, for children. The child selects their class; level and vocabulary adapt. Classes are P1–P5 (primary) and S1–S7 (secondary). Code lives in the repo `choutos/saypiper`. It was private and named `english-vocab-kids` until 13 November 2026 and has been public since.
 
 ### Facts (measured 2026-11-10)
 
@@ -78,7 +78,7 @@ I checked the published APK myself on 2026-11-13: its checksum, that the v2 sign
 | D8 | Several local profiles per device (nickname, avatar, class). | Siblings share tablets; retrofitting profiles later means migrating every table. |
 | D9 | No lives or hearts and no timers. Wrong answers come back at the end of the lesson. | Lock-outs punish the children who need the practice most. |
 | D10 | Verification is JVM-first: unit tests for the game core and content, Robolectric tests at the target SDK and screenshots for UI, CI as the gate. Before a release, a smoke test in CI drives the release build on emulators for the oldest and the newest Android we support. Code tests use fixture packs; only the content tests read the shipped packs. | The agent host has no emulator; the CI runners do. A vocabulary change must not break a code test. |
-| D11 | Distribution is a signed APK built by CI, and F-Droid's public catalogue. Not Google Play. The repo therefore becomes public under a free licence before the first submission: nothing goes into the repo, its pull requests or its CI logs that should not be read by anyone. The owner created the signing key and controls its durable copies. A further copy sits in a protected CI environment that only version tags can use, and an authorised release job receives it for the length of its run. No agent created the key or was given it. The release build is reproducible, so that F-Droid can publish our signature and a family can move between the two channels. Every dependency is free software fetched from Google's Maven repository or Maven Central, and the repo holds no prebuilt libraries. The standard Gradle wrapper jar is the one exception. Native code that arrives inside a library from those two repositories, as Compose's does, is a dependency and not a file in the repo. | The owner's choice. The rules are what F-Droid's catalogue demands. Keeping to them from the first commit costs nothing; meeting them later means replacing libraries and rewriting history. |
+| D11 | Distribution is a signed APK built by CI, and F-Droid's public catalogue. Not Google Play. The repo is therefore public under a free licence, since 2026-11-13: nothing goes into the repo, its pull requests or its CI logs that should not be read by anyone. The owner created the signing key and controls its durable copies. A further copy sits in a protected CI environment that only version tags can use, and an authorised release job receives it for the length of its run. No agent created the key or was given it. The release build is reproducible, so that F-Droid can publish our signature and a family can move between the two channels. Every dependency is free software fetched from Google's Maven repository or Maven Central, and the repo holds no prebuilt libraries. The standard Gradle wrapper jar is the one exception. Native code that arrives inside a library from those two repositories, as Compose's does, is a dependency and not a file in the repo. | The owner's choice. The rules are what F-Droid's catalogue demands. Keeping to them from the first commit costs nothing; meeting them later means replacing libraries and rewriting history. |
 
 ## 4. Content model
 
@@ -305,7 +305,7 @@ Room schemas are exported to the repo from the first commit. Release 0.1.0 ships
 | No Google Play | The largest store | Nothing in the design prevents it later. It would need target API 36, the Families declarations and a privacy policy in the Console. |
 | Leitner | Fine-grained scheduling | Scheduling is one class in `game`; stored data (box, due day, counts) is enough to seed another algorithm. |
 
-Rollback for the project as a whole: until 0.1.0 nothing here touched an existing system. Nothing was installed anywhere, and a change was undone by reverting it in source, together with what depended on it: a vocabulary pack needs the exercise types that make it playable (rule 10), and the code since the parent corner expects schema version 2. Since 0.1.0 is published, installed copies have to be assumed, and there is no going back to an older build on a device that holds newer progress. A fault is corrected by a new release that keeps the installed schema, with forward migrations only, and keeps the released ids.
+Rollback for the project as a whole: until 0.1.0 nothing here touched an existing system. No published build had to be supported, and a change was undone by reverting it in source, together with what depended on it: a vocabulary pack needs the exercise types that make it playable (rule 10), and the code since the parent corner expects schema version 2. Since 0.1.0 is published, installed copies have to be assumed, and there is no going back to an older build on a device that holds newer progress. A fault is corrected by a new release that keeps the installed schema, with forward migrations only, and keeps the released ids.
 
 ## 10. Risks and how each would show up
 
@@ -340,10 +340,10 @@ Answered by the owner between 2026-11-10 and 2026-11-12 (the numbers are those o
 7. Pictures: OpenMoji for the first version.
 8. Licence: GPL-3.0-or-later for the code, CC BY-SA 4.0 for the vocabulary and the pictures, CC BY 4.0 for the audio clips. Decided by merging the licence files on 2026-11-12.
 9. First release: 0.1.0 on 2026-11-12, with a key the owner created and holds.
+10. The repo: renamed `saypiper` and made public by the owner on 2026-11-13, after its README and code comments had been cleared of internal references. The pull request history and this document still describe how the app was built.
 
 Still open:
 
-- **When the repo becomes public.** At the latest before the F-Droid submission. Earlier is possible and makes CI minutes free. It is the owner's switch to flip, after a look at what becomes readable with it (the release issue lists that).
 - **When to submit to F-Droid.** The recipe and the request are prepared. Their policy expects three months of active development unless the app has proven users, so an early request may be parked.
 - **Google Play as a second release.** Investigated in FRL-23: possible, but not with 0.1.0 as built, because Play takes new apps only at target API 36. The signing key and the application id of 0.1.0 keep it possible.
 
@@ -373,4 +373,4 @@ Revision 2 was written while the app was being built. This revision changes only
 - Release bookkeeping and the migration rule are in force from 0.1.0, not from the first build known to be on a child's device: a published build has to be assumed installed (sections 4 and 7).
 - The last vocabulary audit found 45 more ambiguous examples in packs that two reviewers had approved (sections 4 and 10).
 - The licence is decided, and 0.1.0 exists (sections 2 and 11).
-- Not settled by the release, and listed as open in section 11: when the repo becomes public, when the F-Droid request goes out, and whether Google Play follows as a second release. Recording the Play investigation changes nothing in D11.
+- Not settled by the release, and listed as open in section 11: when the F-Droid request goes out, and whether Google Play follows as a second release. The repo itself has been public since 2026-11-13. Recording the Play investigation changes nothing in D11.

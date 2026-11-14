@@ -73,7 +73,7 @@ jobs:
           echo "$HOME/.cache/android-toolchain/jdk-17/bin" >> "$GITHUB_PATH"
       - uses: gradle/actions/setup-gradle@v4
       # The release build is signed with a key made for this run and thrown away with the runner:
-      # it tests R8 and the signing config, and is never a release (FRL-13).
+      # it tests R8 and the signing config, and is never a release.
       - name: Throw-away signing key
         run: |
           password="$(openssl rand -hex 16)"
@@ -105,7 +105,7 @@ jobs:
           git worktree add "$RUNNER_TEMP/previous" "$UPGRADE_FROM"
           (cd "$RUNNER_TEMP/previous" && ./gradlew --no-daemon assembleRelease)
           cp "$RUNNER_TEMP/previous/app/build/outputs/apk/release/app-release.apk" apk/previous.apk
-          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging apk/previous.apk | head -1
+          "$ANDROID_HOME/build-tools/35.0.0/aapt" dump badging apk/previous.apk | sed -n 1p
       - uses: actions/upload-artifact@v4
         with:
           name: smoke-apk

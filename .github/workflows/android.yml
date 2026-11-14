@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # The same toolchain script the agents use, so CI proves it works on a clean machine.
+      # The same toolchain script as a local build (README, Building), so CI proves it works on a clean machine.
       - uses: actions/cache@v4
         with:
           path: ~/.cache/android-toolchain
@@ -46,6 +46,12 @@ jobs:
         with:
           name: screenshots
           path: app/build/outputs/roborazzi/*.png
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: showcase
+          path: app/build/outputs/showcase/*.png
           if-no-files-found: error
       - uses: actions/upload-artifact@v4
         if: ${{ failure() }}
