@@ -90,7 +90,7 @@ A release cannot be taken back from the devices that installed it. Android refus
 
 The launcher component `eu.wanderclan.wordquest.MainActivity` ships with the first release. From then on it is not renamed without an `activity-alias` of that name: launchers drop the home-screen icon of a component that disappears.
 
-First build installed on a child's device: none yet. Record its version code here. From that build on, every Room schema change ships with a tested migration (ADR section 7).
+The baseline is 0.1.0, version code 1, database schema version 2. It is published, so it has to be assumed installed on a child's device: from 0.1.0 on, every Room schema change ships with a tested migration (ADR section 7).
 
 ## Content
 

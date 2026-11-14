@@ -1,6 +1,6 @@
 # ADR 0001 — Architecture and content model
 
-- Status: **Accepted**, revision 2. Reviewed by Architect Astra in FRL-4 and again on FRL-3 on 2026-11-12; merging this revision is the owner's sign-off. Section 12 lists what the reviews changed; section 11 holds the owner's decisions of 2026-11-10 to 2026-11-12.
+- Status: **Accepted**, revision 3. Revision 2 was reviewed by Architect Astra (in FRL-4 and again on FRL-3) and accepted by the owner's merge on 2026-11-12. Revision 3 records what was built after that and released as 0.1.0 the same day; section 13 lists what it changes. Section 11 holds the owner's decisions.
 - Date: 2026-11-10
 - Tracking: FRL-3
 
@@ -12,7 +12,7 @@ This is the smallest design that delivers the request, and each part has an upgr
 
 ## 2. Context
 
-The request: an Android game to practise English vocabulary, in the lesson-path style of language apps, for children. The child selects their class; level and vocabulary adapt. Classes are P1–P5 (primary) and S1–S7 (secondary). Code lives in a private repo under `choutos`.
+The request: an Android game to practise English vocabulary, in the lesson-path style of language apps, for children. The child selects their class; level and vocabulary adapt. Classes are P1–P5 (primary) and S1–S7 (secondary). Code lives in the repo `choutos/saypiper`. It was private and named `english-vocab-kids` until 13 November 2026 and has been public since.
 
 ### Facts (measured 2026-11-10)
 
@@ -30,6 +30,20 @@ The request: an Android game to practise English vocabulary, in the lesson-path 
 | Android backup | Auto Backup uploads an app's databases to the user's Google Drive unless the app opts out; on Android 12 and later `allowBackup="false"` alone does not stop device-to-device transfer on every manufacturer ([Android guide](https://developer.android.com/identity/data/autobackup)). |
 | Google Play | Since 31 August 2026 new apps and updates must target API 36; the extension ended on 1 November 2026 ([Play Console help](https://support.google.com/googleplay/android-developer/answer/11926878)). |
 | F-Droid | The public F-Droid catalogue builds every app itself, from publicly accessible source under a free licence and with a free toolchain. It forbids Google Play services and tracking libraries. An app "should have been actively developed for at least 3 months" unless it has proven users, its author already maintains apps on F-Droid, or it is built for an event; the author commits to ongoing maintenance ([inclusion policy](https://f-droid.org/docs/Inclusion_Policy/)). Assets under a Creative Commons licence with a non-commercial or no-derivatives clause count as non-free; BY-SA has neither ([anti-features](https://f-droid.org/docs/Anti-Features/)). It publishes a developer's own signature only when the build is reproducible ([reproducible builds](https://f-droid.org/docs/Reproducible_Builds/)). A self-hosted F-Droid repository can serve any APK and signs its own index ([guide](https://f-droid.org/docs/Setup_an_F-Droid_App_Repo/)). Read on 2026-11-10. |
+
+### The first release
+
+SayPiper 0.1.0, version code 1, was tagged `v0.1.0` on 2026-11-12 at commit `809ef94`, at the owner's go.
+
+| What | Result |
+|---|---|
+| The artefact | An APK of 5,658,521 bytes with code shrinking on, signed with the owner's key: RSA 4096, subject `CN=SayPiper`, certificate SHA-256 `dc3a307d0437264f2589e84bd030a0114e4e513405eef613ff0aeac737396c81`. The fingerprint equals the one the owner posted before the tag. |
+| First run on real Android | Before the tag, CI drove the release build on Android 7 (API 24) and Android 15 (API 35) emulators: create a profile, play a P1 and a P3 lesson, stop the app, start it again, the stars are still there. A release build installed over the previous one kept its progress. No crash or hang of the app in any run. Earlier attempts on Android 15 failed while the emulator's launcher was not responding and swallowed typed letters; the script now reads back what it typed. |
+| Reproducible | A clean, unsigned build of the tag on the agent host matches the published APK apart from the signature (`apksigcopier compare`, the check F-Droid uses). |
+| F-Droid's scanner | Reports nothing on the source of the tag or on the signed APK. |
+| Not done | No run on a physical device has been reported. |
+
+I checked the published APK myself on 2026-11-13: its checksum, that the v2 signature verifies, the certificate's fingerprint and key size, the application id `eu.wanderclan.saypiper`, version code 1, and that it requests no platform permission. The emulator runs, the reproducibility check and the scanner result are from the Operator's report on FRL-13; I did not repeat them.
 
 ### Confirmed by the owner (2026-11-10 to 2026-11-12)
 
@@ -63,8 +77,8 @@ The request: an Android game to practise English vocabulary, in the lesson-path 
 | D7 | Progress is stored in Room (SQLite). Finishing a lesson is one transaction. | "Which words are due for this child today" is a relational query; a half-saved lesson must not exist. |
 | D8 | Several local profiles per device (nickname, avatar, class). | Siblings share tablets; retrofitting profiles later means migrating every table. |
 | D9 | No lives or hearts and no timers. Wrong answers come back at the end of the lesson. | Lock-outs punish the children who need the practice most. |
-| D10 | Verification is JVM-first: unit tests for the game core and content, Robolectric tests and screenshots for UI, CI as the gate. Code tests use fixture packs; only the content tests read the shipped packs. | The agent host has no emulator. A vocabulary change must not break a code test. |
-| D11 | Distribution is a signed APK built by CI, and F-Droid's public catalogue. Not Google Play. The repo therefore becomes public under a free licence before the first submission: nothing goes into the repo, its pull requests or its CI logs that should not be read by anyone. Every dependency is free software fetched from Google's Maven repository or Maven Central, and the repo holds no prebuilt libraries. The standard Gradle wrapper jar is the one exception. Native code that arrives inside a library from those two repositories, as Compose's does, is a dependency and not a file in the repo. | The owner's choice. The rules are what F-Droid's catalogue demands. Keeping to them from the first commit costs nothing; meeting them later means replacing libraries and rewriting history. |
+| D10 | Verification is JVM-first: unit tests for the game core and content, Robolectric tests at the target SDK and screenshots for UI, CI as the gate. Before a release, a smoke test in CI drives the release build on emulators for the oldest and the newest Android we support. Code tests use fixture packs; only the content tests read the shipped packs. | The agent host has no emulator; the CI runners do. A vocabulary change must not break a code test. |
+| D11 | Distribution is a signed APK built by CI, and F-Droid's public catalogue. Not Google Play. The repo is therefore public under a free licence, since 2026-11-13: nothing goes into the repo, its pull requests or its CI logs that should not be read by anyone. The owner created the signing key and controls its durable copies. A further copy sits in a protected CI environment that only version tags can use, and an authorised release job receives it for the length of its run. No agent created the key or was given it. The release build is reproducible, so that F-Droid can publish our signature and a family can move between the two channels. Every dependency is free software fetched from Google's Maven repository or Maven Central, and the repo holds no prebuilt libraries. The standard Gradle wrapper jar is the one exception. Native code that arrives inside a library from those two repositories, as Compose's does, is a dependency and not a file in the repo. | The owner's choice. The rules are what F-Droid's catalogue demands. Keeping to them from the first commit costs nothing; meeting them later means replacing libraries and rewriting history. |
 
 ## 4. Content model
 
@@ -131,7 +145,7 @@ Checked by one pure function in package `content`. The app's loader calls it at 
 Two things no test can prove, so authors and reviewers check them for every word:
 
 - The picture means the word to a child of that age. Reviewers open the PNG.
-- An example identifies its word. "The {dog} is big" fits any animal; "A {dog} can bark" does not. The check is against every other word of the same part of speech in the whole pack, not only in the unit. Review reduces this defect and does not prove its absence: at first review it was found in 61 of 217 primary examples, then, after the authors had checked their own work, in 6 of 380 for S1–S3 and 64 of 598 for S4–S7, and once more in S3 after two approvals.
+- An example identifies its word. "The {dog} is big" fits any animal; "A {dog} can bark" does not. The check is against every other word of the same part of speech in the whole pack, not only in the unit. Review reduces this defect and does not prove its absence: at first review it was found in 61 of 217 primary examples, then, after the authors had checked their own work, in 6 of 380 for S1–S3 and 64 of 598 for S4–S7. One more audit of S1–S3 by a third reviewer, after two approvals, found another 45. All were rewritten before the release.
 
 There is deliberately one validator. A separate schema file would be a second contract that can drift from the code.
 
@@ -149,7 +163,7 @@ The clips are synthetic and are supplied under CC BY 4.0. The app credits Piper,
 
 ### Release bookkeeping
 
-Starts with the first build installed on a child's device (the release issue), not before. `released-ids.json` records, for that release, every unit id with its word ids, plus a list of retired ids. A unit test then fails when a released id has disappeared without being listed as retired, when a retired id is used again, or when a released word has moved to another unit.
+In force since release 0.1.0. `app/released-ids.json` records every unit id with its word ids as shipped, 157 units and 1,434 words, plus a list of retired ids, which is empty. A unit test fails when a released id has disappeared without being listed as retired, when a retired id is used again, or when a released word has moved to another unit.
 
 Changing the word list of a released unit can change which words sit in which lesson. Stars stay with the lesson's position; per-word progress is unaffected. That is accepted. New words for a released class go into a new unit where possible.
 
@@ -193,7 +207,7 @@ Exercise types:
 | Spell with tiles | arranges letter tiles | picture or speech; single word of at most 10 letters |
 | Definition to word | reads a definition, picks the word | definition |
 | Gap-fill | picks the word that completes the sentence | example |
-| Type the word | types the word from its definition. Decided on 2026-11-12 and not built yet (FRL-20): also as dictation, where the word is spoken and its definition is shown, so that words which sound alike cannot be confused; a word without a definition shows its picture instead | definition, or speech; dictation needs speech |
+| Type the word | types the word from its definition, or as dictation: the word is spoken and its definition is shown, so that words which sound alike cannot be confused; a word without a definition shows its picture instead | a definition, or a picture that can be seen together with speech; dictation needs speech and one of the two on screen |
 
 Five of the eight are a prompt with three or four options. They are one "choice" exercise with a kind of prompt and a kind of option, so a new choice type is data and a renderer, not a new screen.
 
@@ -204,7 +218,7 @@ Bands decide the mix:
 | A | P1–P2 | Picture and listening types only, three choices, the word is spoken automatically. Screens work without reading: pictures and icons carry the controls. Every word has a bundled clip, so these lessons need no speech engine on the device (see "Speech"). They do need sight: with a screen reader on, a band A lesson has nothing to offer and says so. |
 | B | P3–P5 | Adds spelling tiles. A word without a picture is practised with gap-fill and definition to word; a word with a picture also gets gap-fill when it has an example. Four choices. |
 | C | S1–S3 | Definitions and typing become regular. Fewer picture questions. |
-| D | S4–S7 | Definitions, gap-fill, typing, and pairs of word and definition. No picture questions. Once dictation is built, about one typing question in three is dictation when the word can be spoken; the same holds in band C. |
+| D | S4–S7 | Definitions, gap-fill, typing, and pairs of word and definition. No picture questions. About one typing question in three is dictation when the word can be spoken; the same holds in band C. |
 
 Rules:
 
@@ -225,7 +239,7 @@ Band A depends on speech: without it a P1 child has to read. So the words of ban
 - Every band A word ships with a clip (section 4, "Audio"). The app plays it; no speech engine is involved.
 - Any other word is spoken by the device's text-to-speech. The app picks the voice itself: English, installed, not needing the network. British first, any other English voice second. It never asks the system to download voice data.
 - Whether a word can be spoken is asked per word: a word with a clip always can, another word can when such a voice exists. Where a word cannot be spoken, its speaker button is hidden and the capability filter drops the listening types for it. Children in bands B to D can read, so their lessons go on with the other types.
-- If a clip or an utterance fails in the middle of a lesson, the current question shows its word as text and that source of speech counts as unavailable for the rest of the session. A child never faces a listening question that made no sound. The text keeps the lesson moving; it does not let a child who cannot read answer alone.
+- If a clip or an utterance fails in the middle of a lesson, that source of speech counts as unavailable for the rest of the session, and the current question is recovered without sound. A listening choice or a tiles question shows its word as text. A dictation falls back to its definition or picture and does not show the word, which would be the answer. A child never faces a listening question that made no sound. The text keeps the lesson moving; it does not let a child who cannot read answer alone.
 - Android 11 and later need a `<queries>` entry for the speech service, or no engine is visible to the app.
 - Speech never answers the question for the child. Where the word is what the child is given (word to picture, listen and pick, tiles or typing from speech), it is spoken at the start and a speaker button repeats it. Where the word is what the child has to find (picture to word, definition to word, gap-fill, tiles or typing from a picture or a definition), there is no speaker button until the child has answered; then the word is spoken once with the feedback, right or wrong. Band A is not affected: while its words can be spoken it has no question whose answer is a written word.
 
@@ -249,7 +263,7 @@ Single activity, Compose Navigation, ViewModels with one-way state, manual depen
 
 **Persistence.** Room tables: `profile`; `word_progress` (profile, word id, box, due day, correct and wrong counts; indexed by profile and due day); `lesson_result` (session id, profile, unit and lesson or neither for practice, stars, day; one row per finished session, best stars are a query); `daily_activity` (profile, day, points). Every table refers to `profile` with cascading delete, so deleting a profile leaves nothing behind. Saving a result writes the lesson row, the word progress and the day's points in one transaction, and a session id that is already stored is ignored, so restoring the result screen cannot award a lesson twice. A fifth table, `app_settings`, holds what an adult sets in the parent corner; it arrived with schema version 2 and an automatic migration from version 1. Days are local dates. `java.time` needs core library desugaring on Android 7, and the SQLite of that version has no upsert statement, so writes use Room's own insert and update.
 
-Room schemas are exported to the repo from the first commit. The schema may change freely until the first build is installed on a child's device; from then on every schema change ships with a tested migration. Builds before that release are for trying the app out: their progress does not carry over.
+Room schemas are exported to the repo from the first commit. Release 0.1.0 ships schema version 2. It is published, so it has to be assumed installed: from 0.1.0 on, every schema change ships with a tested migration. Builds from before the release were for trying the app out; their progress does not carry over.
 
 **Manifest.** No platform permission: nothing that gives access to the network, storage, sensors or anything else on the device. One entry stays, the permission that `androidx.core` declares for the app itself (`<application id>.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION`). It protects the app's own broadcasts on Android 12 and earlier and grants nothing. Removing it would make any library that registers a private receiver crash on those versions, and our JVM tests would not see it. `android:allowBackup="false"` together with data-extraction rules that exclude everything from cloud backup and from device transfer. The `emoji2` initialiser is removed from the merged manifest. A test asserts all three on the merged manifest.
 
@@ -291,7 +305,7 @@ Room schemas are exported to the repo from the first commit. The schema may chan
 | No Google Play | The largest store | Nothing in the design prevents it later. It would need target API 36, the Families declarations and a privacy policy in the Console. |
 | Leitner | Fine-grained scheduling | Scheduling is one class in `game`; stored data (box, due day, counts) is enough to seed another algorithm. |
 
-Rollback for the project as a whole: nothing here touches an existing system. Before the first release nothing is installed anywhere, so a change is undone by reverting it in source, together with what depends on it: a vocabulary pack needs the exercise types that make it playable (rule 10), and the code since the parent corner expects schema version 2. After the first release there is no going back to an older build on a device that holds newer progress. A fault is then corrected by a new release that keeps the installed schema, with forward migrations only, and keeps the released ids.
+Rollback for the project as a whole: until 0.1.0 nothing here touched an existing system. No published build had to be supported, and a change was undone by reverting it in source, together with what depended on it: a vocabulary pack needs the exercise types that make it playable (rule 10), and the code since the parent corner expects schema version 2. Since 0.1.0 is published, installed copies have to be assumed, and there is no going back to an older build on a device that holds newer progress. A fault is corrected by a new release that keeps the installed schema, with forward migrations only, and keeps the released ids.
 
 ## 10. Risks and how each would show up
 
@@ -299,18 +313,19 @@ Rollback for the project as a whole: nothing here touches an existing system. Be
 |---|---|---|
 | Vocabulary is too easy or too hard for a class | Children get everything right, or give up. With no analytics we only learn this from the children and parents. | The level table is data; a child can change class; review agents check each pack against its target level. |
 | No offline English voice on a device | No sound in P3 and above: speaker buttons and listening questions disappear. P1 and P2 are not affected, their words are clips. | Accepted: those children can read. Clips can be extended to more classes. |
-| A clip or a voice that sounds wrong | A word is mispronounced or cut short, or a question is silent. | Clips are checked by script for silence, clipping and length, and heard by the owner in the app, since no agent can listen. The device voice prefers installed British voices. A failed clip or utterance turns the question into text. |
+| A clip or a voice that sounds wrong | A word is mispronounced or cut short, or a question is silent. | Clips are checked by script for silence, clipping and length, and heard by the owner in the app, since no agent can listen. The device voice prefers installed British voices. A failed clip or utterance is recovered without sound: a listening or tiles question shows its word as text, and a dictation falls back to its definition or picture. |
 | A picture is ambiguous | A child cannot tell what the picture means (a face for "cold"). | Authors use a picture only where the meaning is obvious, otherwise a definition. Reviewers open each PNG. |
-| Gap-fill has two right answers | A child picks a word that fits and is marked wrong. | Examples must identify their word against the whole pack; the author and two reviewers check every example; distractors prefer other units. Not provable by a test, and reviews have missed cases (section 4). Before the release, S1–S3 get one more audit by the reviewer that found the most in the other packs and has not read these. |
-| Progress lost on update | A child's stars vanish after an app update. | Exported Room schemas and migration tests from the first installed build; released ids are frozen by a test. |
+| Gap-fill has two right answers | A child picks a word that fits and is marked wrong. | Examples must identify their word against the whole pack; the author and two reviewers check every example; distractors prefer other units. Not provable by a test, and reviews have missed cases (section 4). Every pack with examples has now also been read by the reviewer that found the most; in S1–S3 that last audit found 45. |
+| Progress lost on update | A child's stars vanish after an app update. | Exported Room schemas and a tested migration for every schema change from published 0.1.0 on; released ids are frozen by a test. |
 | Progress lost with the device | A broken or replaced tablet starts from zero. | Accepted for v1 as the price of "nothing leaves the device" (section 9). |
-| The tests do not run on the Android versions that matter | Something works in every test and fails on a real device. Robolectric is pinned to SDK 34 and brings its own SQLite, so neither Android 15 nor Android 7 behaviour is exercised. The reason recorded for the pin, that the SDK 35 runtime needs JDK 21, turned out to be wrong for the Robolectric version in use; running the tests at SDK 35 is to be tried with the layout work. | A smoke test on emulators for API 24 and API 35 in CI before the first release: create a profile, play a lesson, restart, stars remain. Part of the release issue. |
+| Tests and real devices differ | Something works in every test and fails on a device. | Robolectric runs at SDK 35, the target, and a CI smoke test drives the release build on Android 7 and Android 15 emulators before each release. Still unverified: any physical device. The Android 15 emulator's launcher sometimes hangs, and the script has to work around it, so a failed run there needs reading before it is believed. |
 | Shared build host runs out of memory | Gradle builds are killed mid-run when several agents build at once. | `--no-daemon`, `-Xmx2g`, at most two build-heavy issues in parallel, reviewers rely on CI results. |
 | CI minutes on a private repo | Workflows stop running when the monthly quota is used up. | Build on pull requests and on `main` only; emulator job is manual. |
-| Two channels, two signing keys | A family that installed from F-Droid cannot update from the CI APK, or the other way round: Android refuses an update signed with another key, and with backup off a reinstall loses the progress. | F-Droid's catalogue signs with its own key unless the build is reproducible. Either make the build reproducible so that F-Droid ships our signature, or say plainly in the README and on the About screen that a family stays on one channel. Settled in the release issue. |
+| Two channels, two signing keys | A family that installed from F-Droid cannot update from the CI APK, or the other way round: Android refuses an update signed with another key, and with backup off a reinstall loses the progress. | The plan, not yet an outcome: the release build is reproducible and the prepared F-Droid recipe names our APK and our certificate. If F-Droid accepts the app and its own build matches ours, it publishes the APK with our signature; if its build does not match, it publishes nothing under that recipe. Reproduction has been checked on the agent host, not on F-Droid's server, and nothing has been submitted. Two keys arise only if that plan is changed and F-Droid signs a version itself; the README says what a family does then. |
 | F-Droid's catalogue refuses or delays the app | No listing for weeks or months. Its policy expects three months of active development, which for this project means February 2027, unless the app has proven users by then. Acceptance is their decision. | The CI APK does not depend on it, and families using that APK are the proven users the policy asks for. An F-Droid repository of our own is the fallback. |
+| The signing key is lost | No update can ever be installed over the copies already on devices. | The owner controls the durable copies, the keystore file and its password in his own keeping. The copy in CI's protected environment is not a backup: it cannot be exported from the repo's settings, and only release jobs on version tags receive it, while they run. |
 | Looks like a copy of an existing product | Takedown or rejection. | Own name, mascot, colours and content; mechanics only. Pictures are openly licensed and credited. |
-| The name is read as something else | On F-Droid "SayPiper" may be taken for a text-to-speech app: the clips are made with a synthesiser called Piper, which that audience knows, and a search for "piper" there returns a speech engine. | Raised with the owner on 2026-11-12, after he chose the name; it stands unless he says otherwise before the first signed build fixes the application id. The first line of any store description says what the app is. |
+| The name is read as something else | On F-Droid "SayPiper" may be taken for a text-to-speech app: the clips are made with a synthesiser called Piper, which that audience knows, and a search for "piper" there returns a speech engine. | Raised with the owner on 2026-11-12. He confirmed the name, and 0.1.0 carries it and the application id for good. The first line of any store description says what the app is. |
 
 ## 11. Owner decisions and open questions
 
@@ -323,11 +338,14 @@ Answered by the owner between 2026-11-10 and 2026-11-12 (the numbers are those o
 5. Name: SayPiper, application id `eu.wanderclan.saypiper`, chosen on 2026-11-12 from a shortlist checked against app stores and trade mark registers. "Word Quest" was the working title. The release applies the name; the Kotlin namespace and class names are internal and keep the old one.
 6. Speech for P1–P2: bundled clips in Piper's "Cori" voice, chosen by ear from samples. The eSpeak NG samples were rejected.
 7. Pictures: OpenMoji for the first version.
+8. Licence: GPL-3.0-or-later for the code, CC BY-SA 4.0 for the vocabulary and the pictures, CC BY 4.0 for the audio clips. Decided by merging the licence files on 2026-11-12.
+9. First release: 0.1.0 on 2026-11-12, with a key the owner created and holds.
+10. The repo: renamed `saypiper` and made public by the owner on 2026-11-13, after its README and code comments had been cleared of internal references. The pull request history and this document still describe how the app was built.
 
 Still open:
 
-- **The licence.** The public catalogue needs one. Proposed: GPL-3.0-or-later for the code; CC BY-SA 4.0 for our vocabulary and for OpenMoji's pictures, which already carry it; CC BY 4.0 for the audio clips, as their notice requires. It is decided when the owner merges the licence files, which come in their own pull request.
-- **When the repo becomes public.** At the latest before the F-Droid submission. Earlier is possible and makes CI minutes free. It is the owner's switch to flip, after a look at what becomes readable with it (the release issue lists that).
+- **When to submit to F-Droid.** The recipe and the request are prepared. Their policy expects three months of active development unless the app has proven users, so an early request may be parked.
+- **Google Play as a second release.** Investigated in FRL-23: possible, but not with 0.1.0 as built, because Play takes new apps only at target API 36. The signing key and the application id of 0.1.0 keep it possible.
 
 ## 12. Revision 2: what the second opinion changed
 
@@ -344,3 +362,15 @@ Architect Astra reviewed revision 1 (commit `687f11e`) in FRL-4 and agreed with 
 | 7 | Storage | Accepted: Room stays; one transaction per finished lesson, idempotent on session id, cascading deletes, an index on due day, exported schemas. |
 | 8 | Staging | Accepted: `grades.json` complete and frozen from the walking skeleton, the lesson contract fixed there too, gap-fill and the definition fallback moved to the primary exercise set, release after profiles and accessibility. Recorded on FRL-3. |
 | 9 | Google Play | Accepted: backup and device transfer off, no font request, privacy text inside the app. Target API 36 is recorded as a requirement of the Play path, not adopted for APK installs. The owner has since chosen F-Droid over Play (section 11). |
+
+## 13. Revision 3: what the release established
+
+Revision 2 was written while the app was being built. This revision changes only what the build and the first release settled:
+
+- Dictation is built as decided (section 6); revision 2 called it pending.
+- The tests run at SDK 35, and a smoke test on Android 7 and Android 15 emulators precedes each release (D10, section 10). The reason once given for testing at SDK 34 was wrong.
+- The release build is reproducible. The owner created the signing key and controls its durable copies; authorised release jobs receive it temporarily (D11, section 10).
+- Release bookkeeping and the migration rule are in force from 0.1.0, not from the first build known to be on a child's device: a published build has to be assumed installed (sections 4 and 7).
+- The last vocabulary audit found 45 more ambiguous examples in packs that two reviewers had approved (sections 4 and 10).
+- The licence is decided, and 0.1.0 exists (sections 2 and 11).
+- Not settled by the release, and listed as open in section 11: when the F-Droid request goes out, and whether Google Play follows as a second release. The repo itself has been public since 2026-11-13. Recording the Play investigation changes nothing in D11.
