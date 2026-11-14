@@ -3,7 +3,6 @@ package eu.wanderclan.wordquest.ui
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
-import androidx.room.Room
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -40,7 +39,7 @@ class ShowcaseApplication : WordQuestApplication() {
         val source = FileContentSource(Fixtures.shippedContentDir)
         val content = ContentLoader.load(source)
         check(content.problems.isEmpty()) { content.problems.toString() }
-        database = Room.inMemoryDatabaseBuilder(this, WordQuestDatabase::class.java).build()
+        database = testDatabase(this)
         return AppContainer(
             content, source, database,
             ClipSpeech(content.audioWordIds, FakeSpeech(FakeSpeech.Mode.SILENT), object : ClipPlayer {

@@ -3,7 +3,6 @@ package eu.wanderclan.wordquest.ui
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import eu.wanderclan.wordquest.AppContainer
@@ -14,7 +13,6 @@ import eu.wanderclan.wordquest.audio.ClipSpeech
 import eu.wanderclan.wordquest.audio.Speech
 import eu.wanderclan.wordquest.audio.SpeechResult
 import eu.wanderclan.wordquest.content.ContentLoader
-import eu.wanderclan.wordquest.data.WordQuestDatabase
 import eu.wanderclan.wordquest.game.*
 import kotlinx.coroutines.Dispatchers
 import org.junit.Assert.*
@@ -38,7 +36,7 @@ class SpeechRecoveryUiTest {
 
     private fun container(speech: Speech, seed: Long): AppContainer = AppContainer(
         ContentLoader.load(Fixtures.source), Fixtures.source,
-        Room.inMemoryDatabaseBuilder(ApplicationProvider.getApplicationContext(), WordQuestDatabase::class.java).build(),
+        testDatabase(ApplicationProvider.getApplicationContext()),
         speech, { LocalDate.of(2026, 11, 11) }, { seed },
         pictureDecodeDispatcher = Dispatchers.Unconfined,
     )
