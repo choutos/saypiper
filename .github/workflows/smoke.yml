@@ -1,6 +1,6 @@
 name: Emulator smoke test
 
-# Manual only: each emulator costs about 15 runner minutes on a private repo (ADR section 10). Started from
+# Manual only: each emulator takes about 15 runner minutes, too slow for every push. Started from
 # Actions (workflow_dispatch), or on a pull request by adding a label to it:
 #   smoke-test          the PR's head with both build types, and an upgrade from the commit before it;
 #   smoke-test-release  the PR's head as a manual run with the defaults: release only, no upgrade.
@@ -110,6 +110,8 @@ jobs:
         with:
           name: smoke-apk
           path: apk/
+          # Only later jobs of this run use these APKs. Re-running a single job after a day needs a full re-run.
+          retention-days: 1
       - uses: actions/upload-artifact@v4
         with:
           name: r8-mapping
