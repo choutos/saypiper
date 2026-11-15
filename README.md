@@ -84,7 +84,7 @@ Before tagging a release:
 2. Run `scripts/release/released-ids.py --version-name <versionName> --version-code <versionCode>` and commit `app/released-ids.json`. `ReleasedIdsTest` then fails when a released unit or word id disappears without being listed under `retired`, is used again after retirement, or moves to another unit (ADR section 4).
 3. Run the emulator smoke test (Actions, "Emulator smoke test", build type `release`) on the commit to be tagged.
 
-A tag `test-release-<anything>` runs the same workflow with a key made for that run and publishes nothing; delete the tag and the run's artifact afterwards.
+A tag `test-release-<anything>` runs the same workflow with a key made for that run and uploads an APK as a public workflow artifact. Only version tags create GitHub Releases; smoke and test-release APKs remain downloadable until expiry or manual deletion. After testing, the operator must manually delete the test tag and the run's artifact; deleting the tag does not delete the artifact.
 
 The R8 mapping of a release is not kept: the workflow's artifact expires after 90 days. To read an obfuscated stack trace, check out the release's tag and run `./gradlew --no-daemon assembleRelease` (no key needed). `app/build/outputs/mapping/release/mapping.txt` is then identical to the released build's.
 
