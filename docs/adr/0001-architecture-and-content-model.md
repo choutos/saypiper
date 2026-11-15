@@ -1,6 +1,6 @@
 # ADR 0001 — Architecture and content model
 
-- Status: **Accepted**, revision 3. Revision 2 was reviewed by Architect Astra (in FRL-4 and again on FRL-3) and accepted by the owner's merge on 2026-11-12. Revision 3 records what was built after that and released as 0.1.0 the same day; section 13 lists what it changes. Section 11 holds the owner's decisions. Amended on 2026-11-15 in section 10: the row on CI minutes went with the private repo and a row on public CI artifacts took its place, and a row on a Compose fault found after the release was added.
+- Status: **Accepted**, revision 3. Revision 2 was reviewed by Architect Astra (in FRL-4 and again on FRL-3) and accepted by the owner's merge on 2026-11-12. Revision 3 records what was built after that and released as 0.1.0 the same day; section 13 lists what it changes. Section 11 holds the owner's decisions. Amended on 2026-11-15 in section 10: the row on CI minutes went with the private repo and a row on public CI artifacts took its place, and a row on a Compose fault found after the release was added. Section 11 gained decisions 11 and 12 the same day.
 - Date: 2026-11-10
 - Tracking: FRL-3
 
@@ -78,7 +78,7 @@ I checked the published APK myself on 2026-11-13: its checksum, that the v2 sign
 | D8 | Several local profiles per device (nickname, avatar, class). | Siblings share tablets; retrofitting profiles later means migrating every table. |
 | D9 | No lives or hearts and no timers. Wrong answers come back at the end of the lesson. | Lock-outs punish the children who need the practice most. |
 | D10 | Verification is JVM-first: unit tests for the game core and content, Robolectric tests at the target SDK and screenshots for UI, CI as the gate. Before a release, a smoke test in CI drives the release build on emulators for the oldest and the newest Android we support. Code tests use fixture packs; only the content tests read the shipped packs. | The agent host has no emulator; the CI runners do. A vocabulary change must not break a code test. |
-| D11 | Distribution is a signed APK built by CI, and F-Droid's public catalogue. Not Google Play. The repo is therefore public under a free licence, since 2026-11-13: nothing goes into the repo, its pull requests or its CI logs that should not be read by anyone. The owner created the signing key and controls its durable copies. A further copy sits in a protected CI environment that only version tags can use, and an authorised release job receives it for the length of its run. No agent created the key or was given it. The release build is reproducible, so that F-Droid can publish our signature and a family can move between the two channels. Every dependency is free software fetched from Google's Maven repository or Maven Central, and the repo holds no prebuilt libraries. The standard Gradle wrapper jar is the one exception. Native code that arrives inside a library from those two repositories, as Compose's does, is a dependency and not a file in the repo. | The owner's choice. The rules are what F-Droid's catalogue demands. Keeping to them from the first commit costs nothing; meeting them later means replacing libraries and rewriting history. |
+| D11 | Distribution is a signed APK built by CI, and F-Droid's public catalogue. Google Play is to follow as a second channel (section 11, decision 12). The repo is therefore public under a free licence, since 2026-11-13: nothing goes into the repo, its pull requests or its CI logs that should not be read by anyone. The owner created the signing key and controls its durable copies. A further copy sits in a protected CI environment that only version tags can use, and an authorised release job receives it for the length of its run. No agent created the key or was given it. The release build is reproducible, so that F-Droid can publish our signature and a family can move between the two channels. Every dependency is free software fetched from Google's Maven repository or Maven Central, and the repo holds no prebuilt libraries. The standard Gradle wrapper jar is the one exception. Native code that arrives inside a library from those two repositories, as Compose's does, is a dependency and not a file in the repo. | The owner's choice. The rules are what F-Droid's catalogue demands. Keeping to them from the first commit costs nothing; meeting them later means replacing libraries and rewriting history. |
 
 ## 4. Content model
 
@@ -330,7 +330,7 @@ Rollback for the project as a whole: until 0.1.0 nothing here touched an existin
 
 ## 11. Owner decisions and open questions
 
-Answered by the owner between 2026-11-10 and 2026-11-12 (the numbers are those of the questions in revision 1 and on FRL-3):
+Answered by the owner between 2026-11-10 and 2026-11-15 (the numbers are those of the questions in revision 1 and on FRL-3):
 
 1. Level targets: the European Schools L2 anchors.
 2. Distribution: an APK from CI, and F-Droid's public catalogue if that is possible. It is: nothing in this design conflicts with their policy. Acceptance and timing are theirs.
@@ -342,11 +342,10 @@ Answered by the owner between 2026-11-10 and 2026-11-12 (the numbers are those o
 8. Licence: GPL-3.0-or-later for the code, CC BY-SA 4.0 for the vocabulary and the pictures, CC BY 4.0 for the audio clips. Decided by merging the licence files on 2026-11-12.
 9. First release: 0.1.0 on 2026-11-12, with a key the owner created and holds.
 10. The repo: renamed `saypiper` and made public by the owner on 2026-11-13, after its README and code comments had been cleared of internal references. The pull request history and this document still describe how the app was built.
+11. F-Droid: submit now, decided on 2026-11-15. The request was opened that day with the recipe for 0.1.0. What F-Droid is asked to publish is release 0.1.1, because it requires an en-US store listing and reads the listing from the released tag, and 0.1.0 has only an en-GB one. Their policy expects three months of active development unless the app has proven users. The request says that development began on 2026-11-10, so it may be parked until February 2027.
+12. Google Play: yes, as a second channel, and not urgent. Decided on 2026-11-15. It needs target API 36, and our own signing key imported into Play before any tester installs (FRL-23). Nothing is built for it yet.
 
-Still open:
-
-- **When to submit to F-Droid.** The recipe and the request are prepared. Their policy expects three months of active development unless the app has proven users, so an early request may be parked.
-- **Google Play as a second release.** Investigated in FRL-23: possible, but not with 0.1.0 as built, because Play takes new apps only at target API 36. The signing key and the application id of 0.1.0 keep it possible.
+Nothing is open on our side. F-Droid's answer is theirs.
 
 ## 12. Revision 2: what the second opinion changed
 
@@ -374,4 +373,4 @@ Revision 2 was written while the app was being built. This revision changes only
 - Release bookkeeping and the migration rule are in force from 0.1.0, not from the first build known to be on a child's device: a published build has to be assumed installed (sections 4 and 7).
 - The last vocabulary audit found 45 more ambiguous examples in packs that two reviewers had approved (sections 4 and 10).
 - The licence is decided, and 0.1.0 exists (sections 2 and 11).
-- Not settled by the release, and listed as open in section 11: when the F-Droid request goes out, and whether Google Play follows as a second release. The repo itself has been public since 2026-11-13. Recording the Play investigation changes nothing in D11.
+- Not settled by the release: when the F-Droid request goes out, and whether Google Play follows as a second release. Both were decided on 2026-11-15 (section 11, decisions 11 and 12). The repo itself has been public since 2026-11-13.
