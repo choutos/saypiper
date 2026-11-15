@@ -80,7 +80,7 @@ A tag `v<versionName>` on `main` runs `.github/workflows/release.yml`: tests, th
 
 Before tagging a release:
 
-1. Raise `versionCode` and set `versionName` in `app/build.gradle.kts`, and add `fastlane/metadata/android/en-GB/changelogs/<versionCode>.txt`.
+1. Raise `versionCode` and set `versionName` in `app/build.gradle.kts`, and add the same `changelogs/<versionCode>.txt` to both `fastlane/metadata/android/en-GB` and `en-US`. The two locales hold identical British English text: F-Droid falls back to `en-US`.
 2. Run `scripts/release/released-ids.py --version-name <versionName> --version-code <versionCode>` and commit `app/released-ids.json`. `ReleasedIdsTest` then fails when a released unit or word id disappears without being listed under `retired`, is used again after retirement, or moves to another unit (ADR section 4).
 3. Run the emulator smoke test (Actions, "Emulator smoke test", build type `release`) on the commit to be tagged.
 
