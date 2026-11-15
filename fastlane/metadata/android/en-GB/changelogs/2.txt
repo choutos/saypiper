@@ -1,0 +1,1 @@
+Refined app icon, and the store listing for F-Droid. No other change to the app.

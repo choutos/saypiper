@@ -17,7 +17,7 @@ The Android vector XML files are the editable source; there is no bitmap master.
 | `app/src/main/res/drawable/ic_launcher.xml` | Android 7 fallback; same paths at the existing 1.3 scale on a cream disc |
 | `app/src/main/res/drawable/ic_launcher_background.xml` | Solid cream adaptive background |
 | `app/src/main/res/drawable-anydpi-v26/ic_launcher.xml` | Adaptive layer references |
-| `fastlane/metadata/android/en-GB/images/icon.png` | 512 × 512 store export |
+| `fastlane/metadata/android/{en-GB,en-US}/images/icon.png` | 512 × 512 store export, the same file in both locales |
 
 Keep the three paths in the foreground, fallback and monochrome source in sync.
 The monochrome version combines the paths into one even-odd fill: the pipe is
@@ -36,7 +36,7 @@ After setting up the toolchain as described in the README:
 
 ```sh
 ./gradlew --no-daemon testDebugUnitTest --tests '*LauncherIconTest' --rerun
-cp app/build/outputs/launcher-icons/store-icon.png fastlane/metadata/android/en-GB/images/icon.png
+for l in en-GB en-US; do cp app/build/outputs/launcher-icons/store-icon.png fastlane/metadata/android/$l/images/icon.png; done
 ```
 
 `LauncherIconTest` renders the actual vectors with Android's native renderer in
