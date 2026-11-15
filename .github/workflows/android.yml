@@ -1,6 +1,6 @@
 name: Android CI
 
-# Pull requests and main only: private repo with a minutes quota (ADR section 10).
+# Pull requests and main only: a branch with a pull request would otherwise be built twice.
 on:
   pull_request:
   push:
@@ -37,10 +37,6 @@ jobs:
       - name: Lint, unit tests, debug APK
         run: ./gradlew --no-daemon lint testDebugUnitTest assembleDebug
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: saypiper-debug-apk
-          path: app/build/outputs/apk/debug/app-debug.apk
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
