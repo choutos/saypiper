@@ -112,6 +112,12 @@ tasks.withType<Test>().configureEach {
     // StoreListingTest reads the F-Droid listing, texts and images, from outside the module.
     inputs.dir(rootProject.layout.projectDirectory.dir("fastlane/metadata/android"))
         .withPropertyName("storeListing").withPathSensitivity(PathSensitivity.RELATIVE)
+    // ReleasedIdsTest reads the released-ids record and DatabaseMigrationTest the Room schemas by path. Assets
+    // and resources need no entry: isIncludeAndroidResources already makes their merged copies inputs.
+    inputs.file(layout.projectDirectory.file("released-ids.json"))
+        .withPropertyName("releasedIds").withPathSensitivity(PathSensitivity.RELATIVE)
+    inputs.dir(layout.projectDirectory.dir("schemas"))
+        .withPropertyName("roomSchemas").withPathSensitivity(PathSensitivity.RELATIVE)
     systemProperty("robolectric.offline", "true")
     jvmArgumentProviders.add(CommandLineArgumentProvider {
         listOf("-Drobolectric.dependency.dir=${robolectricRuntimeDir.get().asFile.absolutePath}")
