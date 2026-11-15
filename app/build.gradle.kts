@@ -109,6 +109,9 @@ val syncRobolectricRuntime by tasks.registering(Sync::class) {
 }
 tasks.withType<Test>().configureEach {
     inputs.files(syncRobolectricRuntime).withPropertyName("robolectricRuntime").withPathSensitivity(PathSensitivity.NAME_ONLY)
+    // StoreListingTest reads the F-Droid listing, texts and images, from outside the module.
+    inputs.dir(rootProject.layout.projectDirectory.dir("fastlane/metadata/android"))
+        .withPropertyName("storeListing").withPathSensitivity(PathSensitivity.RELATIVE)
     systemProperty("robolectric.offline", "true")
     jvmArgumentProviders.add(CommandLineArgumentProvider {
         listOf("-Drobolectric.dependency.dir=${robolectricRuntimeDir.get().asFile.absolutePath}")
